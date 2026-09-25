@@ -6,7 +6,7 @@ use sqlx::{PgPool, Row, postgres::PgPoolOptions};
 const BASE_SCHEMA: &str = include_str!("../../db/schema.sql");
 const DEVELOPMENT_FIXTURE: &str = include_str!("../../db/fixtures/development.sql");
 const DEFAULT_DATABASE_URL: &str = "postgres://health:health@127.0.0.1:5432/health";
-const REQUIRED_CATALOG_TABLES: i64 = 10;
+const REQUIRED_CATALOG_TABLES: i64 = 4;
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -111,7 +111,7 @@ async fn verify(pool: &PgPool) -> Result<()> {
     let food_count: i64 = sqlx::query_scalar("SELECT count(*) FROM foods")
         .fetch_one(pool)
         .await?;
-    let nutrient_rows: i64 = sqlx::query_scalar("SELECT count(*) FROM food_nutrient_observations")
+    let nutrient_rows: i64 = sqlx::query_scalar("SELECT count(*) FROM nutrient_values")
         .fetch_one(pool)
         .await?;
     let state_counts: HashMap<String, i64> = sqlx::query(
@@ -125,20 +125,16 @@ async fn verify(pool: &PgPool) -> Result<()> {
     .collect::<Result<_, sqlx::Error>>()?;
     let logical_zero_count: i64 = sqlx::query_scalar(
         "SELECT count(*) FROM nutrient_values \
-         WHERE derivation_method = 'logical_zero' AND normalized_amount = 0",
+         WHERE source_provenance = 'logical_zero' AND amount = 0",
     )
     .fetch_one(pool)
     .await?;
     let source_provenance_count: i64 = sqlx::query_scalar(
         "SELECT count(*) \
          FROM nutrient_values AS value \
-         JOIN nutrient_profiles AS profile \
-             ON profile.id = value.nutrient_profile_id \
-         JOIN source_foods AS source_food \
-             ON source_food.id = profile.source_food_id \
-         JOIN data_sources AS source \
-             ON source.id = source_food.data_source_id \
-         WHERE source.slug = 'bls' AND value.source_provenance IS NOT NULL",
+         JOIN food_sources AS source \
+             ON source.id = value.food_source_id \
+         WHERE source.source_name = 'BLS 4.0' AND value.source_provenance IS NOT NULL",
     )
     .fetch_one(pool)
     .await?;
@@ -169,9 +165,7 @@ async fn catalog_table_count(pool: &PgPool) -> Result<i64> {
         "SELECT count(*) FROM information_schema.tables \
          WHERE table_schema = 'public' \
          AND table_name IN ( \
-             'data_sources', 'source_releases', 'source_foods', 'foods', \
-             'food_source_mappings', 'food_aliases', 'measurement_units', \
-             'nutrients', 'nutrient_profiles', 'nutrient_values' \
+             'foods', 'food_sources', 'food_source_links', 'nutrient_values' \
          )",
     )
     .fetch_one(pool)
