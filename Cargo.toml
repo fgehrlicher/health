@@ -1,0 +1,15 @@
+[package]
+name = "health"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.94"
+publish = false
+
+[[bin]]
+name = "health-db"
+path = "src/bin/health-db.rs"
+
+[dependencies]
+anyhow = "1.0.100"
+sqlx = { version = "0.9.0", default-features = false, features = ["postgres", "runtime-tokio", "tls-none"] }
+tokio = { version = "1.53.1", features = ["macros", "rt-multi-thread"] }
