@@ -3,16 +3,19 @@
 The first milestone is a trustworthy catalog of unbranded ingredients in
 PostgreSQL. Work outside that foundation is intentionally deferred.
 
-## Work sequence
+## Current state
 
-Two pieces can start together:
+Completed:
 
 1. [PostgreSQL food-data foundation](01-postgres-food-data-foundation.md)
 2. [Research spike: ingredient data source](../spikes/01-ingredient-data-source/README.md)
 
-Their results feed into:
+Ready to start:
 
 3. [Rust food-ingestion CLI](02-rust-food-ingestion-cli.md)
+
+After the CLI:
+
 4. [Initial ingredient catalog](03-initial-ingredient-catalog.md)
 
 The source spike recommends BLS 4.x. The initial nutrient set remains open, and
@@ -22,8 +25,8 @@ identifiers and nutrients without copying the BLS workbook layout.
 
 ## Milestone complete when
 
-- PostgreSQL can be started locally and built from an empty database using
-  versioned migrations.
+- PostgreSQL can be started locally and built from an empty database using the
+  base schema. After the first deployment, changes use versioned migrations.
 - The Rust CLI is the supported write path for manual, agent, and bulk input.
 - A useful set of vegetables, fruit, grains, beans, and similar ingredients has
   been imported from a documented source.

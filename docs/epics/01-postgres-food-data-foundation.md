@@ -1,30 +1,35 @@
 # Epic 01 — PostgreSQL food-data foundation
 
-**Status:** Ready
+**Status:** Complete
+
+Implemented by the base schema and tooling documented in
+[Food catalog database](../database.md).
 
 ## Outcome
 
-A developer can start PostgreSQL, apply versioned migrations to an empty
-database, and store sourced ingredient nutrition without losing uncertainty or
-provenance.
+A developer can start PostgreSQL, initialize an empty database from one
+pre-deployment base schema, and store sourced ingredient nutrition without
+losing uncertainty or provenance.
 
 ## Scope
 
 - reproducible local PostgreSQL startup and configuration
-- a migration workflow for creating and evolving the schema
+- a mutable base schema while no deployed database exists
+- a documented boundary after which schema changes become migrations
 - foods and their names or aliases
 - nutrient definitions, units, and values based on a declared quantity
 - external dataset identities, versions, and source references
 - a distinction between missing, zero, measured, and calculated values where
   the source provides it
 - database constraints for the invariants already known
-- a very small fixture used to exercise migrations and queries
+- a very small fixture used to exercise the schema and queries
 
 ## Acceptance criteria
 
-- An empty database can be migrated to the current schema with one documented
-  command.
-- Applying migrations again is safe, and migration state is inspectable.
+- An empty database can be initialized to the current schema with one
+  documented command.
+- Bootstrapping an initialized database is safe, and schema status is
+  inspectable.
 - A representative raw fruit, grain, and legume can be stored with selected
   nutrients per 100 g.
 - Each value can be traced to a source record and dataset version.
@@ -36,5 +41,4 @@ provenance.
 ## Not in this epic
 
 The production dataset import, recipe data, consumption tracking, and agent
-integration. The migration library, exact table layout, and naming conventions
-are decisions for implementation.
+integration. A migration history starts only after the first deployment.

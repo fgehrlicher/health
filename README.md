@@ -5,3 +5,4 @@ nutrition, recipe, and meal-prep tracking.
 
 - [Product and technical vision](docs/VISION.md)
 - [Current delivery plan](docs/epics/README.md)
+- [Food catalog database](docs/database.md)

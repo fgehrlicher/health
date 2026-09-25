@@ -1,6 +1,6 @@
 # Epic 02 — Rust food-ingestion CLI
 
-**Status:** Waiting for the first schema migration
+**Status:** Ready
 
 ## Outcome
 
