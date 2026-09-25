@@ -30,7 +30,7 @@ identifiers and nutrients without copying the BLS workbook layout.
 - The Rust CLI is the supported write path for manual, agent, and bulk input.
 - A useful set of vegetables, fruit, grains, beans, and similar ingredients has
   been imported from a documented source.
-- Every imported value is traceable to its dataset and version.
+- Every imported value is traceable to its named source (such as BLS 4.0).
 - Missing values remain missing rather than silently becoming zero.
 
 Implementation details that are not necessary for this milestone should be

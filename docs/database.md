@@ -1,58 +1,41 @@
 # Food catalog database
 
-The first database slice stores canonical foods, source observations, optional
-dataset releases, and nutrient observations. It intentionally excludes
-recipes, consumption, and agent-facing mutation tools.
+The pre-deployment catalog has four tables:
+
+| Table | What it stores |
+| --- | --- |
+| `foods` | Your food names, aliases, and preparation state. Red and beluga lentils can be separate foods. |
+| `food_sources` | One BLS row, manual entry, photographed label, or estimate, with its original context. |
+| `food_source_links` | Which source supports which food, including a reason when a generic source is used as a proxy. |
+| `nutrient_values` | Nutrients from a source, including the original value and provenance. |
+
+A single BLS lentil source can link to both red and beluga lentils as an explicit
+proxy. A food can also have several sources whose values disagree. The database
+does not choose a preferred value; that decision belongs in the application.
+
+`source_name` is a readable label such as `BLS 4.0`; `citation` and `license`
+retain attribution. There is no release history or migration history while this
+database has not been deployed.
 
 ## Local setup
 
-Requirements:
-
-- Docker with the Compose plugin
-- Rust 1.94 or newer
-
-Start PostgreSQL:
+Requirements: Docker with Compose and Rust 1.94 or newer.
 
 ```sh
-make db-up
-```
-
-The Compose service installs `db/schema.sql` automatically when it creates a
-fresh database volume. To install the same schema into another empty database,
-set `DATABASE_URL` and run:
-
-```sh
-make db-bootstrap
-```
-
-Inspect schema status:
-
-```sh
-make db-status
-```
-
-Load and verify the small development fixture:
-
-```sh
-make db-fixture
-make db-verify
+make db-up       # Start PostgreSQL; a new volume gets db/schema.sql automatically
+make db-status   # Show whether the base schema is installed
+make db-fixture  # Load three example BLS foods
+make db-verify   # Check the example data
 ```
 
 The default connection is
-`postgres://health:health@127.0.0.1:5432/health`. Copy `.env.example` when a
-different host port or local password is needed, and set `DATABASE_URL` for the
-Rust command accordingly.
+`postgres://health:health@127.0.0.1:5432/health`. Copy `.env.example` to
+change the local port or password, and set `DATABASE_URL` accordingly. For an
+otherwise empty PostgreSQL database outside Compose, run `make db-bootstrap`.
 
-`make db-down` stops the service while retaining its named volume. `make
-db-reset` deliberately deletes the local database volume and creates a fresh
-database from the base schema.
-
-## Schema workflow before the first deployment
-
-`db/schema.sql` is the canonical schema and may be edited directly while the
-project has no deployed database. There is deliberately no migration history
-yet. After a schema change, recreate the disposable development database so it
-is tested from an empty state:
+`make db-down` stops PostgreSQL and retains the data. `make db-reset` deletes
+this project's local database volume and creates a new one from the current
+base schema. Imported foods can be recreated, so while developing the schema:
 
 ```sh
 make db-reset
@@ -60,90 +43,54 @@ make db-fixture
 make db-verify
 ```
 
-At the first deployment, freeze this file as the baseline. Every later schema
-change must be an ordered migration from that deployed baseline; the migration
-runner and migration directory should be introduced then.
+At the first deployment, freeze `db/schema.sql`. Add ordered migrations only
+for changes after that point.
 
-The useful commands are:
+## Import contract
 
-```sh
-cargo run --bin health-db -- bootstrap
-cargo run --bin health-db -- status
-cargo run --bin health-db -- load-fixture
-cargo run --bin health-db -- verify
-```
+The planned Rust ingestion CLI owns content validation and duplicate detection.
+Before writing, it should check required names and source identity, allowed
+source and relationship values, units and nutrient codes, nonnegative amounts,
+range ordering, missing versus zero, and a reason for proxy links. The database
+retains basic required fields, identities, and links between records.
 
-The development fixture is idempotent and separate from the base schema.
-Production imports must go through the later ingestion CLI rather than becoming
-schema initialization data.
+`food_sources.reference_quantity` and `reference_unit` describe the basis of
+all its nutrient values, commonly 100 g for BLS. `nutrient_values.amount` and
+`unit` contain a usable normalized value. `source_value`, `source_unit`,
+`source_provenance`, and `source_reference` preserve what the source said.
+Missing, trace, and detection-limit values have a null amount and a distinct
+`value_state`. Optional bounds and confidence support estimates.
 
-## Schema boundaries
+For a photographed product label, `source_kind` is `package_label` and
+`capture_method` can be `llm_label_extraction`. For an LLM estimate, use
+`agent_estimate` and `llm_estimation`. A manual ingredient can use `user_entry`
+and `manual_entry`. The source record can retain original input in `raw_input`
+or `raw_data`; a future attachment record can point to the photo itself.
 
-- `data_sources` identifies source families such as BLS, a user entry, a
-  photographed package label, or an agent estimate.
-- `source_releases` records immutable versions for sources that have releases,
-  such as BLS. A manual entry or package photo does not need a fabricated
-  release.
-- `source_foods` is one food observation from a source. It retains upstream
-  identity, timestamps, raw input, and raw structured data where available.
-- `foods` and `food_aliases` provide application-owned canonical identity.
-- `food_source_mappings` records whether a source record is exact, equivalent,
-  or an explicit proxy. A proxy requires a rationale.
-- `nutrient_profiles` declares the source record, reference amount,
-  and acquisition method.
-- `nutrient_values` keeps source evidence and normalized values separate. It
-  retains the source nutrient identifier, unit, original value, provenance,
-  and reference alongside the normalized amount, uncertainty range, missing or
-  limit state, derivation, optional confidence, and any normalization or errata
-  note.
-
-An LLM label parser is an acquisition method, not the nutritional source. A
-photographed label therefore uses a `package_label` source and
-`llm_label_extraction` acquisition method. An estimate made by an LLM is
-different: it uses an `agent_estimate` source and `llm_estimation` acquisition
-method. Values absent from a label remain missing.
-
-There is deliberately no database-level concept of the current or best value.
-Different sources may disagree, and the preferred source may differ per
-nutrient. Selection rules belong in a later domain layer once those rules are
-known.
-
-`preparation_state` remains free text for now. Raw, dried, boiled, and other
-nutritionally meaningful forms are separate canonical foods, but the schema
-does not pretend the full preparation vocabulary is already known.
-
-## Querying nutrition observations
-
-`food_nutrient_observations` returns all mapped observations without hiding
-alternatives or provenance:
+## Query example
 
 ```sql
 SELECT
-    food_name,
-    source_relationship,
-    nutrient_code,
-    source_nutrient_id,
-    source_value,
-    source_unit_code,
-    source_provenance,
-    normalized_amount,
-    normalized_amount_lower_bound,
-    normalized_amount_upper_bound,
-    confidence,
-    normalized_unit_code,
-    value_state,
-    derivation_method,
-    normalization_method,
-    source_slug,
-    source_version,
-    source_food_record_id,
-    source_food_external_id
-FROM food_nutrient_observations
-WHERE food_slug = 'lentil-mature-dry'
-ORDER BY nutrient_code;
+    food.name,
+    link.relationship,
+    source.source_name,
+    source.external_id,
+    source.reference_quantity,
+    source.reference_unit,
+    value.nutrient_code,
+    value.amount,
+    value.unit,
+    value.value_state,
+    value.source_value,
+    value.source_provenance
+FROM foods AS food
+JOIN food_source_links AS link ON link.food_id = food.id
+JOIN food_sources AS source ON source.id = link.food_source_id
+JOIN nutrient_values AS value ON value.food_source_id = source.id
+WHERE food.slug = 'lentil-mature-dry'
+ORDER BY source.source_name, value.nutrient_code;
 ```
 
-The fixture contains a raw fruit, grain, and legume from BLS 4.0. It also
-contains an explicit missing value, a below-detection-or-quantification value,
-and logical zeros so those states can be exercised without collapsing them to
-numeric zero.
+The fixture has a fruit, grain, and legume from BLS 4.0. It includes missing,
+below-limit, and logical-zero values so the importer can later exercise those
+cases without turning them into invented numbers.

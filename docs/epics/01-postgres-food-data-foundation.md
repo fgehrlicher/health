@@ -17,11 +17,12 @@ losing uncertainty or provenance.
 - a mutable base schema while no deployed database exists
 - a documented boundary after which schema changes become migrations
 - foods and their names or aliases
-- nutrient definitions, units, and values based on a declared quantity
-- external dataset identities, versions, and source references
+- nutrient values and units based on a declared quantity
+- source identities and references, including the chosen BLS version in a
+  readable source name
 - a distinction between missing, zero, measured, and calculated values where
   the source provides it
-- database constraints for the invariants already known
+- database keys and links; content validation belongs to the ingestion CLI
 - a very small fixture used to exercise the schema and queries
 
 ## Acceptance criteria
@@ -32,8 +33,9 @@ losing uncertainty or provenance.
   inspectable.
 - A representative raw fruit, grain, and legume can be stored with selected
   nutrients per 100 g.
-- Each value can be traced to a source record and dataset version.
-- The same external source record cannot be accidentally imported twice.
+- Each value can be traced to a source record identified as BLS 4.0.
+- Source identifiers are retained so the ingestion CLI can detect duplicates
+  before writing.
 - Missing nutrient data is observably different from a measured or logical
   zero.
 - A simple query returns the selected health-focused nutrients for a food.
