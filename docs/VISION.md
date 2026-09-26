@@ -185,7 +185,7 @@ source_url
 confidence
 ```
 
-Allow additional nutrients later without requiring a schema redesign.
+Start with the selected nutrient columns and add others when they become useful.
 
 ---
 
