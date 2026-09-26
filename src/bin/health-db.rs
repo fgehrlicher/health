@@ -6,7 +6,7 @@ use sqlx::{PgPool, postgres::PgPoolOptions};
 const BASE_SCHEMA: &str = include_str!("../../db/schema.sql");
 const DEVELOPMENT_FIXTURE: &str = include_str!("../../db/fixtures/development.sql");
 const DEFAULT_DATABASE_URL: &str = "postgres://health:health@127.0.0.1:5432/health";
-const REQUIRED_CATALOG_TABLES: i64 = 3;
+const REQUIRED_CATALOG_TABLES: i64 = 2;
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -146,12 +146,16 @@ async fn verify(pool: &PgPool) -> Result<()> {
     .fetch_one(pool)
     .await?;
     let representative_count: i64 = sqlx::query_scalar(
-        "SELECT count(*) FROM food_sources \
-         WHERE source_name = 'BLS 4.0' \
+        "SELECT count(*) FROM food_sources AS source \
+         JOIN foods AS food ON food.id = source.food_id \
+         WHERE source.source_name = 'BLS 4.0' \
          AND (
-             (external_id = 'F110100' AND energy_kcal = 58 AND protein_g = 0.424)
-             OR (external_id = 'C352000' AND carbs_g = 77.1)
-             OR (external_id = 'H725100' AND fiber_g = 17.6)
+             (food.slug = 'apple-raw' AND source.external_id = 'F110100'
+                 AND source.energy_kcal = 58 AND source.protein_g = 0.424)
+             OR (food.slug = 'white-rice-raw' AND source.external_id = 'C352000'
+                 AND source.carbs_g = 77.1)
+             OR (food.slug = 'lentil-mature-dry' AND source.external_id = 'H725100'
+                 AND source.fiber_g = 17.6)
          )",
     )
     .fetch_one(pool)

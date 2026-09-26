@@ -16,6 +16,7 @@ CREATE TABLE foods (
 -- source_name can include a fixed dataset version, e.g. "BLS 4.0".
 CREATE TABLE food_sources (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    food_id bigint NOT NULL REFERENCES foods(id) ON DELETE CASCADE,
     source_kind text NOT NULL,
     source_name text NOT NULL,
     external_id text,
@@ -32,19 +33,7 @@ CREATE TABLE food_sources (
     beta_carotene_ug numeric,
     capture_method text,
     source_url text,
-    citation text,
-    license text,
     raw_input text,
     raw_data jsonb,
-    observed_at timestamptz,
     created_at timestamptz NOT NULL DEFAULT now()
-);
-
--- A source record can support more than one food; a food can have several sources.
-CREATE TABLE food_source_links (
-    food_id bigint NOT NULL REFERENCES foods(id) ON DELETE CASCADE,
-    food_source_id bigint NOT NULL REFERENCES food_sources(id) ON DELETE CASCADE,
-    relationship text NOT NULL,
-    rationale text,
-    PRIMARY KEY (food_id, food_source_id)
 );

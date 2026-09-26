@@ -11,6 +11,7 @@ ON CONFLICT (slug) DO UPDATE SET
     preparation_state = EXCLUDED.preparation_state;
 
 INSERT INTO food_sources (
+    food_id,
     source_kind,
     source_name,
     external_id,
@@ -18,44 +19,23 @@ INSERT INTO food_sources (
     reference_quantity,
     reference_unit,
     capture_method,
-    source_url,
-    citation,
-    license
+    source_url
 )
 SELECT
+    food.id,
     'dataset', 'BLS 4.0', fixture.external_id, fixture.food_name,
-    100, 'g', 'bulk_import', 'https://blsdb.de/download',
-    'Max Rubner-Institut (2025): Bundeslebensmittelschlüssel (BLS), Version 4.0 — Deutsche Nährstoffdatenbank. Karlsruhe.',
-    'CC-BY-4.0'
+    100, 'g', 'bulk_import', 'https://blsdb.de/download'
 FROM (VALUES
-    ('F110100', 'Apfel roh'),
-    ('C352000', 'Reis poliert, roh'),
-    ('H725100', 'Linse reif')
-) AS fixture(external_id, food_name)
+    ('apple-raw', 'F110100', 'Apfel roh'),
+    ('white-rice-raw', 'C352000', 'Reis poliert, roh'),
+    ('lentil-mature-dry', 'H725100', 'Linse reif')
+) AS fixture(food_slug, external_id, food_name)
+JOIN foods AS food ON food.slug = fixture.food_slug
 WHERE NOT EXISTS (
     SELECT 1 FROM food_sources AS existing
     WHERE existing.source_name = 'BLS 4.0'
         AND existing.external_id = fixture.external_id
 );
-
-INSERT INTO food_source_links (
-    food_id,
-    food_source_id,
-    relationship
-)
-SELECT food.id, source_food.id, 'exact'
-FROM (VALUES
-    ('apple-raw', 'F110100'),
-    ('white-rice-raw', 'C352000'),
-    ('lentil-mature-dry', 'H725100')
-) AS fixture(food_slug, external_id)
-JOIN foods AS food ON food.slug = fixture.food_slug
-JOIN food_sources AS source_food
-    ON source_food.source_name = 'BLS 4.0'
-    AND source_food.external_id = fixture.external_id
-ON CONFLICT (food_id, food_source_id) DO UPDATE SET
-    relationship = EXCLUDED.relationship,
-    rationale = NULL;
 
 WITH fixture (
     external_id,
