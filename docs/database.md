@@ -1,20 +1,22 @@
 # Food catalog database
 
-The pre-deployment catalog has three tables:
+The pre-deployment catalog has two tables:
 
 | Table | What it stores |
 | --- | --- |
 | `foods` | Your food names, aliases, and preparation state. Red and beluga lentils can be separate foods. |
-| `food_sources` | One BLS row, manual entry, photographed label, or estimate, with its nutrition and original context. |
-| `food_source_links` | Which source supports which food, including a reason when a generic source is used as a proxy. |
+| `food_sources` | One BLS row, manual entry, photographed label, or estimate for a specific food, with its nutrition and original context. |
 
-A single BLS lentil source can link to both red and beluga lentils as an explicit
-proxy. A food can also have several sources whose values disagree. The database
-does not choose a preferred value; that decision belongs in the application.
+Every source belongs to exactly one food through `food_sources.food_id`. The
+generic BLS lentil row belongs to a generic lentils food. Red and beluga lentils
+need their own source records if they are added as separate foods. A food can
+have several sources whose values disagree; the application can decide which
+value to use.
 
-`source_name` is a readable label such as `BLS 4.0`; `citation` and `license`
-retain attribution. There is no release history or migration history while this
-database has not been deployed.
+`source_name` is a readable label such as `BLS 4.0`. The BLS citation and
+license are documented in the source research, not repeated in database rows.
+There is no release history or migration history while this database has not
+been deployed.
 
 ## Local setup
 
@@ -49,9 +51,9 @@ for changes after that point.
 
 The planned Rust ingestion CLI owns content validation and duplicate detection.
 Before writing, it should check required names and source identity, allowed
-source and relationship values, unit conversion, nonnegative amounts, missing
-versus zero, and a reason for proxy links. The database retains basic required
-fields, identities, and links between records.
+source values, unit conversion, nonnegative amounts, and missing versus zero.
+It must link each source to the food it actually describes. The database
+retains basic required fields, identities, and that direct link.
 
 `food_sources.reference_quantity` and `reference_unit` describe the basis of
 its nutrient values, commonly 100 g for BLS. The selected nutrients are direct
@@ -86,7 +88,6 @@ or `raw_data`; a future attachment record can point to the photo itself.
 ```sql
 SELECT
     food.name,
-    link.relationship,
     source.source_name,
     source.external_id,
     source.reference_quantity,
@@ -98,8 +99,7 @@ SELECT
     source.fiber_g,
     source.raw_data #>> '{nutrients,VITB12,provenance}' AS b12_provenance
 FROM foods AS food
-JOIN food_source_links AS link ON link.food_id = food.id
-JOIN food_sources AS source ON source.id = link.food_source_id
+JOIN food_sources AS source ON source.food_id = food.id
 WHERE food.slug = 'lentil-mature-dry';
 ```
 

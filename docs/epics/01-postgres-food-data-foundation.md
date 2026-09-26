@@ -22,7 +22,8 @@ losing uncertainty or provenance.
   readable source name
 - a distinction between missing, zero, measured, and calculated values where
   the source provides it
-- database keys and links; content validation belongs to the ingestion CLI
+- database identities and the direct food/source link; content validation
+  belongs to the ingestion CLI
 - a very small fixture used to exercise the schema and queries
 
 ## Acceptance criteria
