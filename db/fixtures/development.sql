@@ -12,7 +12,6 @@ ON CONFLICT (slug) DO UPDATE SET
 
 INSERT INTO food_sources (
     food_id,
-    source_kind,
     source_name,
     external_id,
     food_name,
@@ -23,7 +22,7 @@ INSERT INTO food_sources (
 )
 SELECT
     food.id,
-    'dataset', 'BLS 4.0', fixture.external_id, fixture.food_name,
+    'BLS 4.0', fixture.external_id, fixture.food_name,
     100, 'g', 'bulk_import', 'https://blsdb.de/download'
 FROM (VALUES
     ('apple-raw', 'F110100', 'Apfel roh'),

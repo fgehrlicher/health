@@ -25,8 +25,7 @@ CREATE TABLE food_sources (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     food_id bigint NOT NULL REFERENCES foods(id) ON DELETE CASCADE,
 
-    -- Origin and identity supplied by the source, e.g. dataset / BLS 4.0 / BLS code.
-    source_kind text NOT NULL,
+    -- Origin and identity supplied by the source, e.g. BLS 4.0 / BLS code.
     source_name text NOT NULL,
     external_id text,
     food_name text NOT NULL,
@@ -53,8 +52,5 @@ CREATE TABLE food_sources (
 
     -- Original evidence, including BLS markers and methods behind the numbers.
     raw_input text,
-    raw_data jsonb,
-
-    -- When this source record was added.
-    created_at timestamptz NOT NULL DEFAULT now()
+    raw_data jsonb
 );

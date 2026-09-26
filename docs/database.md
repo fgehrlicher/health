@@ -77,11 +77,11 @@ Adding another selected nutrient requires a column. That is intentional for
 the small initial set: edit the base schema before deployment, or add a
 migration after deployment.
 
-For a photographed product label, `source_kind` is `package_label` and
-`capture_method` can be `llm_label_extraction`. For an LLM estimate, use
-`agent_estimate` and `llm_estimation`. A manual ingredient can use `user_entry`
-and `manual_entry`. The source record can retain original input in `raw_input`
-or `raw_data`; a future attachment record can point to the photo itself.
+For a photographed product label, `source_name` can be `package label` and
+`capture_method` can be `llm_label_extraction`. An estimate can use
+`agent estimate` and `llm_estimation`; a manual entry can use `manual entry` and
+`manual_entry`. The source record can retain original input in `raw_input` or
+`raw_data`; a future attachment record can point to the photo itself.
 
 ## Query example
 
