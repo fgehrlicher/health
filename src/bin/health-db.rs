@@ -1,12 +1,12 @@
-use std::{collections::HashMap, env, process::ExitCode};
+use std::{env, process::ExitCode};
 
 use anyhow::{Context, Result, bail};
-use sqlx::{PgPool, Row, postgres::PgPoolOptions};
+use sqlx::{PgPool, postgres::PgPoolOptions};
 
 const BASE_SCHEMA: &str = include_str!("../../db/schema.sql");
 const DEVELOPMENT_FIXTURE: &str = include_str!("../../db/fixtures/development.sql");
 const DEFAULT_DATABASE_URL: &str = "postgres://health:health@127.0.0.1:5432/health";
-const REQUIRED_CATALOG_TABLES: i64 = 4;
+const REQUIRED_CATALOG_TABLES: i64 = 3;
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -51,8 +51,8 @@ async fn status(pool: &PgPool) -> Result<()> {
             println!("migration history has not started (pre-deployment)");
         }
         count => bail!(
-            "database is partially initialized: found {count} of \
-             {REQUIRED_CATALOG_TABLES} catalog tables"
+            "database schema differs from the current baseline: expected \
+             {REQUIRED_CATALOG_TABLES} tables, found {count}; reset the disposable database"
         ),
     }
 
@@ -67,8 +67,8 @@ async fn bootstrap(pool: &PgPool) -> Result<()> {
         }
         0 => {}
         count => bail!(
-            "refusing to bootstrap a partially initialized database: found {count} of \
-             {REQUIRED_CATALOG_TABLES} catalog tables"
+            "refusing to bootstrap a database with {count} public tables; \
+             expected an empty database or the {REQUIRED_CATALOG_TABLES}-table baseline"
         ),
     }
 
@@ -111,51 +111,81 @@ async fn verify(pool: &PgPool) -> Result<()> {
     let food_count: i64 = sqlx::query_scalar("SELECT count(*) FROM foods")
         .fetch_one(pool)
         .await?;
-    let nutrient_rows: i64 = sqlx::query_scalar("SELECT count(*) FROM nutrient_values")
-        .fetch_one(pool)
-        .await?;
-    let state_counts: HashMap<String, i64> = sqlx::query(
-        "SELECT value_state, count(*) AS count \
-         FROM nutrient_values GROUP BY value_state",
+    let source_count: i64 =
+        sqlx::query_scalar("SELECT count(*) FROM food_sources WHERE source_name = 'BLS 4.0'")
+            .fetch_one(pool)
+            .await?;
+    let raw_nutrient_count: i64 = sqlx::query_scalar(
+        "SELECT count(*) \
+         FROM food_sources AS source \
+         CROSS JOIN LATERAL jsonb_each(source.raw_data->'nutrients') AS nutrient \
+         WHERE source.source_name = 'BLS 4.0'",
     )
-    .fetch_all(pool)
-    .await?
-    .into_iter()
-    .map(|row| Ok((row.try_get("value_state")?, row.try_get("count")?)))
-    .collect::<Result<_, sqlx::Error>>()?;
+    .fetch_one(pool)
+    .await?;
     let logical_zero_count: i64 = sqlx::query_scalar(
-        "SELECT count(*) FROM nutrient_values \
-         WHERE source_provenance = 'logical_zero' AND amount = 0",
+        "SELECT count(*) FROM food_sources \
+         WHERE source_name = 'BLS 4.0' AND vitamin_b12_ug = 0 \
+         AND raw_data #>> '{nutrients,VITB12,provenance}' = 'logical_zero'",
+    )
+    .fetch_one(pool)
+    .await?;
+    let missing_count: i64 = sqlx::query_scalar(
+        "SELECT count(*) FROM food_sources \
+         WHERE source_name = 'BLS 4.0' AND beta_carotene_ug IS NULL \
+         AND raw_data #>> '{nutrients,CARTB,state}' = 'missing'",
+    )
+    .fetch_one(pool)
+    .await?;
+    let below_limit_count: i64 = sqlx::query_scalar(
+        "SELECT count(*) FROM food_sources \
+         WHERE source_name = 'BLS 4.0' AND vitamin_c_mg IS NULL \
+         AND raw_data #>> '{nutrients,VITC,state}' = \
+             'below_detection_or_quantification_limit'",
+    )
+    .fetch_one(pool)
+    .await?;
+    let representative_count: i64 = sqlx::query_scalar(
+        "SELECT count(*) FROM food_sources \
+         WHERE source_name = 'BLS 4.0' \
+         AND (
+             (external_id = 'F110100' AND energy_kcal = 58 AND protein_g = 0.424)
+             OR (external_id = 'C352000' AND carbs_g = 77.1)
+             OR (external_id = 'H725100' AND fiber_g = 17.6)
+         )",
     )
     .fetch_one(pool)
     .await?;
     let source_provenance_count: i64 = sqlx::query_scalar(
         "SELECT count(*) \
-         FROM nutrient_values AS value \
-         JOIN food_sources AS source \
-             ON source.id = value.food_source_id \
-         WHERE source.source_name = 'BLS 4.0' AND value.source_provenance IS NOT NULL",
+         FROM food_sources AS source \
+         CROSS JOIN LATERAL jsonb_each(source.raw_data->'nutrients') AS nutrient \
+         WHERE source.source_name = 'BLS 4.0' \
+         AND nutrient.value->>'provenance' IS NOT NULL",
     )
     .fetch_one(pool)
     .await?;
 
-    if food_count < 3 || nutrient_rows < 22 {
-        bail!("fixture is incomplete: foods={food_count}, nutrient_rows={nutrient_rows}");
+    if food_count < 3 || source_count < 3 || raw_nutrient_count < 22 || representative_count != 3 {
+        bail!(
+            "fixture is incomplete: foods={food_count}, sources={source_count}, \
+             raw_nutrients={raw_nutrient_count}, representative={representative_count}"
+        );
     }
-    if state_counts.get("missing").copied().unwrap_or(0) < 1 {
-        bail!("fixture does not demonstrate a missing nutrient value");
+    if missing_count < 1 || below_limit_count < 1 {
+        bail!("fixture does not demonstrate missing and below-limit values");
     }
     if logical_zero_count < 1 {
         bail!("fixture does not demonstrate a logical zero");
     }
-    if source_provenance_count < 22 {
+    if source_provenance_count < raw_nutrient_count {
         bail!("fixture does not preserve source provenance for every nutrient observation");
     }
 
     println!(
-        "schema verified: foods={food_count} nutrient_rows={nutrient_rows} \
-         missing={} logical_zero={logical_zero_count} provenance={source_provenance_count}",
-        state_counts.get("missing").copied().unwrap_or(0)
+        "schema verified: foods={food_count} sources={source_count} \
+         raw_nutrients={raw_nutrient_count} missing={missing_count} \
+         below_limit={below_limit_count} logical_zero={logical_zero_count}"
     );
     Ok(())
 }
@@ -163,10 +193,7 @@ async fn verify(pool: &PgPool) -> Result<()> {
 async fn catalog_table_count(pool: &PgPool) -> Result<i64> {
     sqlx::query_scalar(
         "SELECT count(*) FROM information_schema.tables \
-         WHERE table_schema = 'public' \
-         AND table_name IN ( \
-             'foods', 'food_sources', 'food_source_links', 'nutrient_values' \
-         )",
+         WHERE table_schema = 'public' AND table_type = 'BASE TABLE'",
     )
     .fetch_one(pool)
     .await

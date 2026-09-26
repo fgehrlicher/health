@@ -22,6 +22,14 @@ CREATE TABLE food_sources (
     food_name text NOT NULL,
     reference_quantity numeric NOT NULL,
     reference_unit text NOT NULL,
+    energy_kcal numeric,
+    protein_g numeric,
+    fat_g numeric,
+    carbs_g numeric,
+    fiber_g numeric,
+    vitamin_b12_ug numeric,
+    vitamin_c_mg numeric,
+    beta_carotene_ug numeric,
     capture_method text,
     source_url text,
     citation text,
@@ -39,23 +47,4 @@ CREATE TABLE food_source_links (
     relationship text NOT NULL,
     rationale text,
     PRIMARY KEY (food_id, food_source_id)
-);
-
--- Missing or censored values have amount NULL and retain their source marker.
-CREATE TABLE nutrient_values (
-    food_source_id bigint NOT NULL REFERENCES food_sources(id) ON DELETE CASCADE,
-    nutrient_code text NOT NULL,
-    amount numeric,
-    unit text NOT NULL,
-    value_state text NOT NULL,
-    source_nutrient_id text,
-    source_value text NOT NULL,
-    source_unit text,
-    source_provenance text,
-    source_reference text,
-    lower_bound numeric,
-    upper_bound numeric,
-    confidence text,
-    normalization_note text,
-    PRIMARY KEY (food_source_id, nutrient_code)
 );

@@ -90,55 +90,60 @@ WITH fixture (
     ('H725100', 'fiber', 17.6, 'reported', 'aggregation', '17.6', 'Converted value from: de Almeida Costa, G. E., et al.; Chemical composition, dietary fibre and resistant starch contents of raw and cooked pea, common bean, chickpea and lentil legumes.; Food Chemistry; 2006; 94; 3#Public Health England, Nutrient analysis of fruits and vegetables. 2017#Converted value from: Perez-Hidalgo, M. A., Guerra-Hernández, E., García-Villanova, B.; Dietary fiber in three raw legumes and processing effect on chick peas by an enzymatic-gravimetric method; Journal of Food Composition and Analysis; 1997'),
     ('H725100', 'vitamin_b12', 0, 'reported', 'logical_zero', '0', NULL),
     ('H725100', 'vitamin_c', 7, 'reported', 'nutrient_database', '7', 'Kirchhoff, E; Souci - Fachmann - Kraut - Die Zusammensetzung der Lebensmittel - Nährwert-Tabellen; 2008; 7')
+), source_nutrients AS (
+    SELECT
+        external_id,
+        max(amount) FILTER (WHERE nutrient_code = 'energy_kcal') AS energy_kcal,
+        max(amount) FILTER (WHERE nutrient_code = 'protein') AS protein_g,
+        max(amount) FILTER (WHERE nutrient_code = 'fat') AS fat_g,
+        max(amount) FILTER (WHERE nutrient_code = 'available_carbohydrate') AS carbs_g,
+        max(amount) FILTER (WHERE nutrient_code = 'fiber') AS fiber_g,
+        max(amount) FILTER (WHERE nutrient_code = 'vitamin_b12') AS vitamin_b12_ug,
+        max(amount) FILTER (WHERE nutrient_code = 'vitamin_c') AS vitamin_c_mg,
+        max(amount) FILTER (WHERE nutrient_code = 'beta_carotene') AS beta_carotene_ug,
+        jsonb_build_object(
+            'nutrients',
+            jsonb_object_agg(
+                CASE nutrient_code
+                    WHEN 'energy_kcal' THEN 'ENERCC'
+                    WHEN 'protein' THEN 'PROT625'
+                    WHEN 'fat' THEN 'FAT'
+                    WHEN 'available_carbohydrate' THEN 'CHO'
+                    WHEN 'fiber' THEN 'FIBT'
+                    WHEN 'vitamin_b12' THEN 'VITB12'
+                    WHEN 'vitamin_c' THEN 'VITC'
+                    WHEN 'beta_carotene' THEN 'CARTB'
+                END,
+                jsonb_strip_nulls(jsonb_build_object(
+                    'value', raw_value,
+                    'unit', CASE nutrient_code
+                        WHEN 'energy_kcal' THEN 'kcal'
+                        WHEN 'vitamin_b12' THEN 'ug'
+                        WHEN 'vitamin_c' THEN 'mg'
+                        WHEN 'beta_carotene' THEN 'ug'
+                        ELSE 'g'
+                    END,
+                    'state', value_state,
+                    'provenance', derivation_method,
+                    'reference', source_reference
+                ))
+            )
+        ) AS raw_data
+    FROM fixture
+    GROUP BY external_id
 )
-INSERT INTO nutrient_values (
-    food_source_id,
-    nutrient_code,
-    amount,
-    unit,
-    value_state,
-    source_nutrient_id,
-    source_value,
-    source_unit,
-    source_provenance,
-    source_reference
-)
-SELECT
-    source_food.id,
-    fixture.nutrient_code,
-    fixture.amount,
-    CASE fixture.nutrient_code
-        WHEN 'energy_kcal' THEN 'kcal'
-        WHEN 'vitamin_b12' THEN 'ug'
-        WHEN 'vitamin_c' THEN 'mg'
-        WHEN 'beta_carotene' THEN 'ug'
-        ELSE 'g'
-    END,
-    fixture.value_state,
-    CASE fixture.nutrient_code
-        WHEN 'energy_kcal' THEN 'ENERCC'
-        WHEN 'protein' THEN 'PROT625'
-        WHEN 'fat' THEN 'FAT'
-        WHEN 'available_carbohydrate' THEN 'CHO'
-        WHEN 'fiber' THEN 'FIBT'
-        WHEN 'vitamin_b12' THEN 'VITB12'
-        WHEN 'vitamin_c' THEN 'VITC'
-        WHEN 'beta_carotene' THEN 'CARTB'
-    END,
-    fixture.raw_value,
-    CASE fixture.nutrient_code
-        WHEN 'energy_kcal' THEN 'kcal'
-        WHEN 'vitamin_b12' THEN 'ug'
-        WHEN 'vitamin_c' THEN 'mg'
-        WHEN 'beta_carotene' THEN 'ug'
-        ELSE 'g'
-    END,
-    fixture.derivation_method,
-    fixture.source_reference
-FROM fixture
-JOIN food_sources AS source_food
-    ON source_food.source_name = 'BLS 4.0'
-    AND source_food.external_id = fixture.external_id
-ON CONFLICT (food_source_id, nutrient_code) DO NOTHING;
+UPDATE food_sources AS source
+SET energy_kcal = nutrients.energy_kcal,
+    protein_g = nutrients.protein_g,
+    fat_g = nutrients.fat_g,
+    carbs_g = nutrients.carbs_g,
+    fiber_g = nutrients.fiber_g,
+    vitamin_b12_ug = nutrients.vitamin_b12_ug,
+    vitamin_c_mg = nutrients.vitamin_c_mg,
+    beta_carotene_ug = nutrients.beta_carotene_ug,
+    raw_data = nutrients.raw_data
+FROM source_nutrients AS nutrients
+WHERE source.source_name = 'BLS 4.0'
+    AND source.external_id = nutrients.external_id;
 
 COMMIT;
