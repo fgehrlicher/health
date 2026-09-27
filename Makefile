@@ -3,7 +3,7 @@
 DATABASE_URL ?= postgres://health:health@127.0.0.1:5432/health
 export DATABASE_URL
 
-.PHONY: db-up db-down db-reset db-status db-fixture db-verify check
+.PHONY: db-up db-down db-reset db-status db-fixture db-verify catalog check
 
 db-up:
 	docker compose up --detach --wait postgres
@@ -23,6 +23,9 @@ db-fixture:
 
 db-verify:
 	docker compose exec -T postgres psql --username=health --dbname=health --set=ON_ERROR_STOP=1 < db/fixtures/verify.sql
+
+catalog:
+	uv run --locked health-catalog
 
 check:
 	uv run --locked ruff check .

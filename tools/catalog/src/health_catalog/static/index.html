@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3f1e9" />
+    <meta name="description" content="Explore your personal food catalog and its nutrition sources." />
+    <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/assets/manifest.webmanifest" />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <script src="/assets/app.js" defer></script>
+    <title>Food Atlas · Health</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Food Atlas home">
+          <span class="brand-mark" aria-hidden="true">◌</span>
+          <span class="brand-wordmark">health<span class="brand-divider">/</span>food atlas</span>
+        </a>
+        <div class="header-actions">
+          <span class="connection-status" id="connection-status"><span class="status-dot"></span> Local catalog</span>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">◐</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-line"></span> YOUR FOOD, IN FOCUS</p>
+            <h1 id="hero-title">Food, without<br /><em>the guesswork.</em></h1>
+            <p class="hero-lead">Explore ingredients, compare the numbers that matter, and see where every value comes from.</p>
+          </div>
+          <div class="collection-card" aria-label="Collection overview">
+            <div class="collection-card-top"><span>THE COLLECTION</span><span class="collection-sparkle" aria-hidden="true">✳</span></div>
+            <div class="collection-count" id="total-foods">—</div>
+            <div class="collection-label">foods to explore</div>
+            <div class="collection-rule"></div>
+            <div class="collection-foot"><span id="total-sources">—</span> nutrition sources <span class="collection-arrow" aria-hidden="true">↗</span></div>
+          </div>
+        </section>
+
+        <section class="explorer" aria-labelledby="explorer-title">
+          <div class="section-intro">
+            <p class="eyebrow">01 / EXPLORE</p>
+            <h2 id="explorer-title">Find the right food.</h2>
+          </div>
+
+          <form class="search-field" id="search-form" role="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>
+            <label class="sr-only" for="search">Search foods, aliases, brands, or BLS codes</label>
+            <input id="search" name="q" type="search" maxlength="100" placeholder="Search foods, aliases, brands, or BLS codes…" autocomplete="off" />
+            <kbd class="search-shortcut">/</kbd>
+          </form>
+
+          <button class="filter-toggle" id="filter-toggle" type="button" aria-controls="filters-panel" aria-expanded="false">Refine results <span id="active-filter-count">Filters</span></button>
+          <div class="workspace">
+            <aside class="filters" id="filters-panel" aria-labelledby="filters-title">
+              <div class="filters-heading"><h3 id="filters-title">Refine</h3><button id="clear-filters" type="button" class="text-button">Clear all</button></div>
+              <div class="filter-group">
+                <label for="kind">Food type</label>
+                <select id="kind"><option value="">All foods</option></select>
+              </div>
+              <div class="filter-group">
+                <label for="source-name">Nutrition source</label>
+                <select id="source-name"><option value="">Any source</option></select>
+              </div>
+              <div class="filter-group">
+                <label for="preparation-state">Preparation</label>
+                <select id="preparation-state"><option value="">Any preparation</option></select>
+              </div>
+              <div class="filter-separator"></div>
+              <p class="filter-subtitle">Nutrition <span>per source basis</span></p>
+              <div class="filter-group input-with-unit">
+                <label for="min-protein">At least protein</label>
+                <div><input id="min-protein" type="number" min="0" step="any" inputmode="decimal" placeholder="Any" /><span>g</span></div>
+              </div>
+              <div class="filter-group input-with-unit">
+                <label for="min-fiber">At least fiber</label>
+                <div><input id="min-fiber" type="number" min="0" step="any" inputmode="decimal" placeholder="Any" /><span>g</span></div>
+              </div>
+              <div class="filter-group input-with-unit">
+                <label for="max-energy">At most energy</label>
+                <div><input id="max-energy" type="number" min="0" step="any" inputmode="decimal" placeholder="Any" /><span>kcal</span></div>
+              </div>
+              <p class="filter-note">Nutrition filters use the displayed source. Missing values stay unknown, never zero.</p>
+            </aside>
+
+            <div class="results">
+              <div class="results-toolbar">
+                <div><p class="eyebrow">THE INDEX</p><h3 id="result-count" aria-live="polite">Loading foods…</h3></div>
+                <div class="sort-control"><label for="sort">Sort by</label><select id="sort"><option value="name">Name A–Z</option><option value="protein_desc">Most protein</option><option value="fiber_desc">Most fiber</option><option value="energy_asc">Least energy</option><option value="energy_desc">Most energy</option></select></div>
+              </div>
+              <div class="food-grid" id="food-grid" aria-live="polite"><div class="loading-card"></div><div class="loading-card"></div></div>
+              <div class="pagination" id="pagination" hidden><button type="button" id="previous-page">← Previous</button><span id="page-label"></span><button type="button" id="next-page">Next →</button></div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer class="site-footer"><span>FOOD ATLAS / YOUR LOCAL SOURCE OF TRUTH</span><span>Read-only by design. Every number has a source.</span></footer>
+    </div>
+
+    <dialog id="food-dialog" aria-labelledby="detail-title">
+      <div class="dialog-shell">
+        <div class="dialog-top"><span class="eyebrow">FOOD / DETAIL</span><button id="close-dialog" class="dialog-close" type="button" aria-label="Close food detail">×</button></div>
+        <div id="detail-content"></div>
+      </div>
+    </dialog>
+  </body>
+</html>
