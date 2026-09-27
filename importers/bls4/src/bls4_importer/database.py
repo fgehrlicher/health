@@ -3,7 +3,12 @@
 import psycopg
 from psycopg.rows import dict_row
 
-from bls4_importer.source import SOURCE_NAME, Food
+from bls4_importer.source import NUTRIENTS, SOURCE_NAME, Food
+
+# Column names come from the fixed NUTRIENTS mapping, never from input.
+NUTRIENT_COLUMNS = ", ".join(NUTRIENTS)
+NUTRIENT_PLACEHOLDERS = ", ".join(f"%({column})s" for column in NUTRIENTS)
+NUTRIENT_ASSIGNMENTS = ", ".join(f"{column} = %({column})s" for column in NUTRIENTS)
 
 
 def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
@@ -14,10 +19,15 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
     ):
         connection.execute("SELECT pg_advisory_xact_lock(hashtext('health:bls4-import')::bigint)")
         for food in foods:
+            values = {
+                "food_name": food.german_name,
+                "group_code": food.code[0],
+                **food.nutrients,
+            }
             rows = connection.execute(
-                """SELECT s.id, f.id AS food_id, s.food_name, s.group_code,
-                          s.reference_quantity, s.reference_unit,
-                          s.energy_kcal, s.protein_g, s.fat_g, s.carbs_g, s.fiber_g, f.kind
+                f"""SELECT s.id, f.id AS food_id, s.food_name, s.group_code,
+                          s.reference_quantity, s.reference_unit, s.upper_bounds,
+                          {NUTRIENT_COLUMNS}, f.kind
                    FROM food_sources s JOIN foods f ON f.id = s.food_id
                    WHERE s.source_name = %s AND s.external_id = %s""",
                 (SOURCE_NAME, food.code),
@@ -29,20 +39,10 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
                 if old["kind"] not in ("ingredient", "generic"):
                     raise ValueError(f"BLS source {food.code} belongs to a non-generic food")
                 unchanged = (
-                    old["food_name"] == food.german_name
-                    and old["group_code"] == food.code[0]
-                    and old["reference_quantity"] == 100
+                    old["reference_quantity"] == 100
                     and old["reference_unit"] == "g"
-                    and all(
-                        old[column] == value
-                        for column, value in (
-                            ("energy_kcal", food.energy),
-                            ("protein_g", food.protein),
-                            ("fat_g", food.fat),
-                            ("carbs_g", food.carbs),
-                            ("fiber_g", food.fiber),
-                        )
-                    )
+                    and old["upper_bounds"] == []
+                    and all(old[column] == value for column, value in values.items())
                 )
                 if unchanged and old["kind"] == "generic":
                     skipped += 1
@@ -53,21 +53,12 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
                     )
                 if not unchanged:
                     connection.execute(
-                        """UPDATE food_sources
-                           SET food_name = %s, group_code = %s,
+                        f"""UPDATE food_sources
+                           SET food_name = %(food_name)s, group_code = %(group_code)s,
                                reference_quantity = 100, reference_unit = 'g',
-                               energy_kcal = %s, protein_g = %s, fat_g = %s, carbs_g = %s, fiber_g = %s
-                           WHERE id = %s""",
-                        (
-                            food.german_name,
-                            food.code[0],
-                            food.energy,
-                            food.protein,
-                            food.fat,
-                            food.carbs,
-                            food.fiber,
-                            old["id"],
-                        ),
+                               upper_bounds = '{{}}', {NUTRIENT_ASSIGNMENTS}
+                           WHERE id = %(id)s""",
+                        {**values, "id": old["id"]},
                     )
                 updated += 1
                 continue
@@ -82,22 +73,17 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
                 (slug, food.english_name, aliases),
             ).fetchone()["id"]
             connection.execute(
-                """INSERT INTO food_sources
-                           (food_id, source_name, external_id, food_name, group_code, reference_quantity,
-                            reference_unit, energy_kcal, protein_g, fat_g, carbs_g, fiber_g)
-                       VALUES (%s, %s, %s, %s, %s, 100, 'g', %s, %s, %s, %s, %s)""",
-                (
-                    food_id,
-                    SOURCE_NAME,
-                    food.code,
-                    food.german_name,
-                    food.code[0],
-                    food.energy,
-                    food.protein,
-                    food.fat,
-                    food.carbs,
-                    food.fiber,
-                ),
+                f"""INSERT INTO food_sources
+                       (food_id, source_name, external_id, food_name, group_code,
+                        reference_quantity, reference_unit, {NUTRIENT_COLUMNS})
+                   VALUES (%(food_id)s, %(source_name)s, %(external_id)s, %(food_name)s,
+                           %(group_code)s, 100, 'g', {NUTRIENT_PLACEHOLDERS})""",
+                {
+                    **values,
+                    "food_id": food_id,
+                    "source_name": SOURCE_NAME,
+                    "external_id": food.code,
+                },
             )
             created += 1
         if created or updated:

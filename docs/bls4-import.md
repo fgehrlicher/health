@@ -41,17 +41,45 @@ names and aliases are not overwritten by reruns.
 
 ## Values and limits
 
-Nutrition is per 100 g. `ENERCC`, `PROT625`, `FAT`, `CHO`, and `FIBT` map to
-kcal, protein, fat, carbs, and fiber. Source markers such as `TR`, `<LOD`,
-`<LOQ`, and `-` become `NULL`, never zero.
+Nutrition is per 100 g. The importer reads the 14 components that match the
+EU nutrition label, listed in the [database guide](database.md#import-contract):
+energy in kJ and kcal, fat with saturated, mono- and polyunsaturated fatty
+acids, available carbohydrate with sugars, polyols, and starch, fiber,
+protein, salt, and alcohol. Source markers such as `TR`, `<LOD`, `<LOQ`, and
+`-` become `NULL`, never zero. Sugars or polyols above available carbohydrate
+reject the row; this holds for every BLS 4.0 row.
+
+BLS is not always internally consistent, so these are not validated: 42 rows
+have more saturated fatty acids than fat (e.g. `F545100` plantain), 446 have
+sugars plus starch above available carbohydrate, and salt does not always
+equal sodium × 2.5.
 
 The [BLS 4.0 erratum](https://www.blsdb.de/bls) identifies double-counted
-oligosaccharides in published energy. The importer recalculates kcal for the
-387 rows where all required inputs are present. For 24 further affected rows,
-one or more inputs are missing: those foods are imported, but kcal is `NULL`
-instead of using the suspect published number. When `OLSAC` itself is
-nonnumeric, the published energy is retained; its marker appears in the report.
-Other published errata were not applied to these five V1 nutrients.
+oligosaccharides in published energy, both kJ and kcal. The importer
+recalculates both with EU factors for the 387 rows where all required inputs
+are present; the same kJ formula reproduces the published kJ of 6,724 of the
+6,729 unaffected rows. For 24 further affected rows, one or more inputs are
+missing: those foods are imported, but energy is `NULL` instead of the
+suspect published number. When `OLSAC` itself is nonnumeric, the published
+energy is retained; its marker appears in the report. The other published
+errata (zinc, almond calcium, amino acids) do not affect the imported fields.
+
+## Other BLS fields
+
+The workbook has 138 components, each with a data-origin and reference column,
+plus a free-text note. Worth knowing when extending the import:
+
+- **Vitamins and minerals** (A, D, E, B-vitamins, folate, C; sodium,
+  potassium, calcium, magnesium, iron, zinc, iodide, …) are 93–100% numeric.
+  They would suit a long-format nutrient table rather than more columns.
+  Before adding them, apply the zinc and almond-calcium errata.
+- **Omega-3 and omega-6** totals (`FAPUN3`, `FAPUN6`), **cholesterol**
+  (`CHORL`), and **water** are well populated.
+- **Amino acids** are affected by the erratum; wait for BLS 4.1.
+- **Data origin**: about 77% of protein and fat values are recipe
+  calculations, about 5% laboratory analyses; the rest come from other
+  databases, literature, or rescaling. Useful as a quality hint, not stored.
+- The **note** column is set for only 4 rows (sweeteners such as maltitol).
 
 Each future source should have its own importer. Do not edit an importer while
 it is writing to PostgreSQL.
