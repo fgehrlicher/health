@@ -165,6 +165,17 @@ class FoodInput(BaseModel):
     portions: list[PortionInput] = []
 
 
+class SourceTextUpdate(BaseModel):
+    """Text read later from the same label, e.g. a second photo of a round cup."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    # The label's legal name ("Bezeichnung"), stored as the source's food_name.
+    food_name: Annotated[str | None, Field(min_length=1, max_length=300)] = None
+    # The full "Zutaten" list as printed, unparsed.
+    ingredients_text: Annotated[str | None, Field(min_length=1, max_length=5000)] = None
+
+
 class Issue(BaseModel):
     field: str
     message: str

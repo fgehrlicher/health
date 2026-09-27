@@ -6,7 +6,7 @@ from decimal import Decimal
 
 from psycopg import Connection
 
-from health_catalog.models import FoodInput, NutritionInput
+from health_catalog.models import FoodInput, NutritionInput, SourceTextUpdate
 from health_catalog.repository import NUTRIENTS, get_food
 
 MANDATORY_LABEL_ROWS = ("energy_kj", "saturated_fat_g", "sugars_g", "salt_g")
@@ -202,3 +202,43 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
             "warnings": warnings,
             "food": get_food(connection, slug),
         }
+
+
+class SourceNotFound(Exception):
+    pass
+
+
+def update_source_text(
+    connection: Connection, slug: str, source_id: int, update: SourceTextUpdate
+) -> dict:
+    """Set a registered source's legal name or ingredients; nutrition stays unchanged.
+
+    Changed nutrition means a new label version, not an edit. BLS sources belong
+    to the importer.
+    """
+    fields = {name: value.strip() for name, value in update.model_dump(exclude_none=True).items()}
+    if not fields:
+        raise RegistrationError([{"field": "body", "message": "nothing to update"}])
+    blank = [name for name, value in fields.items() if not value]
+    if blank:
+        raise RegistrationError([{"field": name, "message": "must not be blank"} for name in blank])
+    with connection.transaction():
+        source = connection.execute(
+            """SELECT s.id, s.source_name FROM food_sources s JOIN foods f ON f.id = s.food_id
+               WHERE f.slug = %s AND s.id = %s FOR UPDATE""",
+            (slug, source_id),
+        ).fetchone()
+        if source is None:
+            raise SourceNotFound(f"food {slug} has no source {source_id}")
+        if source["source_name"] == "BLS 4.0":
+            raise RegistrationError(
+                [{"field": "source", "message": "BLS sources are maintained by the importer"}]
+            )
+        assignments = ", ".join(f"{name} = %({name})s" for name in fields)
+        connection.execute(
+            f"UPDATE food_sources SET {assignments} WHERE id = %(id)s", {**fields, "id": source_id}
+        )
+        if "food_name" in fields:
+            connection.execute("REFRESH MATERIALIZED VIEW food_search_terms")
+            connection.execute("REFRESH MATERIALIZED VIEW food_search_vocabulary")
+        return get_food(connection, slug)

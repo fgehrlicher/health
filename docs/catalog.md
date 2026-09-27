@@ -74,6 +74,8 @@ in step.
   `422` for an invalid barcode.
 - `POST /api/foods`: register a branded food (see below); `?dry_run=true`
   validates without writing.
+- `PATCH /api/foods/{slug}/sources/{source_id}`: add a registered source's
+  legal name (`food_name`) or `ingredients_text` read from a later photo.
 - `GET /docs`: interactive API documentation, including the request schema.
 
 List results show one source per food: the requested source, otherwise BLS
@@ -117,7 +119,11 @@ Agents add products from label photos or product databases. The expected flow:
 
 Required are name, energy in kcal, fat, carbs, and protein.
 `ingredients_text` is the "Zutaten" list exactly as printed, unparsed. Send it
-only when the whole list is readable; a partial list is worse than none. `reference_quantity`
+only when the whole list is readable; a partial list is worse than none. On a
+round package the list often wraps around: combine two photos whose overlap
+matches, or add the text later with `PATCH /api/foods/{slug}/sources/{id}`.
+That endpoint only sets `food_name` and `ingredients_text`: a label with
+different nutrition is a new source, and BLS sources belong to the importer. `reference_quantity`
 and `reference_unit` default to 100 g. Write a label's "<0,5 g" as `0.5` and
 list the column in `nutrition.upper_bounds`.
 

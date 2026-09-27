@@ -11,13 +11,22 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from psycopg.rows import dict_row
 
-from health_catalog.models import CatalogFacets, FoodDetail, FoodInput, FoodPage, FoodRegistration
+from health_catalog.models import (
+    CatalogFacets,
+    FoodDetail,
+    FoodInput,
+    FoodPage,
+    FoodRegistration,
+    SourceTextUpdate,
+)
 from health_catalog.registration import (
     BarcodeConflict,
     RegistrationError,
+    SourceNotFound,
     barcode_problem,
     check_food,
     register_food,
+    update_source_text,
 )
 from health_catalog.repository import FoodFilters, Sort, get_facets, get_food, list_foods
 
@@ -124,6 +133,26 @@ def create_food(food: FoodInput, response: Response, dry_run: bool = False):
     if dry_run:
         response.status_code = 200
     return result
+
+
+@app.patch(
+    "/api/foods/{slug}/sources/{source_id}",
+    response_model=FoodDetail,
+    responses={404: {"description": "No such food or source"}, 422: {"description": "Invalid"}},
+)
+def patch_source_text(slug: str, source_id: int, update: SourceTextUpdate):
+    """Add a label's legal name or ingredients read from a later photo.
+
+    Only text fields; a label with different nutrition is a new source. BLS
+    sources cannot be edited.
+    """
+    try:
+        with psycopg.connect(database_url(), row_factory=dict_row) as connection:
+            return update_source_text(connection, slug, source_id, update)
+    except RegistrationError as error:
+        return JSONResponse(status_code=422, content={"detail": error.issues})
+    except SourceNotFound as error:
+        raise HTTPException(status_code=404, detail=str(error)) from error
 
 
 @app.get("/api/foods/{slug}", response_model=FoodDetail)

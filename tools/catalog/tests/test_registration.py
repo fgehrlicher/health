@@ -113,6 +113,23 @@ def test_register_and_find_by_barcode(monkeypatch):
         assert request(f"/api/foods/barcode/{barcode}").json()["slug"] == food["slug"]
         search = request("/api/foods?q=registration%20test").json()["items"]
         assert search[0]["slug"] == food["slug"]
+        source_path = f"/api/foods/{food['slug']}/sources/{food['sources'][0]['id']}"
+        patched = request_json(
+            "PATCH", source_path, {"food_name": "Test legal name", "ingredients_text": " Quark "}
+        )
+        assert patched.status_code == 200, patched.text
+        assert patched.json()["sources"][0]["food_name"] == "Test legal name"
+        assert patched.json()["sources"][0]["ingredients_text"] == "Quark"
+        assert patched.json()["sources"][0]["energy_kcal"] == "68"
+        assert request_json("PATCH", source_path, {}).status_code == 422
+        assert request_json("PATCH", source_path, {"energy_kcal": 1}).status_code == 422
+        assert request_json("PATCH", f"{source_path}0", {"food_name": "x"}).status_code == 404
+        bls = request("/api/foods/bls4-f110100").json()["sources"][0]["id"]
+        bls_patch = request_json(
+            "PATCH", f"/api/foods/bls4-f110100/sources/{bls}", {"food_name": "x"}
+        )
+        assert bls_patch.status_code == 422
+
         conflict = request_json("POST", "/api/foods", payload)
         assert conflict.status_code == 409 and conflict.json()["slug"] == food["slug"]
     finally:
