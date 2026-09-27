@@ -10,7 +10,7 @@ Completed:
 1. [PostgreSQL food-data foundation](01-postgres-food-data-foundation.md)
 2. [Research spike: ingredient data source](../spikes/01-ingredient-data-source/README.md)
 
-Ready to start:
+In progress:
 
 3. [Rust food-ingestion CLI](02-rust-food-ingestion-cli.md)
 
@@ -18,10 +18,9 @@ After the CLI:
 
 4. [Initial ingredient catalog](03-initial-ingredient-catalog.md)
 
-The source spike recommends BLS 4.x. V1 stores energy and macros, and
-the production seed must check for BLS 4.1 or apply the documented 4.0 errata
-policy. Database work can proceed as long as it models source-specific
-identifiers and nutrients without copying the BLS workbook layout.
+The BLS 4.0 importer now handles a reviewed code list, including the known
+energy erratum. Manual and agent ingestion are still open. V1 stores energy
+and macros; expanding the ingredient catalog requires its own inclusion review.
 
 ## Milestone complete when
 

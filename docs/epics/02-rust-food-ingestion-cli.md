@@ -1,6 +1,6 @@
 # Epic 02 — Rust food-ingestion CLI
 
-**Status:** Ready
+**Status:** In progress — BLS 4.0 bulk import implemented; manual and agent input remain.
 
 ## Outcome
 
