@@ -11,12 +11,30 @@ class NutritionSource(BaseModel):
     group_code: str | None
     reference_quantity: str
     reference_unit: str
+    energy_kj: str | None
     energy_kcal: str | None
-    protein_g: str | None
-    protein_per_100_kcal: str | None
     fat_g: str | None
+    saturated_fat_g: str | None
+    monounsaturated_fat_g: str | None
+    polyunsaturated_fat_g: str | None
     carbs_g: str | None
+    sugars_g: str | None
+    polyols_g: str | None
+    starch_g: str | None
     fiber_g: str | None
+    protein_g: str | None
+    salt_g: str | None
+    alcohol_g: str | None
+    protein_per_100_kcal: str | None
+    # Columns whose value is a declared maximum, e.g. a label's "<0,5 g".
+    upper_bounds: list[str]
+
+
+class Portion(BaseModel):
+    name: str
+    kind: str
+    quantity: str
+    unit: str
 
 
 class FoodBase(BaseModel):
@@ -37,6 +55,7 @@ class FoodSummary(FoodBase):
 
 class FoodDetail(FoodBase):
     sources: list[NutritionSource]
+    portions: list[Portion]
 
 
 class FoodPage(BaseModel):

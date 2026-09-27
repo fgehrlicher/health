@@ -51,11 +51,17 @@ dialog::backdrop { background: #101b16a8; }
 .detail-source p { color: #66716a; font-size: 12px; }
 .detail-source .protein-density { margin-top: 6px; color: #315b3b; font-size: 14px; font-weight: 700; }
 .energy-line { margin-top: 14px; font-size: 17px; font-weight: 600; }
-.nutrient-row { display: grid; grid-template-columns: 80px 60px 1fr; align-items: center; gap: 10px; margin-top: 9px; }
+.energy-line span { margin-left: 6px; color: #66716a; font-size: 13px; font-weight: 400; }
+.nutrient-row { display: grid; grid-template-columns: 130px 64px 1fr; align-items: center; gap: 10px; margin-top: 9px; }
+.nutrient-row.sub { margin-top: 3px; color: #66716a; font-size: 13px; }
+.nutrient-row.sub span:first-child { padding-left: 12px; }
 .nutrient-row strong { text-align: right; font-variant-numeric: tabular-nums; }
 .bar-track { height: 10px; overflow: hidden; border-radius: 10px; background: #e8eee8; }
 .bar-fill { display: block; height: 100%; border-radius: inherit; background: #68a174; }
-.nutrient-row:nth-of-type(3) .bar-fill { background: #c39c58; }
-.nutrient-row:nth-of-type(4) .bar-fill { background: #7296bc; }
-.nutrient-row:nth-of-type(5) .bar-fill { background: #9e86b9; }
+.nutrient-carbs_g .bar-fill { background: #c39c58; }
+.nutrient-fiber_g .bar-fill { background: #7296bc; }
+.nutrient-protein_g .bar-fill { background: #9e86b9; }
+.nutrient-salt_g .bar-fill, .nutrient-alcohol_g .bar-fill { background: #a9b1ab; }
+.detail-portions { margin-top: 18px; font-size: 13px; }
+.detail-portions ul { margin: 6px 0 0; padding-left: 18px; }
 @media (max-width: 850px) { .app { padding: 20px 15px 40px; } .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } .results-header { align-items: start; flex-direction: column; gap: 3px; } }

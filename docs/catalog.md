@@ -3,7 +3,9 @@
 The read-only browser is a sortable table of foods with energy, four macros,
 and protein per 100 kcal. This last value is calculated as
 `protein_g × 100 / energy_kcal`, not stored in the database. It is unknown
-when protein or energy is missing or energy is zero.
+when protein or energy is missing or energy is zero. Food details add the
+full label-style breakdown (kJ, saturated fat, sugars, salt, and more) and any
+portions.
 Search finds names, aliases, German BLS names, and BLS codes (see
 [Search](#search)). Filters include BLS group, source, food type, preparation,
 protein, fiber, and energy. Click a row

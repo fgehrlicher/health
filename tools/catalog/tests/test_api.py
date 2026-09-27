@@ -6,7 +6,12 @@ import httpx
 import psycopg
 import pytest
 from health_catalog.app import app
-from health_catalog.repository import FoodFilters, search_tokens, source_from_row
+from health_catalog.repository import (
+    NUTRIENTS,
+    FoodFilters,
+    search_tokens,
+    source_from_row,
+)
 from health_catalog.search_eval import evaluate, hit_rate, read_cases
 from psycopg.rows import dict_row
 
@@ -71,12 +76,16 @@ def test_source_values_preserve_unknown_and_exact_decimal_text():
         "fat_g": None,
         "carbs_g": Decimal("11.7"),
         "fiber_g": Decimal("2.275"),
+        "upper_bounds": ["fat_g"],
     }
+    row |= {field: row.get(field) for field in NUTRIENTS}
     source = source_from_row(row)
     assert source["protein_g"] == "0.424"
     assert source["fat_g"] is None
     assert source["group_code"] == "F"
     assert source["protein_per_100_kcal"] == "0.73103448275862068966"
+    assert source["sugars_g"] is None
+    assert source["upper_bounds"] == ["fat_g"]
 
 
 def test_catalog_queries_against_postgres(monkeypatch):
@@ -144,6 +153,9 @@ def test_catalog_queries_against_postgres(monkeypatch):
     detail = request("/api/foods/bls4-g650132")
     assert detail.status_code == 200
     assert detail.json()["sources"][0]["energy_kcal"] == "46"
+    assert detail.json()["sources"][0]["energy_kj"] == "192"
+    assert detail.json()["sources"][0]["sugars_g"] is not None
+    assert detail.json()["portions"] == []
     assert request("/api/foods/not-a-food").status_code == 404
 
 

@@ -176,14 +176,33 @@ function initTable() {
 }
 
 function sourceMarkup(source) {
-  const nutrition = [['Protein', source.protein_g], ['Fat', source.fat_g], ['Carbs', source.carbs_g], ['Fiber', source.fiber_g]];
+  // [label, column, sub-row of the row above]; optional rows only when known.
+  const nutrition = [
+    ['Fat', 'fat_g'], ['saturated', 'saturated_fat_g', true],
+    ['Carbs', 'carbs_g'], ['sugars', 'sugars_g', true], ['polyols', 'polyols_g', true, true],
+    ['Fiber', 'fiber_g'], ['Protein', 'protein_g'], ['Salt', 'salt_g'], ['Alcohol', 'alcohol_g', false, true],
+  ].filter(([, field, , optional]) => !optional || Number(source[field]) > 0);
   const gramsBasis = source.reference_unit === 'g' && Number(source.reference_quantity) === 100;
+  const amount = (field) => `${source.upper_bounds.includes(field) ? '< ' : ''}${number(source[field])} g`;
+  const row = ([label, field, sub]) => {
+    const value = source[field];
+    const bar = gramsBasis && value != null && !sub
+      ? `<span class="bar-track" aria-hidden="true"><span class="bar-fill" style="width:${Math.max(0, Math.min(100, Number(value)))}%"></span></span>`
+      : '<span></span>';
+    return `<div class="nutrient-row nutrient-${field}${sub ? ' sub' : ''}"><span>${sub ? 'of which ' : ''}${label}</span><strong>${amount(field)}</strong>${bar}</div>`;
+  };
   return `<section class="detail-source"><div class="detail-source-head"><strong>${escapeHtml(source.source_name)}</strong><span>${escapeHtml(basis(source))}</span></div>
     <p>${escapeHtml(source.food_name)}${source.external_id ? ` · ${escapeHtml(source.external_id)}` : ''}${source.group_code ? ` · ${escapeHtml(groupNames[source.group_code] || source.group_code)}` : ''}</p>
-    <div class="energy-line">${number(source.energy_kcal, 0)} kcal</div>
+    <div class="energy-line">${number(source.energy_kcal, 0)} kcal <span>${number(source.energy_kj, 0)} kJ</span></div>
     <p class="protein-density">${number(source.protein_per_100_kcal)} g protein / 100 kcal</p>
-    ${nutrition.map(([label, value]) => `<div class="nutrient-row"><span>${label}</span><strong>${number(value)} g</strong>${gramsBasis && value != null ? `<span class="bar-track" aria-hidden="true"><span class="bar-fill" style="width:${Math.max(0, Math.min(100, Number(value)))}%"></span></span>` : '<span></span>'}</div>`).join('')}
+    ${nutrition.map(row).join('')}
     ${gramsBasis ? '<p>Bars show grams in 100 g of food.</p>' : ''}</section>`;
+}
+
+function portionsMarkup(portions) {
+  if (!portions.length) return '';
+  const items = portions.map((portion) => `<li>${escapeHtml(portion.name)}: ${number(portion.quantity)} ${escapeHtml(portion.unit)}</li>`);
+  return `<section class="detail-portions"><strong>Portions</strong><ul>${items.join('')}</ul></section>`;
 }
 
 async function openFood(slug) {
@@ -195,6 +214,7 @@ async function openFood(slug) {
     $('#detail-content').innerHTML = `<h2 id="detail-title">${escapeHtml(food.name)}</h2>
       <p class="detail-meta">${escapeHtml([food.kind, food.brand, food.preparation_state, ...food.aliases].filter(Boolean).join(' · '))}</p>
       ${food.sources.length ? food.sources.map(sourceMarkup).join('') : '<p>No nutrition source yet.</p>'}
+      ${portionsMarkup(food.portions)}
       <p class="detail-note">A dash means the value is unknown, not zero. Each source has its own reference quantity.</p>`;
   } catch (_) { $('#detail-content').textContent = 'Could not load this food.'; }
 }
