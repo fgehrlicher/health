@@ -1,6 +1,9 @@
 # Epic 02 — Food ingestion
 
-**Status:** In progress — BLS 4.0 importer implemented; manual and agent input remain.
+**Status:** In progress — BLS 4.0 importer and agent registration API
+([`POST /api/foods`](../catalog.md#registering-branded-foods)) implemented;
+manual entry, newer label versions of a known product, and an import report
+for agent writes remain.
 
 ## Outcome
 

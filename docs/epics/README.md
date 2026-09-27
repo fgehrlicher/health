@@ -20,7 +20,8 @@ Next:
 
 The BLS 4.0 importer now loads the full dataset, including generic prepared
 dishes, and handles the known energy erratum. The local browser supports BLS
-group filtering. Manual and agent ingestion are still open. Sources store the
+group filtering. Agents can register branded foods through the catalog API;
+manual entry is still open. Sources store the
 EU nutrition-label fields and foods can have named portions, ready for label
 photos; a narrower ingredient view can be decided later.
 

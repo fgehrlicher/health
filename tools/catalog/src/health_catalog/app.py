@@ -6,12 +6,19 @@ from pathlib import Path
 from typing import Annotated
 
 import psycopg
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Response
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from psycopg.rows import dict_row
 
-from health_catalog.models import CatalogFacets, FoodDetail, FoodPage
+from health_catalog.models import CatalogFacets, FoodDetail, FoodInput, FoodPage, FoodRegistration
+from health_catalog.registration import (
+    BarcodeConflict,
+    RegistrationError,
+    barcode_problem,
+    check_food,
+    register_food,
+)
 from health_catalog.repository import FoodFilters, Sort, get_facets, get_food, list_foods
 
 STATIC_DIR = Path(__file__).parent / "static"
@@ -72,6 +79,51 @@ def foods(
 def facets():
     with psycopg.connect(database_url(), row_factory=dict_row) as connection:
         return get_facets(connection)
+
+
+@app.get("/api/foods/barcode/{barcode}", response_model=FoodDetail)
+def food_by_barcode(barcode: str):
+    """Exact lookup of a scanned or photographed EAN/UPC barcode."""
+    if problem := barcode_problem(barcode):
+        raise HTTPException(status_code=422, detail=f"barcode {problem}")
+    with psycopg.connect(database_url(), row_factory=dict_row) as connection:
+        row = connection.execute("SELECT slug FROM foods WHERE barcode = %s", (barcode,)).fetchone()
+        food = get_food(connection, row["slug"]) if row else None
+    if food is None:
+        raise HTTPException(status_code=404, detail="No food with this barcode")
+    return food
+
+
+@app.post(
+    "/api/foods",
+    response_model=FoodRegistration,
+    status_code=201,
+    responses={
+        409: {"description": "Barcode already registered; `slug` names the food"},
+        422: {"description": "Invalid or self-contradicting values; nothing written"},
+    },
+)
+def create_food(food: FoodInput, response: Response, dry_run: bool = False):
+    """Register a branded food with its label nutrition and portions.
+
+    Validates the barcode check digit, "davon" rows, kJ against kcal, and kcal
+    against the macros. Use `dry_run=true` first; warnings do not block writing.
+    """
+    errors, _warnings = check_food(food)
+    if errors:
+        return JSONResponse(status_code=422, content={"detail": errors})
+    try:
+        with psycopg.connect(database_url(), row_factory=dict_row) as connection:
+            result = register_food(connection, food, dry_run)
+    except RegistrationError as error:
+        return JSONResponse(status_code=422, content={"detail": error.issues})
+    except BarcodeConflict as conflict:
+        return JSONResponse(
+            status_code=409, content={"detail": str(conflict), "slug": conflict.slug}
+        )
+    if dry_run:
+        response.status_code = 200
+    return result
 
 
 @app.get("/api/foods/{slug}", response_model=FoodDetail)
