@@ -1,6 +1,7 @@
 # Food catalog database
 
-The pre-deployment catalog has two tables:
+The pre-deployment catalog has two tables, plus derived
+[search views](#search-views):
 
 | Table | What it stores |
 | --- | --- |
@@ -54,6 +55,23 @@ make db-reset
 make db-fixture
 make db-verify
 ```
+
+## Search views
+
+`food_search_terms` and `food_search_vocabulary` are materialized views that
+split food names, aliases, source names, codes, brands, and barcodes into
+searchable words. They are derived data, not a third source of truth. Anything
+that inserts or renames foods or sources must refresh them in the same
+transaction, as the BLS importer and development fixture do:
+
+```sql
+REFRESH MATERIALIZED VIEW food_search_terms;
+REFRESH MATERIALIZED VIEW food_search_vocabulary;
+```
+
+The schema enables the `pg_trgm` extension for typo matching. For a database
+created before these views existed, reset it or apply the search section of
+`db/schema.sql`.
 
 At the first deployment, freeze `db/schema.sql`. Add ordered migrations only
 for changes after that point.

@@ -51,4 +51,7 @@ WHERE NOT EXISTS (
         AND existing.external_id = sample.external_id
 );
 
+REFRESH MATERIALIZED VIEW food_search_terms;
+REFRESH MATERIALIZED VIEW food_search_vocabulary;
+
 COMMIT;

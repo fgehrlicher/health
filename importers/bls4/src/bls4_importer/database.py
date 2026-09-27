@@ -100,4 +100,12 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
                 ),
             )
             created += 1
+        if created or updated:
+            refresh_search(connection)
     return created, updated, skipped
+
+
+def refresh_search(connection: psycopg.Connection) -> None:
+    """Rebuild the catalog search views from the committed food names."""
+    connection.execute("REFRESH MATERIALIZED VIEW food_search_terms")
+    connection.execute("REFRESH MATERIALIZED VIEW food_search_vocabulary")
