@@ -9,7 +9,7 @@ CREATE TABLE foods (
     name text NOT NULL,
     aliases text[] NOT NULL DEFAULT '{}',
 
-    -- Keep nutritionally distinct forms separate; product fields are for later use.
+    -- One food catalog for ingredients and, later, branded products.
     kind text NOT NULL DEFAULT 'ingredient',
     preparation_state text,
     brand text,
@@ -41,16 +41,6 @@ CREATE TABLE food_sources (
     carbs_g numeric,
     fiber_g numeric,
 
-    -- Additional selected micronutrients.
-    vitamin_b12_ug numeric,
-    vitamin_c_mg numeric,
-    beta_carotene_ug numeric,
-
-    -- How this record was captured and where it came from.
-    capture_method text,
-    source_url text,
-
-    -- Original evidence, including BLS markers and methods behind the numbers.
-    raw_input text,
-    raw_data jsonb
+    -- Optional link to the source record; import details live in the pipeline.
+    source_url text
 );

@@ -115,82 +115,37 @@ async fn verify(pool: &PgPool) -> Result<()> {
         sqlx::query_scalar("SELECT count(*) FROM food_sources WHERE source_name = 'BLS 4.0'")
             .fetch_one(pool)
             .await?;
-    let raw_nutrient_count: i64 = sqlx::query_scalar(
-        "SELECT count(*) \
-         FROM food_sources AS source \
-         CROSS JOIN LATERAL jsonb_each(source.raw_data->'nutrients') AS nutrient \
-         WHERE source.source_name = 'BLS 4.0'",
-    )
-    .fetch_one(pool)
-    .await?;
-    let logical_zero_count: i64 = sqlx::query_scalar(
-        "SELECT count(*) FROM food_sources \
-         WHERE source_name = 'BLS 4.0' AND vitamin_b12_ug = 0 \
-         AND raw_data #>> '{nutrients,VITB12,provenance}' = 'logical_zero'",
-    )
-    .fetch_one(pool)
-    .await?;
-    let missing_count: i64 = sqlx::query_scalar(
-        "SELECT count(*) FROM food_sources \
-         WHERE source_name = 'BLS 4.0' AND beta_carotene_ug IS NULL \
-         AND raw_data #>> '{nutrients,CARTB,state}' = 'missing'",
-    )
-    .fetch_one(pool)
-    .await?;
-    let below_limit_count: i64 = sqlx::query_scalar(
-        "SELECT count(*) FROM food_sources \
-         WHERE source_name = 'BLS 4.0' AND vitamin_c_mg IS NULL \
-         AND raw_data #>> '{nutrients,VITC,state}' = \
-             'below_detection_or_quantification_limit'",
-    )
-    .fetch_one(pool)
-    .await?;
     let representative_count: i64 = sqlx::query_scalar(
         "SELECT count(*) FROM food_sources AS source \
          JOIN foods AS food ON food.id = source.food_id \
          WHERE source.source_name = 'BLS 4.0' \
+         AND source.reference_quantity = 100 AND source.reference_unit = 'g' \
          AND (
              (food.slug = 'apple-raw' AND source.external_id = 'F110100'
-                 AND source.energy_kcal = 58 AND source.protein_g = 0.424)
+                 AND source.energy_kcal = 58 AND source.protein_g = 0.424
+                 AND source.fat_g = 0.5 AND source.carbs_g = 11.7
+                 AND source.fiber_g = 2.275)
              OR (food.slug = 'white-rice-raw' AND source.external_id = 'C352000'
-                 AND source.carbs_g = 77.1)
+                 AND source.energy_kcal = 351 AND source.protein_g = 7.931
+                 AND source.fat_g = 0.62 AND source.carbs_g = 77.1
+                 AND source.fiber_g = 2.5)
              OR (food.slug = 'lentil-mature-dry' AND source.external_id = 'H725100'
+                 AND source.energy_kcal = 323 AND source.protein_g = 23.357
+                 AND source.fat_g = 1.7 AND source.carbs_g = 44.8
                  AND source.fiber_g = 17.6)
          )",
     )
     .fetch_one(pool)
     .await?;
-    let source_provenance_count: i64 = sqlx::query_scalar(
-        "SELECT count(*) \
-         FROM food_sources AS source \
-         CROSS JOIN LATERAL jsonb_each(source.raw_data->'nutrients') AS nutrient \
-         WHERE source.source_name = 'BLS 4.0' \
-         AND nutrient.value->>'provenance' IS NOT NULL",
-    )
-    .fetch_one(pool)
-    .await?;
 
-    if food_count < 3 || source_count < 3 || raw_nutrient_count < 22 || representative_count != 3 {
+    if food_count < 3 || source_count < 3 || representative_count != 3 {
         bail!(
             "fixture is incomplete: foods={food_count}, sources={source_count}, \
-             raw_nutrients={raw_nutrient_count}, representative={representative_count}"
+             representative={representative_count}"
         );
     }
-    if missing_count < 1 || below_limit_count < 1 {
-        bail!("fixture does not demonstrate missing and below-limit values");
-    }
-    if logical_zero_count < 1 {
-        bail!("fixture does not demonstrate a logical zero");
-    }
-    if source_provenance_count < raw_nutrient_count {
-        bail!("fixture does not preserve source provenance for every nutrient observation");
-    }
 
-    println!(
-        "schema verified: foods={food_count} sources={source_count} \
-         raw_nutrients={raw_nutrient_count} missing={missing_count} \
-         below_limit={below_limit_count} logical_zero={logical_zero_count}"
-    );
+    println!("schema verified: foods={food_count} sources={source_count} energy_and_macros=ok");
     Ok(())
 }
 
