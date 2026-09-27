@@ -9,8 +9,8 @@ CREATE TABLE foods (
     name text NOT NULL,
     aliases text[] NOT NULL DEFAULT '{}',
 
-    -- One food catalog for ingredients and, later, branded products.
-    kind text NOT NULL DEFAULT 'ingredient',
+    -- Generic foods from BLS and, later, branded products from your labels.
+    kind text NOT NULL DEFAULT 'generic',
     preparation_state text,
     brand text,
     barcode text,
@@ -29,6 +29,8 @@ CREATE TABLE food_sources (
     source_name text NOT NULL,
     external_id text,
     food_name text NOT NULL,
+    -- Source-specific grouping, e.g. the first letter of a BLS code.
+    group_code text,
 
     -- Basis for every nutrition amount below, usually 100 g for BLS.
     reference_quantity numeric NOT NULL,
@@ -41,3 +43,5 @@ CREATE TABLE food_sources (
     carbs_g numeric,
     fiber_g numeric
 );
+
+CREATE INDEX food_sources_food_id_idx ON food_sources (food_id);

@@ -44,13 +44,14 @@ and provenance.
   reproduction; V1 stores only selected numeric energy and macro values.
 - Raw, dried, and cooked forms remain distinct foods.
 - The importer must be version-aware and idempotent.
-- The initial seed is a curated ingredient subset, not all 7,140 rows.
+- The original 11-code sample is retained for testing; the local catalog now
+  imports all 7,140 generic BLS 4.0 foods, including prepared dishes.
 - The BLS 4.0 importer recomputes affected kcal from the erratum's corrected
   formula when `OLSAC` is positive; see the [import guide](../../bls4-import.md).
 
 ## Decisions still open
 
-- the exact ingredient inclusion rules within the relevant BLS groups
+- whether a narrower ingredient-only view is useful alongside the full catalog
 - the canonical machine input accepted by future manual/agent entry tooling
 
 ## Primary sources

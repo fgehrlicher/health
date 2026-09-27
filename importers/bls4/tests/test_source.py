@@ -78,7 +78,16 @@ def test_energy_erratum_recomputes_before_rounding():
         0.271,
         0.019,
     )
-    food, corrected = parse_food(salsify, columns, "G650132", [])
+    food, corrected, missing = parse_food(salsify, columns, "G650132", [])
     assert corrected and food.energy == Decimal(46)
-    food, corrected = parse_food(candy, columns, "S361000", [])
+    assert missing == []
+    food, corrected, missing = parse_food(candy, columns, "S361000", [])
     assert corrected and food.energy == Decimal(308)
+    assert missing == []
+
+    unknown_polyols = list(salsify)
+    unknown_polyols[-1] = "-"
+    food, corrected, missing = parse_food(tuple(unknown_polyols), columns, "G650132", [])
+    assert food.energy is None
+    assert not corrected
+    assert missing == ["POLYL"]

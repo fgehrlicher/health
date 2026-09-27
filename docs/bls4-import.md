@@ -1,72 +1,53 @@
-# BLS 4.0 ingredient importer
+# BLS 4.0 importer
 
-The dedicated Python/uv importer in [`importers/bls4/`](../importers/bls4/)
-reads the exact official BLS 4.0 workbook inspected in the
-[source lock](spikes/01-ingredient-data-source/source-lock.md). It imports only
-codes listed in a text file. The [starter list](../importers/bls4/selected.codes)
-contains 11 reviewed foods across fruit, vegetables, rice, legumes, nuts, and
-seeds, including raw and boiled variants. It is a working sample, not the full
-ingredient catalog.
+The dedicated importer in [`importers/bls4/`](../importers/bls4/) reads the
+checksum-pinned official BLS 4.0 workbook. By default it imports all 7,140
+generic foods, including prepared dishes. It does not import branded labels;
+those will come from your own scans. The earlier 11-code sample remains in
+[`selected.codes`](../importers/bls4/selected.codes) for small test runs.
 
-## Get the source file
+## Source file
 
-Download `BLS_4_0_2025_DE.zip` from the
-[official BLS page](https://blsdb.de/download), save it under `data/bls4/`,
-and extract it there. `data/` is ignored by Git, so keep your copy of the
-official package if you want to rebuild without downloading it again.
-
-The expected SHA-256 of `BLS_4_0_Daten_2025_DE.xlsx` is
+Download `BLS_4_0_2025_DE.zip` from the [official BLS download](https://blsdb.de/download)
+and extract it under `data/bls4/`. The expected workbook is
+`data/bls4/BLS_4_0_2025_DE/BLS_4_0_Daten_2025_DE.xlsx`, SHA-256
 `524bbefe25b691f5cb3de7a9f3e27fa2967aebfeabf217d99414ba7806e78c60`.
-The CLI refuses other workbook bytes instead of silently accepting another
-release or edited data.
+`data/` is ignored by Git. The importer refuses changed workbook bytes.
 
-## Validate and import
-
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/). From the
-repository root, run:
+## Commands
 
 ```sh
 uv run --locked bls4-import --dry-run
 make db-up
 uv run --locked bls4-import
+uv run --locked bls4-import --codes importers/bls4/selected.codes --dry-run
 ```
 
-The local workbook and code-list paths are defaults; `--workbook` and `--codes`
-can override them. Set `DATABASE_URL` to target a different PostgreSQL database.
-The dry run needs no database. Success prints a JSON report with attribution, the workbook
-and code-list checksums, timestamp, counts, nonnumeric source markers, and
-number of energy values corrected. Save that output if you need a durable
-import record. An
-invalid workbook, selected code, required value, or database conflict fails
-without a partial write.
+`--workbook` overrides the source path; `DATABASE_URL` selects a different
+PostgreSQL database. A dry run validates without connecting to PostgreSQL.
+The JSON report includes selected/created/updated/skipped counts, checksum,
+corrected-energy count, rows with unavailable energy, and aggregate counts of
+nonnumeric markers. Database writes are transactional and reruns are idempotent.
 
-Each selected BLS code becomes one ingredient food and one `BLS 4.0` source.
-The English BLS name is the initial display name; the German name is an alias.
-New foods get a stable `bls4-<code>` slug. Existing BLS sources, including the
-three development-fixture foods, are reused. Reruns update changed source
-values but leave manually edited food names and aliases alone. Preparation
-variants remain separate because their BLS codes differ.
+Each BLS code maps to one `generic` food and one `BLS 4.0` nutrition source.
+English names are displayed initially; German names are aliases. BLS codes
+stay searchable, their group prefix is stored in `food_sources.group_code`,
+and preparation variants stay separate. Existing catalog
+names and aliases are not overwritten by reruns.
 
-## Value handling
+## Values and limits
 
-Values are per 100 g edible food. The importer maps `ENERCC`, `PROT625`,
-`FAT`, `CHO`, and `FIBT` to the fixed database columns. Known nonnumeric
-markers such as `TR`, `<LOD`, `<LOQ`, and `-` become SQL `NULL`, never zero.
-The report names each marker; unknown markers and impossible amounts fail
-validation before writing.
+Nutrition is per 100 g. `ENERCC`, `PROT625`, `FAT`, `CHO`, and `FIBT` map to
+kcal, protein, fat, carbs, and fiber. Source markers such as `TR`, `<LOD`,
+`<LOQ`, and `-` become `NULL`, never zero.
 
-The [August 2026 BLS erratum](https://www.blsdb.de/bls) says 4.0's published
-energy double-counts available oligosaccharides. When `OLSAC` is positive,
-the importer recalculates whole-number kcal from the erratum's corrected
-formula, using protein, fat, available carbohydrate, fiber, alcohol, organic
-acids, and polyols. If any required input is nonnumeric, the selected food is
-rejected. When `OLSAC` itself is nonnumeric, the published energy is retained
-and its marker appears in the report; it is not treated as a known zero.
+The [BLS 4.0 erratum](https://www.blsdb.de/bls) identifies double-counted
+oligosaccharides in published energy. The importer recalculates kcal for the
+387 rows where all required inputs are present. For 24 further affected rows,
+one or more inputs are missing: those foods are imported, but kcal is `NULL`
+instead of using the suspect published number. When `OLSAC` itself is
+nonnumeric, the published energy is retained; its marker appears in the report.
+Other published errata were not applied to these five V1 nutrients.
 
-Only the starter list and BLS 4.0's relevant energy erratum have been reviewed
-for this import. Expand the code list deliberately: group prefixes include
-processed products, and other published errata may affect future selections.
-
-Each future data source should have its own importer rather than adding a mode
-to this one. Make and test importer code changes between runs; an agent should
-not modify an import process that is already writing to PostgreSQL.
+Each future source should have its own importer. Do not edit an importer while
+it is writing to PostgreSQL.

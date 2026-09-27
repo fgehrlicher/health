@@ -6,6 +6,7 @@ import json
 import os
 import sys
 import time
+from collections import Counter
 from pathlib import Path
 
 import psycopg
@@ -13,10 +14,8 @@ import psycopg
 from bls4_importer.database import write_foods
 from bls4_importer.source import SOURCE_NAME, WORKBOOK_SHA256, parse_codes, read_workbook
 
-PROJECT_DIR = Path(__file__).resolve().parents[2]
 REPOSITORY_DIR = Path(__file__).resolve().parents[4]
 DEFAULT_WORKBOOK = REPOSITORY_DIR / "data/bls4/BLS_4_0_2025_DE/BLS_4_0_Daten_2025_DE.xlsx"
-DEFAULT_CODES = PROJECT_DIR / "selected.codes"
 DEFAULT_DATABASE_URL = "postgres://health:health@127.0.0.1:5432/health"
 
 
@@ -29,9 +28,11 @@ def sha256_file(path: Path) -> str:
 
 
 def run(argv: list[str] | None = None) -> dict:
-    parser = argparse.ArgumentParser(description="Import selected BLS 4.0 ingredients")
+    parser = argparse.ArgumentParser(description="Import the pinned BLS 4.0 workbook")
     parser.add_argument("--workbook", type=Path, default=DEFAULT_WORKBOOK)
-    parser.add_argument("--codes", type=Path, default=DEFAULT_CODES)
+    parser.add_argument(
+        "--codes", type=Path, help="optional subset of BLS codes; default is all foods"
+    )
     parser.add_argument(
         "--dry-run", action="store_true", help="validate without connecting to PostgreSQL"
     )
@@ -42,9 +43,10 @@ def run(argv: list[str] | None = None) -> dict:
         raise ValueError(
             f"unexpected BLS workbook checksum: {workbook_hash}; expected {WORKBOOK_SHA256}"
         )
-    code_bytes = options.codes.read_bytes()
-    codes = parse_codes(code_bytes.decode("utf-8"))
-    foods, issues, corrected = read_workbook(options.workbook, codes)
+    code_bytes = options.codes.read_bytes() if options.codes else None
+    codes = parse_codes(code_bytes.decode("utf-8")) if code_bytes else None
+    foods, issues, corrected, energy_unavailable = read_workbook(options.workbook, codes)
+    markers = Counter((issue["field"], issue["marker"]) for issue in issues)
     counts = (
         (0, 0, 0)
         if options.dry_run
@@ -57,7 +59,8 @@ def run(argv: list[str] | None = None) -> dict:
         "license": "CC BY 4.0",
         "download_url": "https://blsdb.de/download",
         "workbook_sha256": workbook_hash,
-        "codes_sha256": hashlib.sha256(code_bytes).hexdigest(),
+        "selection": "codes" if code_bytes else "all",
+        "codes_sha256": hashlib.sha256(code_bytes).hexdigest() if code_bytes else None,
         "run_unix_seconds": int(time.time()),
         "dry_run": options.dry_run,
         "selected": len(foods),
@@ -65,7 +68,11 @@ def run(argv: list[str] | None = None) -> dict:
         "updated": counts[1],
         "skipped": counts[2],
         "energy_corrected": corrected,
-        "nonnumeric_values": issues,
+        "energy_unavailable": energy_unavailable,
+        "nonnumeric_values": [
+            {"field": field, "marker": marker, "count": count}
+            for (field, marker), count in sorted(markers.items())
+        ],
     }
 
 

@@ -1,6 +1,6 @@
 # Epic 03 — Initial ingredient catalog
 
-**Status:** Ready to expand the reviewed BLS code list
+**Status:** Full BLS 4.0 import complete; narrower ingredient selection open
 
 ## Outcome
 
@@ -10,8 +10,7 @@ with energy and macro values for food tracking.
 ## Scope
 
 - pin the selected upstream dataset version and record its checksum
-- define repeatable inclusion rules for unbranded, unprocessed, or lightly
-  processed foods
+- optionally define a narrower ingredient-only view of the full BLS catalog
 - keep preparation states such as raw, dried, boiled, and cooked distinct
 - import vegetables, fruit, grains, legumes, nuts, seeds, and other agreed
   ingredient groups
@@ -23,7 +22,8 @@ with energy and macro values for food tracking.
 ## Acceptance criteria
 
 - The catalog contains representative foods from every agreed initial group.
-- Branded products and composite meals are excluded by documented rules.
+- Branded products are not imported from BLS. Generic composite dishes are
+  present in the full source and can be filtered by BLS group.
 - Rebuilding from an empty database produces the same logical catalog.
 - Re-running the pinned import is idempotent.
 - Sampled energy and macro values can be traced back to the exact upstream record.

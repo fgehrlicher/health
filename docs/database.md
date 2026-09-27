@@ -23,6 +23,9 @@ import.
 license are documented in the source research, not repeated in database rows.
 There is no release history or migration history while this database has not
 been deployed.
+`food_sources.group_code` is an optional source-specific category. The BLS
+importer fills it from the BLS code prefix; future manual or label sources
+can leave it empty or use their own classification.
 
 ## Local setup
 

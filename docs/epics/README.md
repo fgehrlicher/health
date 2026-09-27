@@ -16,11 +16,12 @@ In progress:
 
 Next:
 
-4. [Initial ingredient catalog](03-initial-ingredient-catalog.md)
+4. [Initial ingredient catalog](03-initial-ingredient-catalog.md) (BLS import complete; selection review open)
 
-The BLS 4.0 importer now handles a reviewed code list, including the known
-energy erratum. Manual and agent ingestion are still open. V1 stores energy
-and macros; expanding the ingredient catalog requires its own inclusion review.
+The BLS 4.0 importer now loads the full dataset, including generic prepared
+dishes, and handles the known energy erratum. The local browser supports BLS
+group filtering. Manual and agent ingestion are still open. V1 stores energy
+and macros; a narrower ingredient view can be decided later.
 
 ## Milestone complete when
 

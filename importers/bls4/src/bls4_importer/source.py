@@ -8,6 +8,7 @@ from openpyxl import load_workbook
 
 WORKBOOK_SHA256 = "524bbefe25b691f5cb3de7a9f3e27fa2967aebfeabf217d99414ba7806e78c60"
 SOURCE_NAME = "BLS 4.0"
+BLS_GROUP_CODES = frozenset("BCDEFGHKMNPQRSTUVWXY")
 FIELDS = {
     "energy": ("ENERCC ", "[kcal/100g]"),
     "protein": ("PROT625 ", "[g/100g]"),
@@ -27,7 +28,7 @@ class Food:
     code: str
     german_name: str
     english_name: str
-    energy: Decimal
+    energy: Decimal | None
     protein: Decimal | None
     fat: Decimal | None
     carbs: Decimal | None
@@ -97,7 +98,7 @@ def parse_amount(value: object, code: str, field: str, issues: list[dict]) -> De
 
 def parse_food(
     row: tuple, columns: dict[str, int], code: str, issues: list[dict]
-) -> tuple[Food, bool]:
+) -> tuple[Food, bool, list[str]]:
     def amount(field: str) -> Decimal | None:
         return parse_amount(row[columns[field]], code, FIELDS[field][0].strip(), issues)
 
@@ -118,32 +119,49 @@ def parse_food(
     if energy > 1000:
         raise ValueError("energy exceeds 1000 kcal per 100 g")
 
-    corrected = oligosaccharides is not None and oligosaccharides > 0
-    if corrected:
+    affected = oligosaccharides is not None and oligosaccharides > 0
+    missing_energy_inputs = []
+    if affected:
         alcohol, organic_acids, polyols = (
             amount(field) for field in ("alcohol", "organic_acids", "polyols")
         )
-        components = (protein, fat, carbs, fiber, alcohol, organic_acids, polyols)
-        if any(value is None for value in components):
-            raise ValueError("nonnumeric component needed for corrected energy")
-        if any(value > 100 for value in (alcohol, organic_acids, polyols)):
+        components = dict(
+            zip(
+                ("PROT625", "FAT", "CHO", "FIBT", "ALC", "OA", "POLYL"),
+                (protein, fat, carbs, fiber, alcohol, organic_acids, polyols),
+                strict=True,
+            )
+        )
+        missing_energy_inputs = [name for name, value in components.items() if value is None]
+        if any(value is not None and value > 100 for value in (alcohol, organic_acids, polyols)):
             raise ValueError("corrected-energy component exceeds 100 g per 100 g")
-        # BLS 4.0 erratum: OLSAC was counted twice. Recalculate before rounding.
-        energy = (
-            protein * 4
-            + fat * 9
-            + (carbs - polyols) * 4
-            + fiber * 2
-            + alcohol * 7
-            + organic_acids * 3
-            + polyols * Decimal("2.4")
-        ).quantize(Decimal(1), rounding=ROUND_HALF_UP)
-        if energy < 0 or energy > 1000:
-            raise ValueError("corrected energy is outside 0–1000 kcal per 100 g")
-    return Food(code, german_name, english_name, energy, protein, fat, carbs, fiber), corrected
+        if missing_energy_inputs:
+            # Published kcal is affected by the erratum, but correction inputs
+            # are missing. Keep the food and its usable macros, not suspect kcal.
+            energy = None
+        else:
+            # BLS 4.0 erratum: OLSAC was counted twice. Recalculate before rounding.
+            energy = (
+                protein * 4
+                + fat * 9
+                + (carbs - polyols) * 4
+                + fiber * 2
+                + alcohol * 7
+                + organic_acids * 3
+                + polyols * Decimal("2.4")
+            ).quantize(Decimal(1), rounding=ROUND_HALF_UP)
+            if energy < 0 or energy > 1000:
+                raise ValueError("corrected energy is outside 0–1000 kcal per 100 g")
+    return (
+        Food(code, german_name, english_name, energy, protein, fat, carbs, fiber),
+        affected and not missing_energy_inputs,
+        missing_energy_inputs,
+    )
 
 
-def read_workbook(path: Path, selected: set[str]) -> tuple[list[Food], list[dict], int]:
+def read_workbook(
+    path: Path, selected: set[str] | None = None
+) -> tuple[list[Food], list[dict], int, list[dict]]:
     workbook = load_workbook(path, read_only=True, data_only=True)
     try:
         rows = workbook.worksheets[0].iter_rows(values_only=True)
@@ -151,21 +169,33 @@ def read_workbook(path: Path, selected: set[str]) -> tuple[list[Food], list[dict
         found: dict[str, Food] = {}
         issues: list[dict] = []
         corrected = 0
+        energy_unavailable: list[dict] = []
         for line_number, row in enumerate(rows, 2):
             code = row[columns["code"]]
-            if code not in selected:
+            if selected is not None and code not in selected:
                 continue
+            if (
+                not isinstance(code, str)
+                or len(code) != 7
+                or not code.isascii()
+                or not code.isalnum()
+                or code != code.upper()
+                or code[0] not in BLS_GROUP_CODES
+            ):
+                raise ValueError(f"invalid BLS code {code!r} at worksheet row {line_number}")
             if code in found:
                 raise ValueError(f"duplicate selected BLS code {code} in worksheet")
             try:
-                food, was_corrected = parse_food(row, columns, code, issues)
+                food, was_corrected, missing_inputs = parse_food(row, columns, code, issues)
             except ValueError as error:
                 raise ValueError(f"BLS row {line_number} ({code}): {error}") from error
             found[code] = food
             corrected += was_corrected
-        missing = sorted(selected - found.keys())
+            if missing_inputs:
+                energy_unavailable.append({"code": code, "missing_inputs": missing_inputs})
+        missing = sorted(selected - found.keys()) if selected is not None else []
         if missing:
             raise ValueError(f"selected BLS codes not found in workbook: {missing}")
-        return [found[code] for code in sorted(found)], issues, corrected
+        return [found[code] for code in sorted(found)], issues, corrected, energy_unavailable
     finally:
         workbook.close()
