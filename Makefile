@@ -3,7 +3,7 @@
 DATABASE_URL ?= postgres://health:health@127.0.0.1:5432/health
 export DATABASE_URL
 
-.PHONY: db-up db-down db-reset db-bootstrap db-status db-fixture db-verify check
+.PHONY: db-up db-down db-reset db-status db-fixture db-verify check
 
 db-up:
 	docker compose up --detach --wait postgres
@@ -15,19 +15,16 @@ db-reset:
 	docker compose down --volumes
 	$(MAKE) db-up
 
-db-bootstrap:
-	cargo run --quiet --bin health-db -- bootstrap
-
 db-status:
-	cargo run --quiet --bin health-db -- status
+	docker compose exec -T postgres psql --username=health --dbname=health --command="SELECT to_regclass('public.foods') AS foods, to_regclass('public.food_sources') AS food_sources"
 
 db-fixture:
-	cargo run --quiet --bin health-db -- load-fixture
+	docker compose exec -T postgres psql --username=health --dbname=health --set=ON_ERROR_STOP=1 < db/fixtures/development.sql
 
 db-verify:
-	cargo run --quiet --bin health-db -- verify
+	docker compose exec -T postgres psql --username=health --dbname=health --set=ON_ERROR_STOP=1 < db/fixtures/verify.sql
 
 check:
-	cargo fmt --check
-	cargo clippy --all-targets --all-features -- -D warnings
-	cargo test --all-targets --all-features
+	uv run --project importers/bls4 --locked ruff check importers/bls4
+	uv run --project importers/bls4 --locked ruff format --check importers/bls4
+	uv run --project importers/bls4 --locked pytest importers/bls4/tests
