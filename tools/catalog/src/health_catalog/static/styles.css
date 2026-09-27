@@ -63,6 +63,12 @@ dialog::backdrop { background: #101b16a8; }
 .nutrient-protein_g .bar-fill { background: #9e86b9; }
 .nutrient-salt_g .bar-fill, .nutrient-alcohol_g .bar-fill { background: #a9b1ab; }
 .detail-source .ingredients { margin-top: 12px; color: #2f3a33; font-size: 13px; line-height: 1.45; }
+.more-nutrients { margin-top: 14px; font-size: 13px; }
+.more-nutrients summary { cursor: pointer; font-weight: 600; }
+.more-nutrients table { width: 100%; margin-top: 6px; border-collapse: collapse; }
+.more-nutrients th { padding: 10px 0 3px; color: #66716a; font-size: 12px; font-weight: 600; text-align: left; }
+.more-nutrients td { padding: 3px 0; border-bottom: 1px solid #eef2ee; }
+.more-nutrients td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
 .detail-portions { margin-top: 18px; font-size: 13px; }
 .detail-portions ul { margin: 6px 0 0; padding-left: 18px; }
 @media (max-width: 850px) { .app { padding: 20px 15px 40px; } .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } .results-header { align-items: start; flex-direction: column; gap: 3px; } }

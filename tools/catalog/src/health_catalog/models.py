@@ -34,6 +34,21 @@ class NutritionSource(BaseModel):
     ingredients_text: str | None
 
 
+class SourceNutrient(BaseModel):
+    key: str
+    name: str
+    category: str
+    amount: str
+    unit: str
+    # A declared maximum, e.g. a label's "<0,1 µg".
+    upper_bound: bool
+
+
+class SourceDetail(NutritionSource):
+    # Vitamins, minerals, and more beyond the label columns; unknown ones are absent.
+    nutrients: list[SourceNutrient]
+
+
 class Portion(BaseModel):
     name: str
     kind: str
@@ -58,7 +73,7 @@ class FoodSummary(FoodBase):
 
 
 class FoodDetail(FoodBase):
-    sources: list[NutritionSource]
+    sources: list[SourceDetail]
     portions: list[Portion]
 
 

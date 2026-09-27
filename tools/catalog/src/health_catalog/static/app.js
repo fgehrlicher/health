@@ -197,7 +197,20 @@ function sourceMarkup(source) {
     <p class="protein-density">${number(source.protein_per_100_kcal)} g protein / 100 kcal</p>
     ${nutrition.map(row).join('')}
     ${gramsBasis ? '<p>Bars show grams in 100 g of food.</p>' : ''}
+    ${otherNutrientsMarkup(source.nutrients || [])}
     ${source.ingredients_text ? `<p class="ingredients"><strong>Ingredients:</strong> ${escapeHtml(source.ingredients_text)}</p>` : ''}</section>`;
+}
+
+const nutrientCategories = { vitamin: 'Vitamins', mineral: 'Minerals', fat: 'Fats', other: 'Other' };
+
+function otherNutrientsMarkup(nutrients) {
+  if (!nutrients.length) return '';
+  const groups = Object.entries(nutrientCategories).map(([category, title]) => {
+    const rows = nutrients.filter((nutrient) => nutrient.category === category).map((nutrient) =>
+      `<tr><td>${escapeHtml(nutrient.name)}</td><td>${nutrient.upper_bound ? '< ' : ''}${number(nutrient.amount, 3)} ${escapeHtml(nutrient.unit)}</td></tr>`);
+    return rows.length ? `<tr><th colspan="2">${title}</th></tr>${rows.join('')}` : '';
+  });
+  return `<details class="more-nutrients"><summary>Vitamins, minerals, and more</summary><table>${groups.join('')}</table></details>`;
 }
 
 function portionsMarkup(portions) {

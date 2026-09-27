@@ -4,8 +4,9 @@ The read-only browser is a sortable table of foods with energy, four macros,
 and protein per 100 kcal. This last value is calculated as
 `protein_g × 100 / energy_kcal`, not stored in the database. It is unknown
 when protein or energy is missing or energy is zero. Food details add the
-full label-style breakdown (kJ, saturated fat, sugars, salt, and more) and any
-portions.
+full label-style breakdown (kJ, saturated fat, sugars, salt, and more),
+vitamins, minerals, and further nutrients, and any portions. The Preparation
+filter uses the state derived from BLS names.
 Search finds names, aliases, German BLS names, and BLS codes (see
 [Search](#search)). Filters include BLS group, source, food type, preparation,
 protein, fiber, and energy. Click a row
@@ -67,7 +68,8 @@ in step.
   `sort` (default `relevance`; alphabetical without `q`), `limit`, `offset`.
 - `GET /api/foods/facets`: counts and available filter values, including BLS
   group names and counts.
-- `GET /api/foods/{slug}`: food details with all nutrition sources and portions.
+- `GET /api/foods/{slug}`: food details with all nutrition sources, each with
+  its further `nutrients` (key, name, category, amount, unit), and portions.
 - `GET /api/foods/barcode/{barcode}`: exact barcode lookup; `404` if unknown,
   `422` for an invalid barcode.
 - `POST /api/foods`: register a branded food (see below); `?dry_run=true`

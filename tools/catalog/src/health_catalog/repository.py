@@ -337,6 +337,19 @@ def get_food(connection: Connection, slug: str) -> dict | None:
            ORDER BY (source_name = 'BLS 4.0') DESC, id ASC""",
         (row["id"],),
     ).fetchall()
+    nutrients: dict[int, list] = {}
+    for nutrient in connection.execute(
+        """SELECT v.source_id, n.key, n.name, n.category, v.amount, n.unit, v.upper_bound
+           FROM food_source_nutrients v
+           JOIN nutrients n ON n.key = v.nutrient_key
+           JOIN food_sources s ON s.id = v.source_id
+           WHERE s.food_id = %s
+           ORDER BY n.sort_order""",
+        (row["id"],),
+    ):
+        source_id = nutrient.pop("source_id")
+        nutrient["amount"] = decimal_text(nutrient["amount"])
+        nutrients.setdefault(source_id, []).append(nutrient)
     portions = connection.execute(
         """SELECT name, kind, quantity, unit FROM food_portions
            WHERE food_id = %s ORDER BY quantity, name""",
@@ -344,7 +357,10 @@ def get_food(connection: Connection, slug: str) -> dict | None:
     ).fetchall()
     return {
         **dict(row),
-        "sources": [source_from_row(source) for source in sources],
+        "sources": [
+            {**source_from_row(source), "nutrients": nutrients.get(source["source_id"], [])}
+            for source in sources
+        ],
         "portions": [
             {**portion, "quantity": decimal_text(portion["quantity"])} for portion in portions
         ],

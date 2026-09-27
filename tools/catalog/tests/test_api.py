@@ -157,6 +157,12 @@ def test_catalog_queries_against_postgres(monkeypatch):
     assert detail.json()["sources"][0]["energy_kj"] == "192"
     assert detail.json()["sources"][0]["sugars_g"] is not None
     assert detail.json()["portions"] == []
+    assert detail.json()["preparation_state"] == "boiled"
+    nutrients = {n["key"]: n for n in detail.json()["sources"][0]["nutrients"]}
+    assert (
+        nutrients["potassium"]["unit"] == "mg" and nutrients["potassium"]["category"] == "mineral"
+    )
+    assert nutrients["vitamin_b6"]["unit"] == "mg"
     assert request("/api/foods/not-a-food").status_code == 404
 
 
