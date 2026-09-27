@@ -3,9 +3,12 @@ import os
 from decimal import Decimal
 
 import httpx
+import psycopg
 import pytest
 from health_catalog.app import app
-from health_catalog.repository import FoodFilters, source_from_row
+from health_catalog.repository import FoodFilters, search_tokens, source_from_row
+from health_catalog.search_eval import evaluate, hit_rate, read_cases
+from psycopg.rows import dict_row
 
 
 def request(path: str) -> httpx.Response:
@@ -49,7 +52,7 @@ def test_openapi_describes_catalog_response():
 
 def test_filter_params_normalize_search_and_keep_numeric_values():
     filters = FoodFilters(q="  Lentil  ", min_protein=Decimal("10.5"))
-    assert filters.sql_params()["q"] == "lentil"
+    assert filters.sql_params()["tokens"] == ["lentil"]
     assert filters.sql_params()["min_protein"] == Decimal("10.5")
 
 
@@ -142,3 +145,42 @@ def test_catalog_queries_against_postgres(monkeypatch):
     assert detail.status_code == 200
     assert detail.json()["sources"][0]["energy_kcal"] == "46"
     assert request("/api/foods/not-a-food").status_code == 404
+
+
+def test_search_tokens_are_distinct_lowercase_words():
+    assert search_tokens(None) is None
+    assert search_tokens(" ,; ") is None
+    assert search_tokens("Chicken  breast, chicken_Breast") == ["chicken", "breast"]
+    assert search_tokens("a b c d e f g h i j") == list("abcdefgh")
+
+
+def test_search_ranks_typos_word_order_and_german_names(monkeypatch):
+    database_url = os.environ.get("TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+    monkeypatch.setenv("DATABASE_URL", database_url)
+
+    def first_codes(q: str, count: int = 1) -> list[str]:
+        response = request(f"/api/foods?q={q}&limit={count}")
+        assert response.status_code == 200
+        return [food["source"]["external_id"] for food in response.json()["items"]]
+
+    assert first_codes("brocoli") == ["G312100"]
+    assert first_codes("rice%20white") == ["C352000"]
+    assert first_codes("kichererbse%20gekocht") == ["G770432"]
+    assert first_codes("apfel") == ["F110100"]
+    assert first_codes("F110100", 5) == ["F110100"]
+
+
+def test_search_quality_on_full_bls_catalog():
+    database_url = os.environ.get("TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+    with psycopg.connect(database_url, row_factory=dict_row) as connection:
+        count = connection.execute("SELECT count(*) AS n FROM food_sources").fetchone()["n"]
+        if count < 7000:
+            pytest.skip("search evaluation needs the full BLS 4.0 import")
+        results = evaluate(connection, read_cases())
+    # Guards against ranking regressions; raise these as search improves.
+    assert hit_rate(results, 1) >= 0.55
+    assert hit_rate(results, 5) >= 0.75

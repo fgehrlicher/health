@@ -46,7 +46,7 @@ def foods(
     min_protein_density: Annotated[Decimal | None, Query(ge=0)] = None,
     min_fiber: Annotated[Decimal | None, Query(ge=0)] = None,
     max_energy: Annotated[Decimal | None, Query(ge=0)] = None,
-    sort: Sort = "name",
+    sort: Sort = "relevance",
     limit: Annotated[int, Query(ge=1, le=100)] = 50,
     offset: Annotated[int, Query(ge=0)] = 0,
 ):

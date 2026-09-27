@@ -80,9 +80,9 @@ async function loadFacets() {
 
 function sortParam(sorters) {
   const sorter = sorters?.[0];
-  if (!sorter) return 'name';
+  if (!sorter) return 'relevance';
   const field = sortFields[sorter.field];
-  if (!field) return 'name';
+  if (!field) return 'relevance';
   if (field === 'name') return sorter.dir === 'desc' ? 'name_desc' : 'name';
   return `${field}_${sorter.dir === 'desc' ? 'desc' : 'asc'}`;
 }
@@ -143,7 +143,6 @@ function initTable() {
     paginationCounter: 'rows',
     sortMode: 'remote',
     headerSortMulti: false,
-    initialSort: [{ column: 'name', dir: 'asc' }],
     layout: 'fitColumns',
     responsiveLayout: 'collapse',
     responsiveLayoutCollapseStartOpen: false,

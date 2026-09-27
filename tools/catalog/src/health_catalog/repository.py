@@ -1,5 +1,6 @@
 """Read-only queries for the food catalog."""
 
+import re
 from dataclasses import dataclass
 from decimal import Decimal
 from typing import Literal
@@ -8,6 +9,7 @@ from psycopg import Connection
 from psycopg.rows import DictRow
 
 Sort = Literal[
+    "relevance",
     "name",
     "name_desc",
     "group_asc",
@@ -30,6 +32,7 @@ Sort = Literal[
     "fiber_desc",
 ]
 SORT_SQL = {
+    "relevance": "relevance DESC, length(name) ASC, lower(name) ASC, id ASC",
     "name": "lower(name) ASC, id ASC",
     "name_desc": "lower(name) DESC, id ASC",
     "group_asc": "group_code ASC NULLS LAST, lower(name) ASC, id ASC",
@@ -75,15 +78,111 @@ BLS_GROUP_NAMES = {
     "Y": "Mostly animal dishes",
 }
 
-BASE_SQL = """
+# Ranked search over the food_search_* views. Every query token must match a
+# word of the food's names, codes, brand, or barcode: exactly, by prefix, as a
+# plural/compound part, or by trigram similarity for typos. Ranking favors
+# foods whose head phrase (words before the first comma) the query covers.
+# Unprepared BLS foods (code ending in 00; the sixth digit encodes preparation)
+# get a bonus, composite dishes (BLS groups X and Y) a penalty.
+SEARCH_SQL = """
+WITH query_tokens AS (
+    SELECT token FROM unnest(%(tokens)s::text[]) AS token
+),
+word_matches AS (
+    SELECT word, token, CASE
+        WHEN word = token THEN 1.0
+        WHEN starts_with(word, token) THEN 0.9
+        WHEN starts_with(token, word)
+            THEN CASE WHEN length(token) - length(word) <= 2 THEN 0.85 ELSE 0.6 END
+        ELSE similarity(word, token) * 0.8
+    END AS score
+    FROM (
+        SELECT v.word, q.token FROM query_tokens q
+        JOIN food_search_vocabulary v ON starts_with(v.word, q.token)
+        UNION
+        SELECT v.word, q.token FROM query_tokens q
+        CROSS JOIN LATERAL generate_series(3, length(q.token)) AS prefix_length
+        JOIN food_search_vocabulary v ON v.word = left(q.token, prefix_length)
+        UNION
+        SELECT v.word, q.token FROM query_tokens q
+        JOIN food_search_vocabulary v
+          -- Typos only for words, not codes: F130100 is not a typo of F110100.
+          ON length(q.token) >= 4 AND q.token !~ '[0-9]'
+         AND v.word %% q.token AND similarity(v.word, q.token) >= 0.4
+    ) candidates
+),
+token_scores AS (
+    SELECT t.food_id, m.token, max(m.score) AS score
+    FROM word_matches m JOIN food_search_terms t USING (word)
+    GROUP BY t.food_id, m.token
+),
+matched_foods AS (
+    SELECT food_id, avg(score) AS match_score
+    FROM token_scores
+    GROUP BY food_id
+    HAVING count(*) = (SELECT count(*) FROM query_tokens)
+),
+-- Share of each word the query covers: "butter" covers 6 of 14 letters of
+-- "butterzwieback", so a compound does not count as a full match.
+word_scores AS (
+    SELECT word, max(score * least(length(token), length(word))::numeric / length(word)) AS score
+    FROM word_matches GROUP BY word
+),
+-- Credit each head word with the best-scoring term covering it, including
+-- joined pairs: "hähnchenbrust" covers both words of "hähnchen brustfilet".
+covered_words AS (
+    SELECT t.food_id, t.title, part AS word, max(w.score) AS score
+    FROM food_search_terms t
+    JOIN matched_foods USING (food_id)
+    JOIN word_scores w USING (word)
+    CROSS JOIN LATERAL unnest(t.parts) AS part
+    GROUP BY t.food_id, t.title, part
+),
+head_coverage AS (
+    SELECT food_id, max(coverage) AS coverage
+    FROM (
+        SELECT t.food_id,
+               sum(length(t.word) * coalesce(c.score, 0)) / sum(length(t.word)) AS coverage
+        FROM food_search_terms t
+        JOIN matched_foods USING (food_id)
+        LEFT JOIN covered_words c USING (food_id, title, word)
+        WHERE t.head
+        GROUP BY t.food_id, t.title
+    ) per_title
+    GROUP BY food_id
+),
+search_matches AS (
+    SELECT
+        m.food_id,
+        0.4 * m.match_score + 0.6 * coalesce(h.coverage, 0)
+        + CASE WHEN EXISTS (
+              SELECT 1 FROM food_sources s
+              WHERE s.food_id = m.food_id AND s.source_name = 'BLS 4.0'
+                AND right(s.external_id, 2) = '00'
+          ) THEN 0.1 ELSE 0 END
+        - CASE WHEN EXISTS (
+              SELECT 1 FROM food_sources s
+              WHERE s.food_id = m.food_id AND s.group_code IN ('X', 'Y')
+          ) THEN 0.15 ELSE 0 END
+        AS relevance
+    FROM matched_foods m
+    LEFT JOIN head_coverage h USING (food_id)
+)
+"""
+
+BASE_SQL = (
+    SEARCH_SQL
+    + """
 SELECT
     f.id, f.slug, f.name, f.aliases, f.kind, f.preparation_state, f.brand, f.barcode,
     (SELECT count(*) FROM food_sources s WHERE s.food_id = f.id) AS source_count,
     chosen.id AS source_id, chosen.source_name, chosen.external_id, chosen.group_code,
     chosen.food_name, chosen.reference_quantity, chosen.reference_unit,
     chosen.energy_kcal, chosen.protein_g, chosen.fat_g, chosen.carbs_g, chosen.fiber_g,
-    chosen.protein_g * 100 / NULLIF(chosen.energy_kcal, 0) AS protein_per_100_kcal
+    chosen.protein_g * 100 / NULLIF(chosen.energy_kcal, 0) AS protein_per_100_kcal,
+    coalesce(m.relevance, 0) AS relevance
 FROM foods f
+LEFT JOIN search_matches m ON m.food_id = f.id
 LEFT JOIN LATERAL (
     SELECT s.* FROM food_sources s
     WHERE s.food_id = f.id
@@ -104,26 +203,9 @@ WHERE (%(kind)s::text IS NULL OR f.kind = %(kind)s)
        chosen.protein_g * 100 / NULLIF(chosen.energy_kcal, 0) >= %(min_protein_density)s)
   AND (%(min_fiber)s::numeric IS NULL OR chosen.fiber_g >= %(min_fiber)s)
   AND (%(max_energy)s::numeric IS NULL OR chosen.energy_kcal <= %(max_energy)s)
-  AND (
-    %(q)s::text IS NULL
-    OR strpos(lower(f.name), %(q)s) > 0
-    OR strpos(lower(coalesce(f.brand, '')), %(q)s) > 0
-    OR strpos(lower(coalesce(f.barcode, '')), %(q)s) > 0
-    OR EXISTS (
-        SELECT 1 FROM unnest(f.aliases) alias_name
-        WHERE strpos(lower(alias_name), %(q)s) > 0
-    )
-    OR EXISTS (
-        SELECT 1 FROM food_sources s
-        WHERE s.food_id = f.id
-          AND (
-            strpos(lower(s.food_name), %(q)s) > 0
-            OR strpos(lower(s.source_name), %(q)s) > 0
-            OR strpos(lower(coalesce(s.external_id, '')), %(q)s) > 0
-          )
-    )
-  )
+  AND (%(tokens)s::text[] IS NULL OR m.food_id IS NOT NULL)
 """
+)
 
 
 @dataclass(frozen=True)
@@ -137,13 +219,13 @@ class FoodFilters:
     min_protein_density: Decimal | None = None
     min_fiber: Decimal | None = None
     max_energy: Decimal | None = None
-    sort: Sort = "name"
+    sort: Sort = "relevance"
     limit: int = 24
     offset: int = 0
 
     def sql_params(self) -> dict:
         return {
-            "q": self.q.strip().lower() or None if self.q else None,
+            "tokens": search_tokens(self.q),
             "kind": self.kind,
             "group": self.group,
             "source_name": self.source_name,
@@ -155,6 +237,12 @@ class FoodFilters:
             "limit": self.limit,
             "offset": self.offset,
         }
+
+
+def search_tokens(q: str | None) -> list[str] | None:
+    """Split a query into at most eight distinct lowercase words, or None for no search."""
+    tokens = list(dict.fromkeys(re.findall(r"[^\W_]+", (q or "").lower())))[:8]
+    return tokens or None
 
 
 def decimal_text(value: Decimal | None) -> str | None:
@@ -194,11 +282,13 @@ def food_from_row(row: DictRow) -> dict:
 
 def list_foods(connection: Connection, filters: FoodFilters) -> dict:
     params = filters.sql_params()
+    # Without a query every relevance is 0; browse alphabetically instead.
+    sort = "name" if filters.sort == "relevance" and not params["tokens"] else filters.sort
     total = connection.execute(
         f"SELECT count(*) AS total FROM ({BASE_SQL}) catalog", params
     ).fetchone()["total"]
     rows = connection.execute(
-        f"SELECT * FROM ({BASE_SQL}) catalog ORDER BY {SORT_SQL[filters.sort]} "
+        f"SELECT * FROM ({BASE_SQL}) catalog ORDER BY {SORT_SQL[sort]} "
         "LIMIT %(limit)s OFFSET %(offset)s",
         params,
     ).fetchall()
