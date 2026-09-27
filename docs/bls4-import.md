@@ -8,11 +8,15 @@ those will come from your own scans. The earlier 11-code sample remains in
 
 ## Source file
 
-Download `BLS_4_0_2025_DE.zip` from the [official BLS download](https://blsdb.de/download)
-and extract it under `data/bls4/`. The expected workbook is
-`data/bls4/BLS_4_0_2025_DE/BLS_4_0_Daten_2025_DE.xlsx`, SHA-256
-`524bbefe25b691f5cb3de7a9f3e27fa2967aebfeabf217d99414ba7806e78c60`.
-`data/` is ignored by Git. The importer refuses changed workbook bytes.
+If `data/bls4/BLS_4_0_2025_DE/BLS_4_0_Daten_2025_DE.xlsx` is missing, the
+importer downloads the official package from
+<https://blsdb.de/assets/uploads/BLS_4_0_2025_DE.zip> (linked from the
+[BLS download page](https://blsdb.de/download)) into `data/bls4/` and extracts
+the workbook. The package must match SHA-256
+`12b7a6ba62807ec9b301eb276f897dc85f99b2292311618dec3749a12d984c91` and the
+workbook `524bbefe25b691f5cb3de7a9f3e27fa2967aebfeabf217d99414ba7806e78c60`;
+the importer refuses other bytes. `data/` is ignored by Git. An explicit
+`--workbook` path is never downloaded.
 
 ## Commands
 
@@ -23,7 +27,7 @@ uv run --locked bls4-import
 uv run --locked bls4-import --codes importers/bls4/selected.codes --dry-run
 ```
 
-`--workbook` overrides the source path; `DATABASE_URL` selects a different
+`--workbook` uses a local workbook instead; `DATABASE_URL` selects a different
 PostgreSQL database. A dry run validates without connecting to PostgreSQL.
 The JSON report includes selected/created/updated/skipped counts, checksum,
 corrected-energy count, rows with unavailable energy, and aggregate counts of

@@ -12,24 +12,23 @@ from pathlib import Path
 import psycopg
 
 from bls4_importer.database import write_foods
+from bls4_importer.download import ensure_workbook, sha256_file
 from bls4_importer.source import SOURCE_NAME, WORKBOOK_SHA256, parse_codes, read_workbook
 
 REPOSITORY_DIR = Path(__file__).resolve().parents[4]
-DEFAULT_WORKBOOK = REPOSITORY_DIR / "data/bls4/BLS_4_0_2025_DE/BLS_4_0_Daten_2025_DE.xlsx"
+DATA_DIR = REPOSITORY_DIR / "data/bls4"
+DEFAULT_PACKAGE = DATA_DIR / "BLS_4_0_2025_DE.zip"
+DEFAULT_WORKBOOK = DATA_DIR / "BLS_4_0_2025_DE/BLS_4_0_Daten_2025_DE.xlsx"
 DEFAULT_DATABASE_URL = "postgres://health:health@127.0.0.1:5432/health"
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as source:
-        for chunk in iter(lambda: source.read(64 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def run(argv: list[str] | None = None) -> dict:
     parser = argparse.ArgumentParser(description="Import the pinned BLS 4.0 workbook")
-    parser.add_argument("--workbook", type=Path, default=DEFAULT_WORKBOOK)
+    parser.add_argument(
+        "--workbook",
+        type=Path,
+        help="local workbook; default downloads the official package if missing",
+    )
     parser.add_argument(
         "--codes", type=Path, help="optional subset of BLS codes; default is all foods"
     )
@@ -37,6 +36,9 @@ def run(argv: list[str] | None = None) -> dict:
         "--dry-run", action="store_true", help="validate without connecting to PostgreSQL"
     )
     options = parser.parse_args(argv)
+    if options.workbook is None:
+        options.workbook = DEFAULT_WORKBOOK
+        ensure_workbook(DEFAULT_WORKBOOK, DEFAULT_PACKAGE)
 
     workbook_hash = sha256_file(options.workbook)
     if workbook_hash != WORKBOOK_SHA256:
