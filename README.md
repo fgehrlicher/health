@@ -3,11 +3,11 @@
 A personal health observability system focused first on low-friction food,
 nutrition, recipe, and meal-prep tracking.
 
-- [Product and technical vision](docs/VISION.md)
-- [Current delivery plan](docs/epics/README.md)
+- [Current state](docs/current-state.md): what exists today
 - [Food catalog database](docs/database.md)
 - [BLS 4.0 importer](docs/bls4-import.md)
 - [Food catalog browser and API](docs/catalog.md)
+- [Product and technical vision](docs/VISION.md)
 
 Python tools share the root [`pyproject.toml`](pyproject.toml) and `uv.lock`.
 Run the current importer from the repository root with
