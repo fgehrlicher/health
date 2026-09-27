@@ -1,7 +1,7 @@
 # Inspected BLS source release
 
-This records the package used for the BLS 4.0 assessment. It is not yet the
-production seed lock. Check for BLS 4.1 before implementing the real import.
+This records the package used for the BLS 4.0 assessment and pinned by the
+initial importer. Review any newer release before changing the import source.
 
 ## Release
 

@@ -1,8 +1,9 @@
 # BLS 4.0 ingredient importer
 
-The Rust CLI reads the exact official BLS 4.0 workbook inspected in the
+The dedicated Python/uv importer in [`importers/bls4/`](../importers/bls4/)
+reads the exact official BLS 4.0 workbook inspected in the
 [source lock](spikes/01-ingredient-data-source/source-lock.md). It imports only
-codes listed in a text file. The [starter list](../db/imports/bls4-v1.codes)
+codes listed in a text file. The [starter list](../importers/bls4/selected.codes)
 contains 11 reviewed foods across fruit, vegetables, rice, legumes, nuts, and
 seeds, including raw and boiled variants. It is a working sample, not the full
 ingredient catalog.
@@ -21,20 +22,18 @@ release or edited data.
 
 ## Validate and import
 
-From the repository root, with PostgreSQL running:
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/). From the
+repository root, run:
 
 ```sh
+uv run --project importers/bls4 --locked bls4-import --dry-run
 make db-up
-cargo run --bin health-import -- bls4 \
-  --workbook data/bls4/BLS_4_0_2025_DE/BLS_4_0_Daten_2025_DE.xlsx \
-  --codes db/imports/bls4-v1.codes --dry-run
-cargo run --bin health-import -- bls4 \
-  --workbook data/bls4/BLS_4_0_2025_DE/BLS_4_0_Daten_2025_DE.xlsx \
-  --codes db/imports/bls4-v1.codes
+uv run --project importers/bls4 --locked bls4-import
 ```
 
-Set `DATABASE_URL` to target a different PostgreSQL database. The dry run
-needs no database. Success prints a JSON report with attribution, the workbook
+The local workbook and code-list paths are defaults; `--workbook` and `--codes`
+can override them. Set `DATABASE_URL` to target a different PostgreSQL database.
+The dry run needs no database. Success prints a JSON report with attribution, the workbook
 and code-list checksums, timestamp, counts, nonnumeric source markers, and
 number of energy values corrected. Save that output if you need a durable
 import record. An
@@ -67,3 +66,7 @@ and its marker appears in the report; it is not treated as a known zero.
 Only the starter list and BLS 4.0's relevant energy erratum have been reviewed
 for this import. Expand the code list deliberately: group prefixes include
 processed products, and other published errata may affect future selections.
+
+Each future data source should have its own importer rather than adding a mode
+to this one. Make and test importer code changes between runs; an agent should
+not modify an import process that is already writing to PostgreSQL.

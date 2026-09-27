@@ -1,6 +1,6 @@
 # Epic 03 — Initial ingredient catalog
 
-**Status:** Blocked by the ingestion CLI
+**Status:** Ready to expand the reviewed BLS code list
 
 ## Outcome
 

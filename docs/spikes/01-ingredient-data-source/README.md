@@ -13,9 +13,9 @@ English food names, and carries provenance for every nutrient value. Its CC BY
 4.0 license permits use in this project with attribution.
 
 No major blocker was found. There is one release-management condition: BLS 4.0
-has a current erratum whose corrections are planned for BLS 4.1. Before the
-first production seed, use 4.1 if it has been released. Otherwise, ingest 4.0
-with the errata handling described in the assessment.
+has a current erratum whose corrections are planned for BLS 4.1. Before a
+production seed, review any newer release. The initial importer pins
+4.0 and handles the relevant energy erratum described in the assessment.
 
 ## Spike artifacts
 
@@ -51,7 +51,7 @@ and provenance.
 ## Decisions still open
 
 - the exact ingredient inclusion rules within the relevant BLS groups
-- the canonical machine input accepted by the Rust CLI
+- the canonical machine input accepted by future manual/agent entry tooling
 
 ## Primary sources
 

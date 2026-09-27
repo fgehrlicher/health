@@ -1,17 +1,17 @@
-# Epic 02 — Rust food-ingestion CLI
+# Epic 02 — Food ingestion
 
-**Status:** In progress — BLS 4.0 bulk import implemented; manual and agent input remain.
+**Status:** In progress — BLS 4.0 importer implemented; manual and agent input remain.
 
 ## Outcome
 
-A Rust CLI provides the supported path for creating and updating foods, whether
-the caller is a person, an agent, or a bulk importer.
+Source-specific importers and, later, a manual/agent entry path create and
+update foods with validation before database writes.
 
 ## Scope
 
 - manual creation of one food and its energy and macro values
 - non-interactive, machine-readable input and output for agents
-- bulk ingestion through a source-specific adapter
+- bulk ingestion through a dedicated importer for each source
 - validation before any database mutation
 - a source identity for every accepted food record
 - an import report with the source artifact checksum and rejected or nonnumeric
@@ -21,8 +21,8 @@ the caller is a person, an agent, or a bulk importer.
 - dry-run and useful error reporting
 - an import summary suitable for both humans and automation
 
-The ingestion path should separate source parsing from the canonical domain
-input. Adding another source later should not require rewriting database logic.
+The BLS 4.0 importer is a Python/uv project. Further sources should have their
+own importers; shared code can be extracted when actual duplication appears.
 
 ## Acceptance criteria
 
@@ -38,5 +38,4 @@ input. Adding another source later should not require rewriting database logic.
 ## Not in this epic
 
 An agent itself, network APIs, scheduled synchronization, or importers for every
-available dataset. Command names, interchange format, Rust libraries, and batch
-size are selected during implementation.
+available dataset. The manual/agent entry interface is selected when built.

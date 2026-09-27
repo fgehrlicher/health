@@ -12,9 +12,9 @@ Completed:
 
 In progress:
 
-3. [Rust food-ingestion CLI](02-rust-food-ingestion-cli.md)
+3. [Food ingestion](02-food-ingestion.md)
 
-After the CLI:
+Next:
 
 4. [Initial ingredient catalog](03-initial-ingredient-catalog.md)
 
@@ -26,7 +26,7 @@ and macros; expanding the ingredient catalog requires its own inclusion review.
 
 - PostgreSQL can be started locally and built from an empty database using the
   base schema. After the first deployment, changes use versioned migrations.
-- The Rust CLI is the supported write path for manual, agent, and bulk input.
+- Source-specific importers and a future manual/agent entry path handle writes.
 - A useful set of vegetables, fruit, grains, beans, and similar ingredients has
   been imported from a documented source.
 - Every imported value is traceable to its named source (such as BLS 4.0).

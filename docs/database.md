@@ -26,7 +26,7 @@ been deployed.
 
 ## Local setup
 
-Requirements: Docker with Compose and Rust 1.94 or newer.
+Requirements: Docker with Compose. The BLS importer additionally uses uv.
 
 ```sh
 make db-up       # Start PostgreSQL; a new volume gets db/schema.sql automatically
@@ -38,7 +38,9 @@ make db-verify   # Check the example data
 The default connection is
 `postgres://health:health@127.0.0.1:5432/health`. Copy `.env.example` to
 change the local port or password, and set `DATABASE_URL` accordingly. For an
-otherwise empty PostgreSQL database outside Compose, run `make db-bootstrap`.
+otherwise empty PostgreSQL database outside Compose, apply `db/schema.sql` with
+`psql` or your database client. Compose applies it when its volume is created;
+there is no separate database-helper application to maintain.
 
 `make db-down` stops PostgreSQL and retains the data. `make db-reset` deletes
 this project's local database volume and creates a new one from the current
@@ -55,9 +57,9 @@ for changes after that point.
 
 ## Import contract
 
-The planned Rust ingestion CLI owns content validation and duplicate detection.
-Before writing, it should check required names and source identity, allowed
-source values, unit conversion, nonnegative amounts, and missing versus zero.
+Each importer owns content validation and duplicate detection. Before writing,
+it should check required names and source identity, allowed source values,
+unit conversion, nonnegative amounts, and missing versus zero.
 It must link each source to the food it actually describes. The database
 retains basic required fields, identities, and that direct link.
 
@@ -74,8 +76,8 @@ The importer must interpret BLS trace, detection-limit, and missing markers
 before writing. Their exact original forms remain in the source file, not in
 the catalog; the import report should identify that file by checksum and
 report nonnumeric values and warnings. Rebuilding an import requires both the
-same source file and pipeline. The source research identifies an inspected BLS
-artifact, but the production import still needs its own source-file lock.
+same source file and pipeline. The BLS importer pins the inspected workbook by
+checksum.
 
 Adding another selected nutrient requires a column. That is intentional for
 the small initial set: edit the base schema before deployment, or add a
@@ -105,5 +107,4 @@ WHERE food.slug = 'lentil-mature-dry';
 ```
 
 The fixture has a fruit, grain, and legume from BLS 4.0 with energy and macros
-per 100 g. Missing and censored source values will be exercised by the future
-importer, where that validation belongs.
+per 100 g. The BLS importer handles missing and censored source values.
