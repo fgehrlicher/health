@@ -113,6 +113,10 @@ def check_food(food: FoodInput) -> tuple[list[dict], list[dict]]:
     for field in MANDATORY_LABEL_ROWS:
         if getattr(n, field) is None:
             warning(f"nutrition.{field}", "mandatory on EU labels; check the photo")
+    if food.ingredients_text is None:
+        warning("ingredients_text", "mandatory on most EU labels; send the full list if visible")
+    elif not food.ingredients_text.strip():
+        error("ingredients_text", "must not be blank")
 
     names = [portion.name.casefold() for portion in food.portions]
     if len(set(names)) != len(names):
@@ -166,10 +170,10 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
         connection.execute(
             f"""INSERT INTO food_sources
                    (food_id, source_name, external_id, food_name, reference_quantity,
-                    reference_unit, upper_bounds, {columns})
+                    reference_unit, upper_bounds, ingredients_text, {columns})
                VALUES (%(food_id)s, %(source_name)s, %(external_id)s, %(food_name)s,
                        %(reference_quantity)s, %(reference_unit)s, %(upper_bounds)s,
-                       {placeholders})""",
+                       %(ingredients_text)s, {placeholders})""",
             {
                 "food_id": food_id,
                 "source_name": food.source_name,
@@ -178,6 +182,9 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
                 "reference_quantity": n.reference_quantity,
                 "reference_unit": n.reference_unit,
                 "upper_bounds": n.upper_bounds,
+                "ingredients_text": food.ingredients_text.strip()
+                if food.ingredients_text
+                else None,
                 **{column: getattr(n, column) for column in NUTRIENTS},
             },
         )

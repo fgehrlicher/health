@@ -194,7 +194,7 @@ SELECT
     (SELECT count(*) FROM food_sources s WHERE s.food_id = f.id) AS source_count,
     chosen.id AS source_id, chosen.source_name, chosen.external_id, chosen.group_code,
     chosen.food_name, chosen.reference_quantity, chosen.reference_unit,
-    chosen.upper_bounds, """
+    chosen.upper_bounds, chosen.ingredients_text, """
     + ", ".join(f"chosen.{column}" for column in NUTRIENTS)
     + """,
     chosen.protein_g * 100 / NULLIF(chosen.energy_kcal, 0) AS protein_per_100_kcal,
@@ -281,6 +281,7 @@ def source_from_row(row: DictRow) -> dict | None:
         "protein_per_100_kcal": decimal_text(row["protein_per_100_kcal"]),
         **{field: decimal_text(row[field]) for field in NUTRIENTS},
         "upper_bounds": row["upper_bounds"],
+        "ingredients_text": row["ingredients_text"],
     }
 
 
@@ -329,7 +330,8 @@ def get_food(connection: Connection, slug: str) -> dict | None:
         return None
     sources = connection.execute(
         f"""SELECT id AS source_id, source_name, external_id, food_name, group_code,
-                  reference_quantity, reference_unit, upper_bounds, {", ".join(NUTRIENTS)},
+                  reference_quantity, reference_unit, upper_bounds, ingredients_text,
+                  {", ".join(NUTRIENTS)},
                   protein_g * 100 / NULLIF(energy_kcal, 0) AS protein_per_100_kcal
            FROM food_sources WHERE food_id = %s
            ORDER BY (source_name = 'BLS 4.0') DESC, id ASC""",

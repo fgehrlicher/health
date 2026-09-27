@@ -77,6 +77,7 @@ def test_source_values_preserve_unknown_and_exact_decimal_text():
         "carbs_g": Decimal("11.7"),
         "fiber_g": Decimal("2.275"),
         "upper_bounds": ["fat_g"],
+        "ingredients_text": None,
     }
     row |= {field: row.get(field) for field in NUTRIENTS}
     source = source_from_row(row)

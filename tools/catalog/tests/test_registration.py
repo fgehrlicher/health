@@ -12,6 +12,8 @@ QUARK = {
     "name": "High Protein Quark-Creme Pfirsich-Maracuja",
     "brand": "Milbona",
     "barcode": "4335619151215",
+    # Placeholder: the photos show only part of the real list.
+    "ingredients_text": "50% Speisequark, 40% Joghurterzeugnis, Maracujasaftkonzentrat, Stärke",
     "nutrition": {
         "energy_kj": "287",
         "energy_kcal": "68",
@@ -74,6 +76,9 @@ def test_missing_mandatory_rows_warn():
     errors, warnings = check_food(food)
     assert errors == []
     assert {w["field"] for w in warnings} >= {"nutrition.salt_g", "nutrition.sugars_g"}
+    food = FoodInput.model_validate({**QUARK, "ingredients_text": None})
+    assert [w["field"] for w in check_food(food)[1]] == ["ingredients_text"]
+    assert check_food(FoodInput.model_validate({**QUARK, "ingredients_text": "  "}))[0]
 
 
 def test_slugs_transliterate_german():
@@ -102,6 +107,7 @@ def test_register_and_find_by_barcode(monkeypatch):
         assert food["kind"] == "branded" and food["barcode"] == barcode
         assert food["sources"][0]["source_name"] == "Product label"
         assert food["sources"][0]["energy_kj"] == "287"
+        assert food["sources"][0]["ingredients_text"] == QUARK["ingredients_text"]
         assert [p["name"] for p in food["portions"]] == ["Portion", "Becher"]
 
         assert request(f"/api/foods/barcode/{barcode}").json()["slug"] == food["slug"]

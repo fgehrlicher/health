@@ -55,6 +55,10 @@ CREATE TABLE food_sources (
     salt_g numeric,
     alcohol_g numeric,
 
+    -- Ingredient list exactly as printed on a label, unparsed. Recipes change,
+    -- so it belongs to the source, not the food. NULL for datasets like BLS.
+    ingredients_text text,
+
     -- Nutrition columns whose value is a declared maximum, e.g. a label's
     -- "<0,5 g" stored as fat_g = 0.5 with 'fat_g' listed here.
     upper_bounds text[] NOT NULL DEFAULT '{}'

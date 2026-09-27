@@ -62,6 +62,7 @@ dialog::backdrop { background: #101b16a8; }
 .nutrient-fiber_g .bar-fill { background: #7296bc; }
 .nutrient-protein_g .bar-fill { background: #9e86b9; }
 .nutrient-salt_g .bar-fill, .nutrient-alcohol_g .bar-fill { background: #a9b1ab; }
+.detail-source .ingredients { margin-top: 12px; color: #2f3a33; font-size: 13px; line-height: 1.45; }
 .detail-portions { margin-top: 18px; font-size: 13px; }
 .detail-portions ul { margin: 6px 0 0; padding-left: 18px; }
 @media (max-width: 850px) { .app { padding: 20px 15px 40px; } .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } .results-header { align-items: start; flex-direction: column; gap: 3px; } }

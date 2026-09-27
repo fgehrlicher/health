@@ -31,6 +31,7 @@ class NutritionSource(BaseModel):
     protein_per_100_kcal: str | None
     # Columns whose value is a declared maximum, e.g. a label's "<0,5 g".
     upper_bounds: list[str]
+    ingredients_text: str | None
 
 
 class Portion(BaseModel):
@@ -143,6 +144,8 @@ class FoodInput(BaseModel):
     source_name: Annotated[str, Field(min_length=1, max_length=100)] = "Product label"
     # Name as the source states it, e.g. the label's legal name; default: name.
     source_food_name: Annotated[str | None, Field(max_length=300)] = None
+    # The full "Zutaten" list as printed, unparsed; omit rather than send a partial list.
+    ingredients_text: Annotated[str | None, Field(min_length=1, max_length=5000)] = None
     nutrition: NutritionInput
     portions: list[PortionInput] = []
 

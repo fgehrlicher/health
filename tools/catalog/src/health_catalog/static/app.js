@@ -196,7 +196,8 @@ function sourceMarkup(source) {
     <div class="energy-line">${number(source.energy_kcal, 0)} kcal <span>${number(source.energy_kj, 0)} kJ</span></div>
     <p class="protein-density">${number(source.protein_per_100_kcal)} g protein / 100 kcal</p>
     ${nutrition.map(row).join('')}
-    ${gramsBasis ? '<p>Bars show grams in 100 g of food.</p>' : ''}</section>`;
+    ${gramsBasis ? '<p>Bars show grams in 100 g of food.</p>' : ''}
+    ${source.ingredients_text ? `<p class="ingredients"><strong>Ingredients:</strong> ${escapeHtml(source.ingredients_text)}</p>` : ''}</section>`;
 }
 
 function portionsMarkup(portions) {

@@ -100,6 +100,7 @@ Agents add products from label photos or product databases. The expected flow:
   "brand": "Milbona",
   "barcode": "4335619151215",
   "source_name": "Product label",
+  "ingredients_text": "Speisequark, Joghurterzeugnis, …",
   "nutrition": {
     "energy_kj": 287, "energy_kcal": 68, "fat_g": 0.4, "saturated_fat_g": 0.3,
     "carbs_g": 3.5, "sugars_g": 3.0, "fiber_g": 0.2, "protein_g": 12.4,
@@ -112,7 +113,9 @@ Agents add products from label photos or product databases. The expected flow:
 }
 ```
 
-Required are name, energy in kcal, fat, carbs, and protein. `reference_quantity`
+Required are name, energy in kcal, fat, carbs, and protein.
+`ingredients_text` is the "Zutaten" list exactly as printed, unparsed. Send it
+only when the whole list is readable; a partial list is worse than none. `reference_quantity`
 and `reference_unit` default to 100 g. Write a label's "<0,5 g" as `0.5` and
 list the column in `nutrition.upper_bounds`.
 
@@ -128,7 +131,7 @@ issues, writing nothing, when:
   kcal by more than 20% (and 10 kcal). A misread digit usually shows here.
 
 Warnings do not block writing: kcal differs from the macros by more than 8%, a
-mandatory label row (kJ, saturated fat, sugars, salt) is missing, or there is no
-barcode. An existing barcode returns `409` with the existing food's `slug`.
+mandatory label row (kJ, saturated fat, sugars, salt) or the ingredients are
+missing, or there is no barcode. An existing barcode returns `409` with the existing food's `slug`.
 New foods get `kind` `branded` and a slug from brand and name; the source uses
 the barcode as `external_id`. Search views are refreshed on every write.
