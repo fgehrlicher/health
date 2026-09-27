@@ -11,12 +11,3 @@ dependencies = ["openpyxl>=3.1,<4", "psycopg[binary]>=3.2,<4"]
 
 [project.scripts]
 bls4-import = "bls4_importer.cli:main"
-
-[dependency-groups]
-dev = ["pytest>=8,<10", "ruff>=0.13,<1"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-
-[tool.ruff]
-line-length = 100

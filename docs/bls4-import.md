@@ -26,9 +26,9 @@ Install [uv](https://docs.astral.sh/uv/getting-started/installation/). From the
 repository root, run:
 
 ```sh
-uv run --project importers/bls4 --locked bls4-import --dry-run
+uv run --locked bls4-import --dry-run
 make db-up
-uv run --project importers/bls4 --locked bls4-import
+uv run --locked bls4-import
 ```
 
 The local workbook and code-list paths are defaults; `--workbook` and `--codes`

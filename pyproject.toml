@@ -1,0 +1,17 @@
+[project]
+name = "health"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["bls4-importer"]
+
+[tool.uv.sources]
+bls4-importer = { workspace = true }
+
+[tool.uv.workspace]
+members = ["importers/*", "tools/*"]
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "ruff>=0.13,<1"]
+
+[tool.ruff]
+line-length = 100

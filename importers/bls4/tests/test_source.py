@@ -1,7 +1,6 @@
 from decimal import Decimal
 
 import pytest
-
 from bls4_importer.source import columns_from_headers, parse_amount, parse_codes, parse_food
 
 

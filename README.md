@@ -7,3 +7,9 @@ nutrition, recipe, and meal-prep tracking.
 - [Current delivery plan](docs/epics/README.md)
 - [Food catalog database](docs/database.md)
 - [BLS 4.0 importer](docs/bls4-import.md)
+
+Python tools share the root [`pyproject.toml`](pyproject.toml) and `uv.lock`.
+Run the current importer from the repository root with
+`uv run --locked bls4-import --dry-run`. Future importers and CLIs can be added
+as workspace packages under `importers/` or `tools/` and declared as root
+dependencies to make their commands available the same way.

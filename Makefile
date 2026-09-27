@@ -25,6 +25,6 @@ db-verify:
 	docker compose exec -T postgres psql --username=health --dbname=health --set=ON_ERROR_STOP=1 < db/fixtures/verify.sql
 
 check:
-	uv run --project importers/bls4 --locked ruff check importers/bls4
-	uv run --project importers/bls4 --locked ruff format --check importers/bls4
-	uv run --project importers/bls4 --locked pytest importers/bls4/tests
+	uv run --locked ruff check .
+	uv run --locked ruff format --check .
+	uv run --locked pytest
