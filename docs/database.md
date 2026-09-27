@@ -75,6 +75,9 @@ its values, commonly 100 g for BLS. V1 stores only these fixed-unit columns:
 | `protein_g`, `fat_g`, `carbs_g`, `fiber_g` | Protein, fat, available carbohydrate, and fiber in grams |
 
 `NULL` means no usable numeric value; `0` is a reported or calculated zero.
+Protein per 100 kcal is calculated when querying, not stored: divide protein
+grams by positive kcal and multiply by 100. Zero or missing kcal yields an
+unknown ratio, not infinity or zero.
 The importer must interpret BLS trace, detection-limit, and missing markers
 before writing. Their exact original forms remain in the source file, not in
 the catalog; the import report should identify that file by checksum and

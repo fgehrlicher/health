@@ -7,23 +7,82 @@ from typing import Literal
 from psycopg import Connection
 from psycopg.rows import DictRow
 
-Sort = Literal["name", "energy_asc", "energy_desc", "protein_desc", "fiber_desc"]
+Sort = Literal[
+    "name",
+    "name_desc",
+    "group_asc",
+    "group_desc",
+    "code_asc",
+    "code_desc",
+    "source_asc",
+    "source_desc",
+    "energy_asc",
+    "energy_desc",
+    "protein_asc",
+    "protein_desc",
+    "protein_density_asc",
+    "protein_density_desc",
+    "fat_asc",
+    "fat_desc",
+    "carbs_asc",
+    "carbs_desc",
+    "fiber_asc",
+    "fiber_desc",
+]
 SORT_SQL = {
     "name": "lower(name) ASC, id ASC",
+    "name_desc": "lower(name) DESC, id ASC",
+    "group_asc": "group_code ASC NULLS LAST, lower(name) ASC, id ASC",
+    "group_desc": "group_code DESC NULLS LAST, lower(name) ASC, id ASC",
+    "code_asc": "external_id ASC NULLS LAST, lower(name) ASC, id ASC",
+    "code_desc": "external_id DESC NULLS LAST, lower(name) ASC, id ASC",
+    "source_asc": "source_name ASC NULLS LAST, lower(name) ASC, id ASC",
+    "source_desc": "source_name DESC NULLS LAST, lower(name) ASC, id ASC",
     "energy_asc": "energy_kcal ASC NULLS LAST, lower(name) ASC, id ASC",
     "energy_desc": "energy_kcal DESC NULLS LAST, lower(name) ASC, id ASC",
+    "protein_asc": "protein_g ASC NULLS LAST, lower(name) ASC, id ASC",
     "protein_desc": "protein_g DESC NULLS LAST, lower(name) ASC, id ASC",
+    "protein_density_asc": "protein_per_100_kcal ASC NULLS LAST, lower(name) ASC, id ASC",
+    "protein_density_desc": "protein_per_100_kcal DESC NULLS LAST, lower(name) ASC, id ASC",
+    "fat_asc": "fat_g ASC NULLS LAST, lower(name) ASC, id ASC",
+    "fat_desc": "fat_g DESC NULLS LAST, lower(name) ASC, id ASC",
+    "carbs_asc": "carbs_g ASC NULLS LAST, lower(name) ASC, id ASC",
+    "carbs_desc": "carbs_g DESC NULLS LAST, lower(name) ASC, id ASC",
+    "fiber_asc": "fiber_g ASC NULLS LAST, lower(name) ASC, id ASC",
     "fiber_desc": "fiber_g DESC NULLS LAST, lower(name) ASC, id ASC",
 }
 NUTRIENTS = ("energy_kcal", "protein_g", "fat_g", "carbs_g", "fiber_g")
+BLS_GROUP_NAMES = {
+    "B": "Bread",
+    "C": "Cereals and grains",
+    "D": "Cakes and baked goods",
+    "E": "Eggs and pasta",
+    "F": "Fruit",
+    "G": "Vegetables",
+    "H": "Legumes, nuts and seeds",
+    "K": "Potatoes and mushrooms",
+    "M": "Dairy",
+    "N": "Nonalcoholic drinks",
+    "P": "Alcoholic drinks",
+    "Q": "Fats and oils",
+    "R": "Seasonings and sauces",
+    "S": "Sweets",
+    "T": "Fish and seafood",
+    "U": "Red meat",
+    "V": "Poultry and game",
+    "W": "Meat products",
+    "X": "Mostly plant dishes",
+    "Y": "Mostly animal dishes",
+}
 
 BASE_SQL = """
 SELECT
     f.id, f.slug, f.name, f.aliases, f.kind, f.preparation_state, f.brand, f.barcode,
     (SELECT count(*) FROM food_sources s WHERE s.food_id = f.id) AS source_count,
-    chosen.id AS source_id, chosen.source_name, chosen.external_id,
+    chosen.id AS source_id, chosen.source_name, chosen.external_id, chosen.group_code,
     chosen.food_name, chosen.reference_quantity, chosen.reference_unit,
-    chosen.energy_kcal, chosen.protein_g, chosen.fat_g, chosen.carbs_g, chosen.fiber_g
+    chosen.energy_kcal, chosen.protein_g, chosen.fat_g, chosen.carbs_g, chosen.fiber_g,
+    chosen.protein_g * 100 / NULLIF(chosen.energy_kcal, 0) AS protein_per_100_kcal
 FROM foods f
 LEFT JOIN LATERAL (
     SELECT s.* FROM food_sources s
@@ -33,9 +92,16 @@ LEFT JOIN LATERAL (
     LIMIT 1
 ) chosen ON true
 WHERE (%(kind)s::text IS NULL OR f.kind = %(kind)s)
+  AND (%(group)s::text IS NULL OR EXISTS (
+      SELECT 1 FROM food_sources group_source
+      WHERE group_source.food_id = f.id AND group_source.source_name = 'BLS 4.0'
+        AND group_source.group_code = %(group)s
+  ))
   AND (%(preparation_state)s::text IS NULL OR f.preparation_state = %(preparation_state)s)
   AND (%(source_name)s::text IS NULL OR chosen.id IS NOT NULL)
   AND (%(min_protein)s::numeric IS NULL OR chosen.protein_g >= %(min_protein)s)
+  AND (%(min_protein_density)s::numeric IS NULL OR
+       chosen.protein_g * 100 / NULLIF(chosen.energy_kcal, 0) >= %(min_protein_density)s)
   AND (%(min_fiber)s::numeric IS NULL OR chosen.fiber_g >= %(min_fiber)s)
   AND (%(max_energy)s::numeric IS NULL OR chosen.energy_kcal <= %(max_energy)s)
   AND (
@@ -64,9 +130,11 @@ WHERE (%(kind)s::text IS NULL OR f.kind = %(kind)s)
 class FoodFilters:
     q: str | None = None
     kind: str | None = None
+    group: str | None = None
     source_name: str | None = None
     preparation_state: str | None = None
     min_protein: Decimal | None = None
+    min_protein_density: Decimal | None = None
     min_fiber: Decimal | None = None
     max_energy: Decimal | None = None
     sort: Sort = "name"
@@ -77,9 +145,11 @@ class FoodFilters:
         return {
             "q": self.q.strip().lower() or None if self.q else None,
             "kind": self.kind,
+            "group": self.group,
             "source_name": self.source_name,
             "preparation_state": self.preparation_state,
             "min_protein": self.min_protein,
+            "min_protein_density": self.min_protein_density,
             "min_fiber": self.min_fiber,
             "max_energy": self.max_energy,
             "limit": self.limit,
@@ -99,8 +169,10 @@ def source_from_row(row: DictRow) -> dict | None:
         "source_name": row["source_name"],
         "external_id": row["external_id"],
         "food_name": row["food_name"],
+        "group_code": row["group_code"],
         "reference_quantity": decimal_text(row["reference_quantity"]),
         "reference_unit": row["reference_unit"],
+        "protein_per_100_kcal": decimal_text(row["protein_per_100_kcal"]),
         **{field: decimal_text(row[field]) for field in NUTRIENTS},
     }
 
@@ -147,9 +219,10 @@ def get_food(connection: Connection, slug: str) -> dict | None:
     if row is None:
         return None
     sources = connection.execute(
-        """SELECT id AS source_id, source_name, external_id, food_name,
+        """SELECT id AS source_id, source_name, external_id, food_name, group_code,
                   reference_quantity, reference_unit,
-                  energy_kcal, protein_g, fat_g, carbs_g, fiber_g
+                  energy_kcal, protein_g, fat_g, carbs_g, fiber_g,
+                  protein_g * 100 / NULLIF(energy_kcal, 0) AS protein_per_100_kcal
            FROM food_sources WHERE food_id = %s
            ORDER BY (source_name = 'BLS 4.0') DESC, id ASC""",
         (row["id"],),
@@ -182,5 +255,15 @@ def get_facets(connection: Connection) -> dict:
                 "SELECT DISTINCT preparation_state FROM foods "
                 "WHERE preparation_state IS NOT NULL ORDER BY preparation_state"
             ).fetchall()
+        ],
+        "groups": [
+            {"code": row["code"], "name": BLS_GROUP_NAMES[row["code"]], "count": row["count"]}
+            for row in connection.execute(
+                """SELECT group_code AS code, count(*) AS count
+                   FROM food_sources WHERE source_name = 'BLS 4.0'
+                     AND group_code IS NOT NULL
+                   GROUP BY group_code ORDER BY group_code"""
+            ).fetchall()
+            if row["code"] in BLS_GROUP_NAMES
         ],
     }

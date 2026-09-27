@@ -33,6 +33,8 @@ def test_api_rejects_invalid_filters_before_querying_database():
         "/api/foods?offset=-1",
         "/api/foods?sort=DROP%20TABLE%20foods",
         "/api/foods?min_protein=-1",
+        "/api/foods?min_protein_density=-1",
+        "/api/foods?group=Z",
     ):
         assert request(path).status_code == 422
 
@@ -55,10 +57,12 @@ def test_source_values_preserve_unknown_and_exact_decimal_text():
         "source_name": "BLS 4.0",
         "external_id": "F110100",
         "food_name": "Apfel roh",
+        "group_code": "F",
         "reference_quantity": Decimal(100),
         "reference_unit": "g",
         "energy_kcal": Decimal(58),
         "protein_g": Decimal("0.424"),
+        "protein_per_100_kcal": Decimal("0.73103448275862068966"),
         "fat_g": None,
         "carbs_g": Decimal("11.7"),
         "fiber_g": Decimal("2.275"),
@@ -66,6 +70,8 @@ def test_source_values_preserve_unknown_and_exact_decimal_text():
     source = source_from_row(row)
     assert source["protein_g"] == "0.424"
     assert source["fat_g"] is None
+    assert source["group_code"] == "F"
+    assert source["protein_per_100_kcal"] == "0.73103448275862068966"
 
 
 def test_catalog_queries_against_postgres(monkeypatch):
@@ -81,7 +87,14 @@ def test_catalog_queries_against_postgres(monkeypatch):
 
     apple = request("/api/foods?q=F110100")
     assert apple.status_code == 200
-    assert [food["slug"] for food in apple.json()["items"]] == ["apple-raw"]
+    assert len(apple.json()["items"]) == 1
+    assert apple.json()["items"][0]["source"]["external_id"] == "F110100"
+    assert apple.json()["items"][0]["source"]["group_code"] == "F"
+    apple_source = apple.json()["items"][0]["source"]
+    assert abs(
+        Decimal(apple_source["protein_per_100_kcal"])
+        - Decimal(apple_source["protein_g"]) * 100 / Decimal(apple_source["energy_kcal"])
+    ) < Decimal("0.0000000001")
 
     high_protein = request("/api/foods?min_protein=20&sort=protein_desc")
     assert high_protein.status_code == 200
@@ -93,6 +106,35 @@ def test_catalog_queries_against_postgres(monkeypatch):
     assert sources.status_code == 200
     assert all(food["source"]["source_name"] == "BLS 4.0" for food in sources.json()["items"])
     assert all(Decimal(food["source"]["energy_kcal"]) <= 100 for food in sources.json()["items"])
+
+    fruit = request("/api/foods?group=F")
+    assert fruit.status_code == 200
+    assert fruit.json()["total"] >= 1
+    assert all(food["source"]["external_id"].startswith("F") for food in fruit.json()["items"])
+    facets = request("/api/foods/facets")
+    assert any(group["code"] == "F" for group in facets.json()["groups"])
+
+    fat_sorted = request("/api/foods?sort=fat_desc&limit=20")
+    assert fat_sorted.status_code == 200
+    fats = [Decimal(food["source"]["fat_g"]) for food in fat_sorted.json()["items"]]
+    assert fats == sorted(fats, reverse=True)
+    code_sorted = request("/api/foods?sort=code_desc&limit=20")
+    assert code_sorted.status_code == 200
+    codes = [food["source"]["external_id"] for food in code_sorted.json()["items"]]
+    assert codes == sorted(codes, reverse=True)
+
+    density_sorted = request("/api/foods?sort=protein_density_desc&limit=20")
+    assert density_sorted.status_code == 200
+    densities = [
+        Decimal(food["source"]["protein_per_100_kcal"]) for food in density_sorted.json()["items"]
+    ]
+    assert densities == sorted(densities, reverse=True)
+    dense = request("/api/foods?min_protein_density=20")
+    assert dense.status_code == 200
+    assert dense.json()["total"] >= 1
+    assert all(
+        Decimal(food["source"]["protein_per_100_kcal"]) >= 20 for food in dense.json()["items"]
+    )
 
     detail = request("/api/foods/bls4-g650132")
     assert detail.status_code == 200
