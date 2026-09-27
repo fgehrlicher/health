@@ -1,12 +1,13 @@
 # Food catalog database
 
-The pre-deployment catalog has two tables, plus derived
+The pre-deployment catalog has three tables, plus derived
 [search views](#search-views):
 
 | Table | What it stores |
 | --- | --- |
 | `foods` | Your food names, aliases, and preparation state. Red and beluga lentils can be separate foods. |
-| `food_sources` | One BLS row, manual entry, photographed label, or estimate for a specific food, with its energy and macros. |
+| `food_sources` | One BLS row, manual entry, photographed label, or estimate for a specific food, with its energy and nutrients per reference quantity. |
+| `food_portions` | Named amounts of a food, such as a label's portion or package size. |
 
 Every source belongs to exactly one food through `food_sources.food_id`. The
 generic BLS lentil row belongs to a generic lentils food. Red and beluga lentils
@@ -85,14 +86,31 @@ It must link each source to the food it actually describes. The database
 retains basic required fields, identities, and that direct link.
 
 `food_sources.reference_quantity` and `reference_unit` describe the basis of
-its values, commonly 100 g for BLS. V1 stores only these fixed-unit columns:
+its values, commonly 100 g for BLS or 100 ml for a drink label. The nutrition
+columns follow the EU nutrition declaration (LMIV), so a German label maps
+onto them one to one:
 
-| Column | Meaning |
-| --- | --- |
-| `energy_kcal` | Energy in kcal |
-| `protein_g`, `fat_g`, `carbs_g`, `fiber_g` | Protein, fat, available carbohydrate, and fiber in grams |
+| Column | Label row | BLS 4.0 |
+| --- | --- | --- |
+| `energy_kj`, `energy_kcal` | Energie | `ENERCJ`, `ENERCC` |
+| `fat_g` | Fett | `FAT` |
+| `saturated_fat_g` | davon gesättigte Fettsäuren | `FASAT` |
+| `monounsaturated_fat_g` | davon einfach ungesättigte Fettsäuren (optional) | `FAMS` |
+| `polyunsaturated_fat_g` | davon mehrfach ungesättigte Fettsäuren (optional) | `FAPU` |
+| `carbs_g` | Kohlenhydrate (available; fiber excluded) | `CHO` |
+| `sugars_g` | davon Zucker | `SUGAR` |
+| `polyols_g` | davon mehrwertige Alkohole (optional) | `POLYL` |
+| `starch_g` | davon Stärke (optional) | `STARCH` |
+| `fiber_g` | Ballaststoffe (optional on labels) | `FIBT` |
+| `protein_g` | Eiweiß | `PROT625` |
+| `salt_g` | Salz | `NACL` |
+| `alcohol_g` | – (labels state % vol) | `ALC` |
 
 `NULL` means no usable numeric value; `0` is a reported or calculated zero.
+Labels may print a small amount as "<0,5 g". Store the bound, e.g.
+`fat_g = 0.5`, and list the column in `upper_bounds`; the value is then a
+maximum, not a measurement. A label's plain "0 g" is stored as reported, although
+EU rounding allows it for amounts up to 0.5 g.
 Protein per 100 kcal is calculated when querying, not stored: divide protein
 grams by positive kcal and multiply by 100. Zero or missing kcal yields an
 unknown ratio, not infinity or zero.
@@ -103,13 +121,18 @@ report nonnumeric values and warnings. Rebuilding an import requires both the
 same source file and pipeline. The BLS importer pins the inspected workbook by
 checksum.
 
-Adding another selected nutrient requires a column. That is intentional for
-the small initial set: edit the base schema before deployment, or add a
-migration after deployment.
+Adding another nutrient requires a column: edit the base schema before
+deployment, or add a migration after deployment. Vitamins and minerals are
+deliberately not columns yet; see the [BLS import guide](bls4-import.md#other-bls-fields).
+
+`food_portions` names amounts of a food, such as a label's "Portion" of 200 g
+or the whole 400 g "Becher". `kind` is `package` for the sold unit, `serving`
+for the label's portion, and `piece` or `household` for other measures.
+Portions let "I ate one cup" become grams.
 
 For a photographed product label later, `source_name` can be `package label`.
 The label image needs its own attachment storage when that feature is built.
-V1 does not store original user input or upstream dataset rows in PostgreSQL.
+The database does not store original user input or upstream dataset rows.
 
 ## Query example
 

@@ -36,15 +36,45 @@ CREATE TABLE food_sources (
     reference_quantity numeric NOT NULL,
     reference_unit text NOT NULL,
 
-    -- Core nutrition. Units are in the names; NULL means no usable number.
+    -- Nutrition per reference quantity, following the EU label (LMIV) layout.
+    -- Units are in the names; NULL means no usable number. "davon" rows are
+    -- subsets of the row above them. carbs_g is available carbohydrate, as on
+    -- EU labels and in BLS; fiber is separate.
+    energy_kj numeric,
     energy_kcal numeric,
-    protein_g numeric,
     fat_g numeric,
+    saturated_fat_g numeric,
+    monounsaturated_fat_g numeric,
+    polyunsaturated_fat_g numeric,
     carbs_g numeric,
-    fiber_g numeric
+    sugars_g numeric,
+    polyols_g numeric,
+    starch_g numeric,
+    fiber_g numeric,
+    protein_g numeric,
+    salt_g numeric,
+    alcohol_g numeric,
+
+    -- Nutrition columns whose value is a declared maximum, e.g. a label's
+    -- "<0,5 g" stored as fat_g = 0.5 with 'fat_g' listed here.
+    upper_bounds text[] NOT NULL DEFAULT '{}'
 );
 
 CREATE INDEX food_sources_food_id_idx ON food_sources (food_id);
+
+-- Named amounts of a food, e.g. "Portion" 200 g and "Becher" 400 g from a
+-- label, used to turn "I ate one cup" into grams.
+CREATE TABLE food_portions (
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    food_id bigint NOT NULL REFERENCES foods(id) ON DELETE CASCADE,
+    name text NOT NULL,
+    -- package: the whole sold unit; serving: the label's portion; piece or
+    -- household: other everyday measures such as "1 slice" or "1 tbsp".
+    kind text NOT NULL,
+    quantity numeric NOT NULL,
+    unit text NOT NULL,
+    UNIQUE (food_id, name)
+);
 
 -- Search terms derived from food names, aliases, source names, BLS codes,
 -- brands, and barcodes. Each word is a term, and so is each adjacent pair
