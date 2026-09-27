@@ -69,6 +69,57 @@ CREATE INDEX food_sources_food_id_idx ON food_sources (food_id);
 -- A barcode identifies one product.
 CREATE UNIQUE INDEX foods_barcode_key ON foods (barcode) WHERE barcode IS NOT NULL;
 
+-- Nutrients beyond the label columns of food_sources, e.g. vitamins and
+-- minerals. Units follow EU label conventions; codes are INFOODS tagnames as
+-- used by BLS.
+CREATE TABLE nutrients (
+    key text PRIMARY KEY,
+    name text NOT NULL,
+    unit text NOT NULL,
+    category text NOT NULL,
+    infoods_code text NOT NULL UNIQUE,
+    sort_order integer NOT NULL
+);
+
+INSERT INTO nutrients (key, name, unit, category, infoods_code, sort_order) VALUES
+    ('vitamin_a', 'Vitamin A (retinol equivalents)', 'µg', 'vitamin', 'VITA', 10),
+    ('vitamin_d', 'Vitamin D', 'µg', 'vitamin', 'VITD', 11),
+    ('vitamin_e', 'Vitamin E (alpha-tocopherol)', 'mg', 'vitamin', 'VITE', 12),
+    ('vitamin_k', 'Vitamin K', 'µg', 'vitamin', 'VITK', 13),
+    ('vitamin_c', 'Vitamin C', 'mg', 'vitamin', 'VITC', 14),
+    ('thiamin', 'Thiamin (B1)', 'mg', 'vitamin', 'THIA', 15),
+    ('riboflavin', 'Riboflavin (B2)', 'mg', 'vitamin', 'RIBF', 16),
+    ('niacin', 'Niacin (niacin equivalents)', 'mg', 'vitamin', 'NIAEQ', 17),
+    ('vitamin_b6', 'Vitamin B6', 'mg', 'vitamin', 'VITB6', 18),
+    ('folate', 'Folate (folate equivalents)', 'µg', 'vitamin', 'FOL', 19),
+    ('vitamin_b12', 'Vitamin B12', 'µg', 'vitamin', 'VITB12', 20),
+    ('sodium', 'Sodium', 'mg', 'mineral', 'NA', 30),
+    ('potassium', 'Potassium', 'mg', 'mineral', 'K', 31),
+    ('calcium', 'Calcium', 'mg', 'mineral', 'CA', 32),
+    ('magnesium', 'Magnesium', 'mg', 'mineral', 'MG', 33),
+    ('phosphorus', 'Phosphorus', 'mg', 'mineral', 'P', 34),
+    ('iron', 'Iron', 'mg', 'mineral', 'FE', 35),
+    ('zinc', 'Zinc', 'mg', 'mineral', 'ZN', 36),
+    ('iodine', 'Iodine', 'µg', 'mineral', 'ID', 37),
+    ('omega_3', 'Omega-3 fatty acids', 'g', 'fat', 'FAPUN3', 50),
+    ('epa', 'EPA (C20:5 n-3)', 'g', 'fat', 'F20:5CN3', 51),
+    ('dha', 'DHA (C22:6 n-3)', 'g', 'fat', 'F22:6CN3', 52),
+    ('omega_6', 'Omega-6 fatty acids', 'g', 'fat', 'FAPUN6', 53),
+    ('cholesterol', 'Cholesterol', 'mg', 'fat', 'CHORL', 54),
+    ('water', 'Water', 'g', 'other', 'WATER', 70),
+    ('lactose', 'Lactose', 'g', 'other', 'LACS', 71);
+
+-- One nutrient amount of a source, per the source's reference quantity. No row
+-- means unknown; a stored 0 is a reported zero.
+CREATE TABLE food_source_nutrients (
+    source_id bigint NOT NULL REFERENCES food_sources(id) ON DELETE CASCADE,
+    nutrient_key text NOT NULL REFERENCES nutrients(key),
+    amount numeric NOT NULL,
+    -- A declared maximum, e.g. a label's "<0,1 µg".
+    upper_bound boolean NOT NULL DEFAULT false,
+    PRIMARY KEY (source_id, nutrient_key)
+);
+
 -- Named amounts of a food, e.g. "Portion" 200 g and "Becher" 400 g from a
 -- label, used to turn "I ate one cup" into grams.
 CREATE TABLE food_portions (

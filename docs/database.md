@@ -1,6 +1,6 @@
 # Food catalog database
 
-The pre-deployment catalog has three tables, plus derived
+The pre-deployment catalog has five tables, plus derived
 [search views](#search-views):
 
 | Table | What it stores |
@@ -8,6 +8,7 @@ The pre-deployment catalog has three tables, plus derived
 | `foods` | Your food names, aliases, and preparation state. Red and beluga lentils can be separate foods. |
 | `food_sources` | One BLS row, manual entry, photographed label, or estimate for a specific food, with its energy and nutrients per reference quantity. |
 | `food_portions` | Named amounts of a food, such as a label's portion or package size. |
+| `nutrients`, `food_source_nutrients` | Vitamins, minerals, and other nutrients beyond the label columns, per source. |
 
 Every source belongs to exactly one food through `food_sources.food_id`. The
 generic BLS lentil row belongs to a generic lentils food. Red and beluga lentils
@@ -121,9 +122,18 @@ report nonnumeric values and warnings. Rebuilding an import requires both the
 same source file and pipeline. The BLS importer pins the inspected workbook by
 checksum.
 
-Adding another nutrient requires a column: edit the base schema before
-deployment, or add a migration after deployment. Vitamins and minerals are
-deliberately not columns yet; see the [BLS import guide](bls4-import.md#other-bls-fields).
+The label columns are fixed; other nutrients live in `food_source_nutrients`
+(see below).
+
+`nutrients` lists further nutrients, e.g. vitamins and minerals, with their
+unit and INFOODS code (`VITD`), seeded by the schema. `food_source_nutrients`
+holds one amount per source and nutrient in that unit; no row means unknown,
+and `upper_bound` marks a declared maximum. Add a nutrient by inserting a
+`nutrients` row, not a column.
+
+`foods.preparation_state` is one of raw, boiled, stewed, braised, grilled,
+fried, baked, deep-fried, dried, frozen, canned, smoked, poached, steamed,
+roasted, gratinated, toasted, blanched, or cooked, or `NULL` when unknown.
 
 `food_portions` names amounts of a food, such as a label's "Portion" of 200 g
 or the whole 400 g "Becher". `kind` is `package` for the sold unit, `serving`
