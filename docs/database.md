@@ -5,13 +5,19 @@ The pre-deployment catalog has two tables:
 | Table | What it stores |
 | --- | --- |
 | `foods` | Your food names, aliases, and preparation state. Red and beluga lentils can be separate foods. |
-| `food_sources` | One BLS row, manual entry, photographed label, or estimate for a specific food, with its nutrition and original context. |
+| `food_sources` | One BLS row, manual entry, photographed label, or estimate for a specific food, with its energy and macros. |
 
 Every source belongs to exactly one food through `food_sources.food_id`. The
 generic BLS lentil row belongs to a generic lentils food. Red and beluga lentils
 need their own source records if they are added as separate foods. A food can
 have several sources whose values disagree; the application can decide which
 value to use.
+
+Ingredients and branded products share `foods`. Both are foods that recipes or
+food logs should be able to reference. `kind`, `brand`, and `barcode` distinguish
+products when label capture is added; a separate branded table would make those
+references and searches more complicated without helping the first ingredient
+import.
 
 `source_name` is a readable label such as `BLS 4.0`. The BLS citation and
 license are documented in the source research, not repeated in database rows.
@@ -56,32 +62,28 @@ It must link each source to the food it actually describes. The database
 retains basic required fields, identities, and that direct link.
 
 `food_sources.reference_quantity` and `reference_unit` describe the basis of
-its nutrient values, commonly 100 g for BLS. The selected nutrients are direct
-columns with fixed units:
+its values, commonly 100 g for BLS. V1 stores only these fixed-unit columns:
 
 | Column | Meaning |
 | --- | --- |
 | `energy_kcal` | Energy in kcal |
 | `protein_g`, `fat_g`, `carbs_g`, `fiber_g` | Protein, fat, available carbohydrate, and fiber in grams |
-| `vitamin_b12_ug`, `beta_carotene_ug` | B12 and beta carotene in micrograms |
-| `vitamin_c_mg` | Vitamin C in milligrams |
 
-`NULL` means no usable numeric value; `0` is an actual reported or logical
-zero. For BLS, `raw_data.nutrients` retains each original value, unit, marker,
-provenance category, and reference. This distinguishes missing, trace, and
-detection-limit values even when their numeric column is null. A later
-estimate can put its range and confidence in `raw_data` alongside the chosen
-numeric amount.
+`NULL` means no usable numeric value; `0` is a reported or calculated zero.
+The importer must interpret BLS trace, detection-limit, and missing markers
+before writing. Their exact original forms remain in the source file, not in
+the catalog; the import report should identify that file by checksum and
+report nonnumeric values and warnings. Rebuilding an import requires both the
+same source file and pipeline. The source research identifies an inspected BLS
+artifact, but the production import still needs its own source-file lock.
 
 Adding another selected nutrient requires a column. That is intentional for
 the small initial set: edit the base schema before deployment, or add a
 migration after deployment.
 
-For a photographed product label, `source_name` can be `package label` and
-`capture_method` can be `llm_label_extraction`. An estimate can use
-`agent estimate` and `llm_estimation`; a manual entry can use `manual entry` and
-`manual_entry`. The source record can retain original input in `raw_input` or
-`raw_data`; a future attachment record can point to the photo itself.
+For a photographed product label later, `source_name` can be `package label`.
+The label image needs its own attachment storage when that feature is built.
+V1 does not store original user input or upstream dataset rows in PostgreSQL.
 
 ## Query example
 
@@ -96,13 +98,12 @@ SELECT
     source.protein_g,
     source.fat_g,
     source.carbs_g,
-    source.fiber_g,
-    source.raw_data #>> '{nutrients,VITB12,provenance}' AS b12_provenance
+    source.fiber_g
 FROM foods AS food
 JOIN food_sources AS source ON source.food_id = food.id
 WHERE food.slug = 'lentil-mature-dry';
 ```
 
-The fixture has a fruit, grain, and legume from BLS 4.0. It includes missing,
-below-limit, and logical-zero values so the importer can later exercise those
-cases without turning them into invented numbers.
+The fixture has a fruit, grain, and legume from BLS 4.0 with energy and macros
+per 100 g. Missing and censored source values will be exercised by the future
+importer, where that validation belongs.

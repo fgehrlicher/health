@@ -9,11 +9,13 @@ the caller is a person, an agent, or a bulk importer.
 
 ## Scope
 
-- manual creation of one food and its nutrient values
+- manual creation of one food and its energy and macro values
 - non-interactive, machine-readable input and output for agents
 - bulk ingestion through a source-specific adapter
 - validation before any database mutation
-- provenance on every accepted food and nutrient value
+- a source identity for every accepted food record
+- an import report with the source artifact checksum and rejected or nonnumeric
+  source values; the source file must remain available for a rebuild
 - transactional writes with clear partial-failure behavior
 - idempotent re-imports using stable source identity
 - dry-run and useful error reporting

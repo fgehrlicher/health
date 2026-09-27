@@ -62,19 +62,20 @@ chickpeas. Those must remain distinct rather than being aliases of one food.
 
 Nutrient cells are not purely numeric. The importer must recognize:
 
-| Source value | Meaning | Canonical handling |
+| Source value | Meaning | V1 import handling |
 | --- | --- | --- |
-| number | reported content per 100 g | store the numeric value and provenance |
-| `TR` | detected trace; exact amount unknown | non-zero trace status, no invented number |
-| `<LOD` | below detection limit | censored value with detection-limit status |
-| `<LOQ` | below quantification limit | censored value with quantification-limit status |
-| `<LOD or <LOQ` | source does not distinguish the limit | censored value with the raw marker retained |
-| `-` | no reliable value | missing, never zero |
-| blank | currently an upstream defect in known cases | missing plus an import warning |
+| number | reported content per 100 g | store it in the selected numeric column |
+| `TR` | detected trace; exact amount unknown | null numeric value; report the marker |
+| `<LOD` | below detection limit | null numeric value; report the marker |
+| `<LOQ` | below quantification limit | null numeric value; report the marker |
+| `<LOD or <LOQ` | source does not distinguish the limit | null numeric value; report the marker |
+| `-` | no reliable value | null numeric value, never zero |
+| blank | currently an upstream defect in known cases | null numeric value plus an import warning |
 
-This is a strong match for the project's uncertainty principles, but it rules
-out a simple nullable numeric column as the complete representation. Preserve
-the raw marker even if the product initially exposes only a numeric value.
+For the smaller food-tracking V1, a numeric column is null when no usable
+number exists. The retained source file contains the original markers; an
+import report should flag nonnumeric values rather than copying every marker
+into PostgreSQL.
 
 The source also retains significant figures dynamically. Do not round all
 nutrients to a fixed number of decimal places during import.
@@ -103,12 +104,13 @@ markers remain meaningful data rather than failed parsing.
 The high coverage does not mean every value was directly measured. Every value
 has one of 13 provenance categories, including analysis, literature,
 aggregation, another nutrient database, transferred value, rescaling, recipe
-calculation, logical zero, trace, and formula calculation. That category and the
-raw reference are part of the value, not optional metadata.
+calculation, logical zero, trace, and formula calculation. These categories and
+references matter when validating or reproducing an import, even though V1
+does not store them in the catalog.
 
-References can contain several source citations separated by `#`. Preserve the
-raw reference first. Splitting and normalizing citations can wait until there is
-a concrete query that needs it.
+References can contain several source citations separated by `#`. The source
+file retains them. Splitting and normalizing citations can wait
+until there is a concrete query that needs it.
 
 ## Known BLS 4.0 errata
 
@@ -144,7 +146,8 @@ without versioning and validation.
    seed.
 2. Record the release name, retrieval time, file checksum, citation, and license
    with every import run.
-3. Preserve every source value, marker, provenance category, and reference.
+3. Pin the source artifact so every value, marker, provenance category, and
+   reference can be recovered; report warnings from the import.
 4. If 4.0 is used, calculate energy with the corrected documented formula or
    apply an explicit errata overlay. Never silently replace the source value.
 5. Treat the 59 blank zinc cells as import warnings and missing values unless the
@@ -176,14 +179,13 @@ A still compact health-oriented set adds:
 - calcium
 - iron
 
-The schema can remain nutrient-generic even if only this subset is imported and
-shown initially. Importing all 138 components should be a separate decision: it
-would add nearly one million nutrient observations and many repeated reference
-strings without immediate product value.
+V1 stores only the five values in the smallest set above as fixed columns.
+Adding other nutrients is a later decision. Importing all 138 components would
+add nearly one million nutrient observations without immediate product value.
 
 ## Conclusion
 
-Adopt BLS 4.x. The data model and importer must treat provenance, censored
-values, preparation state, source version, and errata as first-class concerns.
+Adopt BLS 4.x. The importer must account for censored values and errata, and
+keep the source artifact identifiable so the compact V1 catalog can be rebuilt.
 With those conditions, the current issues are manageable and do not justify a
 different primary source.

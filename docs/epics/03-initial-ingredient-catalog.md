@@ -5,7 +5,7 @@
 ## Outcome
 
 PostgreSQL contains a useful, reproducible baseline of unbranded ingredients
-and the small set of health-focused nutrients selected by the research spike.
+with energy and macro values for food tracking.
 
 ## Scope
 
@@ -15,7 +15,8 @@ and the small set of health-focused nutrients selected by the research spike.
 - keep preparation states such as raw, dried, boiled, and cooked distinct
 - import vegetables, fruit, grains, legumes, nuts, seeds, and other agreed
   ingredient groups
-- retain source names, identifiers, provenance, and relevant quality markers
+- retain source names and identifiers; report raw source markers and quality
+  issues during import
 - generate a report covering counts, gaps, duplicates, and rejected records
 - document the exact command needed to reproduce the catalog
 
@@ -25,9 +26,9 @@ and the small set of health-focused nutrients selected by the research spike.
 - Branded products and composite meals are excluded by documented rules.
 - Rebuilding from an empty database produces the same logical catalog.
 - Re-running the pinned import is idempotent.
-- Sampled nutrient values can be traced back to the exact upstream record.
+- Sampled energy and macro values can be traced back to the exact upstream record.
 - Raw and cooked forms are not merged when their nutritional meaning differs.
-- Missing-value rates for each selected nutrient are visible in the report.
+- Missing-value rates for energy and each macro are visible in the report.
 - A small manual review finds no unexplained zeros or obvious unit errors.
 
 ## Not in this epic

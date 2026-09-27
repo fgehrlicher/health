@@ -37,19 +37,19 @@ and provenance.
 ## Decisions made by this spike
 
 - Primary source family: BLS 4.x.
-- Source food identity: BLS code plus source release, not the food name.
+- Source food identity: BLS code plus the chosen source version, not the food name.
 - Reference basis: nutrient values per 100 g edible portion.
-- Original BLS value, status, provenance category, and reference must survive
-  normalization.
+- The importer must understand original BLS values, markers, and provenance.
+  A retained, checksum-identified source file and import report support
+  reproduction; V1 stores only selected numeric energy and macro values.
 - Raw, dried, and cooked forms remain distinct foods.
 - The importer must be version-aware and idempotent.
 - The initial seed is a curated ingredient subset, not all 7,140 rows.
 
 ## Decisions still open
 
-- the exact first nutrient shortlist
 - the exact ingredient inclusion rules within the relevant BLS groups
-- whether corrected energy is stored as a derived value or calculated on read
+- how corrected energy is calculated or overlaid during import
 - the canonical machine input accepted by the Rust CLI
 
 ## Primary sources

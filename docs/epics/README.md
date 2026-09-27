@@ -18,7 +18,7 @@ After the CLI:
 
 4. [Initial ingredient catalog](03-initial-ingredient-catalog.md)
 
-The source spike recommends BLS 4.x. The initial nutrient set remains open, and
+The source spike recommends BLS 4.x. V1 stores energy and macros, and
 the production seed must check for BLS 4.1 or apply the documented 4.0 errata
 policy. Database work can proceed as long as it models source-specific
 identifiers and nutrients without copying the BLS workbook layout.
@@ -31,7 +31,7 @@ identifiers and nutrients without copying the BLS workbook layout.
 - A useful set of vegetables, fruit, grains, beans, and similar ingredients has
   been imported from a documented source.
 - Every imported value is traceable to its named source (such as BLS 4.0).
-- Missing values remain missing rather than silently becoming zero.
+- Missing energy or macro values remain null rather than silently becoming zero.
 
 Implementation details that are not necessary for this milestone should be
 chosen during the relevant epic, not fixed here.

@@ -8,8 +8,7 @@ Implemented by the base schema and tooling documented in
 ## Outcome
 
 A developer can start PostgreSQL, initialize an empty database from one
-pre-deployment base schema, and store sourced ingredient nutrition without
-losing uncertainty or provenance.
+pre-deployment base schema, and store sourced ingredient energy and macros.
 
 ## Scope
 
@@ -17,11 +16,10 @@ losing uncertainty or provenance.
 - a mutable base schema while no deployed database exists
 - a documented boundary after which schema changes become migrations
 - foods and their names or aliases
-- nutrient values and units based on a declared quantity
+- energy and macro values with fixed units and a declared reference quantity
 - source identities and references, including the chosen BLS version in a
   readable source name
-- a distinction between missing, zero, measured, and calculated values where
-  the source provides it
+- a nullable amount so unavailable values are not silently stored as zero
 - database identities and the direct food/source link; content validation
   belongs to the ingestion CLI
 - a very small fixture used to exercise the schema and queries
@@ -32,14 +30,13 @@ losing uncertainty or provenance.
   documented command.
 - Bootstrapping an initialized database is safe, and schema status is
   inspectable.
-- A representative raw fruit, grain, and legume can be stored with selected
-  nutrients per 100 g.
+- A representative fruit, grain, and legume can be stored with energy and
+  macros per 100 g.
 - Each value can be traced to a source record identified as BLS 4.0.
 - Source identifiers are retained so the ingestion CLI can detect duplicates
   before writing.
-- Missing nutrient data is observably different from a measured or logical
-  zero.
-- A simple query returns the selected health-focused nutrients for a food.
+- Missing numeric data is observably different from zero.
+- A simple query returns energy and macros for a food.
 
 ## Not in this epic
 
