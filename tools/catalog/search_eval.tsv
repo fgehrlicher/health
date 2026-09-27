@@ -1,0 +1,72 @@
+# query	acceptable BLS codes (comma-separated)	case
+apple	F110100	english
+banana	F503100	english
+egg	E111100,E111132	english
+eggs	E111100,E111132	plural
+boiled egg	E111132,Y740162	preparation
+chicken breast	V416100,V4A6100	english
+breast chicken	V416100,V4A6100	word order
+grilled chicken breast	V416172	preparation
+chicken breast grilled	V416172	preparation
+oats	C133000	english
+oat flakes	C133000	english
+porridge	C133032	synonym
+white rice	C352000	english
+rice	C352000,C352032	english
+brown rice	C351000	english
+cooked rice	C352032	synonym
+potato	K110100,K120100	english
+boiled potatoes	K110132	preparation
+lentils	H725100	english
+red lentils	H730000	english
+olive oil	Q120000	english
+butter	Q611000,Q6A4000	english
+salmon	T410100	english
+smoked salmon	T410600	english
+tuna	T121100,T121902	english
+canned tuna	T121902	english
+beef mince	U010100	english
+minced beef	U010100	word order
+ground beef	U010100	synonym
+peanut butter	H110800,H880200	english
+almonds	H210100	plural
+broccoli	G312100	english
+tomatoes	G561100	plural
+avocado	F502100	english
+pasta	E401000,E401032	english
+tofu	H861000	english
+chickpeas	H720902	plural
+wholemeal bread	B101000	english
+whole grain bread	B101000	synonym
+feta	M012200	english
+gouda	M402400,M402500,M402600	english
+whole milk	M111300,M113300	english
+milk	M111300,M113300,M113200	english
+yogurt	M141300,M1E3300	english
+yoghurt	M141300,M1E3300	spelling
+quark	M713100,M713200,M713300,M713500,M713700	english
+low fat quark	M713100	english
+cottage cheese	M711100,M711300	english
+spinach	G211100	english
+oat drink	C660000	english
+oat milk	C660000	synonym
+banan	F503100	prefix
+brocoli	G312100	typo
+chiken breast	V416100,V4A6100	typo
+avocdo	F502100	typo
+samon	T410100	typo
+apfel	F110100	german
+banane	F503100	german
+haferflocken	C133000	german compound
+magerquark	M713100	german
+hähnchenbrust	V416100,V4A6100	german compound
+kartoffel	K110100,K120100	german
+vollmilch	M111300	german
+linsen	H725100	german plural
+lachs	T410100	german
+ei	E111100,E111132	german
+reis	C352000,C352032	german
+vollkornbrot	B101000	german
+erdnussbutter	H880200,H110800	german
+kichererbsen	H720902	german plural
+F110100	F110100	code
