@@ -1,46 +1,48 @@
-# Food catalog browser and API
+# Local food browser and API
 
-This is a read-only first view of the food catalog. It searches foods, aliases,
-brands, barcodes, source food names, and external IDs. Filters cover food type,
-preparation state, source, minimum protein and fiber, and maximum energy.
-Sorting and pagination work on the same API. A food detail shows every
-nutrition source, its reference quantity, and any unknown values.
+The read-only browser is a sortable table of foods with energy, four macros,
+and protein per 100 kcal. This last value is calculated as
+`protein_g × 100 / energy_kcal`, not stored in the database. It is unknown
+when protein or energy is missing or energy is zero.
+Search finds names, aliases, source names, and BLS codes. Filters include BLS
+group, source, food type, preparation, protein, fiber, and energy. Click a row
+to see all source records and a small diagram of grams in 100 g (where the
+source basis is 100 g). A dash means unknown, not zero.
+BLS codes remain searchable and appear in food details, but are not a table column.
 
-## Run locally
+Click a column header to sort the full filtered result set, not just the
+current page. The table uses a locally bundled [Tabulator 6.5.3](https://tabulator.info/)
+for sorting, paging, column resizing, and responsive collapsed rows. No CDN or
+frontend build is required at runtime. Its MIT license is in the bundled
+`static/vendor/tabulator-6.5.3/LICENSE` file.
 
-From the repository root:
+## Run
 
 ```sh
 make db-up
-make db-fixture                         # optional starter data
-uv run --locked health-catalog
+uv run --locked bls4-import
+make catalog
 ```
 
-Open <http://127.0.0.1:8000>. To browse the reviewed BLS starter set, run
-`uv run --locked bls4-import` first. The catalog uses `DATABASE_URL` if set;
-otherwise it connects to the local Compose database.
-
-The server binds to `127.0.0.1` by default. It has no login yet. Do not expose
-it to a public network. An explicit `--host` and `--port` are available for a
-private deployment once access control and networking are decided.
+Open <http://127.0.0.1:8000>. The server binds to `127.0.0.1` by default;
+it has no login, so do not expose it to a public network. `DATABASE_URL`
+overrides the local Compose database.
 
 ## API
 
-- `GET /api/foods` — paginated food list; parameters: `q`, `kind`,
-  `preparation_state`, `source_name`, `min_protein`, `min_fiber`, `max_energy`,
+- `GET /api/foods`: paginated list. Parameters: `q`, `group`, `kind`,
+  `preparation_state`, `source_name`, `min_protein`, `min_protein_density`,
+  `min_fiber`, `max_energy`,
   `sort`, `limit`, `offset`.
-- `GET /api/foods/facets` — available filter values and catalog counts.
-- `GET /api/foods/{slug}` — food details and all nutrition sources.
-- `GET /docs` — interactive API documentation.
+- `GET /api/foods/facets`: counts and available filter values, including BLS
+  group names and counts.
+- `GET /api/foods/{slug}`: food details with all nutrition sources.
+- `GET /docs`: interactive API documentation.
 
-List results show one source per food: the requested source when filtered,
-otherwise BLS 4.0 if present, then the first source record. The source is
-always named; it is not a universal or merged nutrition value. Filters and
-nutrition sorting compare values on each displayed source's stated reference
-basis, usually 100 g for BLS. Unknown nutrient values are `null` and do not
-match numeric filters. API decimal amounts are strings to avoid losing source
-precision. The browser shows a dash for unknown values, never a fabricated zero.
-
-The UI and API are served from one process and origin. The manifest makes the
-site home-screen friendly; offline behavior is not implemented yet. Logging,
-editing, recipes, and the daily dashboard remain separate future work.
+List results show one source per food: the requested source, otherwise BLS
+4.0 if present, otherwise the first record. Values are never merged across
+sources. Nutrition filters compare the displayed source's stated reference
+basis. Unknown values do not match numeric filters. API decimals are strings
+to preserve source precision.
+The source response includes `group_code`; it is populated by the BLS importer
+and can be `null` for a future non-BLS source.

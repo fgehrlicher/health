@@ -21,9 +21,11 @@ def request(path: str) -> httpx.Response:
 def test_frontend_and_assets_are_served():
     page = request("/")
     assert page.status_code == 200
-    assert "Food Atlas" in page.text
+    assert "<title>Foods</title>" in page.text
+    assert 'id="food-table"' in page.text
     assert request("/assets/app.js").status_code == 200
     assert request("/assets/styles.css").status_code == 200
+    assert request("/assets/vendor/tabulator-6.5.3/tabulator.min.js").status_code == 200
 
 
 def test_api_rejects_invalid_filters_before_querying_database():
