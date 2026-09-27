@@ -130,6 +130,8 @@ or the whole 400 g "Becher". `kind` is `package` for the sold unit, `serving`
 for the label's portion, and `piece` or `household` for other measures.
 Portions let "I ate one cup" become grams.
 
+A barcode identifies at most one food (`foods_barcode_key`).
+
 For a photographed product label later, `source_name` can be `package label`.
 The label image needs its own attachment storage when that feature is built.
 The database does not store original user input or upstream dataset rows.

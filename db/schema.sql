@@ -62,6 +62,9 @@ CREATE TABLE food_sources (
 
 CREATE INDEX food_sources_food_id_idx ON food_sources (food_id);
 
+-- A barcode identifies one product.
+CREATE UNIQUE INDEX foods_barcode_key ON foods (barcode) WHERE barcode IS NOT NULL;
+
 -- Named amounts of a food, e.g. "Portion" 200 g and "Becher" 400 g from a
 -- label, used to turn "I ate one cup" into grams.
 CREATE TABLE food_portions (
