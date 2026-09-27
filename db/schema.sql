@@ -39,8 +39,5 @@ CREATE TABLE food_sources (
     protein_g numeric,
     fat_g numeric,
     carbs_g numeric,
-    fiber_g numeric,
-
-    -- Optional link to the source record; import details live in the pipeline.
-    source_url text
+    fiber_g numeric
 );

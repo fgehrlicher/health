@@ -20,8 +20,7 @@ INSERT INTO food_sources (
     protein_g,
     fat_g,
     carbs_g,
-    fiber_g,
-    source_url
+    fiber_g
 )
 SELECT
     food.id,
@@ -34,8 +33,7 @@ SELECT
     sample.protein_g,
     sample.fat_g,
     sample.carbs_g,
-    sample.fiber_g,
-    'https://blsdb.de/download'
+    sample.fiber_g
 FROM (VALUES
     ('apple-raw', 'F110100', 'Apfel roh', 58::numeric, 0.424, 0.5, 11.7, 2.275),
     ('white-rice-raw', 'C352000', 'Reis poliert, roh', 351::numeric, 7.931, 0.62, 77.1, 2.5),
