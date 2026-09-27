@@ -1,12 +1,15 @@
+from collections import Counter
 from decimal import Decimal
 
 import pytest
+from bls4_importer.erratum import apply_erratum, load_erratum
 from bls4_importer.source import (
     FIELDS,
     columns_from_headers,
     parse_amount,
     parse_codes,
     parse_food,
+    preparation_state,
 )
 
 
@@ -136,3 +139,100 @@ def test_sugars_above_carbs_fail():
             "F110100",
             [],
         )
+
+
+@pytest.mark.parametrize(
+    ("name", "state"),
+    [
+        ("Hühnerei roh", "raw"),
+        ("Reis poliert, gekocht, gebraten ohne Fett (Pfanne)", "fried"),
+        ("Hähnchen Brustfilet, tiefgefroren", "frozen"),
+        ("Tomate Konserve", "canned"),
+        ("Karottensalat (gegart) mit warmer Essigmarinade", None),
+        ("Rohkost-Salat", None),
+        ("Vollkornbrot", None),
+    ],
+)
+def test_preparation_state_is_the_last_named_step(name, state):
+    assert preparation_state(name) == state
+
+
+def test_other_nutrients_convert_to_label_units_and_drop_impossible_values():
+    issues = []
+    food, _corrected, _missing = parse_food(
+        *bls_row(
+            "N311000",
+            "Limonade mit Süßungsmitteln",
+            "Lemonade with sweeteners",
+            energy_kj=5,
+            energy_kcal=1,
+            vitamin_b6=150,
+            calcium=12.5,
+            water=100.16,
+        ),
+        "N311000",
+        issues,
+    )
+    assert food.other_nutrients["vitamin_b6"] == Decimal("0.15")  # 150 µg -> mg
+    assert food.other_nutrients["calcium"] == Decimal("12.5")
+    assert food.other_nutrients["water"] is None
+    assert {"code": "N311000", "field": "WATER", "marker": "implausible"} in issues
+    assert food.other_nutrients["iodine"] is None
+
+
+def test_erratum_corrects_only_the_published_value_and_withholds_others():
+    erratum = load_erratum()
+    almond = parse_food(
+        *bls_row(
+            "H210100", "Mandel süß", "Sweet almond", energy_kj=2500, energy_kcal=600, calcium=84.864
+        ),
+        "H210100",
+        [],
+    )[0]
+    assert apply_erratum(almond, erratum["H210100"]).other_nutrients["calcium"] == Decimal(254)
+
+    unexpected = parse_food(
+        *bls_row(
+            "H210100", "Mandel süß", "Sweet almond", energy_kj=2500, energy_kcal=600, calcium=90
+        ),
+        "H210100",
+        [],
+    )[0]
+    with pytest.raises(ValueError, match="expects CA 84.9"):
+        apply_erratum(unexpected, erratum["H210100"])
+
+    anchovy = parse_food(
+        *bls_row(
+            "T104100",
+            "Sardelle roh",
+            "Anchovy raw",
+            energy_kj=849,
+            energy_kcal=204,
+            fat_g=13.7,
+            protein_g=20.1,
+            omega_3=1.4,
+            calcium=147,
+        ),
+        "T104100",
+        [],
+    )[0]
+    anchovy = apply_erratum(anchovy, erratum["T104100"])
+    assert anchovy.nutrients["fat_g"] is None and anchovy.nutrients["energy_kcal"] is None
+    assert anchovy.other_nutrients["omega_3"] is None
+    assert anchovy.nutrients["protein_g"] == Decimal("20.1")
+    assert anchovy.other_nutrients["calcium"] == Decimal(147)
+
+
+def test_erratum_file_covers_the_documented_entries():
+    erratum = load_erratum()
+    sections = Counter(c.section for entries in erratum.values() for c in entries)
+    assert sections == {
+        "1.2": 1,
+        "1.3": 3,
+        "2.2": 2,
+        "6": 1,
+        "7.1": 6,
+        "7.2": 19,
+        "7.3": 132,
+        "7.7": 16,
+    }

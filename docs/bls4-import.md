@@ -49,6 +49,22 @@ protein, salt, and alcohol. Source markers such as `TR`, `<LOD`, `<LOQ`, and
 `-` become `NULL`, never zero. Sugars or polyols above available carbohydrate
 reject the row; this holds for every BLS 4.0 row.
 
+The importer also stores 26 further nutrients in `food_source_nutrients`:
+vitamins A, D, E, K, C, B1, B2, niacin, B6, folate, and B12; sodium,
+potassium, calcium, magnesium, phosphorus, iron, zinc, and iodine; omega-3,
+EPA, DHA, omega-6, and cholesterol; water and lactose. They are stored in EU
+label units, so vitamin B6 converts from µg to mg. An unknown value has no row.
+Four diet drinks list slightly more than 100 g water per 100 g; those water
+values are dropped and reported as `implausible`.
+
+Each food's `preparation_state` comes from the last preparation word in its
+German name outside parentheses: "Reis poliert, gekocht, gebraten ohne Fett"
+is `fried`, "Karottensalat (gegart) mit Marinade" has none. 3,699 foods get
+one of: raw, boiled, stewed, braised, grilled, fried, baked, deep-fried,
+dried, frozen, canned, smoked, poached, steamed, roasted, gratinated, toasted,
+blanched, or cooked. The sixth code digit mostly agrees but is undocumented,
+so it is not used. Reruns fill a missing state but never overwrite one.
+
 BLS is not always internally consistent, so these are not validated: 42 rows
 have more saturated fatty acids than fat (e.g. `F545100` plantain), 446 have
 sugars plus starch above available carbohydrate, and salt does not always
@@ -61,24 +77,34 @@ are present; the same kJ formula reproduces the published kJ of 6,724 of the
 6,729 unaffected rows. For 24 further affected rows, one or more inputs are
 missing: those foods are imported, but energy is `NULL` instead of the
 suspect published number. When `OLSAC` itself is nonnumeric, the published
-energy is retained; its marker appears in the report. The other published
-errata (zinc, almond calcium, amino acids) do not affect the imported fields.
+energy is retained; its marker appears in the report.
+
+The erratum's other items are applied from
+[`erratum-2026-08.tsv`](../importers/bls4/erratum-2026-08.tsv), transcribed
+from the erratum PDF (SHA-256 recorded in the file and the report):
+
+- **Corrected** where the erratum gives a new value: vitamin A of skimmed milk
+  (`M111100`), iodine of three low-fat milks, and calcium of sweet and
+  blanched almonds. The importer fails if the published value differs from the
+  one the erratum names, so a changed workbook cannot be silently overwritten.
+- **Withheld** (`NULL`) where BLS 4.1 will recalculate: vitamin A, iodine, and
+  calcium of the 6, 19, and 132 recipes using those ingredients, and fat,
+  fatty acids, and energy of raw anchovy (`T104100`, fat 13.7 g instead of
+  2.3–6.3 g) and its 16 derived foods.
+
+The 59 blank zinc cells import as unknown, as the erratum prescribes. Amino
+acids are not imported. The report lists the applied erratum sections.
 
 ## Other BLS fields
 
-The workbook has 138 components, each with a data-origin and reference column,
-plus a free-text note. Worth knowing when extending the import:
+The workbook has 138 components; the importer stores 40. Not imported:
 
-- **Vitamins and minerals** (A, D, E, B-vitamins, folate, C; sodium,
-  potassium, calcium, magnesium, iron, zinc, iodide, …) are 93–100% numeric.
-  They would suit a long-format nutrient table rather than more columns.
-  Before adding them, apply the zinc and almond-calcium errata.
-- **Omega-3 and omega-6** totals (`FAPUN3`, `FAPUN6`), **cholesterol**
-  (`CHORL`), and **water** are well populated.
-- **Amino acids** are affected by the erratum; wait for BLS 4.1.
-- **Data origin**: about 77% of protein and fat values are recipe
+- **Data origin** per value: about 77% of protein and fat values are recipe
   calculations, about 5% laboratory analyses; the rest come from other
-  databases, literature, or rescaling. Useful as a quality hint, not stored.
+  databases, literature, or rescaling. A quality hint for later.
+- **Amino acids**: affected by the erratum; wait for BLS 4.1.
+- Single fatty acids, sugars other than lactose, fiber fractions, and organic
+  acids: too detailed for tracking.
 - The **note** column is set for only 4 rows (sweeteners such as maltitol).
 
 Each future source should have its own importer. Do not edit an importer while

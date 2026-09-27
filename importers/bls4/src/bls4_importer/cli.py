@@ -13,6 +13,7 @@ import psycopg
 
 from bls4_importer.database import write_foods
 from bls4_importer.download import ensure_workbook, sha256_file
+from bls4_importer.erratum import ERRATUM_PATH, ERRATUM_PDF_SHA256, load_erratum
 from bls4_importer.source import SOURCE_NAME, WORKBOOK_SHA256, parse_codes, read_workbook
 
 REPOSITORY_DIR = Path(__file__).resolve().parents[4]
@@ -47,8 +48,10 @@ def run(argv: list[str] | None = None) -> dict:
         )
     code_bytes = options.codes.read_bytes() if options.codes else None
     codes = parse_codes(code_bytes.decode("utf-8")) if code_bytes else None
-    foods, issues, corrected, energy_unavailable = read_workbook(options.workbook, codes)
-    markers = Counter((issue["field"], issue["marker"]) for issue in issues)
+    reading = read_workbook(options.workbook, codes, load_erratum())
+    foods = reading.foods
+    markers = Counter((issue["field"], issue["marker"]) for issue in reading.issues)
+    applied = Counter((entry["section"], entry["action"]) for entry in reading.erratum_applied)
     counts = (
         (0, 0, 0)
         if options.dry_run
@@ -69,8 +72,19 @@ def run(argv: list[str] | None = None) -> dict:
         "created": counts[0],
         "updated": counts[1],
         "skipped": counts[2],
-        "energy_corrected": corrected,
-        "energy_unavailable": energy_unavailable,
+        "energy_corrected": reading.energy_corrected,
+        "energy_unavailable": reading.energy_unavailable,
+        "erratum": {
+            "pdf_sha256": ERRATUM_PDF_SHA256,
+            "overlay_sha256": sha256_file(ERRATUM_PATH),
+            "applied": [
+                {"section": section, "action": action, "foods": count}
+                for (section, action), count in sorted(applied.items())
+            ],
+        },
+        "preparation_states": dict(
+            Counter(food.preparation_state or "unknown" for food in foods).most_common()
+        ),
         "nonnumeric_values": [
             {"field": field, "marker": marker, "count": count}
             for (field, marker), count in sorted(markers.items())
