@@ -1,0 +1,13 @@
+# Reviewed starter set. One exact BLS 4.0 code per line; no prefix expansion.
+# Raw and boiled forms remain separate. G650132 exercises the energy erratum.
+F110100
+G312100
+C352000
+C352032
+H725100
+H730132
+G770400
+G770432
+H480100
+H120100
+G650132
