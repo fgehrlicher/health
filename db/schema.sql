@@ -1,5 +1,5 @@
--- Frozen baseline for new databases; every change goes into db/migrations/.
--- Content validation belongs in the importer.
+-- Mutable baseline until the first deployment; changes need `make db-reset`.
+-- Content validation belongs in the importers and the API.
 
 CREATE TABLE foods (
     -- Stable identity within this catalog.
@@ -180,3 +180,34 @@ SELECT DISTINCT word FROM food_search_terms;
 
 CREATE UNIQUE INDEX food_search_vocabulary_word_idx ON food_search_vocabulary (word);
 CREATE INDEX food_search_vocabulary_trgm_idx ON food_search_vocabulary USING gin (word gin_trgm_ops);
+
+-- Consumption log: what was eaten, when, and how much. Nutrition is never
+-- stored here; it is always the referenced source's value times the amount.
+CREATE SCHEMA log;
+
+-- One sitting. A meal without items was logged, but its nutrition is unknown.
+CREATE TABLE log.meals (
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    eaten_at timestamptz NOT NULL,
+    -- breakfast, lunch, dinner, or snack; NULL when not said.
+    kind text,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX meals_eaten_at_idx ON log.meals (eaten_at);
+
+-- "This much of this": a catalog source and the amount eaten.
+CREATE TABLE log.meal_items (
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    meal_id bigint NOT NULL REFERENCES log.meals(id) ON DELETE CASCADE,
+    -- The exact source (e.g. one label version); an eaten food cannot be deleted.
+    source_id bigint NOT NULL REFERENCES food_sources(id) ON DELETE RESTRICT,
+    -- In the source's reference unit (g or ml).
+    amount numeric NOT NULL,
+    -- Guessed rather than weighed or read from a package.
+    estimated boolean NOT NULL DEFAULT false
+);
+
+CREATE INDEX meal_items_meal_id_idx ON log.meal_items (meal_id);
+CREATE INDEX meal_items_source_id_idx ON log.meal_items (source_id);

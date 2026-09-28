@@ -14,7 +14,7 @@ an agent search, look up barcodes, register products, and log meals.
 
 | Part | What it is | Details |
 | --- | --- | --- |
-| Database | PostgreSQL 18 in Docker Compose; frozen baseline [`db/schema.sql`](../db/schema.sql) plus [`db/migrations/`](../db/migrations/); `make db-backup` | [Database](database.md#schema-changes-backups-and-resets) |
+| Database | PostgreSQL 18 in Docker Compose; one mutable schema [`db/schema.sql`](../db/schema.sql), no migrations; `make db-backup` | [Database](database.md#schema-changes-resets-and-backups) |
 | BLS importer | `uv run --locked bls4-import`: downloads, verifies, and imports BLS 4.0 with its erratum | [BLS 4.0 import](bls4-import.md) |
 | Health API and browser | `make api`: the single backend, FastAPI on `127.0.0.1:8000`, in [`api/`](../api/) | |
 | – catalog | Search, food details, barcode lookup, registration, table UI | [Catalog](catalog.md) |
@@ -40,9 +40,10 @@ Everything is Python managed by one uv workspace (`api`, `importers/*`).
   400 g "Becher".
 - **Search views**: materialized word lists behind the ranked search, refreshed
   after every write.
-- **`log.entries`** and **`log.entry_items`**: what was eaten, when, the original
-  words, and catalog items with exact or ranged amounts. Items keep a snapshot
-  of their source's values; corrections and deletions keep the old rows.
+- **`log.meals`** and **`log.meal_items`**: meals (time, optional kind:
+  breakfast, lunch, dinner, snack) with items of "this much of this": a catalog
+  source, an amount, and whether it was estimated. Nutrition is calculated from
+  the catalog when read, never stored in the log.
 
 Unknown values are `NULL` (or absent rows), never zero. All values are per the
 source's stated reference quantity, usually 100 g.
@@ -53,12 +54,13 @@ source's stated reference quantity, usually 100 g.
 | --- | --- |
 | Generic BLS 4.0 foods | 7,140, with 180,808 further nutrient values |
 | Foods with a preparation state from their name | 3,699 |
-| Branded foods | 1: Milbona High Protein Quark-Creme Pfirsich-Maracuja, with label nutrition, ingredients, legal name, and two portions |
+| Branded foods | 1: Milbona High Protein Quark-Creme Pfirsich-Maracuja, registered through the API from the photos in `test-data/`: label nutrition, ingredients, legal name, and two portions |
+| Logged meals | 0 |
 
-The log is empty. BLS data can be rebuilt at any time with the importer.
-Registered foods and log entries exist only in the local database volume and
-in manual backups (`make db-backup`); nothing backs up automatically, and
-`make db-reset` deletes them.
+BLS data can be rebuilt at any time with the importer. Registered foods and
+meals exist only in the local database volume and in manual backups
+(`make db-backup`); nothing backs up automatically, and `make db-reset`, the
+only way to change the schema, deletes them.
 
 ## What an agent can do
 
@@ -75,10 +77,10 @@ Through the HTTP API ([reference](catalog.md#api)):
    as kcal that do not match the macros; it warns about missing mandatory rows.
 4. Add a label's legal name or ingredient list later, e.g. from a second photo
    of a round cup (`PATCH /api/foods/{slug}/sources/{id}`).
-5. Log a meal (`POST /api/log/entries`) as measured (exact amounts or label
-   portions), estimated (catalog foods with amount ranges), or unknown (no
-   items); fill in or correct it later; read a day's totals with measured,
-   estimated, and unknown kept apart ([details](log.md)).
+5. Log a meal (`POST /api/log/meals`): an optional kind and items of catalog
+   food plus amount or label portion, each optionally marked estimated. A meal
+   without items is unknown. Fill in or correct it later, and read a day's
+   totals with measured, estimated, and unknown kept apart ([details](log.md)).
 
 The agent itself reads the photos. The rules it should follow are in
 [Registering branded foods](catalog.md#registering-branded-foods).
@@ -87,7 +89,7 @@ The agent itself reads the photos. The rules it should follow are in
 
 - Recipes, meal prep, batches, and reusable meals ("my usual breakfast").
 - Portion sizes for generic foods ("1 egg", "1 slice of bread"): BLS has none,
-  so such amounts must be given in grams or as a range.
+  so such amounts must be given in grams, marked estimated if guessed.
 - Vitamins and minerals in log totals (they are in the catalog).
 - A connection for an agent: no MCP server or tool definitions, no agent
   instructions beyond the API documentation.

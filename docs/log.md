@@ -1,45 +1,45 @@
 # Consumption log
 
-Records what was eaten, when, and how much. It is part of the catalog API
-(`make api`, <http://127.0.0.1:8000/docs>) and stores its tables in the
-`log` database schema.
+Records what was eaten, when, and how much. It is part of the health API
+(`make api`, <http://127.0.0.1:8000/docs>) and stores its tables in the `log`
+database schema.
 
-## Ground rule: no invented numbers
+## Model: meals of "this much of this"
 
-Callers never send nutrition values. An entry holds the original observation, a
-time, and zero or more **items**: a catalog food and the amount eaten. The API
-calculates every value as the catalog source's value times the amount. The
-request format has no nutrition fields, so an agent cannot add its own guesses.
+A **meal** is one sitting: a time, an optional kind (`breakfast`, `lunch`,
+`dinner`, or `snack`), and **items**. An item is a catalog food and the amount
+eaten, e.g. 400 g of the peach quark. A single snack is a meal with one item.
 
-Each entry has a status derived from its items:
+Callers never send nutrition values, and the log stores none. Every value is
+calculated when read: the referenced source's value times the amount. A
+corrected catalog value therefore also corrects past days. A new recipe of a
+product must be registered as a new source, not by changing the old one, so
+meals keep pointing at what was actually eaten. Sources referenced by a meal
+cannot be deleted.
+
+A meal's status follows from its items:
 
 | Status | Items | Example |
 | --- | --- | --- |
-| `measured` | all with an exact amount | the whole 400 g cup, 30 g weighed nuts |
-| `estimated` | at least one amount range | "a big Döner": bread 100–130 g, meat 120–180 g, … |
-| `unknown` | none | "dinner at the Italian place" with no details |
+| `measured` | all read from a package or weighed | the whole 400 g cup |
+| `estimated` | at least one with `estimated: true` | about 200 g of rice, guessed |
+| `unknown` | none | "ate at the Italian place", no details yet |
 
-An estimate must still name catalog foods; BLS includes many prepared dishes
-such as pizza, lasagne, and curries. If no catalog food fits, the entry stays
-unknown rather than getting an invented number.
+Estimates still name catalog foods; BLS includes many prepared dishes such as
+pizza, lasagne, and curries. If no catalog food fits, the meal stays unknown
+rather than getting an invented number.
 
 ## Items
 
-Each item names a food by `food` (its slug) and exactly one amount:
+Each item names a food by `food` (its slug) and either:
 
-- `amount`: exact, in the source's unit (g or ml);
-- `amount_min` and `amount_max`: an estimated range;
+- `amount`: in the source's unit (g or ml), or
 - `portion` and optional `count`: a named portion of that food, e.g.
-  `{"portion": "Becher"}` for a 400 g cup. Unknown portion names are rejected
-  with the list of known ones.
+  `{"portion": "Becher"}` for the 400 g cup. Names are case-insensitive;
+  unknown ones are rejected with the list of known portions.
 
-`source_id` chooses a specific source; by default the food's BLS 4.0 source is
-used, otherwise its newest one. `label` describes what the item stands for,
-e.g. "Fladenbrot" within a Döner.
-
-When logged, the item stores a **snapshot** of the source's values. Later
-catalog changes, such as a corrected BLS value or a new label version, do not
-change past entries.
+`estimated: true` marks a guessed amount. `source_id` picks a specific source;
+by default the food's BLS 4.0 source is used, otherwise its newest one.
 
 ## Time and days
 
@@ -50,53 +50,40 @@ future are rejected. A day runs from local midnight to local midnight, including
 
 ## Endpoints
 
-- `POST /api/log/entries`: log an entry; `?dry_run=true` returns the calculated
-  entry without storing it.
-- `GET /api/log/entries/{id}`: one entry with items and totals.
-- `PUT /api/log/entries/{id}/items`: replace the items, e.g. to fill in an
-  unknown meal or correct an amount. Previous items stay stored as superseded.
-- `PATCH /api/log/entries/{id}`: correct `eaten_at`.
-- `DELETE /api/log/entries/{id}`: remove from totals; the entry stays stored as
-  deleted.
-- `GET /api/log/days/{YYYY-MM-DD}`: a day's entries and totals.
+- `POST /api/log/meals`: log a meal; `?dry_run=true` returns it without storing.
+- `GET /api/log/meals/{id}`: one meal with items and totals.
+- `PATCH /api/log/meals/{id}`: change `eaten_at`, `kind` (`null` clears it), or
+  `items` (replaces all items, e.g. to fill in an unknown meal).
+- `DELETE /api/log/meals/{id}`: delete a meal and its items.
+- `GET /api/log/days/{YYYY-MM-DD}`: a day's meals and totals.
 
 Invalid requests return `422` with `field`/`message` issues and write nothing.
+Changes and deletions are not versioned; `make db-backup` is the safety net.
 
 ```json
-POST /api/log/entries
+POST /api/log/meals
 {
-  "observation": "had the whole peach quark cup",
   "eaten_at": "2026-09-28T16:50:00",
+  "kind": "snack",
   "items": [{"food": "milbona-high-protein-quark-creme-pfirsich-maracuja", "portion": "Becher"}]
 }
 ```
 
-```json
-POST /api/log/entries
-{
-  "observation": "big Döner from the place near work",
-  "items": [
-    {"food": "…bread slug…", "label": "Fladenbrot", "amount_min": 100, "amount_max": 130},
-    {"food": "…meat slug…", "label": "Dönerfleisch", "amount_min": 120, "amount_max": 180}
-  ]
-}
-```
+## Totals
 
-## Day totals
+Each meal and each day have, per nutrient column (the 14 label fields):
 
-`GET /api/log/days/{date}` returns, per nutrient column (the 14 label fields):
+- `measured`: the sum over items not marked estimated;
+- `estimated`: the sum over estimated items;
+- `items_without_value`: items whose source lacks that nutrient, so a total is
+  a lower bound when this is not 0.
 
-- `measured`: the sum over measured entries;
-- `estimated_min` and `estimated_max`: the range over estimated entries;
-- `items_without_value`: how many items' sources lack that nutrient, so a total
-  is a lower bound when this is not 0.
-
-`counts` gives the number of measured, estimated, and unknown entries. Together
-they read as "1,840 kcal measured, 450–700 kcal estimated, 1 meal unknown"
-instead of one falsely precise number.
+A day also has `counts` of measured, estimated, and unknown meals. Together they
+read as "1,840 kcal measured, 450 kcal estimated, 1 meal unknown" instead of one
+number that hides how much is known.
 
 ## Not included
 
 Totals cover the 14 label fields, not vitamins and minerals. There are no
-recipes, meal-prep batches, or reusable meal templates, and no agent tooling
+recipes, meal-prep batches, or "same as yesterday" copies, and no agent tooling
 beyond this HTTP API.

@@ -12,4 +12,3 @@ dependencies = ["fastapi>=0.115,<1", "psycopg[binary]>=3.2,<4", "uvicorn>=0.30,<
 [project.scripts]
 health-api = "health_api.cli:main"
 catalog-search-eval = "health_api.catalog.search_eval:main"
-health-migrate = "health_api.migrate:main"

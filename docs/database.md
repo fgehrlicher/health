@@ -35,7 +35,6 @@ Requirements: Docker with Compose. The BLS importer additionally uses uv.
 
 ```sh
 make db-up       # Start PostgreSQL; a new volume gets db/schema.sql automatically
-make db-migrate  # Apply pending db/migrations
 make db-status   # Show whether the base schema is installed
 make db-fixture  # Load three example BLS foods
 make db-verify   # Check the example data
@@ -45,27 +44,21 @@ The default connection is
 `postgres://health:health@127.0.0.1:5432/health`. Copy `.env.example` to
 change the local port or password, and set `DATABASE_URL` accordingly. For an
 otherwise empty PostgreSQL database outside Compose, apply `db/schema.sql` with
-`psql` or your database client, then run `make db-migrate`.
+`psql` or your database client.
 
-## Schema changes, backups, and resets
+## Schema changes, resets, and backups
 
-The database holds data that cannot be rebuilt: registered products and the
-consumption log. So:
+`db/schema.sql` is still a mutable baseline with no migrations: a schema change
+means editing it and running `make db-reset`. That deletes the volume,
+**including every registered food and logged meal**, and rebuilds from the
+current schema. BLS data returns with the importer; everything else only from a
+backup or by registering it again. Once real data must survive schema changes,
+the baseline should be frozen and changes added as migrations.
 
-- `db/schema.sql` is the frozen baseline a new database starts from. Do not
-  edit it.
-- Every change is a new file in [`db/migrations/`](../db/migrations/), named
-  with an increasing number (`0002_…sql`) and never edited once applied.
-  `make db-migrate` applies pending files in name order, each in one
-  transaction, and records them in `schema_migrations`.
 - `make db-backup` writes a full dump to `backups/`, which Git ignores.
-  `make db-restore FILE=backups/<file>.dump` replaces the database with it. Take
-  a backup before migrating or experimenting. Nothing runs backups
-  automatically.
-- `make db-down` stops PostgreSQL and keeps the data. `make db-reset` deletes
-  the volume, **including every registered food and log entry**, and rebuilds
-  from the baseline and migrations. BLS data returns with the importer; the
-  rest only from a backup.
+  `make db-restore FILE=backups/<file>.dump` replaces the database with it.
+  Take one before a reset. Nothing runs backups automatically.
+- `make db-down` stops PostgreSQL and keeps the data.
 
 ## Search views
 

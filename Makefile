@@ -3,7 +3,7 @@
 DATABASE_URL ?= postgres://health:health@127.0.0.1:5432/health
 export DATABASE_URL
 
-.PHONY: db-up db-down db-reset db-migrate db-backup db-restore db-status db-fixture db-verify api search-eval check
+.PHONY: db-up db-down db-reset db-backup db-restore db-status db-fixture db-verify api search-eval check
 
 db-up:
 	docker compose up --detach --wait postgres
@@ -15,10 +15,6 @@ db-down:
 db-reset:
 	docker compose down --volumes
 	$(MAKE) db-up
-	$(MAKE) db-migrate
-
-db-migrate:
-	uv run --locked health-migrate
 
 # Writes a full dump to backups/ (ignored by Git). Restore with
 # make db-restore FILE=backups/<file>.dump
