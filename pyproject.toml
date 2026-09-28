@@ -2,14 +2,14 @@
 name = "health"
 version = "0.1.0"
 requires-python = ">=3.12"
-dependencies = ["bls4-importer", "health-catalog"]
+dependencies = ["bls4-importer", "health-api"]
 
 [tool.uv.sources]
 bls4-importer = { workspace = true }
-health-catalog = { workspace = true }
+health-api = { workspace = true }
 
 [tool.uv.workspace]
-members = ["importers/*", "tools/*"]
+members = ["api", "importers/*"]
 
 [dependency-groups]
 dev = ["httpx>=0.27,<1", "pytest>=8,<10", "ruff>=0.13,<1"]

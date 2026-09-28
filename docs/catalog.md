@@ -25,7 +25,7 @@ frontend build is required at runtime. Its MIT license is in the bundled
 ```sh
 make db-up
 uv run --locked bls4-import
-make catalog
+make api
 ```
 
 Open <http://127.0.0.1:8000>. The server binds to `127.0.0.1` by default.
@@ -52,7 +52,7 @@ importer refreshes them; any other write path must too (see
 [database](database.md#search-views)).
 
 `make search-eval` measures ranking against
-[`tools/catalog/search_eval.tsv`](../tools/catalog/search_eval.tsv): realistic
+[`api/search_eval.tsv`](../api/search_eval.tsv): realistic
 queries with their acceptable BLS codes. With the full BLS import it finds the
 expected food first for 58% of queries and within the top five for 80%
 (substring search: 15% and 27%). Most misses are synonyms that do not occur in

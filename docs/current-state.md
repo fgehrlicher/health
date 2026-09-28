@@ -16,11 +16,12 @@ an agent search, look up barcodes, register products, and log meals.
 | --- | --- | --- |
 | Database | PostgreSQL 18 in Docker Compose; frozen baseline [`db/schema.sql`](../db/schema.sql) plus [`db/migrations/`](../db/migrations/); `make db-backup` | [Database](database.md#schema-changes-backups-and-resets) |
 | BLS importer | `uv run --locked bls4-import`: downloads, verifies, and imports BLS 4.0 with its erratum | [BLS 4.0 import](bls4-import.md) |
-| Catalog API and browser | `make catalog`: FastAPI on `127.0.0.1:8000`, table UI, search, registration | [Catalog](catalog.md) |
-| Consumption log | Endpoints under `/api/log` in the same API; tables in the `log` schema | [Consumption log](log.md) |
+| Health API and browser | `make api`: the single backend, FastAPI on `127.0.0.1:8000`, in [`api/`](../api/) | |
+| – catalog | Search, food details, barcode lookup, registration, table UI | [Catalog](catalog.md) |
+| – consumption log | Endpoints under `/api/log`; tables in the `log` schema | [Consumption log](log.md) |
 | Search quality check | `make search-eval`: 71 real queries with expected BLS codes | [Catalog: Search](catalog.md#search) |
 
-Everything is Python managed by one uv workspace (`importers/*`, `tools/*`).
+Everything is Python managed by one uv workspace (`api`, `importers/*`).
 `make check` runs lint, format check, and tests; database tests run when
 `TEST_DATABASE_URL` is set.
 

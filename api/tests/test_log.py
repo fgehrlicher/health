@@ -4,9 +4,9 @@ from decimal import Decimal
 
 import psycopg
 import pytest
-from health_catalog.consumption import ItemInput, day_bounds, status, summarize
+from health_api.log.routes import ItemInput, day_bounds, status, summarize
 from pydantic import ValidationError
-from test_api import request
+from test_catalog import request
 from test_registration import QUARK, request_json
 
 

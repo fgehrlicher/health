@@ -11,7 +11,7 @@ from pathlib import Path
 
 import psycopg
 
-MIGRATIONS_DIR = Path(__file__).resolve().parents[4] / "db/migrations"
+MIGRATIONS_DIR = Path(__file__).resolve().parents[3] / "db/migrations"
 DEFAULT_DATABASE_URL = "postgres://health:health@127.0.0.1:5432/health"
 
 

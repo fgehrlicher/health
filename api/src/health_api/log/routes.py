@@ -16,13 +16,12 @@ import psycopg
 from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import JSONResponse
 from psycopg import Connection
-from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from health_catalog.repository import NUTRIENTS
+from health_api.catalog.repository import NUTRIENTS
+from health_api.db import connect
 
-DEFAULT_DATABASE_URL = "postgres://health:health@127.0.0.1:5432/health"
 MAX_AMOUNT = Decimal(5000)
 # Accept slightly future times from clock skew, not planned meals.
 FUTURE_TOLERANCE = timedelta(minutes=10)
@@ -33,10 +32,6 @@ Positive = Annotated[Decimal, Field(gt=0, max_digits=10, decimal_places=3)]
 def timezone() -> ZoneInfo:
     """The person's local zone; days in the log start at local midnight."""
     return ZoneInfo(os.environ.get("HEALTH_TIMEZONE", "Europe/Berlin"))
-
-
-def database_url() -> str:
-    return os.environ.get("DATABASE_URL", DEFAULT_DATABASE_URL)
 
 
 class ItemInput(BaseModel):
@@ -392,7 +387,7 @@ def post_entry(entry: EntryInput, response: Response, dry_run: bool = False):
     one, no items an unknown one. `dry_run=true` returns the entry without storing it.
     """
     try:
-        with psycopg.connect(database_url(), row_factory=dict_row) as connection:
+        with connect() as connection:
             result = create_entry(connection, entry, dry_run)
     except LogError as error:
         return issues_response(error)
@@ -403,7 +398,7 @@ def post_entry(entry: EntryInput, response: Response, dry_run: bool = False):
 
 @router.get("/entries/{entry_id}")
 def read_entry(entry_id: int):
-    with psycopg.connect(database_url(), row_factory=dict_row) as connection:
+    with connect() as connection:
         entry = get_entry(connection, entry_id)
     if entry is None:
         raise HTTPException(status_code=404, detail="No such log entry")
@@ -417,7 +412,7 @@ def put_items(entry_id: int, body: ItemsInput):
     The previous components stay stored as superseded.
     """
     try:
-        with psycopg.connect(database_url(), row_factory=dict_row) as connection:
+        with connect() as connection:
             entry = replace_items(connection, entry_id, body.items)
     except LogError as error:
         return issues_response(error)
@@ -433,7 +428,7 @@ def patch_entry_time(entry_id: int, body: EntryTimeInput):
         eaten_at = local_time(body.eaten_at)
     except LogError as error:
         return issues_response(error)
-    with psycopg.connect(database_url(), row_factory=dict_row) as connection:
+    with connect() as connection:
         updated = connection.execute(
             """UPDATE log.entries SET eaten_at = %s
                WHERE id = %s AND deleted_at IS NULL RETURNING id""",
@@ -448,7 +443,7 @@ def patch_entry_time(entry_id: int, body: EntryTimeInput):
 @router.delete("/entries/{entry_id}", status_code=204)
 def delete_entry(entry_id: int):
     """Remove an entry from totals; it stays stored as deleted."""
-    with psycopg.connect(database_url(), row_factory=dict_row) as connection:
+    with connect() as connection:
         deleted = connection.execute(
             """UPDATE log.entries SET deleted_at = now()
                WHERE id = %s AND deleted_at IS NULL RETURNING id""",
@@ -462,5 +457,5 @@ def delete_entry(entry_id: int):
 @router.get("/days/{day}")
 def read_day(day: date):
     """A local day's entries and totals, keeping measured, estimated, and unknown apart."""
-    with psycopg.connect(database_url(), row_factory=dict_row) as connection:
+    with connect() as connection:
         return day_summary(connection, day)

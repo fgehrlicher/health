@@ -3,13 +3,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "health-catalog"
+name = "health-api"
 version = "0.1.0"
-description = "Read-only food catalog API and browser"
+description = "Health API: food catalog, consumption log, and browser UI"
 requires-python = ">=3.12"
 dependencies = ["fastapi>=0.115,<1", "psycopg[binary]>=3.2,<4", "uvicorn>=0.30,<1"]
 
 [project.scripts]
-health-catalog = "health_catalog.cli:main"
-catalog-search-eval = "health_catalog.search_eval:main"
-health-migrate = "health_catalog.migrate:main"
+health-api = "health_api.cli:main"
+catalog-search-eval = "health_api.catalog.search_eval:main"
+health-migrate = "health_api.migrate:main"

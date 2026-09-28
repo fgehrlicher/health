@@ -10,11 +10,10 @@ nutrition, recipe, and meal-prep tracking.
 - [Consumption log](docs/log.md)
 - [Product and technical vision](docs/VISION.md)
 
-Python tools share the root [`pyproject.toml`](pyproject.toml) and `uv.lock`.
-Run the current importer from the repository root with
-`uv run --locked bls4-import --dry-run`. Future importers and CLIs can be added
-as workspace packages under `importers/` or `tools/` and declared as root
-dependencies to make their commands available the same way.
+Python packages share the root [`pyproject.toml`](pyproject.toml) and `uv.lock`:
+[`api/`](api/) is the single backend (catalog, consumption log, browser UI), and
+each data source has its own importer under `importers/`. Run the BLS importer
+from the repository root with `uv run --locked bls4-import --dry-run`.
 
-To explore the catalog locally, run `make db-up` and `make catalog`, then open
+To run everything locally, use `make db-up` and `make api`, then open
 <http://127.0.0.1:8000>.

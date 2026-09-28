@@ -6,7 +6,7 @@ requires-python = ">=3.12"
 members = [
     "bls4-importer",
     "health",
-    "health-catalog",
+    "health-api",
 ]
 
 [[package]]
@@ -122,7 +122,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "bls4-importer" },
-    { name = "health-catalog" },
+    { name = "health-api" },
 ]
 
 [package.dev-dependencies]
@@ -135,7 +135,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "bls4-importer", editable = "importers/bls4" },
-    { name = "health-catalog", editable = "tools/catalog" },
+    { name = "health-api", editable = "api" },
 ]
 
 [package.metadata.requires-dev]
@@ -146,9 +146,9 @@ dev = [
 ]
 
 [[package]]
-name = "health-catalog"
+name = "health-api"
 version = "0.1.0"
-source = { editable = "tools/catalog" }
+source = { editable = "api" }
 dependencies = [
     { name = "fastapi" },
     { name = "psycopg", extra = ["binary"] },

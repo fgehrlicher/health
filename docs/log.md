@@ -1,7 +1,7 @@
 # Consumption log
 
 Records what was eaten, when, and how much. It is part of the catalog API
-(`make catalog`, <http://127.0.0.1:8000/docs>) and stores its tables in the
+(`make api`, <http://127.0.0.1:8000/docs>) and stores its tables in the
 `log` database schema.
 
 ## Ground rule: no invented numbers

@@ -6,8 +6,8 @@ from decimal import Decimal
 
 from psycopg import Connection
 
-from health_catalog.models import FoodInput, NutritionInput, SourceTextUpdate
-from health_catalog.repository import NUTRIENTS, get_food
+from health_api.catalog.models import FoodInput, NutritionInput, SourceTextUpdate
+from health_api.catalog.repository import NUTRIENTS, get_food
 
 MANDATORY_LABEL_ROWS = ("energy_kj", "saturated_fat_g", "sugars_g", "salt_g")
 

@@ -9,9 +9,9 @@ from pathlib import Path
 import psycopg
 from psycopg.rows import dict_row
 
-from health_catalog.repository import FoodFilters, list_foods
+from health_api.catalog.repository import FoodFilters, list_foods
 
-DEFAULT_CASES = Path(__file__).resolve().parents[2] / "search_eval.tsv"
+DEFAULT_CASES = Path(__file__).resolve().parents[3] / "search_eval.tsv"
 DEFAULT_DATABASE_URL = "postgres://health:health@127.0.0.1:5432/health"
 
 

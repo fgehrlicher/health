@@ -3,9 +3,9 @@ from decimal import Decimal
 
 import psycopg
 import pytest
-from health_catalog.models import FoodInput
-from health_catalog.registration import barcode_problem, check_food, slugify
-from test_api import request
+from health_api.catalog.models import FoodInput
+from health_api.catalog.registration import barcode_problem, check_food, slugify
+from test_catalog import request
 
 # Milbona High Protein Quark-Creme, as read from test-data label photos.
 QUARK = {
@@ -150,7 +150,7 @@ def request_json(method: str, path: str, payload: dict):
     import asyncio
 
     import httpx
-    from health_catalog.app import app
+    from health_api.app import app
 
     async def send():
         async with httpx.AsyncClient(
@@ -162,6 +162,6 @@ def request_json(method: str, path: str, payload: dict):
 
 
 def test_energy_check_uses_eu_factors():
-    from health_catalog.registration import energy_from_macros
+    from health_api.catalog.registration import energy_from_macros
 
     assert energy_from_macros(quark().nutrition) == Decimal("67.6")

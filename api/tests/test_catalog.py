@@ -5,14 +5,14 @@ from decimal import Decimal
 import httpx
 import psycopg
 import pytest
-from health_catalog.app import app
-from health_catalog.repository import (
+from health_api.app import app
+from health_api.catalog.repository import (
     NUTRIENTS,
     FoodFilters,
     search_tokens,
     source_from_row,
 )
-from health_catalog.search_eval import evaluate, hit_rate, read_cases
+from health_api.catalog.search_eval import evaluate, hit_rate, read_cases
 from psycopg.rows import dict_row
 
 
