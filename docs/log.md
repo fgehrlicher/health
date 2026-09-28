@@ -34,12 +34,17 @@ rather than getting an invented number.
 Each item names a food by `food` (its slug) and either:
 
 - `amount`: in the source's unit (g or ml), or
-- `portion` and optional `count`: a named portion of that food, e.g.
-  `{"portion": "Becher"}` for the 400 g cup. Names are case-insensitive;
-  unknown ones are rejected with the list of known portions.
+- `portion` and optional `count` (default 1): a named portion of that food,
+  e.g. `{"portion": "Becher"}` for the 400 g cup or
+  `{"portion": "Becher", "count": 0.5}` for half of it. Names are
+  case-insensitive; unknown ones are rejected with the list of known portions.
+  `count` without `portion` is rejected.
 
 `estimated: true` marks a guessed amount. `source_id` picks a specific source;
-by default the food's BLS 4.0 source is used, otherwise its newest one.
+by default the food's BLS 4.0 source is used, otherwise its newest one (the
+current label version), the same source the catalog shows. A portion must be in
+the source's unit; otherwise give an `amount` or pick a matching `source_id`.
+One item may be at most 5,000 g or ml, and a meal at most 100 items.
 
 ## Time and days
 

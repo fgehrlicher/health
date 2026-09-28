@@ -140,6 +140,7 @@ issues, writing nothing, when:
 
 Warnings do not block writing: kcal differs from the macros by more than 8%, a
 mandatory label row (kJ, saturated fat, sugars, salt) or the ingredients are
-missing, or there is no barcode. An existing barcode returns `409` with the existing food's `slug`.
+missing, there is no barcode, or (without a barcode) a branded food with the
+same brand and name already exists. An existing barcode returns `409` with the existing food's `slug`.
 New foods get `kind` `branded` and a slug from brand and name; the source uses
 the barcode as `external_id`. Search views are refreshed on every write.
