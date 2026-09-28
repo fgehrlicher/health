@@ -1,4 +1,5 @@
--- Mutable baseline until the first deployment. Content validation belongs in the importer.
+-- Frozen baseline for new databases; every change goes into db/migrations/.
+-- Content validation belongs in the importer.
 
 CREATE TABLE foods (
     -- Stable identity within this catalog.

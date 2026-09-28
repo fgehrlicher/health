@@ -2,6 +2,7 @@
 .env
 /target/
 /data/
+/backups/
 .venv/
 __pycache__/
 .pytest_cache/

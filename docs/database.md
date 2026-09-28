@@ -1,7 +1,8 @@
 # Food catalog database
 
-The pre-deployment catalog has five tables, plus derived
-[search views](#search-views):
+The catalog has five tables, plus derived [search views](#search-views). The
+consumption log lives in its own `log` schema and is described in
+[Consumption log](log.md).
 
 | Table | What it stores |
 | --- | --- |
@@ -24,8 +25,6 @@ import.
 
 `source_name` is a readable label such as `BLS 4.0`. The BLS citation and
 license are documented in the source research, not repeated in database rows.
-There is no release history or migration history while this database has not
-been deployed.
 `food_sources.group_code` is an optional source-specific category. The BLS
 importer fills it from the BLS code prefix; future manual or label sources
 can leave it empty or use their own classification.
@@ -36,6 +35,7 @@ Requirements: Docker with Compose. The BLS importer additionally uses uv.
 
 ```sh
 make db-up       # Start PostgreSQL; a new volume gets db/schema.sql automatically
+make db-migrate  # Apply pending db/migrations
 make db-status   # Show whether the base schema is installed
 make db-fixture  # Load three example BLS foods
 make db-verify   # Check the example data
@@ -45,18 +45,27 @@ The default connection is
 `postgres://health:health@127.0.0.1:5432/health`. Copy `.env.example` to
 change the local port or password, and set `DATABASE_URL` accordingly. For an
 otherwise empty PostgreSQL database outside Compose, apply `db/schema.sql` with
-`psql` or your database client. Compose applies it when its volume is created;
-there is no separate database-helper application to maintain.
+`psql` or your database client, then run `make db-migrate`.
 
-`make db-down` stops PostgreSQL and retains the data. `make db-reset` deletes
-this project's local database volume and creates a new one from the current
-base schema. Imported foods can be recreated, so while developing the schema:
+## Schema changes, backups, and resets
 
-```sh
-make db-reset
-make db-fixture
-make db-verify
-```
+The database holds data that cannot be rebuilt: registered products and the
+consumption log. So:
+
+- `db/schema.sql` is the frozen baseline a new database starts from. Do not
+  edit it.
+- Every change is a new file in [`db/migrations/`](../db/migrations/), named
+  with an increasing number (`0002_…sql`) and never edited once applied.
+  `make db-migrate` applies pending files in name order, each in one
+  transaction, and records them in `schema_migrations`.
+- `make db-backup` writes a full dump to `backups/`, which Git ignores.
+  `make db-restore FILE=backups/<file>.dump` replaces the database with it. Take
+  a backup before migrating or experimenting. Nothing runs backups
+  automatically.
+- `make db-down` stops PostgreSQL and keeps the data. `make db-reset` deletes
+  the volume, **including every registered food and log entry**, and rebuilds
+  from the baseline and migrations. BLS data returns with the importer; the
+  rest only from a backup.
 
 ## Search views
 
@@ -71,12 +80,7 @@ REFRESH MATERIALIZED VIEW food_search_terms;
 REFRESH MATERIALIZED VIEW food_search_vocabulary;
 ```
 
-The schema enables the `pg_trgm` extension for typo matching. For a database
-created before these views existed, reset it or apply the search section of
-`db/schema.sql`.
-
-At the first deployment, freeze `db/schema.sql`. Add ordered migrations only
-for changes after that point.
+The schema enables the `pg_trgm` extension for typo matching.
 
 ## Import contract
 
