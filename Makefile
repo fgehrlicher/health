@@ -3,7 +3,7 @@
 DATABASE_URL ?= postgres://health:health@127.0.0.1:5432/health
 export DATABASE_URL
 
-.PHONY: db-up db-down db-reset db-backup db-restore db-status db-fixture db-verify api search-eval check
+.PHONY: db-up db-down db-reset db-backup db-restore db-status db-fixture db-verify api search-eval check check-db
 
 db-up:
 	docker compose up --detach --wait postgres
@@ -46,3 +46,13 @@ check:
 	uv run --locked ruff check .
 	uv run --locked ruff format --check .
 	uv run --locked pytest
+
+# Rebuilds a throwaway database from db/schema.sql, imports BLS, and runs every
+# test against it, including the ones that write. Never touches the real data.
+TEST_DB ?= health_test
+TEST_DATABASE_URL = $(patsubst %/health,%/$(TEST_DB),$(DATABASE_URL))
+check-db:
+	docker compose exec -T postgres psql --username=health --dbname=health --quiet --command="DROP DATABASE IF EXISTS $(TEST_DB)" --command="CREATE DATABASE $(TEST_DB)"
+	docker compose exec -T postgres psql --username=health --dbname=$(TEST_DB) --quiet --set=ON_ERROR_STOP=1 < db/schema.sql
+	DATABASE_URL=$(TEST_DATABASE_URL) uv run --locked bls4-import > /dev/null
+	TEST_DATABASE_URL=$(TEST_DATABASE_URL) uv run --locked pytest

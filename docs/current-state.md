@@ -22,8 +22,9 @@ an agent search, look up barcodes, register products, and log meals.
 | Search quality check | `make search-eval`: 71 real queries with expected BLS codes | [Catalog: Search](catalog.md#search) |
 
 Everything is Python managed by one uv workspace (`api`, `importers/*`).
-`make check` runs lint, format check, and tests; database tests run when
-`TEST_DATABASE_URL` is set.
+`make check` runs lint, format check, and tests without a database.
+`make check-db` builds a throwaway `health_test` database from the schema,
+imports BLS, and runs every test against it; tests never touch the real data.
 
 ## Data model
 
