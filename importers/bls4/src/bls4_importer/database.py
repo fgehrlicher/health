@@ -134,5 +134,4 @@ def write_other_nutrients(connection: psycopg.Connection, rows: dict[int, dict])
 
 def refresh_search(connection: psycopg.Connection) -> None:
     """Rebuild the catalog search views from the committed food names."""
-    connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_terms")
-    connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary")
+    connection.execute("SELECT catalog.refresh_search()")

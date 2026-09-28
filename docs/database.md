@@ -59,7 +59,9 @@ the baseline should be frozen and changes added as migrations.
 
 - `make db-backup` writes a full dump to `backups/`, which Git ignores.
   `make db-restore FILE=backups/<file>.dump` replaces the database with it.
-  Take one before a reset. Nothing runs backups automatically.
+  Take one before a reset. Nothing runs backups automatically. Without
+  migrations, a dump restores only into the schema it was taken from: after a
+  schema change, older dumps are a record, not a restore path.
 - `make db-down` stops PostgreSQL and keeps the data.
 
 ## Search views
@@ -68,12 +70,14 @@ the baseline should be frozen and changes added as migrations.
 split food names, aliases, source names, codes, brands, and barcodes into
 searchable words. They are derived data, not a third source of truth. Anything
 that inserts or renames foods or sources must refresh them in the same
-transaction, as the BLS importer and development fixture do:
+transaction, as the BLS importer, the API, and the development fixture do:
 
 ```sql
-REFRESH MATERIALIZED VIEW catalog.food_search_terms;
-REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary;
+SELECT catalog.refresh_search();
 ```
+
+A refresh rebuilds both views, about half a second for the full BLS catalog,
+and blocks searches meanwhile.
 
 The schema enables the `pg_trgm` extension for typo matching.
 

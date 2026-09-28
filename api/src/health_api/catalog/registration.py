@@ -151,6 +151,17 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
             ).fetchone()
             if existing:
                 raise BarcodeConflict(existing["slug"])
+        else:
+            # Without a barcode, only the name tells products apart.
+            same = connection.execute(
+                """SELECT slug FROM catalog.foods
+                   WHERE kind = 'branded' AND lower(name) = lower(%s)
+                     AND lower(coalesce(brand, '')) = lower(coalesce(%s, ''))""",
+                (food.name.strip(), food.brand),
+            ).fetchone()
+            if same:
+                message = f"{same['slug']} has the same brand and name; is it the same product?"
+                warnings.append({"field": "name", "message": message})
         base = slugify(" ".join(filter(None, (food.brand, food.name))))
         slug, suffix = base, 1
         while connection.execute("SELECT 1 FROM catalog.foods WHERE slug = %s", (slug,)).fetchone():
@@ -194,8 +205,7 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
                    VALUES (%s, %s, %s, %s, %s)""",
                 (food_id, portion.name, portion.kind, portion.quantity, portion.unit),
             )
-        connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_terms")
-        connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary")
+        connection.execute("SELECT catalog.refresh_search()")
         return {
             "dry_run": False,
             "slug": slug,
@@ -240,6 +250,5 @@ def update_source_text(
             {**fields, "id": source_id},
         )
         if "food_name" in fields:
-            connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_terms")
-            connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary")
+            connection.execute("SELECT catalog.refresh_search()")
         return get_food(connection, slug)

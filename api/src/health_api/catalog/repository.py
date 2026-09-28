@@ -205,7 +205,8 @@ LEFT JOIN LATERAL (
     SELECT s.* FROM catalog.food_sources s
     WHERE s.food_id = f.id
       AND (%(source_name)s::text IS NULL OR s.source_name = %(source_name)s)
-    ORDER BY (s.source_name = 'BLS 4.0') DESC, s.id ASC
+    -- BLS first, then the newest source (the current label version).
+    ORDER BY (s.source_name = 'BLS 4.0') DESC, s.id DESC
     LIMIT 1
 ) chosen ON true
 WHERE (%(kind)s::text IS NULL OR f.kind = %(kind)s)
@@ -334,7 +335,7 @@ def get_food(connection: Connection, slug: str) -> dict | None:
                   {", ".join(NUTRIENTS)},
                   protein_g * 100 / NULLIF(energy_kcal, 0) AS protein_per_100_kcal
            FROM catalog.food_sources WHERE food_id = %s
-           ORDER BY (source_name = 'BLS 4.0') DESC, id ASC""",
+           ORDER BY (source_name = 'BLS 4.0') DESC, id DESC""",
         (row["id"],),
     ).fetchall()
     nutrients: dict[int, list] = {}

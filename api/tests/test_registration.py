@@ -124,8 +124,14 @@ def test_register_and_find_by_barcode(monkeypatch):
         assert request_json("PATCH", source_path, {}).status_code == 422
         assert request_json("PATCH", source_path, {"energy_kcal": 1}).status_code == 422
         assert request_json("PATCH", f"{source_path}0", {"food_name": "x"}).status_code == 404
-        # The BLS apple's slug differs with the development fixture; find it by code.
-        apple = request("/api/foods?q=F110100").json()["items"][0]
+        # The BLS apple's slug differs with the development fixture; find it by
+        # code, and only ever send this edit to a BLS source.
+        apple = next(
+            food
+            for food in request("/api/foods?q=F110100").json()["items"]
+            if food["source"]["source_name"] == "BLS 4.0"
+            and food["source"]["external_id"] == "F110100"
+        )
         bls_patch = request_json(
             "PATCH",
             f"/api/foods/{apple['slug']}/sources/{apple['source']['id']}",
@@ -133,13 +139,17 @@ def test_register_and_find_by_barcode(monkeypatch):
         )
         assert bls_patch.status_code == 422
 
+        twin = request_json(
+            "POST", "/api/foods?dry_run=true", {**payload, "barcode": None, "brand": None}
+        )
+        assert "name" in [warning["field"] for warning in twin.json()["warnings"]]
+
         conflict = request_json("POST", "/api/foods", payload)
         assert conflict.status_code == 409 and conflict.json()["slug"] == food["slug"]
     finally:
         with psycopg.connect(database_url) as connection:
             connection.execute("DELETE FROM catalog.foods WHERE barcode = %s", (barcode,))
-            connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_terms")
-            connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary")
+            connection.execute("SELECT catalog.refresh_search()")
 
 
 def test_invalid_submission_is_rejected_with_issues():

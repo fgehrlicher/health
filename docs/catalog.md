@@ -79,7 +79,7 @@ in step.
 - `GET /docs`: interactive API documentation, including the request schema.
 
 List results show one source per food: the requested source, otherwise BLS
-4.0 if present, otherwise the first record. Values are never merged across
+4.0 if present, otherwise the newest (the current label version). Values are never merged across
 sources. Nutrition filters compare the displayed source's stated reference
 basis. Unknown values do not match numeric filters. API decimals are strings
 to preserve source precision.

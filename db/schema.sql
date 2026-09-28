@@ -145,7 +145,7 @@ CREATE TABLE catalog.food_portions (
 -- joined together ("hafer flocken" -> "haferflocken"); `parts` lists the words
 -- a term covers. `head` marks words before the first comma, excluding numbers
 -- and filler words: BLS names put the food first and qualifiers after commas.
--- Anything that writes foods or sources must refresh both views afterwards.
+-- Anything that writes foods or sources must call catalog.refresh_search().
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 CREATE MATERIALIZED VIEW catalog.food_search_terms AS
@@ -182,6 +182,14 @@ CREATE INDEX food_search_terms_food_id_idx ON catalog.food_search_terms (food_id
 
 CREATE MATERIALIZED VIEW catalog.food_search_vocabulary AS
 SELECT DISTINCT word FROM catalog.food_search_terms;
+
+-- Rebuild both search views. Call after every write to foods or sources.
+CREATE FUNCTION catalog.refresh_search() RETURNS void LANGUAGE plpgsql AS $$
+BEGIN
+    REFRESH MATERIALIZED VIEW catalog.food_search_terms;
+    REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary;
+END;
+$$;
 
 CREATE UNIQUE INDEX food_search_vocabulary_word_idx ON catalog.food_search_vocabulary (word);
 CREATE INDEX food_search_vocabulary_trgm_idx ON catalog.food_search_vocabulary USING gin (word gin_trgm_ops);

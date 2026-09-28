@@ -19,6 +19,7 @@ from health_api.catalog.repository import NUTRIENTS
 
 MealKind = Literal["breakfast", "lunch", "dinner", "snack"]
 MAX_AMOUNT = Decimal(5000)
+MAX_ITEMS = 100
 # Accept slightly future times from clock skew, not planned meals.
 FUTURE_TOLERANCE = timedelta(minutes=10)
 
@@ -40,7 +41,8 @@ class ItemInput(BaseModel):
     amount: Annotated[Decimal | None, Field(gt=0, max_digits=10, decimal_places=3)] = None
     # A named portion of the food, e.g. "Becher", times count.
     portion: Annotated[str | None, Field(min_length=1, max_length=60)] = None
-    count: Annotated[Decimal, Field(gt=0, max_digits=6, decimal_places=3)] = Decimal(1)
+    # How many portions; only with `portion`. Default 1.
+    count: Annotated[Decimal | None, Field(gt=0, max_digits=6, decimal_places=3)] = None
     # The amount was guessed rather than weighed or read from a package.
     estimated: bool = False
 
@@ -48,6 +50,8 @@ class ItemInput(BaseModel):
     def amount_or_portion(self):
         if (self.amount is None) == (self.portion is None):
             raise ValueError("give either amount or portion")
+        if self.count is not None and self.portion is None:
+            raise ValueError("count applies only to a portion")
         return self
 
 
@@ -58,7 +62,7 @@ class MealInput(BaseModel):
     eaten_at: datetime | None = None
     kind: MealKind | None = None
     # Empty means "ate something, nutrition unknown".
-    items: list[ItemInput] = []
+    items: Annotated[list[ItemInput], Field(max_length=MAX_ITEMS)] = []
 
 
 class MealUpdate(BaseModel):
@@ -68,7 +72,7 @@ class MealUpdate(BaseModel):
 
     eaten_at: datetime | None = None
     kind: MealKind | None = None
-    items: list[ItemInput] | None = None
+    items: Annotated[list[ItemInput] | None, Field(max_length=MAX_ITEMS)] = None
 
 
 class LogError(Exception):
@@ -116,7 +120,7 @@ def resolve_items(connection: Connection, items: list[ItemInput]) -> list[dict]:
                    WHERE food_id = %s AND lower(name) = lower(%s)""",
                 (food["id"], item.portion),
             ).fetchone()
-            if portion is None or portion["unit"] != source["reference_unit"]:
+            if portion is None:
                 names = [
                     row["name"]
                     for row in connection.execute(
@@ -127,7 +131,15 @@ def resolve_items(connection: Connection, items: list[ItemInput]) -> list[dict]:
                 message = f"{item.food!r} has no portion {item.portion!r}; known: {names}"
                 issues.append({"field": f"{field}.portion", "message": message})
                 continue
-            amount = portion["quantity"] * item.count
+            if portion["unit"] != source["reference_unit"]:
+                message = (
+                    f"portion {item.portion!r} is in {portion['unit']}, but source "
+                    f"{source['id']} is per {source['reference_unit']}; pick a source_id in "
+                    f"{portion['unit']} or give an amount"
+                )
+                issues.append({"field": f"{field}.portion", "message": message})
+                continue
+            amount = portion["quantity"] * (item.count or 1)
         if amount > MAX_AMOUNT:
             unit = source["reference_unit"]
             issues.append({"field": field, "message": f"more than {MAX_AMOUNT} {unit}"})
@@ -165,6 +177,13 @@ def status(items: list[dict]) -> Literal["measured", "estimated", "unknown"]:
 
 
 def load_meals(connection: Connection, where: str, params: dict) -> list[dict]:
+    return [meal for meal, _items in load_meals_with_items(connection, where, params)]
+
+
+def load_meals_with_items(
+    connection: Connection, where: str, params: dict
+) -> list[tuple[dict, list[dict]]]:
+    """Public meals, each with its raw items for exact sums across meals."""
     meals = connection.execute(
         f"SELECT id, eaten_at, kind FROM log.meals WHERE {where} ORDER BY eaten_at, id", params
     ).fetchall()
@@ -185,14 +204,17 @@ def load_meals(connection: Connection, where: str, params: dict) -> list[dict]:
         items.setdefault(item["meal_id"], []).append(item)
     zone = timezone()
     return [
-        {
-            "id": meal["id"],
-            "eaten_at": meal["eaten_at"].astimezone(zone).isoformat(),
-            "kind": meal["kind"],
-            "status": status(items.get(meal["id"], [])),
-            "items": [public_item(item) for item in items.get(meal["id"], [])],
-            "totals": totals(items.get(meal["id"], [])),
-        }
+        (
+            {
+                "id": meal["id"],
+                "eaten_at": meal["eaten_at"].astimezone(zone).isoformat(),
+                "kind": meal["kind"],
+                "status": status(items.get(meal["id"], [])),
+                "items": [public_item(item) for item in items.get(meal["id"], [])],
+                "totals": totals(items.get(meal["id"], [])),
+            },
+            items.get(meal["id"], []),
+        )
         for meal in meals
     ]
 
@@ -248,21 +270,12 @@ def day_bounds(day: date) -> tuple[datetime, datetime]:
 
 def day_summary(connection: Connection, day: date) -> dict:
     start, end = day_bounds(day)
-    meals = load_meals(
+    loaded = load_meals_with_items(
         connection, "eaten_at >= %(start)s AND eaten_at < %(end)s", {"start": start, "end": end}
     )
-    day_totals = {}
-    for column in NUTRIENTS:
-        day_totals[column] = {
-            key: rounded(
-                column, sum((Decimal(meal["totals"][column][key]) for meal in meals), Decimal(0))
-            )
-            for key in ("measured", "estimated")
-        } | {
-            "items_without_value": sum(
-                meal["totals"][column]["items_without_value"] for meal in meals
-            )
-        }
+    meals = [meal for meal, _items in loaded]
+    # Sum exact item values, then round once; summing rounded meals drifts.
+    day_totals = totals([item for _meal, items in loaded for item in items])
     return {
         "date": day.isoformat(),
         "timezone": timezone().key,

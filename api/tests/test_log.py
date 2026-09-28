@@ -19,11 +19,19 @@ from test_registration import QUARK, request_json
         {"food": "x", "amount": 0},
         {"food": "x", "amount": 100, "energy_kcal": 500},
         {"food": "x", "amount_min": 100, "amount_max": 150},
+        {"food": "x", "amount": 100, "count": 3},
     ],
 )
 def test_items_need_amount_or_portion_and_no_nutrition(item):
     with pytest.raises(ValidationError):
         ItemInput.model_validate(item)
+
+
+def test_meals_have_at_most_100_items():
+    item = {"food": "x", "amount": 1}
+    assert len(MealInput.model_validate({"items": [item] * 100}).items) == 100
+    with pytest.raises(ValidationError):
+        MealInput.model_validate({"items": [item] * 101})
 
 
 def test_meal_kinds_are_fixed():
@@ -164,5 +172,4 @@ def test_log_a_day_against_postgres(monkeypatch):
         with psycopg.connect(database_url) as connection:
             connection.execute("DELETE FROM log.meals WHERE id = ANY(%s)", (meal_ids,))
             connection.execute("DELETE FROM catalog.foods WHERE barcode = %s", (barcode,))
-            connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_terms")
-            connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary")
+            connection.execute("SELECT catalog.refresh_search()")
