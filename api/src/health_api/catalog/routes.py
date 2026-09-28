@@ -74,7 +74,9 @@ def food_by_barcode(barcode: str):
     if problem := barcode_problem(barcode):
         raise HTTPException(status_code=422, detail=f"barcode {problem}")
     with connect() as connection:
-        row = connection.execute("SELECT slug FROM foods WHERE barcode = %s", (barcode,)).fetchone()
+        row = connection.execute(
+            "SELECT slug FROM catalog.foods WHERE barcode = %s", (barcode,)
+        ).fetchone()
         food = get_food(connection, row["slug"]) if row else None
     if food is None:
         raise HTTPException(status_code=404, detail="No food with this barcode")

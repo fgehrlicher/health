@@ -147,20 +147,20 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
         )
         if food.barcode is not None:
             existing = connection.execute(
-                "SELECT slug FROM foods WHERE barcode = %s", (food.barcode,)
+                "SELECT slug FROM catalog.foods WHERE barcode = %s", (food.barcode,)
             ).fetchone()
             if existing:
                 raise BarcodeConflict(existing["slug"])
         base = slugify(" ".join(filter(None, (food.brand, food.name))))
         slug, suffix = base, 1
-        while connection.execute("SELECT 1 FROM foods WHERE slug = %s", (slug,)).fetchone():
+        while connection.execute("SELECT 1 FROM catalog.foods WHERE slug = %s", (slug,)).fetchone():
             suffix += 1
             slug = f"{base}-{suffix}"
         if dry_run:
             return {"dry_run": True, "slug": slug, "warnings": warnings, "food": None}
 
         food_id = connection.execute(
-            """INSERT INTO foods (slug, name, aliases, kind, brand, barcode)
+            """INSERT INTO catalog.foods (slug, name, aliases, kind, brand, barcode)
                VALUES (%s, %s, %s, 'branded', %s, %s) RETURNING id""",
             (slug, food.name.strip(), food.aliases, food.brand, food.barcode),
         ).fetchone()["id"]
@@ -168,7 +168,7 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
         columns = ", ".join(NUTRIENTS)
         placeholders = ", ".join(f"%({column})s" for column in NUTRIENTS)
         connection.execute(
-            f"""INSERT INTO food_sources
+            f"""INSERT INTO catalog.food_sources
                    (food_id, source_name, external_id, food_name, reference_quantity,
                     reference_unit, upper_bounds, ingredients_text, {columns})
                VALUES (%(food_id)s, %(source_name)s, %(external_id)s, %(food_name)s,
@@ -190,12 +190,12 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
         )
         for portion in food.portions:
             connection.execute(
-                """INSERT INTO food_portions (food_id, name, kind, quantity, unit)
+                """INSERT INTO catalog.food_portions (food_id, name, kind, quantity, unit)
                    VALUES (%s, %s, %s, %s, %s)""",
                 (food_id, portion.name, portion.kind, portion.quantity, portion.unit),
             )
-        connection.execute("REFRESH MATERIALIZED VIEW food_search_terms")
-        connection.execute("REFRESH MATERIALIZED VIEW food_search_vocabulary")
+        connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_terms")
+        connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary")
         return {
             "dry_run": False,
             "slug": slug,
@@ -224,7 +224,7 @@ def update_source_text(
         raise RegistrationError([{"field": name, "message": "must not be blank"} for name in blank])
     with connection.transaction():
         source = connection.execute(
-            """SELECT s.id, s.source_name FROM food_sources s JOIN foods f ON f.id = s.food_id
+            """SELECT s.id, s.source_name FROM catalog.food_sources s JOIN catalog.foods f ON f.id = s.food_id
                WHERE f.slug = %s AND s.id = %s FOR UPDATE""",
             (slug, source_id),
         ).fetchone()
@@ -236,9 +236,10 @@ def update_source_text(
             )
         assignments = ", ".join(f"{name} = %({name})s" for name in fields)
         connection.execute(
-            f"UPDATE food_sources SET {assignments} WHERE id = %(id)s", {**fields, "id": source_id}
+            f"UPDATE catalog.food_sources SET {assignments} WHERE id = %(id)s",
+            {**fields, "id": source_id},
         )
         if "food_name" in fields:
-            connection.execute("REFRESH MATERIALIZED VIEW food_search_terms")
-            connection.execute("REFRESH MATERIALIZED VIEW food_search_vocabulary")
+            connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_terms")
+            connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary")
         return get_food(connection, slug)

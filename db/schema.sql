@@ -1,7 +1,12 @@
 -- Mutable baseline until the first deployment; changes need `make db-reset`.
 -- Content validation belongs in the importers and the API.
+-- Two schemas: catalog (foods and their nutrition) and log (what was eaten).
 
-CREATE TABLE foods (
+-- Foods, their nutrition sources, portions, and search. BLS rows can be
+-- rebuilt by the importer; registered products cannot.
+CREATE SCHEMA catalog;
+
+CREATE TABLE catalog.foods (
     -- Stable identity within this catalog.
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     slug text NOT NULL UNIQUE,
@@ -21,10 +26,10 @@ CREATE TABLE foods (
 );
 
 -- One piece of nutrition evidence for exactly one catalog food.
-CREATE TABLE food_sources (
+CREATE TABLE catalog.food_sources (
     -- Catalog food this source actually describes.
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    food_id bigint NOT NULL REFERENCES foods(id) ON DELETE CASCADE,
+    food_id bigint NOT NULL REFERENCES catalog.foods(id) ON DELETE CASCADE,
 
     -- Origin and identity supplied by the source, e.g. BLS 4.0 / BLS code.
     source_name text NOT NULL,
@@ -65,15 +70,15 @@ CREATE TABLE food_sources (
     upper_bounds text[] NOT NULL DEFAULT '{}'
 );
 
-CREATE INDEX food_sources_food_id_idx ON food_sources (food_id);
+CREATE INDEX food_sources_food_id_idx ON catalog.food_sources (food_id);
 
 -- A barcode identifies one product.
-CREATE UNIQUE INDEX foods_barcode_key ON foods (barcode) WHERE barcode IS NOT NULL;
+CREATE UNIQUE INDEX foods_barcode_key ON catalog.foods (barcode) WHERE barcode IS NOT NULL;
 
 -- Nutrients beyond the label columns of food_sources, e.g. vitamins and
 -- minerals. Units follow EU label conventions; codes are INFOODS tagnames as
 -- used by BLS.
-CREATE TABLE nutrients (
+CREATE TABLE catalog.nutrients (
     key text PRIMARY KEY,
     name text NOT NULL,
     unit text NOT NULL,
@@ -82,7 +87,7 @@ CREATE TABLE nutrients (
     sort_order integer NOT NULL
 );
 
-INSERT INTO nutrients (key, name, unit, category, infoods_code, sort_order) VALUES
+INSERT INTO catalog.nutrients (key, name, unit, category, infoods_code, sort_order) VALUES
     ('vitamin_a', 'Vitamin A (retinol equivalents)', 'µg', 'vitamin', 'VITA', 10),
     ('vitamin_d', 'Vitamin D', 'µg', 'vitamin', 'VITD', 11),
     ('vitamin_e', 'Vitamin E (alpha-tocopherol)', 'mg', 'vitamin', 'VITE', 12),
@@ -112,9 +117,9 @@ INSERT INTO nutrients (key, name, unit, category, infoods_code, sort_order) VALU
 
 -- One nutrient amount of a source, per the source's reference quantity. No row
 -- means unknown; a stored 0 is a reported zero.
-CREATE TABLE food_source_nutrients (
-    source_id bigint NOT NULL REFERENCES food_sources(id) ON DELETE CASCADE,
-    nutrient_key text NOT NULL REFERENCES nutrients(key),
+CREATE TABLE catalog.food_source_nutrients (
+    source_id bigint NOT NULL REFERENCES catalog.food_sources(id) ON DELETE CASCADE,
+    nutrient_key text NOT NULL REFERENCES catalog.nutrients(key),
     amount numeric NOT NULL,
     -- A declared maximum, e.g. a label's "<0,1 µg".
     upper_bound boolean NOT NULL DEFAULT false,
@@ -123,9 +128,9 @@ CREATE TABLE food_source_nutrients (
 
 -- Named amounts of a food, e.g. "Portion" 200 g and "Becher" 400 g from a
 -- label, used to turn "I ate one cup" into grams.
-CREATE TABLE food_portions (
+CREATE TABLE catalog.food_portions (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    food_id bigint NOT NULL REFERENCES foods(id) ON DELETE CASCADE,
+    food_id bigint NOT NULL REFERENCES catalog.foods(id) ON DELETE CASCADE,
     name text NOT NULL,
     -- package: the whole sold unit; serving: the label's portion; piece or
     -- household: other everyday measures such as "1 slice" or "1 tbsp".
@@ -143,14 +148,14 @@ CREATE TABLE food_portions (
 -- Anything that writes foods or sources must refresh both views afterwards.
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
-CREATE MATERIALIZED VIEW food_search_terms AS
+CREATE MATERIALIZED VIEW catalog.food_search_terms AS
 WITH titles AS (
-    SELECT id AS food_id, lower(name) AS title FROM foods
-    UNION SELECT id, lower(unnest(aliases)) FROM foods
-    UNION SELECT id, lower(brand) FROM foods WHERE brand IS NOT NULL
-    UNION SELECT id, lower(barcode) FROM foods WHERE barcode IS NOT NULL
-    UNION SELECT food_id, lower(food_name) FROM food_sources
-    UNION SELECT food_id, lower(external_id) FROM food_sources WHERE external_id IS NOT NULL
+    SELECT id AS food_id, lower(name) AS title FROM catalog.foods
+    UNION SELECT id, lower(unnest(aliases)) FROM catalog.foods
+    UNION SELECT id, lower(brand) FROM catalog.foods WHERE brand IS NOT NULL
+    UNION SELECT id, lower(barcode) FROM catalog.foods WHERE barcode IS NOT NULL
+    UNION SELECT food_id, lower(food_name) FROM catalog.food_sources
+    UNION SELECT food_id, lower(external_id) FROM catalog.food_sources WHERE external_id IS NOT NULL
 ),
 words AS (
     SELECT t.food_id, t.title, m.match[1] AS word, m.position,
@@ -172,14 +177,14 @@ SELECT food_id, title, word || next_word, ARRAY[word, next_word], false
 FROM words
 WHERE next_word IS NOT NULL AND word !~ '^[0-9]+$' AND next_word !~ '^[0-9]+$';
 
-CREATE INDEX food_search_terms_word_idx ON food_search_terms (word);
-CREATE INDEX food_search_terms_food_id_idx ON food_search_terms (food_id);
+CREATE INDEX food_search_terms_word_idx ON catalog.food_search_terms (word);
+CREATE INDEX food_search_terms_food_id_idx ON catalog.food_search_terms (food_id);
 
-CREATE MATERIALIZED VIEW food_search_vocabulary AS
-SELECT DISTINCT word FROM food_search_terms;
+CREATE MATERIALIZED VIEW catalog.food_search_vocabulary AS
+SELECT DISTINCT word FROM catalog.food_search_terms;
 
-CREATE UNIQUE INDEX food_search_vocabulary_word_idx ON food_search_vocabulary (word);
-CREATE INDEX food_search_vocabulary_trgm_idx ON food_search_vocabulary USING gin (word gin_trgm_ops);
+CREATE UNIQUE INDEX food_search_vocabulary_word_idx ON catalog.food_search_vocabulary (word);
+CREATE INDEX food_search_vocabulary_trgm_idx ON catalog.food_search_vocabulary USING gin (word gin_trgm_ops);
 
 -- Consumption log: what was eaten, when, and how much. Nutrition is never
 -- stored here; it is always the referenced source's value times the amount.
@@ -202,7 +207,7 @@ CREATE TABLE log.meal_items (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     meal_id bigint NOT NULL REFERENCES log.meals(id) ON DELETE CASCADE,
     -- The exact source (e.g. one label version); an eaten food cannot be deleted.
-    source_id bigint NOT NULL REFERENCES food_sources(id) ON DELETE RESTRICT,
+    source_id bigint NOT NULL REFERENCES catalog.food_sources(id) ON DELETE RESTRICT,
     -- In the source's reference unit (g or ml).
     amount numeric NOT NULL,
     -- Guessed rather than weighed or read from a package.

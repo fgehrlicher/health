@@ -196,7 +196,7 @@ def test_search_quality_on_full_bls_catalog():
     if not database_url:
         pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
     with psycopg.connect(database_url, row_factory=dict_row) as connection:
-        count = connection.execute("SELECT count(*) AS n FROM food_sources").fetchone()["n"]
+        count = connection.execute("SELECT count(*) AS n FROM catalog.food_sources").fetchone()["n"]
         if count < 7000:
             pytest.skip("search evaluation needs the full BLS 4.0 import")
         results = evaluate(connection, read_cases())

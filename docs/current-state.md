@@ -27,16 +27,19 @@ Everything is Python managed by one uv workspace (`api`, `importers/*`).
 
 ## Data model
 
-- **`foods`**: the catalog entry: name, aliases, `kind` (`generic` from BLS,
+Two PostgreSQL schemas: `catalog` for foods and their nutrition, `log` for what
+was eaten.
+
+- **`catalog.foods`**: the catalog entry: name, aliases, `kind` (`generic` from BLS,
   `branded` from labels), brand, barcode (unique), preparation state.
-- **`food_sources`**: nutrition evidence for a food, e.g. one BLS row or one
+- **`catalog.food_sources`**: nutrition evidence for a food, e.g. one BLS row or one
   label. Holds the 14 EU label fields (kJ, kcal, fat and its "davon" rows,
   carbohydrate and its "davon" rows, fiber, protein, salt, alcohol), the
   reference quantity, values declared as "<", and the printed ingredient list.
   A food can have several sources; they are never merged.
-- **`nutrients`** and **`food_source_nutrients`**: 26 further nutrients per
+- **`catalog.nutrients`** and **`catalog.food_source_nutrients`**: 26 further nutrients per
   source: vitamins, minerals, omega-3/6, EPA, DHA, cholesterol, water, lactose.
-- **`food_portions`**: named amounts such as a label's 200 g "Portion" and
+- **`catalog.food_portions`**: named amounts such as a label's 200 g "Portion" and
   400 g "Becher".
 - **Search views**: materialized word lists behind the ranked search, refreshed
   after every write.

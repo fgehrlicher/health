@@ -114,14 +114,14 @@ word_matches AS (
     END AS score
     FROM (
         SELECT v.word, q.token FROM query_tokens q
-        JOIN food_search_vocabulary v ON starts_with(v.word, q.token)
+        JOIN catalog.food_search_vocabulary v ON starts_with(v.word, q.token)
         UNION
         SELECT v.word, q.token FROM query_tokens q
         CROSS JOIN LATERAL generate_series(3, length(q.token)) AS prefix_length
-        JOIN food_search_vocabulary v ON v.word = left(q.token, prefix_length)
+        JOIN catalog.food_search_vocabulary v ON v.word = left(q.token, prefix_length)
         UNION
         SELECT v.word, q.token FROM query_tokens q
-        JOIN food_search_vocabulary v
+        JOIN catalog.food_search_vocabulary v
           -- Typos only for words, not codes: F130100 is not a typo of F110100.
           ON length(q.token) >= 4 AND q.token !~ '[0-9]'
          AND v.word %% q.token AND similarity(v.word, q.token) >= 0.4
@@ -129,7 +129,7 @@ word_matches AS (
 ),
 token_scores AS (
     SELECT t.food_id, m.token, max(m.score) AS score
-    FROM word_matches m JOIN food_search_terms t USING (word)
+    FROM word_matches m JOIN catalog.food_search_terms t USING (word)
     GROUP BY t.food_id, m.token
 ),
 matched_foods AS (
@@ -148,7 +148,7 @@ word_scores AS (
 -- joined pairs: "hähnchenbrust" covers both words of "hähnchen brustfilet".
 covered_words AS (
     SELECT t.food_id, t.title, part AS word, max(w.score) AS score
-    FROM food_search_terms t
+    FROM catalog.food_search_terms t
     JOIN matched_foods USING (food_id)
     JOIN word_scores w USING (word)
     CROSS JOIN LATERAL unnest(t.parts) AS part
@@ -159,7 +159,7 @@ head_coverage AS (
     FROM (
         SELECT t.food_id,
                sum(length(t.word) * coalesce(c.score, 0)) / sum(length(t.word)) AS coverage
-        FROM food_search_terms t
+        FROM catalog.food_search_terms t
         JOIN matched_foods USING (food_id)
         LEFT JOIN covered_words c USING (food_id, title, word)
         WHERE t.head
@@ -172,12 +172,12 @@ search_matches AS (
         m.food_id,
         0.4 * m.match_score + 0.6 * coalesce(h.coverage, 0)
         + CASE WHEN EXISTS (
-              SELECT 1 FROM food_sources s
+              SELECT 1 FROM catalog.food_sources s
               WHERE s.food_id = m.food_id AND s.source_name = 'BLS 4.0'
                 AND right(s.external_id, 2) = '00'
           ) THEN 0.1 ELSE 0 END
         - CASE WHEN EXISTS (
-              SELECT 1 FROM food_sources s
+              SELECT 1 FROM catalog.food_sources s
               WHERE s.food_id = m.food_id AND s.group_code IN ('X', 'Y')
           ) THEN 0.15 ELSE 0 END
         AS relevance
@@ -191,7 +191,7 @@ BASE_SQL = (
     + """
 SELECT
     f.id, f.slug, f.name, f.aliases, f.kind, f.preparation_state, f.brand, f.barcode,
-    (SELECT count(*) FROM food_sources s WHERE s.food_id = f.id) AS source_count,
+    (SELECT count(*) FROM catalog.food_sources s WHERE s.food_id = f.id) AS source_count,
     chosen.id AS source_id, chosen.source_name, chosen.external_id, chosen.group_code,
     chosen.food_name, chosen.reference_quantity, chosen.reference_unit,
     chosen.upper_bounds, chosen.ingredients_text, """
@@ -199,10 +199,10 @@ SELECT
     + """,
     chosen.protein_g * 100 / NULLIF(chosen.energy_kcal, 0) AS protein_per_100_kcal,
     coalesce(m.relevance, 0) AS relevance
-FROM foods f
+FROM catalog.foods f
 LEFT JOIN search_matches m ON m.food_id = f.id
 LEFT JOIN LATERAL (
-    SELECT s.* FROM food_sources s
+    SELECT s.* FROM catalog.food_sources s
     WHERE s.food_id = f.id
       AND (%(source_name)s::text IS NULL OR s.source_name = %(source_name)s)
     ORDER BY (s.source_name = 'BLS 4.0') DESC, s.id ASC
@@ -210,7 +210,7 @@ LEFT JOIN LATERAL (
 ) chosen ON true
 WHERE (%(kind)s::text IS NULL OR f.kind = %(kind)s)
   AND (%(group)s::text IS NULL OR EXISTS (
-      SELECT 1 FROM food_sources group_source
+      SELECT 1 FROM catalog.food_sources group_source
       WHERE group_source.food_id = f.id AND group_source.source_name = 'BLS 4.0'
         AND group_source.group_code = %(group)s
   ))
@@ -305,10 +305,10 @@ def list_foods(connection: Connection, filters: FoodFilters) -> dict:
     # Without a query every relevance is 0; browse alphabetically instead.
     sort = "name" if filters.sort == "relevance" and not params["tokens"] else filters.sort
     total = connection.execute(
-        f"SELECT count(*) AS total FROM ({BASE_SQL}) catalog", params
+        f"SELECT count(*) AS total FROM ({BASE_SQL}) listing", params
     ).fetchone()["total"]
     rows = connection.execute(
-        f"SELECT * FROM ({BASE_SQL}) catalog ORDER BY {SORT_SQL[sort]} "
+        f"SELECT * FROM ({BASE_SQL}) listing ORDER BY {SORT_SQL[sort]} "
         "LIMIT %(limit)s OFFSET %(offset)s",
         params,
     ).fetchall()
@@ -323,7 +323,7 @@ def list_foods(connection: Connection, filters: FoodFilters) -> dict:
 def get_food(connection: Connection, slug: str) -> dict | None:
     row = connection.execute(
         """SELECT id, slug, name, aliases, kind, preparation_state, brand, barcode
-           FROM foods WHERE slug = %s""",
+           FROM catalog.foods WHERE slug = %s""",
         (slug,),
     ).fetchone()
     if row is None:
@@ -333,16 +333,16 @@ def get_food(connection: Connection, slug: str) -> dict | None:
                   reference_quantity, reference_unit, upper_bounds, ingredients_text,
                   {", ".join(NUTRIENTS)},
                   protein_g * 100 / NULLIF(energy_kcal, 0) AS protein_per_100_kcal
-           FROM food_sources WHERE food_id = %s
+           FROM catalog.food_sources WHERE food_id = %s
            ORDER BY (source_name = 'BLS 4.0') DESC, id ASC""",
         (row["id"],),
     ).fetchall()
     nutrients: dict[int, list] = {}
     for nutrient in connection.execute(
         """SELECT v.source_id, n.key, n.name, n.category, v.amount, n.unit, v.upper_bound
-           FROM food_source_nutrients v
-           JOIN nutrients n ON n.key = v.nutrient_key
-           JOIN food_sources s ON s.id = v.source_id
+           FROM catalog.food_source_nutrients v
+           JOIN catalog.nutrients n ON n.key = v.nutrient_key
+           JOIN catalog.food_sources s ON s.id = v.source_id
            WHERE s.food_id = %s
            ORDER BY n.sort_order""",
         (row["id"],),
@@ -351,7 +351,7 @@ def get_food(connection: Connection, slug: str) -> dict | None:
         nutrient["amount"] = decimal_text(nutrient["amount"])
         nutrients.setdefault(source_id, []).append(nutrient)
     portions = connection.execute(
-        """SELECT name, kind, quantity, unit FROM food_portions
+        """SELECT name, kind, quantity, unit FROM catalog.food_portions
            WHERE food_id = %s ORDER BY quantity, name""",
         (row["id"],),
     ).fetchall()
@@ -369,24 +369,26 @@ def get_food(connection: Connection, slug: str) -> dict | None:
 
 def get_facets(connection: Connection) -> dict:
     return {
-        "foods": connection.execute("SELECT count(*) AS n FROM foods").fetchone()["n"],
-        "sources": connection.execute("SELECT count(*) AS n FROM food_sources").fetchone()["n"],
+        "foods": connection.execute("SELECT count(*) AS n FROM catalog.foods").fetchone()["n"],
+        "sources": connection.execute("SELECT count(*) AS n FROM catalog.food_sources").fetchone()[
+            "n"
+        ],
         "kinds": [
             row["kind"]
             for row in connection.execute(
-                "SELECT DISTINCT kind FROM foods ORDER BY kind"
+                "SELECT DISTINCT kind FROM catalog.foods ORDER BY kind"
             ).fetchall()
         ],
         "source_names": [
             row["source_name"]
             for row in connection.execute(
-                "SELECT DISTINCT source_name FROM food_sources ORDER BY source_name"
+                "SELECT DISTINCT source_name FROM catalog.food_sources ORDER BY source_name"
             ).fetchall()
         ],
         "preparation_states": [
             row["preparation_state"]
             for row in connection.execute(
-                "SELECT DISTINCT preparation_state FROM foods "
+                "SELECT DISTINCT preparation_state FROM catalog.foods "
                 "WHERE preparation_state IS NOT NULL ORDER BY preparation_state"
             ).fetchall()
         ],
@@ -394,7 +396,7 @@ def get_facets(connection: Connection) -> dict:
             {"code": row["code"], "name": BLS_GROUP_NAMES[row["code"]], "count": row["count"]}
             for row in connection.execute(
                 """SELECT group_code AS code, count(*) AS count
-                   FROM food_sources WHERE source_name = 'BLS 4.0'
+                   FROM catalog.food_sources WHERE source_name = 'BLS 4.0'
                      AND group_code IS NOT NULL
                    GROUP BY group_code ORDER BY group_code"""
             ).fetchall()

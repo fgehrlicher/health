@@ -163,6 +163,6 @@ def test_log_a_day_against_postgres(monkeypatch):
     finally:
         with psycopg.connect(database_url) as connection:
             connection.execute("DELETE FROM log.meals WHERE id = ANY(%s)", (meal_ids,))
-            connection.execute("DELETE FROM foods WHERE barcode = %s", (barcode,))
-            connection.execute("REFRESH MATERIALIZED VIEW food_search_terms")
-            connection.execute("REFRESH MATERIALIZED VIEW food_search_vocabulary")
+            connection.execute("DELETE FROM catalog.foods WHERE barcode = %s", (barcode,))
+            connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_terms")
+            connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary")

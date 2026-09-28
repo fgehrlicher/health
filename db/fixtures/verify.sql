@@ -4,11 +4,11 @@ DECLARE
     source_count integer;
     representative_count integer;
 BEGIN
-    SELECT count(*) INTO food_count FROM foods;
-    SELECT count(*) INTO source_count FROM food_sources WHERE source_name = 'BLS 4.0';
+    SELECT count(*) INTO food_count FROM catalog.foods;
+    SELECT count(*) INTO source_count FROM catalog.food_sources WHERE source_name = 'BLS 4.0';
     SELECT count(*) INTO representative_count
-    FROM food_sources AS source
-    JOIN foods AS food ON food.id = source.food_id
+    FROM catalog.food_sources AS source
+    JOIN catalog.foods AS food ON food.id = source.food_id
     WHERE source.source_name = 'BLS 4.0'
       AND source.reference_quantity = 100 AND source.reference_unit = 'g'
       AND source.group_code = left(source.external_id, 1)

@@ -92,12 +92,14 @@ def resolve_items(connection: Connection, items: list[ItemInput]) -> list[dict]:
     rows, issues = [], []
     for index, item in enumerate(items):
         field = f"items.{index}"
-        food = connection.execute("SELECT id FROM foods WHERE slug = %s", (item.food,)).fetchone()
+        food = connection.execute(
+            "SELECT id FROM catalog.foods WHERE slug = %s", (item.food,)
+        ).fetchone()
         if food is None:
             issues.append({"field": f"{field}.food", "message": f"unknown food {item.food!r}"})
             continue
         source = connection.execute(
-            """SELECT id, reference_unit FROM food_sources
+            """SELECT id, reference_unit FROM catalog.food_sources
                WHERE food_id = %(food)s AND (%(source)s::bigint IS NULL OR id = %(source)s)
                ORDER BY (source_name = 'BLS 4.0') DESC, id DESC
                LIMIT 1""",
@@ -110,7 +112,7 @@ def resolve_items(connection: Connection, items: list[ItemInput]) -> list[dict]:
         amount = item.amount
         if item.portion is not None:
             portion = connection.execute(
-                """SELECT quantity, unit FROM food_portions
+                """SELECT quantity, unit FROM catalog.food_portions
                    WHERE food_id = %s AND lower(name) = lower(%s)""",
                 (food["id"], item.portion),
             ).fetchone()
@@ -118,7 +120,7 @@ def resolve_items(connection: Connection, items: list[ItemInput]) -> list[dict]:
                 names = [
                     row["name"]
                     for row in connection.execute(
-                        "SELECT name FROM food_portions WHERE food_id = %s ORDER BY name",
+                        "SELECT name FROM catalog.food_portions WHERE food_id = %s ORDER BY name",
                         (food["id"],),
                     )
                 ]
@@ -174,8 +176,8 @@ def load_meals(connection: Connection, where: str, params: dict) -> list[dict]:
                    s.source_name, i.amount, s.reference_unit AS unit, i.estimated,
                    s.reference_quantity, {", ".join(f"s.{c}" for c in NUTRIENTS)}
             FROM log.meal_items i
-            JOIN food_sources s ON s.id = i.source_id
-            JOIN foods f ON f.id = s.food_id
+            JOIN catalog.food_sources s ON s.id = i.source_id
+            JOIN catalog.foods f ON f.id = s.food_id
             WHERE i.meal_id = ANY(%s)
             ORDER BY i.id""",
         ([meal["id"] for meal in meals],),

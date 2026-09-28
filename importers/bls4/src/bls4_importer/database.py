@@ -21,7 +21,7 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
         stored_other: dict[str, dict] = {}
         for row in connection.execute(
             """SELECT s.external_id, n.nutrient_key, n.amount
-               FROM food_source_nutrients n JOIN food_sources s ON s.id = n.source_id
+               FROM catalog.food_source_nutrients n JOIN catalog.food_sources s ON s.id = n.source_id
                WHERE s.source_name = %s""",
             (SOURCE_NAME,),
         ):
@@ -39,7 +39,7 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
                 f"""SELECT s.id, f.id AS food_id, s.food_name, s.group_code,
                           s.reference_quantity, s.reference_unit, s.upper_bounds,
                           {NUTRIENT_COLUMNS}, f.kind, f.preparation_state
-                   FROM food_sources s JOIN foods f ON f.id = s.food_id
+                   FROM catalog.food_sources s JOIN catalog.foods f ON f.id = s.food_id
                    WHERE s.source_name = %s AND s.external_id = %s""",
                 (SOURCE_NAME, food.code),
             ).fetchall()
@@ -63,18 +63,18 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
                     continue
                 if old["kind"] != "generic":
                     connection.execute(
-                        "UPDATE foods SET kind = 'generic' WHERE id = %s", (old["food_id"],)
+                        "UPDATE catalog.foods SET kind = 'generic' WHERE id = %s", (old["food_id"],)
                     )
                 if add_state:
                     connection.execute(
-                        "UPDATE foods SET preparation_state = %s WHERE id = %s",
+                        "UPDATE catalog.foods SET preparation_state = %s WHERE id = %s",
                         (food.preparation_state, old["food_id"]),
                     )
                 if other_changed:
                     other_rows[old["id"]] = other
                 if not unchanged:
                     connection.execute(
-                        f"""UPDATE food_sources
+                        f"""UPDATE catalog.food_sources
                            SET food_name = %(food_name)s, group_code = %(group_code)s,
                                reference_quantity = 100, reference_unit = 'g',
                                upper_bounds = '{{}}', {NUTRIENT_ASSIGNMENTS}
@@ -85,16 +85,18 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
                 continue
 
             slug = f"bls4-{food.code.lower()}"
-            if connection.execute("SELECT 1 FROM foods WHERE slug = %s", (slug,)).fetchone():
+            if connection.execute(
+                "SELECT 1 FROM catalog.foods WHERE slug = %s", (slug,)
+            ).fetchone():
                 raise ValueError(f"food slug {slug} already exists without its BLS source")
             aliases = [] if food.german_name == food.english_name else [food.german_name]
             food_id = connection.execute(
-                """INSERT INTO foods (slug, name, aliases, kind, preparation_state)
+                """INSERT INTO catalog.foods (slug, name, aliases, kind, preparation_state)
                    VALUES (%s, %s, %s, 'generic', %s) RETURNING id""",
                 (slug, food.english_name, aliases, food.preparation_state),
             ).fetchone()["id"]
             source_id = connection.execute(
-                f"""INSERT INTO food_sources
+                f"""INSERT INTO catalog.food_sources
                        (food_id, source_name, external_id, food_name, group_code,
                         reference_quantity, reference_unit, {NUTRIENT_COLUMNS})
                    VALUES (%(food_id)s, %(source_name)s, %(external_id)s, %(food_name)s,
@@ -119,9 +121,11 @@ def write_other_nutrients(connection: psycopg.Connection, rows: dict[int, dict])
     """Replace the food_source_nutrients rows of the given sources in bulk."""
     if not rows:
         return
-    connection.execute("DELETE FROM food_source_nutrients WHERE source_id = ANY(%s)", (list(rows),))
+    connection.execute(
+        "DELETE FROM catalog.food_source_nutrients WHERE source_id = ANY(%s)", (list(rows),)
+    )
     with connection.cursor().copy(
-        "COPY food_source_nutrients (source_id, nutrient_key, amount) FROM STDIN"
+        "COPY catalog.food_source_nutrients (source_id, nutrient_key, amount) FROM STDIN"
     ) as copy:
         for source_id, nutrients in rows.items():
             for key, amount in nutrients.items():
@@ -130,5 +134,5 @@ def write_other_nutrients(connection: psycopg.Connection, rows: dict[int, dict])
 
 def refresh_search(connection: psycopg.Connection) -> None:
     """Rebuild the catalog search views from the committed food names."""
-    connection.execute("REFRESH MATERIALIZED VIEW food_search_terms")
-    connection.execute("REFRESH MATERIALIZED VIEW food_search_vocabulary")
+    connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_terms")
+    connection.execute("REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary")

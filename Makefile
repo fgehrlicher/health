@@ -28,7 +28,7 @@ db-restore:
 	docker compose exec -T postgres pg_restore --username=health --dbname=health --clean --if-exists --single-transaction < $(FILE)
 
 db-status:
-	docker compose exec -T postgres psql --username=health --dbname=health --command="SELECT to_regclass('public.foods') AS foods, to_regclass('public.food_sources') AS food_sources"
+	docker compose exec -T postgres psql --username=health --dbname=health --command="SELECT to_regclass('catalog.foods') AS foods, to_regclass('log.meals') AS meals"
 
 db-fixture:
 	docker compose exec -T postgres psql --username=health --dbname=health --set=ON_ERROR_STOP=1 < db/fixtures/development.sql

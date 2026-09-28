@@ -1,6 +1,6 @@
 BEGIN;
 
-INSERT INTO foods (slug, name, aliases, kind, preparation_state)
+INSERT INTO catalog.foods (slug, name, aliases, kind, preparation_state)
 VALUES
     ('apple-raw', 'Apple', ARRAY['Apfel roh', 'Apple raw'], 'generic', 'raw'),
     ('white-rice-raw', 'White rice', ARRAY['Reis poliert, roh', 'White rice raw'], 'generic', 'raw'),
@@ -9,7 +9,7 @@ ON CONFLICT (slug) DO NOTHING;
 
 -- Energy is kcal; protein, fat, available carbohydrate, and fiber are grams.
 -- All amounts refer to 100 g of edible food from BLS 4.0.
-INSERT INTO food_sources (
+INSERT INTO catalog.food_sources (
     food_id,
     source_name,
     external_id,
@@ -44,14 +44,14 @@ FROM (VALUES
     food_slug, external_id, food_name,
     energy_kcal, protein_g, fat_g, carbs_g, fiber_g
 )
-JOIN foods AS food ON food.slug = sample.food_slug
+JOIN catalog.foods AS food ON food.slug = sample.food_slug
 WHERE NOT EXISTS (
-    SELECT 1 FROM food_sources AS existing
+    SELECT 1 FROM catalog.food_sources AS existing
     WHERE existing.source_name = 'BLS 4.0'
         AND existing.external_id = sample.external_id
 );
 
-REFRESH MATERIALIZED VIEW food_search_terms;
-REFRESH MATERIALIZED VIEW food_search_vocabulary;
+REFRESH MATERIALIZED VIEW catalog.food_search_terms;
+REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary;
 
 COMMIT;

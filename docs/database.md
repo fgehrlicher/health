@@ -1,8 +1,10 @@
 # Food catalog database
 
-The catalog has five tables, plus derived [search views](#search-views). The
-consumption log lives in its own `log` schema and is described in
-[Consumption log](log.md).
+The database has two PostgreSQL schemas. `catalog` holds five tables plus
+derived [search views](#search-views); `log` holds the meals described in
+[Consumption log](log.md). SQL names tables with their schema, e.g.
+`catalog.foods` and `log.meals`; the `public` schema only holds the `pg_trgm`
+extension.
 
 | Table | What it stores |
 | --- | --- |
@@ -69,8 +71,8 @@ that inserts or renames foods or sources must refresh them in the same
 transaction, as the BLS importer and development fixture do:
 
 ```sql
-REFRESH MATERIALIZED VIEW food_search_terms;
-REFRESH MATERIALIZED VIEW food_search_vocabulary;
+REFRESH MATERIALIZED VIEW catalog.food_search_terms;
+REFRESH MATERIALIZED VIEW catalog.food_search_vocabulary;
 ```
 
 The schema enables the `pg_trgm` extension for typo matching.
@@ -161,8 +163,8 @@ SELECT
     source.fat_g,
     source.carbs_g,
     source.fiber_g
-FROM foods AS food
-JOIN food_sources AS source ON source.food_id = food.id
+FROM catalog.foods AS food
+JOIN catalog.food_sources AS source ON source.food_id = food.id
 WHERE food.slug = 'lentil-mature-dry';
 ```
 
