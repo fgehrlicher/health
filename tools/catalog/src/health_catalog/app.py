@@ -11,6 +11,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from psycopg.rows import dict_row
 
+from health_catalog.consumption import router as log_router
 from health_catalog.models import (
     CatalogFacets,
     FoodDetail,
@@ -35,6 +36,7 @@ DEFAULT_DATABASE_URL = "postgres://health:health@127.0.0.1:5432/health"
 
 app = FastAPI(title="Health Food Catalog", version="0.1.0")
 app.mount("/assets", StaticFiles(directory=STATIC_DIR), name="assets")
+app.include_router(log_router)
 
 
 @app.exception_handler(psycopg.OperationalError)
