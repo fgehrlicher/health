@@ -1,0 +1,60 @@
+"""Response shapes of the consumption log API."""
+
+from typing import Literal
+
+from pydantic import BaseModel, create_model
+
+from health_api.catalog.repository import NUTRIENTS
+from health_api.log.meals import MealKind
+
+# One field per label column, e.g. energy_kcal; None where the source has no value.
+Nutrition = create_model(
+    "Nutrition", **{column: (str | None, ...) for column in NUTRIENTS}, __base__=BaseModel
+)
+
+
+class NutrientTotal(BaseModel):
+    measured: str
+    estimated: str
+    # Items whose source lacks this nutrient; the total is then a lower bound.
+    items_without_value: int
+
+
+NutrientTotals = create_model(
+    "NutrientTotals", **{column: (NutrientTotal, ...) for column in NUTRIENTS}, __base__=BaseModel
+)
+
+
+class MealItem(BaseModel):
+    id: int
+    food: str
+    food_name: str
+    source_id: int
+    source_name: str
+    amount: str
+    unit: str
+    estimated: bool
+    nutrition: Nutrition
+
+
+class Meal(BaseModel):
+    id: int
+    eaten_at: str
+    kind: MealKind | None
+    status: Literal["measured", "estimated", "unknown"]
+    items: list[MealItem]
+    totals: NutrientTotals
+
+
+class MealCounts(BaseModel):
+    measured: int
+    estimated: int
+    unknown: int
+
+
+class Day(BaseModel):
+    date: str
+    timezone: str
+    meals: list[Meal]
+    counts: MealCounts
+    totals: NutrientTotals

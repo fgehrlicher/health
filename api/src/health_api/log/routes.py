@@ -17,6 +17,7 @@ from health_api.log.meals import (
     local_time,
     resolve_items,
 )
+from health_api.log.models import Day, Meal
 
 router = APIRouter(prefix="/api/log", tags=["log"])
 
@@ -25,7 +26,7 @@ def issues_response(error: LogError) -> JSONResponse:
     return JSONResponse(status_code=422, content={"detail": error.issues})
 
 
-@router.post("/meals", status_code=201)
+@router.post("/meals", status_code=201, response_model=Meal)
 def create_meal(meal: MealInput, response: Response, dry_run: bool = False):
     """Log a meal: catalog foods and amounts. Nutrition is calculated, never sent.
 
@@ -51,7 +52,7 @@ def create_meal(meal: MealInput, response: Response, dry_run: bool = False):
     return result
 
 
-@router.get("/meals/{meal_id}")
+@router.get("/meals/{meal_id}", response_model=Meal)
 def read_meal(meal_id: int):
     with connect() as connection:
         meal = get_meal(connection, meal_id)
@@ -60,7 +61,7 @@ def read_meal(meal_id: int):
     return meal
 
 
-@router.patch("/meals/{meal_id}")
+@router.patch("/meals/{meal_id}", response_model=Meal)
 def update_meal(meal_id: int, update: MealUpdate):
     """Change time, kind, or items; `items` replaces all of the meal's items.
 
@@ -111,7 +112,7 @@ def delete_meal(meal_id: int):
     return Response(status_code=204)
 
 
-@router.get("/days/{day}")
+@router.get("/days/{day}", response_model=Day)
 def read_day(day: date):
     """A local day's meals and totals, keeping measured, estimated, and unknown apart."""
     with connect() as connection:
