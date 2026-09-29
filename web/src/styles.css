@@ -1,0 +1,146 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/bricolage-grotesque";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: "Geist Variable", sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* "Fresh & warm": cream surfaces, green primary. */
+:root {
+  --background: #f8f5ee;
+  --foreground: #26231d;
+  --card: #fffdf8;
+  --card-foreground: #26231d;
+  --popover: #fffdf8;
+  --popover-foreground: #26231d;
+  --primary: #2f7d4a;
+  --primary-foreground: #fbfaf5;
+  --secondary: #eaf2e5;
+  --secondary-foreground: #23402d;
+  --muted: #f0ebe0;
+  --muted-foreground: #6b6456;
+  --accent: #e7f0e1;
+  --accent-foreground: #23402d;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e5ddcd;
+  --input: #dbd2bf;
+  --ring: #6fae84;
+  --radius: 0.9rem;
+
+  /* Macro colors, in stacking order. Validated as a set for adjacent use on
+     the card surface (dataviz validator); always shown with text labels. */
+  --macro-protein: #2a78d6;
+  --macro-fat: #e87ba4;
+  --macro-carbs: #eda100;
+  --macro-fiber: #1baf7a;
+  --macro-alcohol: #4a3aa7;
+  --macro-rest: #d9d1c1;
+
+  --chart-1: var(--macro-protein);
+  --chart-2: var(--macro-fat);
+  --chart-3: var(--macro-carbs);
+  --chart-4: var(--macro-fiber);
+  --chart-5: var(--macro-alcohol);
+  --sidebar: #f3efe6;
+  --sidebar-foreground: #26231d;
+  --sidebar-primary: #2f7d4a;
+  --sidebar-primary-foreground: #fbfaf5;
+  --sidebar-accent: #e7f0e1;
+  --sidebar-accent-foreground: #23402d;
+  --sidebar-border: #e5ddcd;
+  --sidebar-ring: #6fae84;
+}
+
+.dark {
+  --background: #181713;
+  --foreground: #f2eee4;
+  --card: #211f1a;
+  --card-foreground: #f2eee4;
+  --popover: #211f1a;
+  --popover-foreground: #f2eee4;
+  --primary: #5cc07e;
+  --primary-foreground: #0f2417;
+  --secondary: #243328;
+  --secondary-foreground: #dcefe1;
+  --muted: #2a2721;
+  --muted-foreground: #aaa291;
+  --accent: #26352a;
+  --accent-foreground: #dcefe1;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: rgb(255 255 255 / 9%);
+  --input: rgb(255 255 255 / 14%);
+  --ring: #4d9d68;
+
+  /* The same hues stepped for the dark surface, validated separately. */
+  --macro-protein: #3987e5;
+  --macro-fat: #d55181;
+  --macro-carbs: #c98500;
+  --macro-fiber: #199e70;
+  --macro-alcohol: #9085e9;
+  --macro-rest: #3d3a33;
+
+  --sidebar: #1d1b17;
+  --sidebar-foreground: #f2eee4;
+  --sidebar-primary: #5cc07e;
+  --sidebar-primary-foreground: #0f2417;
+  --sidebar-accent: #26352a;
+  --sidebar-accent-foreground: #dcefe1;
+  --sidebar-border: rgb(255 255 255 / 9%);
+  --sidebar-ring: #4d9d68;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}

@@ -16,9 +16,10 @@ an agent search, look up barcodes, register products, and log meals.
 | --- | --- | --- |
 | Database | PostgreSQL 18 in Docker Compose; one mutable schema [`db/schema.sql`](../db/schema.sql), no migrations; `make db-backup` | [Database](database.md#schema-changes-resets-and-backups) |
 | BLS importer | `uv run --locked bls4-import`: downloads, verifies, and imports BLS 4.0 with its erratum | [BLS 4.0 import](bls4-import.md) |
-| Health API and browser | `make api`: the single backend, FastAPI on `127.0.0.1:8000`, in [`api/`](../api/) | |
+| Health API | `make api`: the single backend, FastAPI on `127.0.0.1:8000`, in [`api/`](../api/) | |
 | – catalog | Search, food details, barcode lookup, registration, table UI | [Catalog](catalog.md) |
 | – consumption log | Endpoints under `/api/log`; tables in the `log` schema | [Consumption log](log.md) |
+| Web frontend | `make web`: TanStack Start, shadcn/ui, TypeScript on `localhost:3000`, in [`web/`](../web/): Today with logging, foods, food details | [Web frontend](web.md) |
 | Search quality check | `make search-eval`: 71 real queries with expected BLS codes | [Catalog: Search](catalog.md#search) |
 
 Everything is Python managed by one uv workspace (`api`, `importers/*`).
@@ -114,7 +115,7 @@ The agent itself reads the photos. The rules it should follow are in
 - Values the BLS erratum marks as wrong without a replacement are stored as
   unknown until BLS 4.1, including raw anchovy fat and energy and 157 recipes'
   vitamin A, iodine, or calcium ([details](bls4-import.md#values-and-limits)).
-- Search finds the intended food first for 56% of test queries and within the
+- Search finds the intended food first for 58% of test queries and within the
   top five for 80%. Most misses are synonyms not in BLS names, such as
   `porridge` or `ground beef`.
 - `test-data/` holds the quark label photos. It is not tracked by Git and not

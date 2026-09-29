@@ -1,24 +1,12 @@
-# Local food browser and API
+# Food catalog API
 
-The read-only browser is a sortable table of foods with energy, four macros,
-and protein per 100 kcal. This last value is calculated as
-`protein_g × 100 / energy_kcal`, not stored in the database. It is unknown
-when protein or energy is missing or energy is zero. Food details add the
-full label-style breakdown (kJ, saturated fat, sugars, salt, and more),
-vitamins, minerals, and further nutrients, and any portions. The Preparation
-filter uses the state derived from BLS names.
-Search finds names, aliases, German BLS names, and BLS codes (see
-[Search](#search)). Filters include BLS group, source, food type, preparation,
-protein, fiber, and energy. Click a row
-to see all source records and a small diagram of grams in 100 g (where the
-source basis is 100 g). A dash means unknown, not zero.
-BLS codes remain searchable and appear in food details, but are not a table column.
+The catalog part of the health API: search, food details, barcode lookup, and
+registration of branded foods. The [web frontend](web.md) shows it as a table
+and detail pages.
 
-Click a column header to sort the full filtered result set, not just the
-current page. The table uses a locally bundled [Tabulator 6.5.3](https://tabulator.info/)
-for sorting, paging, column resizing, and responsive collapsed rows. No CDN or
-frontend build is required at runtime. Its MIT license is in the bundled
-`static/vendor/tabulator-6.5.3/LICENSE` file.
+Protein per 100 kcal is calculated as `protein_g × 100 / energy_kcal`, not
+stored; it is unknown when protein or energy is missing or energy is zero. A
+`null` value means unknown, never zero.
 
 ## Run
 
@@ -28,9 +16,10 @@ uv run --locked bls4-import
 make api
 ```
 
-Open <http://127.0.0.1:8000>. The server binds to `127.0.0.1` by default.
-It has no login and its API can add foods, so do not expose it to a public
-network. `DATABASE_URL` overrides the local Compose database.
+The API listens on <http://127.0.0.1:8000>, with interactive documentation at
+<http://127.0.0.1:8000/docs>. It serves no pages. It has no login and can add
+foods, so do not expose it to a public network. `DATABASE_URL` overrides the
+local Compose database.
 
 ## Search
 
@@ -44,7 +33,8 @@ Results are sorted by relevance unless you click a column. Ranking favors foods
 whose head phrase, the name part before the first comma, the query covers:
 BLS names put the food first and qualifiers after it ("Whole milk, fresh,
 3.5 % fat"). Unprepared BLS foods (code ending in `00`) rank higher, composite
-dishes (groups X and Y) lower.
+dishes (groups X and Y), cakes (D), and sweets (S) lower. Sorting by name ignores
+leading quotes, so "Berliner" doughnuts sort under B.
 
 Search reads two materialized views, `food_search_terms` and
 `food_search_vocabulary`, built from `foods` and `food_sources`. The BLS

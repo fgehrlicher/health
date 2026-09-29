@@ -1,0 +1,2728 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Health API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/foods": {
+      "get": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "Foods",
+        "operationId": "foods_api_foods_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 60
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Kind"
+            }
+          },
+          {
+            "name": "group",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[BCDEFGHKMNPQRSTUVWXY]$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Group"
+            }
+          },
+          {
+            "name": "source_name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source Name"
+            }
+          },
+          {
+            "name": "preparation_state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 60
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Preparation State"
+            }
+          },
+          {
+            "name": "min_protein",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0.0
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Min Protein"
+            }
+          },
+          {
+            "name": "min_protein_density",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0.0
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Min Protein Density"
+            }
+          },
+          {
+            "name": "min_fiber",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0.0
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Min Fiber"
+            }
+          },
+          {
+            "name": "max_energy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0.0
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Max Energy"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "relevance",
+                "name",
+                "name_desc",
+                "group_asc",
+                "group_desc",
+                "code_asc",
+                "code_desc",
+                "source_asc",
+                "source_desc",
+                "energy_asc",
+                "energy_desc",
+                "protein_asc",
+                "protein_desc",
+                "protein_density_asc",
+                "protein_density_desc",
+                "fat_asc",
+                "fat_desc",
+                "carbs_asc",
+                "carbs_desc",
+                "fiber_asc",
+                "fiber_desc"
+              ],
+              "type": "string",
+              "default": "relevance",
+              "title": "Sort"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "Create Food",
+        "description": "Register a branded food with its label nutrition and portions.\n\nValidates the barcode check digit, \"davon\" rows, kJ against kcal, and kcal\nagainst the macros. Use `dry_run=true` first; warnings do not block writing.",
+        "operationId": "create_food_api_foods_post",
+        "parameters": [
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Dry Run"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodRegistration"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Barcode already registered; `slug` names the food"
+          },
+          "422": {
+            "description": "Invalid or self-contradicting values; nothing written"
+          }
+        }
+      }
+    },
+    "/api/foods/facets": {
+      "get": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "Facets",
+        "operationId": "facets_api_foods_facets_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogFacets"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/foods/barcode/{barcode}": {
+      "get": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "Food By Barcode",
+        "description": "Exact lookup of a scanned or photographed EAN/UPC barcode.",
+        "operationId": "food_by_barcode_api_foods_barcode__barcode__get",
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Barcode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/foods/{slug}/sources/{source_id}": {
+      "patch": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "Patch Source Text",
+        "description": "Add a label's legal name or ingredients read from a later photo.\n\nOnly text fields; a label with different nutrition is a new source. BLS\nsources cannot be edited.",
+        "operationId": "patch_source_text_api_foods__slug__sources__source_id__patch",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "source_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Source Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SourceTextUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such food or source"
+          },
+          "422": {
+            "description": "Invalid"
+          }
+        }
+      }
+    },
+    "/api/foods/{slug}": {
+      "get": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "Food Detail",
+        "operationId": "food_detail_api_foods__slug__get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/log/meals": {
+      "post": {
+        "tags": [
+          "log"
+        ],
+        "summary": "Create Meal",
+        "description": "Log a meal: catalog foods and amounts. Nutrition is calculated, never sent.\n\nA meal without items is logged with unknown nutrition. `dry_run=true`\nreturns the meal as it would be stored, without storing it.",
+        "operationId": "create_meal_api_log_meals_post",
+        "parameters": [
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Dry Run"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MealInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Meal"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/log/meals/{meal_id}": {
+      "get": {
+        "tags": [
+          "log"
+        ],
+        "summary": "Read Meal",
+        "operationId": "read_meal_api_log_meals__meal_id__get",
+        "parameters": [
+          {
+            "name": "meal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Meal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Meal"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "log"
+        ],
+        "summary": "Update Meal",
+        "description": "Change time, kind, or items; `items` replaces all of the meal's items.\n\nSend `\"kind\": null` to clear the kind. Filling in an unknown meal is an\nupdate with items.",
+        "operationId": "update_meal_api_log_meals__meal_id__patch",
+        "parameters": [
+          {
+            "name": "meal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Meal Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MealUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Meal"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "log"
+        ],
+        "summary": "Delete Meal",
+        "operationId": "delete_meal_api_log_meals__meal_id__delete",
+        "parameters": [
+          {
+            "name": "meal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Meal Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/log/days/{day}": {
+      "get": {
+        "tags": [
+          "log"
+        ],
+        "summary": "Read Day",
+        "description": "A local day's meals and totals, keeping measured, estimated, and unknown apart.",
+        "operationId": "read_day_api_log_days__day__get",
+        "parameters": [
+          {
+            "name": "day",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Day"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Day"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CatalogFacets": {
+        "properties": {
+          "foods": {
+            "type": "integer",
+            "title": "Foods"
+          },
+          "sources": {
+            "type": "integer",
+            "title": "Sources"
+          },
+          "kinds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Kinds"
+          },
+          "source_names": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Names"
+          },
+          "preparation_states": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Preparation States"
+          },
+          "groups": {
+            "items": {
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Groups"
+          }
+        },
+        "type": "object",
+        "required": [
+          "foods",
+          "sources",
+          "kinds",
+          "source_names",
+          "preparation_states",
+          "groups"
+        ],
+        "title": "CatalogFacets"
+      },
+      "Day": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "meals": {
+            "items": {
+              "$ref": "#/components/schemas/Meal"
+            },
+            "type": "array",
+            "title": "Meals"
+          },
+          "counts": {
+            "$ref": "#/components/schemas/MealCounts"
+          },
+          "totals": {
+            "$ref": "#/components/schemas/NutrientTotals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "timezone",
+          "meals",
+          "counts",
+          "totals"
+        ],
+        "title": "Day"
+      },
+      "FoodDetail": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "preparation_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preparation State"
+          },
+          "brand": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Brand"
+          },
+          "barcode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Barcode"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceDetail"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "portions": {
+            "items": {
+              "$ref": "#/components/schemas/Portion"
+            },
+            "type": "array",
+            "title": "Portions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "name",
+          "aliases",
+          "kind",
+          "preparation_state",
+          "brand",
+          "barcode",
+          "sources",
+          "portions"
+        ],
+        "title": "FoodDetail"
+      },
+      "FoodInput": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "brand": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Brand"
+          },
+          "barcode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 14
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Barcode"
+          },
+          "aliases": {
+            "items": {
+              "type": "string",
+              "maxLength": 200,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Aliases",
+            "default": []
+          },
+          "source_name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Source Name",
+            "default": "Product label"
+          },
+          "source_food_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Food Name"
+          },
+          "ingredients_text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 5000,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ingredients Text"
+          },
+          "nutrition": {
+            "$ref": "#/components/schemas/NutritionInput"
+          },
+          "portions": {
+            "items": {
+              "$ref": "#/components/schemas/PortionInput"
+            },
+            "type": "array",
+            "title": "Portions",
+            "default": []
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "nutrition"
+        ],
+        "title": "FoodInput",
+        "description": "A branded food from a label photo or product database."
+      },
+      "FoodPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FoodSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset"
+        ],
+        "title": "FoodPage"
+      },
+      "FoodRegistration": {
+        "properties": {
+          "dry_run": {
+            "type": "boolean",
+            "title": "Dry Run"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "warnings": {
+            "items": {
+              "$ref": "#/components/schemas/Issue"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "food": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FoodDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "dry_run",
+          "slug",
+          "warnings",
+          "food"
+        ],
+        "title": "FoodRegistration"
+      },
+      "FoodSummary": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "preparation_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preparation State"
+          },
+          "brand": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Brand"
+          },
+          "barcode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Barcode"
+          },
+          "source_count": {
+            "type": "integer",
+            "title": "Source Count"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NutritionSource"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "name",
+          "aliases",
+          "kind",
+          "preparation_state",
+          "brand",
+          "barcode",
+          "source_count",
+          "source"
+        ],
+        "title": "FoodSummary"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Issue": {
+        "properties": {
+          "field": {
+            "type": "string",
+            "title": "Field"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "field",
+          "message"
+        ],
+        "title": "Issue"
+      },
+      "ItemInput": {
+        "properties": {
+          "food": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Food",
+            "description": "catalog slug"
+          },
+          "source_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Id"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,7}|(?=[\\d.]{1,11}0*$)\\d{0,7}\\.\\d{0,3}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "portion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 60,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Portion"
+          },
+          "count": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,3}|(?=[\\d.]{1,7}0*$)\\d{0,3}\\.\\d{0,3}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Count"
+          },
+          "estimated": {
+            "type": "boolean",
+            "title": "Estimated",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "food"
+        ],
+        "title": "ItemInput",
+        "description": "One food in a meal: a catalog food and how much, as an amount or a portion."
+      },
+      "Meal": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "eaten_at": {
+            "type": "string",
+            "title": "Eaten At"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "breakfast",
+                  "lunch",
+                  "dinner",
+                  "snack"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kind"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "estimated",
+              "unknown"
+            ],
+            "title": "Status"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MealItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "totals": {
+            "$ref": "#/components/schemas/NutrientTotals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "eaten_at",
+          "kind",
+          "status",
+          "items",
+          "totals"
+        ],
+        "title": "Meal"
+      },
+      "MealCounts": {
+        "properties": {
+          "measured": {
+            "type": "integer",
+            "title": "Measured"
+          },
+          "estimated": {
+            "type": "integer",
+            "title": "Estimated"
+          },
+          "unknown": {
+            "type": "integer",
+            "title": "Unknown"
+          }
+        },
+        "type": "object",
+        "required": [
+          "measured",
+          "estimated",
+          "unknown"
+        ],
+        "title": "MealCounts"
+      },
+      "MealInput": {
+        "properties": {
+          "eaten_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eaten At"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "breakfast",
+                  "lunch",
+                  "dinner",
+                  "snack"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kind"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ItemInput"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Items",
+            "default": []
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "MealInput"
+      },
+      "MealItem": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "food": {
+            "type": "string",
+            "title": "Food"
+          },
+          "food_name": {
+            "type": "string",
+            "title": "Food Name"
+          },
+          "source_id": {
+            "type": "integer",
+            "title": "Source Id"
+          },
+          "source_name": {
+            "type": "string",
+            "title": "Source Name"
+          },
+          "amount": {
+            "type": "string",
+            "title": "Amount"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit"
+          },
+          "estimated": {
+            "type": "boolean",
+            "title": "Estimated"
+          },
+          "nutrition": {
+            "$ref": "#/components/schemas/Nutrition"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "food",
+          "food_name",
+          "source_id",
+          "source_name",
+          "amount",
+          "unit",
+          "estimated",
+          "nutrition"
+        ],
+        "title": "MealItem"
+      },
+      "MealUpdate": {
+        "properties": {
+          "eaten_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eaten At"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "breakfast",
+                  "lunch",
+                  "dinner",
+                  "snack"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kind"
+          },
+          "items": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ItemInput"
+                },
+                "type": "array",
+                "maxItems": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "MealUpdate",
+        "description": "Only the given fields change; `items` replaces all items."
+      },
+      "NutrientTotal": {
+        "properties": {
+          "measured": {
+            "type": "string",
+            "title": "Measured"
+          },
+          "estimated": {
+            "type": "string",
+            "title": "Estimated"
+          },
+          "items_without_value": {
+            "type": "integer",
+            "title": "Items Without Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "measured",
+          "estimated",
+          "items_without_value"
+        ],
+        "title": "NutrientTotal"
+      },
+      "NutrientTotals": {
+        "properties": {
+          "energy_kj": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "energy_kcal": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "fat_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "saturated_fat_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "monounsaturated_fat_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "polyunsaturated_fat_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "carbs_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "sugars_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "polyols_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "starch_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "fiber_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "protein_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "salt_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "alcohol_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          }
+        },
+        "type": "object",
+        "required": [
+          "energy_kj",
+          "energy_kcal",
+          "fat_g",
+          "saturated_fat_g",
+          "monounsaturated_fat_g",
+          "polyunsaturated_fat_g",
+          "carbs_g",
+          "sugars_g",
+          "polyols_g",
+          "starch_g",
+          "fiber_g",
+          "protein_g",
+          "salt_g",
+          "alcohol_g"
+        ],
+        "title": "NutrientTotals"
+      },
+      "Nutrition": {
+        "properties": {
+          "energy_kj": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Energy Kj"
+          },
+          "energy_kcal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Energy Kcal"
+          },
+          "fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fat G"
+          },
+          "saturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Saturated Fat G"
+          },
+          "monounsaturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monounsaturated Fat G"
+          },
+          "polyunsaturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polyunsaturated Fat G"
+          },
+          "carbs_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carbs G"
+          },
+          "sugars_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sugars G"
+          },
+          "polyols_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polyols G"
+          },
+          "starch_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starch G"
+          },
+          "fiber_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fiber G"
+          },
+          "protein_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protein G"
+          },
+          "salt_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salt G"
+          },
+          "alcohol_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alcohol G"
+          }
+        },
+        "type": "object",
+        "required": [
+          "energy_kj",
+          "energy_kcal",
+          "fat_g",
+          "saturated_fat_g",
+          "monounsaturated_fat_g",
+          "polyunsaturated_fat_g",
+          "carbs_g",
+          "sugars_g",
+          "polyols_g",
+          "starch_g",
+          "fiber_g",
+          "protein_g",
+          "salt_g",
+          "alcohol_g"
+        ],
+        "title": "Nutrition"
+      },
+      "NutritionInput": {
+        "properties": {
+          "reference_quantity": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Reference Quantity",
+            "default": "100"
+          },
+          "reference_unit": {
+            "type": "string",
+            "enum": [
+              "g",
+              "ml"
+            ],
+            "title": "Reference Unit",
+            "default": "g"
+          },
+          "energy_kj": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Energy Kj"
+          },
+          "energy_kcal": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              }
+            ],
+            "title": "Energy Kcal"
+          },
+          "fat_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              }
+            ],
+            "title": "Fat G"
+          },
+          "saturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Saturated Fat G"
+          },
+          "monounsaturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monounsaturated Fat G"
+          },
+          "polyunsaturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polyunsaturated Fat G"
+          },
+          "carbs_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              }
+            ],
+            "title": "Carbs G"
+          },
+          "sugars_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sugars G"
+          },
+          "polyols_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polyols G"
+          },
+          "starch_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starch G"
+          },
+          "fiber_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fiber G"
+          },
+          "protein_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              }
+            ],
+            "title": "Protein G"
+          },
+          "salt_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salt G"
+          },
+          "alcohol_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,8}|(?=[\\d.]{1,13}0*$)\\d{0,8}\\.\\d{0,4}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alcohol G"
+          },
+          "upper_bounds": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "energy_kj",
+                "energy_kcal",
+                "fat_g",
+                "saturated_fat_g",
+                "monounsaturated_fat_g",
+                "polyunsaturated_fat_g",
+                "carbs_g",
+                "sugars_g",
+                "polyols_g",
+                "starch_g",
+                "fiber_g",
+                "protein_g",
+                "salt_g",
+                "alcohol_g"
+              ]
+            },
+            "type": "array",
+            "title": "Upper Bounds",
+            "default": []
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "energy_kcal",
+          "fat_g",
+          "carbs_g",
+          "protein_g"
+        ],
+        "title": "NutritionInput",
+        "description": "One nutrition column of a label, as printed (use the as-sold column)."
+      },
+      "NutritionSource": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "source_name": {
+            "type": "string",
+            "title": "Source Name"
+          },
+          "external_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Id"
+          },
+          "food_name": {
+            "type": "string",
+            "title": "Food Name"
+          },
+          "group_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Group Code"
+          },
+          "reference_quantity": {
+            "type": "string",
+            "title": "Reference Quantity"
+          },
+          "reference_unit": {
+            "type": "string",
+            "title": "Reference Unit"
+          },
+          "energy_kj": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Energy Kj"
+          },
+          "energy_kcal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Energy Kcal"
+          },
+          "fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fat G"
+          },
+          "saturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Saturated Fat G"
+          },
+          "monounsaturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monounsaturated Fat G"
+          },
+          "polyunsaturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polyunsaturated Fat G"
+          },
+          "carbs_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carbs G"
+          },
+          "sugars_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sugars G"
+          },
+          "polyols_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polyols G"
+          },
+          "starch_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starch G"
+          },
+          "fiber_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fiber G"
+          },
+          "protein_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protein G"
+          },
+          "salt_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salt G"
+          },
+          "alcohol_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alcohol G"
+          },
+          "protein_per_100_kcal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protein Per 100 Kcal"
+          },
+          "upper_bounds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Upper Bounds"
+          },
+          "ingredients_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ingredients Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_name",
+          "external_id",
+          "food_name",
+          "group_code",
+          "reference_quantity",
+          "reference_unit",
+          "energy_kj",
+          "energy_kcal",
+          "fat_g",
+          "saturated_fat_g",
+          "monounsaturated_fat_g",
+          "polyunsaturated_fat_g",
+          "carbs_g",
+          "sugars_g",
+          "polyols_g",
+          "starch_g",
+          "fiber_g",
+          "protein_g",
+          "salt_g",
+          "alcohol_g",
+          "protein_per_100_kcal",
+          "upper_bounds",
+          "ingredients_text"
+        ],
+        "title": "NutritionSource"
+      },
+      "Portion": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "quantity": {
+            "type": "string",
+            "title": "Quantity"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "kind",
+          "quantity",
+          "unit"
+        ],
+        "title": "Portion"
+      },
+      "PortionInput": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "package",
+              "serving",
+              "piece",
+              "household"
+            ],
+            "title": "Kind"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Quantity"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "g",
+              "ml"
+            ],
+            "title": "Unit"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "kind",
+          "quantity",
+          "unit"
+        ],
+        "title": "PortionInput"
+      },
+      "SourceDetail": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "source_name": {
+            "type": "string",
+            "title": "Source Name"
+          },
+          "external_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Id"
+          },
+          "food_name": {
+            "type": "string",
+            "title": "Food Name"
+          },
+          "group_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Group Code"
+          },
+          "reference_quantity": {
+            "type": "string",
+            "title": "Reference Quantity"
+          },
+          "reference_unit": {
+            "type": "string",
+            "title": "Reference Unit"
+          },
+          "energy_kj": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Energy Kj"
+          },
+          "energy_kcal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Energy Kcal"
+          },
+          "fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fat G"
+          },
+          "saturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Saturated Fat G"
+          },
+          "monounsaturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monounsaturated Fat G"
+          },
+          "polyunsaturated_fat_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polyunsaturated Fat G"
+          },
+          "carbs_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carbs G"
+          },
+          "sugars_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sugars G"
+          },
+          "polyols_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polyols G"
+          },
+          "starch_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starch G"
+          },
+          "fiber_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fiber G"
+          },
+          "protein_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protein G"
+          },
+          "salt_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salt G"
+          },
+          "alcohol_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alcohol G"
+          },
+          "protein_per_100_kcal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protein Per 100 Kcal"
+          },
+          "upper_bounds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Upper Bounds"
+          },
+          "ingredients_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ingredients Text"
+          },
+          "nutrients": {
+            "items": {
+              "$ref": "#/components/schemas/SourceNutrient"
+            },
+            "type": "array",
+            "title": "Nutrients"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_name",
+          "external_id",
+          "food_name",
+          "group_code",
+          "reference_quantity",
+          "reference_unit",
+          "energy_kj",
+          "energy_kcal",
+          "fat_g",
+          "saturated_fat_g",
+          "monounsaturated_fat_g",
+          "polyunsaturated_fat_g",
+          "carbs_g",
+          "sugars_g",
+          "polyols_g",
+          "starch_g",
+          "fiber_g",
+          "protein_g",
+          "salt_g",
+          "alcohol_g",
+          "protein_per_100_kcal",
+          "upper_bounds",
+          "ingredients_text",
+          "nutrients"
+        ],
+        "title": "SourceDetail"
+      },
+      "SourceNutrient": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "amount": {
+            "type": "string",
+            "title": "Amount"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit"
+          },
+          "upper_bound": {
+            "type": "boolean",
+            "title": "Upper Bound"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "name",
+          "category",
+          "amount",
+          "unit",
+          "upper_bound"
+        ],
+        "title": "SourceNutrient"
+      },
+      "SourceTextUpdate": {
+        "properties": {
+          "food_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Food Name"
+          },
+          "ingredients_text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 5000,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ingredients Text"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "SourceTextUpdate",
+        "description": "Text read later from the same label, e.g. a second photo of a round cup."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
