@@ -33,8 +33,9 @@ Sort = Literal[
 ]
 SORT_SQL = {
     "relevance": "relevance DESC, length(name) ASC, lower(name) ASC, id ASC",
-    "name": "lower(name) ASC, id ASC",
-    "name_desc": "lower(name) DESC, id ASC",
+    # Leading quotes and brackets ("Berliner" doughnut) do not sort first.
+    "name": "regexp_replace(lower(name), '^[^[:alnum:]]+', '') ASC, id ASC",
+    "name_desc": "regexp_replace(lower(name), '^[^[:alnum:]]+', '') DESC, id ASC",
     "group_asc": "group_code ASC NULLS LAST, lower(name) ASC, id ASC",
     "group_desc": "group_code DESC NULLS LAST, lower(name) ASC, id ASC",
     "code_asc": "external_id ASC NULLS LAST, lower(name) ASC, id ASC",
@@ -99,7 +100,7 @@ BLS_GROUP_NAMES = {
 # plural/compound part, or by trigram similarity for typos. Ranking favors
 # foods whose head phrase (words before the first comma) the query covers.
 # Unprepared BLS foods (code ending in 00; the sixth digit encodes preparation)
-# get a bonus, composite dishes (BLS groups X and Y) a penalty.
+# get a bonus; recipes (BLS dishes X and Y, cakes D, sweets S) a penalty.
 SEARCH_SQL = """
 WITH query_tokens AS (
     SELECT token FROM unnest(%(tokens)s::text[]) AS token
@@ -178,7 +179,7 @@ search_matches AS (
           ) THEN 0.1 ELSE 0 END
         - CASE WHEN EXISTS (
               SELECT 1 FROM catalog.food_sources s
-              WHERE s.food_id = m.food_id AND s.group_code IN ('X', 'Y')
+              WHERE s.food_id = m.food_id AND s.group_code IN ('D', 'S', 'X', 'Y')
           ) THEN 0.15 ELSE 0 END
         AS relevance
     FROM matched_foods m
