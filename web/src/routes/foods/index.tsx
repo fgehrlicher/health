@@ -3,10 +3,10 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query"
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router"
-import { SearchIcon } from "lucide-react"
+import { ListFilterIcon, SearchIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { z } from "zod"
-import type { ReactNode } from "react"
+import { FoodGroupNav, groupIcon } from "@/components/food-groups"
 import { MacroBar } from "@/components/nutrition/macro-bar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -22,6 +22,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 import { Spinner } from "@/components/ui/spinner"
 import { capitalize, formatNumber } from "@/lib/format"
 import { energySplit } from "@/lib/macros"
@@ -99,116 +106,133 @@ function FoodsPage() {
       replace: true,
     })
 
+  const activeGroup = facets.groups.find(
+    (group) => String(group.code) === search.group
+  )
+  const GroupIcon = groupIcon(search.group)
+  const [groupsOpen, setGroupsOpen] = useState(false)
+
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-baseline justify-between gap-4">
-        <h1 className="font-heading text-2xl font-semibold">Foods</h1>
-        <span className="text-sm text-muted-foreground tabular-nums">
-          {formatNumber(total, 0)} {total === 1 ? "food" : "foods"}
-        </span>
-      </div>
+    <div className="grid gap-6 lg:grid-cols-[17rem_minmax(0,1fr)]">
+      {/* Food groups: a sidebar on wide screens, a sheet on phones. */}
+      <aside className="hidden lg:block">
+        <div className="sticky top-18 max-h-[calc(100svh-5.5rem)] overflow-y-auto pr-1 pb-4">
+          <div className="mb-2 px-2.5 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+            Categories
+          </div>
+          <FoodGroupNav facets={facets} active={search.group} />
+        </div>
+      </aside>
 
-      <div className="sticky top-14 z-30 -mx-4 flex flex-col gap-3 bg-background/90 px-4 py-2 backdrop-blur">
-        <InputGroup className="h-10 bg-card">
-          <InputGroupAddon>
-            <SearchIcon />
-          </InputGroupAddon>
-          <InputGroupInput
-            type="search"
-            placeholder="Search foods, German names, codes, barcodes"
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-          />
-        </InputGroup>
-
-        {/* Food groups as chips; scrolls sideways on narrow screens. */}
-        <div
-          className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 pb-1"
-          role="group"
-          aria-label="Food group"
-        >
-          <Chip active={!search.group} onClick={() => set("group", undefined)}>
-            All groups
-          </Chip>
-          {facets.groups.map((group) => {
-            const code = String(group.code)
-            return (
-              <Chip
-                key={code}
-                active={search.group === code}
-                onClick={() =>
-                  set("group", search.group === code ? undefined : code)
-                }
-              >
-                {group.name}
-                <span className="ml-1 tabular-nums opacity-60">
-                  {formatNumber(group.count, 0)}
-                </span>
-              </Chip>
-            )
-          })}
+      <div className="flex min-w-0 flex-col gap-4">
+        <div className="flex items-center gap-3">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-secondary-foreground">
+            <GroupIcon className="size-5" aria-hidden />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h1 className="truncate font-heading text-2xl font-semibold">
+              {activeGroup ? String(activeGroup.name) : "All foods"}
+            </h1>
+            <div className="text-sm text-muted-foreground tabular-nums">
+              {formatNumber(total, 0)} {total === 1 ? "food" : "foods"}
+              {search.q && ` for “${search.q}”`}
+            </div>
+          </div>
+          <Sheet open={groupsOpen} onOpenChange={setGroupsOpen}>
+            <SheetTrigger
+              render={<Button variant="outline" className="lg:hidden" />}
+            >
+              <ListFilterIcon /> Categories
+            </SheetTrigger>
+            <SheetContent side="left" className="w-72 gap-0">
+              <SheetHeader>
+                <SheetTitle>Categories</SheetTitle>
+              </SheetHeader>
+              <div className="overflow-y-auto px-2 pb-6">
+                <FoodGroupNav
+                  facets={facets}
+                  active={search.group}
+                  onNavigate={() => setGroupsOpen(false)}
+                />
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <SmallSelect
-            label="Type"
-            value={search.kind}
-            placeholder="All types"
-            options={facets.kinds.map((kind) => ({
-              value: kind,
-              label: capitalize(kind),
-            }))}
-            onChange={(value) => set("kind", value)}
-          />
-          <SmallSelect
-            label="Preparation"
-            value={search.prep}
-            placeholder="Any preparation"
-            options={facets.preparation_states.map((state) => ({
-              value: state,
-              label: capitalize(state),
-            }))}
-            onChange={(value) => set("prep", value)}
-          />
-          <div className="ml-auto">
-            <SmallSelect
-              label="Sort"
-              value={search.sort}
-              placeholder={search.q ? "Best match" : "Name"}
-              options={SORTS.filter(
-                (sort) => search.q || sort.value !== "relevance"
-              ).map((sort) => ({ value: sort.value, label: sort.label }))}
-              onChange={(value) => set("sort", value)}
+        <div className="sticky top-14 z-30 -mx-4 flex flex-col gap-3 bg-background/90 px-4 py-2 backdrop-blur lg:mx-0 lg:px-0">
+          <InputGroup className="h-10 bg-card">
+            <InputGroupAddon>
+              <SearchIcon />
+            </InputGroupAddon>
+            <InputGroupInput
+              type="search"
+              placeholder="Search foods, German names, codes, barcodes"
+              value={text}
+              onChange={(event) => setText(event.target.value)}
             />
+          </InputGroup>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <SmallSelect
+              label="Type"
+              value={search.kind}
+              placeholder="All types"
+              options={facets.kinds.map((kind) => ({
+                value: kind,
+                label: capitalize(kind),
+              }))}
+              onChange={(value) => set("kind", value)}
+            />
+            <SmallSelect
+              label="Preparation"
+              value={search.prep}
+              placeholder="Any preparation"
+              options={facets.preparation_states.map((state) => ({
+                value: state,
+                label: capitalize(state),
+              }))}
+              onChange={(value) => set("prep", value)}
+            />
+            <div className="ml-auto">
+              <SmallSelect
+                label="Sort"
+                value={search.sort}
+                placeholder={search.q ? "Best match" : "Name"}
+                options={SORTS.filter(
+                  (sort) => search.q || sort.value !== "relevance"
+                ).map((sort) => ({ value: sort.value, label: sort.label }))}
+                onChange={(value) => set("sort", value)}
+              />
+            </div>
           </div>
         </div>
+
+        {items.length === 0 ? (
+          <p className="py-12 text-center text-muted-foreground">
+            No matching foods.
+          </p>
+        ) : (
+          <ul className="grid gap-2 xl:grid-cols-2">
+            {items.map((food) => (
+              <li key={food.slug}>
+                <FoodCard food={food} />
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {foods.hasNextPage && (
+          <Button
+            variant="outline"
+            className="self-center"
+            disabled={foods.isFetchingNextPage}
+            onClick={() => void foods.fetchNextPage()}
+          >
+            {foods.isFetchingNextPage && <Spinner />}
+            Load more ({formatNumber(total - items.length, 0)} left)
+          </Button>
+        )}
       </div>
-
-      {items.length === 0 ? (
-        <p className="py-12 text-center text-muted-foreground">
-          No matching foods.
-        </p>
-      ) : (
-        <ul className="grid gap-2 lg:grid-cols-2">
-          {items.map((food) => (
-            <li key={food.slug}>
-              <FoodCard food={food} />
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {foods.hasNextPage && (
-        <Button
-          variant="outline"
-          className="self-center"
-          disabled={foods.isFetchingNextPage}
-          onClick={() => void foods.fetchNextPage()}
-        >
-          {foods.isFetchingNextPage && <Spinner />}
-          Load more ({formatNumber(total - items.length, 0)} left)
-        </Button>
-      )}
     </div>
   )
 }
@@ -292,31 +316,6 @@ function Macro({
         {formatNumber(value)} g
       </span>
     </span>
-  )
-}
-
-function Chip({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean
-  onClick: () => void
-  children: ReactNode
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={active}
-      onClick={onClick}
-      className={
-        active
-          ? "shrink-0 rounded-full bg-primary px-3 py-1.5 text-sm text-primary-foreground"
-          : "shrink-0 rounded-full bg-card px-3 py-1.5 text-sm ring-1 ring-foreground/10 hover:bg-accent"
-      }
-    >
-      {children}
-    </button>
   )
 }
 

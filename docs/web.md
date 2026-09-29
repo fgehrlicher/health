@@ -14,10 +14,12 @@ its own.
   calculated calories and protein before saving, using the API's dry run. A
   meal without foods is logged as unknown. Every meal can be edited or deleted.
 - **Foods** (`/foods`): the catalog as cards. Each card shows calories and a
-  bar of where the energy comes from. Food groups are chips; type,
-  preparation, and sort ("Most protein per kcal", "Fewest calories", …) are
-  menus; **Load more** adds the next 40. Search, filters, and sort are in the
-  URL.
+  bar of where the energy comes from. The 20 BLS food groups, each with an
+  icon and count, form a sidebar on wide screens and a **Categories** menu on
+  phones. Type, preparation, and sort ("Most protein per kcal", "Fewest
+  calories", …) are menus; **Load more** adds the next 40. Category, search,
+  filters, and sort are in the URL (`/foods?group=F`), so back and new tabs
+  work.
 - **Food** (`/foods/{slug}`): key figures, a donut of where the energy comes
   from, a bar of what 100 g contain (macros, water, rest), the full nutrition
   label with ingredients, and vitamins and minerals as a share of the EU daily

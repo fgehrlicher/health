@@ -50,7 +50,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <TooltipProvider>
             <AppHeader />
-            <main className="mx-auto w-full max-w-5xl px-4 pt-4 pb-16">
+            <main className="mx-auto w-full max-w-6xl px-4 pt-4 pb-16">
               {children}
             </main>
             <Toaster position="top-center" />
@@ -79,7 +79,7 @@ function AppHeader() {
     "rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground data-[status=active]:bg-muted data-[status=active]:text-foreground"
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-4">
+      <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-4">
         <Link to="/" className="mr-2 font-heading font-semibold">
           Health
         </Link>

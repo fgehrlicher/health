@@ -79,7 +79,7 @@ BLS_GROUP_NAMES = {
     "E": "Eggs and pasta",
     "F": "Fruit",
     "G": "Vegetables",
-    "H": "Legumes, nuts and seeds",
+    "H": "Legumes, nuts, seeds and sprouts",
     "K": "Potatoes and mushrooms",
     "M": "Dairy",
     "N": "Nonalcoholic drinks",
