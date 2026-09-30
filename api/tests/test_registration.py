@@ -12,6 +12,7 @@ QUARK = {
     "name": "High Protein Quark-Creme Pfirsich-Maracuja",
     "brand": "Milbona",
     "barcode": "4335619151215",
+    "food_group": "M",
     # Placeholder: the photos show only part of the real list.
     "ingredients_text": "50% Speisequark, 40% Joghurterzeugnis, Maracujasaftkonzentrat, Stärke",
     "nutrition": {
@@ -96,6 +97,10 @@ def test_register_and_find_by_barcode(monkeypatch):
     monkeypatch.setenv("DATABASE_URL", database_url)
     barcode = "4000000000006"  # valid check digit, not a real product
     payload = QUARK | {"name": "Registration test food", "brand": None, "barcode": barcode}
+    no_group = request_json("POST", "/api/foods?dry_run=true", {**payload, "food_group": None})
+    assert "food_group" in [warning["field"] for warning in no_group.json()["warnings"]]
+    bad_group = request_json("POST", "/api/foods?dry_run=true", {**payload, "food_group": "Z"})
+    assert bad_group.status_code == 422
     try:
         dry = request_json("POST", "/api/foods?dry_run=true", payload)
         assert dry.status_code == 200 and dry.json()["food"] is None
@@ -105,6 +110,7 @@ def test_register_and_find_by_barcode(monkeypatch):
         assert created.status_code == 201, created.text
         food = created.json()["food"]
         assert food["kind"] == "branded" and food["barcode"] == barcode
+        assert food["food_group"] == "M" and food["food_group_name"] == "Dairy"
         assert food["sources"][0]["source_name"] == "Product label"
         assert food["sources"][0]["energy_kj"] == "287"
         assert food["sources"][0]["ingredients_text"] == QUARK["ingredients_text"]
@@ -143,6 +149,25 @@ def test_register_and_find_by_barcode(monkeypatch):
             "POST", "/api/foods?dry_run=true", {**payload, "barcode": None, "brand": None}
         )
         assert "name" in [warning["field"] for warning in twin.json()["warnings"]]
+
+        # Groups and brands: filters, facets, and later edits.
+        dairy_brands = request("/api/foods/facets?group=M&kind=branded").json()["brands"]
+        assert {"value": "E2E Brand", "count": 1} not in dairy_brands
+        branded = request_json("PATCH", f"/api/foods/{food['slug']}", {"brand": "E2E Brand"})
+        assert branded.status_code == 200 and branded.json()["brand"] == "E2E Brand"
+        facets = request("/api/foods/facets?kind=branded&group=M").json()
+        assert {"value": "E2E Brand", "count": 1} in facets["brands"]
+        listed = request("/api/foods?brand=E2E%20Brand").json()
+        assert [item["slug"] for item in listed["items"]] == [food["slug"]]
+        assert request("/api/foods?q=e2e%20brand").json()["items"][0]["slug"] == food["slug"]
+        moved = request_json("PATCH", f"/api/foods/{food['slug']}", {"food_group": "S"})
+        assert moved.json()["food_group_name"] == "Sweets"
+        assert moved.json()["brand"] == "E2E Brand"
+        cleared = request_json("PATCH", f"/api/foods/{food['slug']}", {"food_group": None})
+        assert cleared.json()["food_group"] is None
+        unknown = request_json("PATCH", f"/api/foods/{food['slug']}", {"food_group": "Z"})
+        assert unknown.status_code == 422
+        assert request_json("PATCH", "/api/foods/no-such-food", {"brand": "x"}).status_code == 404
 
         conflict = request_json("POST", "/api/foods", payload)
         assert conflict.status_code == 409 and conflict.json()["slug"] == food["slug"]

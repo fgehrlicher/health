@@ -48,6 +48,7 @@ const SORTS = [
 const searchSchema = z.object({
   q: z.string().max(100).optional(),
   group: z.string().length(1).optional(),
+  brand: z.string().max(100).optional(),
   kind: z.string().optional(),
   prep: z.string().optional(),
   sort: z.string().optional(),
@@ -58,6 +59,7 @@ function listSearch(search: Search) {
   return {
     q: search.q,
     group: search.group,
+    brand: search.brand,
     kind: search.kind,
     preparation_state: search.prep,
     // Without a query the API lists alphabetically for "relevance".
@@ -69,6 +71,7 @@ function facetFilters(search: Search) {
   return {
     q: search.q,
     group: search.group,
+    brand: search.brand,
     kind: search.kind,
     preparation_state: search.prep,
   }
@@ -117,11 +120,12 @@ function FoodsPage() {
     return () => clearTimeout(handle)
   }, [text, search.q, navigate])
 
-  // Search, category, type, and preparation filter; the sort is a view
+  // Search, category, brand, type, and preparation filter; the sort is a view
   // preference and survives clearing (except "relevance", which needs a search).
   const activeFilters = [
     search.q,
     search.group,
+    search.brand,
     search.kind,
     search.prep,
   ].filter(Boolean).length
@@ -212,6 +216,18 @@ function FoodsPage() {
               options={facetOptions(facets.kinds)}
               onChange={(value) => set("kind", value)}
             />
+            {(facets.brands.length > 0 || search.brand) && (
+              <SmallSelect
+                label="Brand"
+                value={search.brand}
+                placeholder="All brands"
+                options={facets.brands.map(({ value, count }) => ({
+                  value,
+                  label: `${value} (${formatNumber(count, 0)})`,
+                }))}
+                onChange={(value) => set("brand", value)}
+              />
+            )}
             <SmallSelect
               label="Preparation"
               value={search.prep}

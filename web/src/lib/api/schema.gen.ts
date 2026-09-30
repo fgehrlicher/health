@@ -108,7 +108,13 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /**
+         * Patch Food
+         * @description Set a food's group or brand, e.g. to categorize a registered product.
+         *
+         *     Only the given fields change; `null` clears one.
+         */
+        patch: operations["patch_food_api_foods__slug__patch"];
         trace?: never;
     };
     "/api/log/meals": {
@@ -204,6 +210,8 @@ export interface components {
             preparation_states: components["schemas"]["FacetValue"][];
             /** Groups */
             groups: components["schemas"]["FacetGroup"][];
+            /** Brands */
+            brands: components["schemas"]["FacetValue"][];
         };
         /** Day */
         Day: {
@@ -246,6 +254,10 @@ export interface components {
             kind: string;
             /** Preparation State */
             preparation_state: string | null;
+            /** Food Group */
+            food_group: string | null;
+            /** Food Group Name */
+            food_group_name: string | null;
             /** Brand */
             brand: string | null;
             /** Barcode */
@@ -266,6 +278,8 @@ export interface components {
             brand?: string | null;
             /** Barcode */
             barcode?: string | null;
+            /** Food Group */
+            food_group?: string | null;
             /**
              * Aliases
              * @default []
@@ -322,6 +336,10 @@ export interface components {
             kind: string;
             /** Preparation State */
             preparation_state: string | null;
+            /** Food Group */
+            food_group: string | null;
+            /** Food Group Name */
+            food_group_name: string | null;
             /** Brand */
             brand: string | null;
             /** Barcode */
@@ -329,6 +347,16 @@ export interface components {
             /** Source Count */
             source_count: number;
             source: components["schemas"]["NutritionSource"] | null;
+        };
+        /**
+         * FoodUpdate
+         * @description Catalog fields of a food; only the given ones change, null clears.
+         */
+        FoodUpdate: {
+            /** Food Group */
+            food_group?: string | null;
+            /** Brand */
+            brand?: string | null;
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -559,8 +587,6 @@ export interface components {
             external_id: string | null;
             /** Food Name */
             food_name: string;
-            /** Group Code */
-            group_code: string | null;
             /** Reference Quantity */
             reference_quantity: string;
             /** Reference Unit */
@@ -638,8 +664,6 @@ export interface components {
             external_id: string | null;
             /** Food Name */
             food_name: string;
-            /** Group Code */
-            group_code: string | null;
             /** Reference Quantity */
             reference_quantity: string;
             /** Reference Unit */
@@ -734,6 +758,7 @@ export interface operations {
                 q?: string | null;
                 kind?: string | null;
                 group?: string | null;
+                brand?: string | null;
                 source_name?: string | null;
                 preparation_state?: string | null;
                 min_protein?: number | string | null;
@@ -816,6 +841,7 @@ export interface operations {
                 q?: string | null;
                 kind?: string | null;
                 group?: string | null;
+                brand?: string | null;
                 preparation_state?: string | null;
             };
             header?: never;
@@ -944,6 +970,46 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
                 };
+            };
+        };
+    };
+    patch_food_api_foods__slug__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FoodUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FoodDetail"];
+                };
+            };
+            /** @description No such food */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

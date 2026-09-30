@@ -12,15 +12,18 @@ from health_api.catalog.models import (
     FoodInput,
     FoodPage,
     FoodRegistration,
+    FoodUpdate,
     SourceTextUpdate,
 )
 from health_api.catalog.registration import (
     BarcodeConflict,
+    FoodNotFound,
     RegistrationError,
     SourceNotFound,
     barcode_problem,
     check_food,
     register_food,
+    update_food,
     update_source_text,
 )
 from health_api.catalog.repository import FoodFilters, Sort, get_facets, get_food, list_foods
@@ -33,7 +36,8 @@ router = APIRouter(tags=["catalog"])
 def foods(
     q: Annotated[str | None, Query(max_length=100)] = None,
     kind: Annotated[str | None, Query(max_length=60)] = None,
-    group: Annotated[str | None, Query(pattern="^[BCDEFGHKMNPQRSTUVWXY]$")] = None,
+    group: Annotated[str | None, Query(pattern="^[A-Z]$")] = None,
+    brand: Annotated[str | None, Query(max_length=100)] = None,
     source_name: Annotated[str | None, Query(max_length=100)] = None,
     preparation_state: Annotated[str | None, Query(max_length=60)] = None,
     min_protein: Annotated[Decimal | None, Query(ge=0)] = None,
@@ -48,6 +52,7 @@ def foods(
         q=q,
         kind=kind,
         group=group,
+        brand=brand,
         source_name=source_name,
         preparation_state=preparation_state,
         min_protein=min_protein,
@@ -66,7 +71,8 @@ def foods(
 def facets(
     q: Annotated[str | None, Query(max_length=100)] = None,
     kind: Annotated[str | None, Query(max_length=60)] = None,
-    group: Annotated[str | None, Query(pattern="^[BCDEFGHKMNPQRSTUVWXY]$")] = None,
+    group: Annotated[str | None, Query(pattern="^[A-Z]$")] = None,
+    brand: Annotated[str | None, Query(max_length=100)] = None,
     preparation_state: Annotated[str | None, Query(max_length=60)] = None,
 ):
     """Filter values with counts for the same filters as `GET /api/foods`.
@@ -74,7 +80,9 @@ def facets(
     Each dimension is counted under the other filters, so the counts show what
     selecting a value would yield.
     """
-    filters = FoodFilters(q=q, kind=kind, group=group, preparation_state=preparation_state)
+    filters = FoodFilters(
+        q=q, kind=kind, group=group, brand=brand, preparation_state=preparation_state
+    )
     with connect() as connection:
         return get_facets(connection, filters)
 
@@ -143,6 +151,25 @@ def patch_source_text(slug: str, source_id: int, update: SourceTextUpdate):
     except RegistrationError as error:
         return JSONResponse(status_code=422, content={"detail": error.issues})
     except SourceNotFound as error:
+        raise HTTPException(status_code=404, detail=str(error)) from error
+
+
+@router.patch(
+    "/api/foods/{slug}",
+    response_model=FoodDetail,
+    responses={404: {"description": "No such food"}, 422: {"description": "Invalid"}},
+)
+def patch_food(slug: str, update: FoodUpdate):
+    """Set a food's group or brand, e.g. to categorize a registered product.
+
+    Only the given fields change; `null` clears one.
+    """
+    try:
+        with connect() as connection:
+            return update_food(connection, slug, update)
+    except RegistrationError as error:
+        return JSONResponse(status_code=422, content={"detail": error.issues})
+    except FoodNotFound as error:
         raise HTTPException(status_code=404, detail=str(error)) from error
 
 

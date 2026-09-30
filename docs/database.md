@@ -1,6 +1,6 @@
 # Food catalog database
 
-The database has two PostgreSQL schemas. `catalog` holds five tables plus
+The database has two PostgreSQL schemas. `catalog` holds six tables plus
 derived [search views](#search-views); `log` holds the meals described in
 [Consumption log](log.md). SQL names tables with their schema, e.g.
 `catalog.foods` and `log.meals`; the `public` schema only holds the `pg_trgm`
@@ -8,7 +8,8 @@ extension.
 
 | Table | What it stores |
 | --- | --- |
-| `foods` | Your food names, aliases, and preparation state. Red and beluga lentils can be separate foods. |
+| `foods` | Your food names, aliases, preparation state, food group, and for products brand and barcode. Red and beluga lentils can be separate foods. |
+| `food_groups` | The 20 food groups for browsing, e.g. `F` Fruit, `M` Dairy. |
 | `food_sources` | One BLS row, manual entry, photographed label, or estimate for a specific food, with its energy and nutrients per reference quantity. |
 | `food_portions` | Named amounts of a food, such as a label's portion or package size. |
 | `nutrients`, `food_source_nutrients` | Vitamins, minerals, and other nutrients beyond the label columns, per source. |
@@ -27,9 +28,11 @@ import.
 
 `source_name` is a readable label such as `BLS 4.0`. The BLS citation and
 license are documented in the source research, not repeated in database rows.
-`food_sources.group_code` is an optional source-specific category. The BLS
-importer fills it from the BLS code prefix; future manual or label sources
-can leave it empty or use their own classification.
+`foods.food_group` places a food in one of the 20 groups in `food_groups`
+(code and name, e.g. `M` / Dairy). The codes are BLS's: the importer sets a
+BLS food's group from its code's first letter, and registered products get
+one on registration or later via `PATCH /api/foods/{slug}`. The group belongs
+to the food, not a source, so branded and generic foods browse together.
 
 ## Local setup
 

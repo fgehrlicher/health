@@ -1,10 +1,10 @@
 BEGIN;
 
-INSERT INTO catalog.foods (slug, name, aliases, kind, preparation_state)
+INSERT INTO catalog.foods (slug, name, aliases, kind, preparation_state, food_group)
 VALUES
-    ('apple-raw', 'Apple', ARRAY['Apfel roh', 'Apple raw'], 'generic', 'raw'),
-    ('white-rice-raw', 'White rice', ARRAY['Reis poliert, roh', 'White rice raw'], 'generic', 'raw'),
-    ('lentil-mature-dry', 'Lentils', ARRAY['Linse reif', 'Lentil mature'], 'generic', 'dried')
+    ('apple-raw', 'Apple', ARRAY['Apfel roh', 'Apple raw'], 'generic', 'raw', 'F'),
+    ('white-rice-raw', 'White rice', ARRAY['Reis poliert, roh', 'White rice raw'], 'generic', 'raw', 'C'),
+    ('lentil-mature-dry', 'Lentils', ARRAY['Linse reif', 'Lentil mature'], 'generic', 'dried', 'H')
 ON CONFLICT (slug) DO NOTHING;
 
 -- Energy is kcal; protein, fat, available carbohydrate, and fiber are grams.
@@ -14,7 +14,6 @@ INSERT INTO catalog.food_sources (
     source_name,
     external_id,
     food_name,
-    group_code,
     reference_quantity,
     reference_unit,
     energy_kcal,
@@ -28,7 +27,6 @@ SELECT
     'BLS 4.0',
     sample.external_id,
     sample.food_name,
-    left(sample.external_id, 1),
     100,
     'g',
     sample.energy_kcal,

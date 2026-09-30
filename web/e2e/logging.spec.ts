@@ -5,7 +5,8 @@ const API = "http://127.0.0.1:8010"
 const FOOD = {
   name: "E2E Quark-Creme",
   brand: "E2E",
-  barcode: "4000000000020", // valid check digit, not a real product
+  barcode: "4000000000020",
+  food_group: "M", // valid check digit, not a real product
   ingredients_text: "Speisequark, Joghurterzeugnis",
   nutrition: {
     energy_kj: 287,
@@ -133,6 +134,34 @@ test("clear filters resets everything but the sort", async ({ page }) => {
   await page.getByRole("button", { name: "Clear filters", exact: true }).click()
   await expect(page.getByPlaceholder(/German names/)).toHaveValue("")
   await expect(page.getByText("No matching foods.")).toHaveCount(0)
+})
+
+test("branded foods have a category and a brand filter", async ({
+  page,
+  isMobile,
+}) => {
+  await open(page, "/foods?kind=branded")
+  // Phones show the groups in a sheet behind the Categories button.
+  if (isMobile) await page.getByRole("button", { name: "Categories" }).click()
+  const groups = page
+    .getByRole("navigation", { name: "Food groups" })
+    .locator("visible=true")
+  await expect(groups.getByRole("link", { name: /Dairy/ })).toBeVisible()
+  await expect(groups.getByRole("link", { name: /Fruit/ })).toHaveCount(0)
+  if (isMobile) await page.keyboard.press("Escape")
+
+  await page.getByRole("combobox", { name: "Brand" }).click()
+  await page.getByRole("option", { name: /^E2E \(/ }).click()
+  await expect(page).toHaveURL(/brand=E2E/)
+  await page.getByRole("link", { name: /^E2E Quark-Creme/ }).click()
+
+  // A product's category can be changed where it is shown.
+  await page.getByRole("combobox", { name: "Category" }).click()
+  await page.getByRole("option", { name: "Sweets" }).click()
+  await expect(page.getByText("Moved to Sweets")).toBeVisible()
+  await page.getByRole("combobox", { name: "Category" }).click()
+  await page.getByRole("option", { name: "Dairy" }).click()
+  await expect(page.getByText("Moved to Dairy")).toBeVisible()
 })
 
 test("an unknown food shows the not-found page", async ({ page }) => {

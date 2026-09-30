@@ -36,8 +36,8 @@ SORT_SQL = {
     # Leading quotes and brackets ("Berliner" doughnut) do not sort first.
     "name": "regexp_replace(lower(name), '^[^[:alnum:]]+', '') ASC, id ASC",
     "name_desc": "regexp_replace(lower(name), '^[^[:alnum:]]+', '') DESC, id ASC",
-    "group_asc": "group_code ASC NULLS LAST, lower(name) ASC, id ASC",
-    "group_desc": "group_code DESC NULLS LAST, lower(name) ASC, id ASC",
+    "group_asc": "food_group ASC NULLS LAST, lower(name) ASC, id ASC",
+    "group_desc": "food_group DESC NULLS LAST, lower(name) ASC, id ASC",
     "code_asc": "external_id ASC NULLS LAST, lower(name) ASC, id ASC",
     "code_desc": "external_id DESC NULLS LAST, lower(name) ASC, id ASC",
     "source_asc": "source_name ASC NULLS LAST, lower(name) ASC, id ASC",
@@ -72,28 +72,6 @@ NUTRIENTS = (
     "salt_g",
     "alcohol_g",
 )
-BLS_GROUP_NAMES = {
-    "B": "Bread",
-    "C": "Cereals and grains",
-    "D": "Cakes and baked goods",
-    "E": "Eggs and pasta",
-    "F": "Fruit",
-    "G": "Vegetables",
-    "H": "Legumes, nuts, seeds and sprouts",
-    "K": "Potatoes and mushrooms",
-    "M": "Dairy",
-    "N": "Nonalcoholic drinks",
-    "P": "Alcoholic drinks",
-    "Q": "Fats and oils",
-    "R": "Seasonings and sauces",
-    "S": "Sweets",
-    "T": "Fish and seafood",
-    "U": "Red meat",
-    "V": "Poultry and game",
-    "W": "Meat products",
-    "X": "Mostly plant dishes",
-    "Y": "Mostly animal dishes",
-}
 
 # Ranked search over the food_search_* views. Every query token must match a
 # word of the food's names, codes, brand, or barcode: exactly, by prefix, as a
@@ -178,8 +156,8 @@ search_matches AS (
                 AND right(s.external_id, 2) = '00'
           ) THEN 0.1 ELSE 0 END
         - CASE WHEN EXISTS (
-              SELECT 1 FROM catalog.food_sources s
-              WHERE s.food_id = m.food_id AND s.group_code IN ('D', 'S', 'X', 'Y')
+              SELECT 1 FROM catalog.foods f
+              WHERE f.id = m.food_id AND f.food_group IN ('D', 'S', 'X', 'Y')
           ) THEN 0.15 ELSE 0 END
         AS relevance
     FROM matched_foods m
@@ -191,9 +169,10 @@ BASE_SQL = (
     SEARCH_SQL
     + """
 SELECT
-    f.id, f.slug, f.name, f.aliases, f.kind, f.preparation_state, f.brand, f.barcode,
+    f.id, f.slug, f.name, f.aliases, f.kind, f.preparation_state, f.food_group,
+    g.name AS food_group_name, f.brand, f.barcode,
     (SELECT count(*) FROM catalog.food_sources s WHERE s.food_id = f.id) AS source_count,
-    chosen.id AS source_id, chosen.source_name, chosen.external_id, chosen.group_code,
+    chosen.id AS source_id, chosen.source_name, chosen.external_id,
     chosen.food_name, chosen.reference_quantity, chosen.reference_unit,
     chosen.upper_bounds, chosen.ingredients_text, """
     + ", ".join(f"chosen.{column}" for column in NUTRIENTS)
@@ -201,6 +180,7 @@ SELECT
     chosen.protein_g * 100 / NULLIF(chosen.energy_kcal, 0) AS protein_per_100_kcal,
     coalesce(m.relevance, 0) AS relevance
 FROM catalog.foods f
+LEFT JOIN catalog.food_groups g ON g.code = f.food_group
 LEFT JOIN search_matches m ON m.food_id = f.id
 LEFT JOIN LATERAL (
     SELECT s.* FROM catalog.food_sources s
@@ -211,11 +191,8 @@ LEFT JOIN LATERAL (
     LIMIT 1
 ) chosen ON true
 WHERE (%(kind)s::text IS NULL OR f.kind = %(kind)s)
-  AND (%(group)s::text IS NULL OR EXISTS (
-      SELECT 1 FROM catalog.food_sources group_source
-      WHERE group_source.food_id = f.id AND group_source.source_name = 'BLS 4.0'
-        AND group_source.group_code = %(group)s
-  ))
+  AND (%(group)s::text IS NULL OR f.food_group = %(group)s)
+  AND (%(brand)s::text IS NULL OR f.brand = %(brand)s)
   AND (%(preparation_state)s::text IS NULL OR f.preparation_state = %(preparation_state)s)
   AND (%(source_name)s::text IS NULL OR chosen.id IS NOT NULL)
   AND (%(min_protein)s::numeric IS NULL OR chosen.protein_g >= %(min_protein)s)
@@ -233,6 +210,7 @@ class FoodFilters:
     q: str | None = None
     kind: str | None = None
     group: str | None = None
+    brand: str | None = None
     source_name: str | None = None
     preparation_state: str | None = None
     min_protein: Decimal | None = None
@@ -248,6 +226,7 @@ class FoodFilters:
             "tokens": search_tokens(self.q),
             "kind": self.kind,
             "group": self.group,
+            "brand": self.brand,
             "source_name": self.source_name,
             "preparation_state": self.preparation_state,
             "min_protein": self.min_protein,
@@ -277,7 +256,6 @@ def source_from_row(row: DictRow) -> dict | None:
         "source_name": row["source_name"],
         "external_id": row["external_id"],
         "food_name": row["food_name"],
-        "group_code": row["group_code"],
         "reference_quantity": decimal_text(row["reference_quantity"]),
         "reference_unit": row["reference_unit"],
         "protein_per_100_kcal": decimal_text(row["protein_per_100_kcal"]),
@@ -295,6 +273,8 @@ def food_from_row(row: DictRow) -> dict:
         "aliases": row["aliases"],
         "kind": row["kind"],
         "preparation_state": row["preparation_state"],
+        "food_group": row["food_group"],
+        "food_group_name": row["food_group_name"],
         "brand": row["brand"],
         "barcode": row["barcode"],
         "source_count": row["source_count"],
@@ -324,14 +304,17 @@ def list_foods(connection: Connection, filters: FoodFilters) -> dict:
 
 def get_food(connection: Connection, slug: str) -> dict | None:
     row = connection.execute(
-        """SELECT id, slug, name, aliases, kind, preparation_state, brand, barcode
-           FROM catalog.foods WHERE slug = %s""",
+        """SELECT f.id, f.slug, f.name, f.aliases, f.kind, f.preparation_state,
+                  f.food_group, g.name AS food_group_name, f.brand, f.barcode
+           FROM catalog.foods f
+           LEFT JOIN catalog.food_groups g ON g.code = f.food_group
+           WHERE f.slug = %s""",
         (slug,),
     ).fetchone()
     if row is None:
         return None
     sources = connection.execute(
-        f"""SELECT id AS source_id, source_name, external_id, food_name, group_code,
+        f"""SELECT id AS source_id, source_name, external_id, food_name,
                   reference_quantity, reference_unit, upper_bounds, ingredients_text,
                   {", ".join(NUTRIENTS)},
                   protein_g * 100 / NULLIF(energy_kcal, 0) AS protein_per_100_kcal
@@ -370,7 +353,12 @@ def get_food(connection: Connection, slug: str) -> dict | None:
 
 
 # Facet dimensions: the listing column each one counts.
-FACET_COLUMNS = {"group": "group_code", "kind": "kind", "preparation_state": "preparation_state"}
+FACET_COLUMNS = {
+    "group": "food_group",
+    "brand": "brand",
+    "kind": "kind",
+    "preparation_state": "preparation_state",
+}
 
 
 def count_foods(connection: Connection, filters: FoodFilters) -> int:
@@ -401,6 +389,10 @@ def facet_counts(connection: Connection, filters: FoodFilters, dimension: str) -
 def get_facets(connection: Connection, filters: FoodFilters | None = None) -> dict:
     """Filter values with counts that follow the other active filters."""
     filters = filters or FoodFilters()
+    names = {
+        row["code"]: row["name"]
+        for row in connection.execute("SELECT code, name FROM catalog.food_groups")
+    }
     return {
         "foods": count_foods(connection, filters),
         "any_group": count_foods(connection, replace(filters, group=None)),
@@ -416,8 +408,12 @@ def get_facets(connection: Connection, filters: FoodFilters | None = None) -> di
         ],
         "preparation_states": facet_counts(connection, filters, "preparation_state"),
         "groups": [
-            {"code": row["value"], "name": BLS_GROUP_NAMES[row["value"]], "count": row["count"]}
+            {
+                "code": row["value"],
+                "name": names.get(row["value"], row["value"]),
+                "count": row["count"],
+            }
             for row in facet_counts(connection, filters, "group")
-            if row["value"] in BLS_GROUP_NAMES
         ],
+        "brands": facet_counts(connection, filters, "brand"),
     }

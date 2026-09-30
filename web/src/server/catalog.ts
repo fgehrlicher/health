@@ -6,6 +6,7 @@ import { api, unwrap } from "./api"
 export const foodSearchSchema = z.object({
   q: z.string().max(100).optional(),
   group: z.string().length(1).optional(),
+  brand: z.string().max(100).optional(),
   kind: z.string().max(60).optional(),
   preparation_state: z.string().max(60).optional(),
   sort: z.string().max(40).optional(),
@@ -39,6 +40,7 @@ export const getFood = createServerFn({ method: "GET" })
 export const facetFiltersSchema = foodSearchSchema.pick({
   q: true,
   group: true,
+  brand: true,
   kind: true,
   preparation_state: true,
 })
@@ -49,3 +51,19 @@ export const getFacets = createServerFn({ method: "GET" })
   .handler(async ({ data }) =>
     unwrap(await api.GET("/api/foods/facets", { params: { query: data } }))
   )
+
+/** Set a food's group or brand; null clears it. */
+export const updateFood = createServerFn({ method: "POST" })
+  .validator(
+    z.object({
+      slug: z.string().min(1).max(200),
+      food_group: z.string().length(1).nullable().optional(),
+      brand: z.string().min(1).max(100).nullable().optional(),
+    })
+  )
+  .handler(async ({ data }) => {
+    const { slug, ...body } = data
+    return unwrap(
+      await api.PATCH("/api/foods/{slug}", { params: { path: { slug } }, body })
+    )
+  })

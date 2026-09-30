@@ -11,7 +11,6 @@ class NutritionSource(BaseModel):
     source_name: str
     external_id: str | None
     food_name: str
-    group_code: str | None
     reference_quantity: str
     reference_unit: str
     energy_kj: str | None
@@ -63,6 +62,9 @@ class FoodBase(BaseModel):
     aliases: list[str]
     kind: str
     preparation_state: str | None
+    # Code and name of the food group, e.g. "M" / "Dairy"; None if unassigned.
+    food_group: str | None
+    food_group_name: str | None
     brand: str | None
     barcode: str | None
 
@@ -109,6 +111,7 @@ class CatalogFacets(BaseModel):
     source_names: list[str]
     preparation_states: list[FacetValue]
     groups: list[FacetGroup]
+    brands: list[FacetValue]
 
 
 Amount = Annotated[Decimal, Field(ge=0, max_digits=12, decimal_places=4)]
@@ -172,6 +175,9 @@ class FoodInput(BaseModel):
     name: Annotated[str, Field(min_length=1, max_length=200)]
     brand: Annotated[str | None, Field(max_length=100)] = None
     barcode: Annotated[str | None, Field(max_length=14)] = None
+    # Food group code, e.g. "M" for dairy (see /api/foods/facets). Without one,
+    # the food is missing from category browsing.
+    food_group: Annotated[str | None, Field(pattern="^[A-Z]$")] = None
     aliases: list[Annotated[str, Field(min_length=1, max_length=200)]] = []
     # Where the values come from, e.g. "Product label" or "Open Food Facts".
     source_name: Annotated[str, Field(min_length=1, max_length=100)] = "Product label"
@@ -181,6 +187,15 @@ class FoodInput(BaseModel):
     ingredients_text: Annotated[str | None, Field(min_length=1, max_length=5000)] = None
     nutrition: NutritionInput
     portions: list[PortionInput] = []
+
+
+class FoodUpdate(BaseModel):
+    """Catalog fields of a food; only the given ones change, null clears."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    food_group: Annotated[str | None, Field(pattern="^[A-Z]$")] = None
+    brand: Annotated[str | None, Field(min_length=1, max_length=100)] = None
 
 
 class SourceTextUpdate(BaseModel):

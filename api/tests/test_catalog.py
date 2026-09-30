@@ -40,7 +40,7 @@ def test_api_rejects_invalid_filters_before_querying_database():
         "/api/foods?sort=DROP%20TABLE%20foods",
         "/api/foods?min_protein=-1",
         "/api/foods?min_protein_density=-1",
-        "/api/foods?group=Z",
+        "/api/foods?group=FF",
     ):
         assert request(path).status_code == 422
 
@@ -63,7 +63,6 @@ def test_source_values_preserve_unknown_and_exact_decimal_text():
         "source_name": "BLS 4.0",
         "external_id": "F110100",
         "food_name": "Apfel roh",
-        "group_code": "F",
         "reference_quantity": Decimal(100),
         "reference_unit": "g",
         "energy_kcal": Decimal(58),
@@ -79,7 +78,6 @@ def test_source_values_preserve_unknown_and_exact_decimal_text():
     source = source_from_row(row)
     assert source["protein_g"] == "0.424"
     assert source["fat_g"] is None
-    assert source["group_code"] == "F"
     assert source["protein_per_100_kcal"] == "0.73103448275862068966"
     assert source["sugars_g"] is None
     assert source["upper_bounds"] == ["fat_g"]
@@ -100,7 +98,8 @@ def test_catalog_queries_against_postgres(monkeypatch):
     assert apple.status_code == 200
     assert len(apple.json()["items"]) == 1
     assert apple.json()["items"][0]["source"]["external_id"] == "F110100"
-    assert apple.json()["items"][0]["source"]["group_code"] == "F"
+    assert apple.json()["items"][0]["food_group"] == "F"
+    assert apple.json()["items"][0]["food_group_name"] == "Fruit"
     apple_source = apple.json()["items"][0]["source"]
     assert abs(
         Decimal(apple_source["protein_per_100_kcal"])

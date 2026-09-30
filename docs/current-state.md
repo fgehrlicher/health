@@ -33,7 +33,10 @@ Two PostgreSQL schemas: `catalog` for foods and their nutrition, `log` for what
 was eaten.
 
 - **`catalog.foods`**: the catalog entry: name, aliases, `kind` (`generic` from BLS,
-  `branded` from labels), brand, barcode (unique), preparation state.
+  `branded` from labels), food group, brand, barcode (unique), preparation
+  state.
+- **`catalog.food_groups`**: the 20 food groups (BLS codes and names) that
+  generic foods and products share.
 - **`catalog.food_sources`**: nutrition evidence for a food, e.g. one BLS row or one
   label. Holds the 14 EU label fields (kJ, kcal, fat and its "davon" rows,
   carbohydrate and its "davon" rows, fiber, protein, salt, alcohol), the

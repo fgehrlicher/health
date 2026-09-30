@@ -11,7 +11,7 @@ BEGIN
     JOIN catalog.foods AS food ON food.id = source.food_id
     WHERE source.source_name = 'BLS 4.0'
       AND source.reference_quantity = 100 AND source.reference_unit = 'g'
-      AND source.group_code = left(source.external_id, 1)
+      AND food.food_group = left(source.external_id, 1)
       AND (
           (food.slug = 'apple-raw' AND source.external_id = 'F110100'
               AND source.energy_kcal = 58 AND source.protein_g = 0.424

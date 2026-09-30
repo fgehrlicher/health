@@ -6,6 +6,35 @@
 -- rebuilt by the importer; registered products cannot.
 CREATE SCHEMA catalog;
 
+-- Food groups for browsing. The codes are BLS's (the first letter of a BLS
+-- code); branded foods use the same groups.
+CREATE TABLE catalog.food_groups (
+    code text PRIMARY KEY,
+    name text NOT NULL
+);
+
+INSERT INTO catalog.food_groups (code, name) VALUES
+    ('B', 'Bread'),
+    ('C', 'Cereals and grains'),
+    ('D', 'Cakes and baked goods'),
+    ('E', 'Eggs and pasta'),
+    ('F', 'Fruit'),
+    ('G', 'Vegetables'),
+    ('H', 'Legumes, nuts, seeds and sprouts'),
+    ('K', 'Potatoes and mushrooms'),
+    ('M', 'Dairy'),
+    ('N', 'Nonalcoholic drinks'),
+    ('P', 'Alcoholic drinks'),
+    ('Q', 'Fats and oils'),
+    ('R', 'Seasonings and sauces'),
+    ('S', 'Sweets'),
+    ('T', 'Fish and seafood'),
+    ('U', 'Red meat'),
+    ('V', 'Poultry and game'),
+    ('W', 'Meat products'),
+    ('X', 'Mostly plant dishes'),
+    ('Y', 'Mostly animal dishes');
+
 CREATE TABLE catalog.foods (
     -- Stable identity within this catalog.
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -18,6 +47,8 @@ CREATE TABLE catalog.foods (
     -- Generic foods from BLS and, later, branded products from your labels.
     kind text NOT NULL DEFAULT 'generic',
     preparation_state text,
+    -- From the BLS code for BLS foods; set on registration for products.
+    food_group text REFERENCES catalog.food_groups(code),
     brand text,
     barcode text,
 
@@ -35,8 +66,6 @@ CREATE TABLE catalog.food_sources (
     source_name text NOT NULL,
     external_id text,
     food_name text NOT NULL,
-    -- Source-specific grouping, e.g. the first letter of a BLS code.
-    group_code text,
 
     -- Basis for every nutrition amount below, usually 100 g for BLS.
     reference_quantity numeric NOT NULL,
@@ -71,6 +100,8 @@ CREATE TABLE catalog.food_sources (
 );
 
 CREATE INDEX food_sources_food_id_idx ON catalog.food_sources (food_id);
+CREATE INDEX foods_food_group_idx ON catalog.foods (food_group);
+CREATE INDEX foods_brand_idx ON catalog.foods (brand) WHERE brand IS NOT NULL;
 
 -- A barcode identifies one product.
 CREATE UNIQUE INDEX foods_barcode_key ON catalog.foods (barcode) WHERE barcode IS NOT NULL;

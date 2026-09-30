@@ -55,13 +55,30 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^[BCDEFGHKMNPQRSTUVWXY]$"
+                  "pattern": "^[A-Z]$"
                 },
                 {
                   "type": "null"
                 }
               ],
               "title": "Group"
+            }
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Brand"
             }
           },
           {
@@ -362,13 +379,30 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^[BCDEFGHKMNPQRSTUVWXY]$"
+                  "pattern": "^[A-Z]$"
                 },
                 {
                   "type": "null"
                 }
               ],
               "title": "Group"
+            }
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Brand"
             }
           },
           {
@@ -515,6 +549,53 @@
       }
     },
     "/api/foods/{slug}": {
+      "patch": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "Patch Food",
+        "description": "Set a food's group or brand, e.g. to categorize a registered product.\n\nOnly the given fields change; `null` clears one.",
+        "operationId": "patch_food_api_foods__slug__patch",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such food"
+          },
+          "422": {
+            "description": "Invalid"
+          }
+        }
+      },
       "get": {
         "tags": [
           "catalog"
@@ -824,6 +905,13 @@
             },
             "type": "array",
             "title": "Groups"
+          },
+          "brands": {
+            "items": {
+              "$ref": "#/components/schemas/FacetValue"
+            },
+            "type": "array",
+            "title": "Brands"
           }
         },
         "type": "object",
@@ -834,7 +922,8 @@
           "kinds",
           "source_names",
           "preparation_states",
-          "groups"
+          "groups",
+          "brands"
         ],
         "title": "CatalogFacets",
         "description": "Filter values with counts. Each list is counted under every active\nfilter except its own, and holds the values with at least one food plus\nthe selected value (with count 0 if nothing matches)."
@@ -950,6 +1039,28 @@
             ],
             "title": "Preparation State"
           },
+          "food_group": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Food Group"
+          },
+          "food_group_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Food Group Name"
+          },
           "brand": {
             "anyOf": [
               {
@@ -995,6 +1106,8 @@
           "aliases",
           "kind",
           "preparation_state",
+          "food_group",
+          "food_group_name",
           "brand",
           "barcode",
           "sources",
@@ -1033,6 +1146,18 @@
               }
             ],
             "title": "Barcode"
+          },
+          "food_group": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Food Group"
           },
           "aliases": {
             "items": {
@@ -1201,6 +1326,28 @@
             ],
             "title": "Preparation State"
           },
+          "food_group": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Food Group"
+          },
+          "food_group_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Food Group Name"
+          },
           "brand": {
             "anyOf": [
               {
@@ -1246,12 +1393,47 @@
           "aliases",
           "kind",
           "preparation_state",
+          "food_group",
+          "food_group_name",
           "brand",
           "barcode",
           "source_count",
           "source"
         ],
         "title": "FoodSummary"
+      },
+      "FoodUpdate": {
+        "properties": {
+          "food_group": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Food Group"
+          },
+          "brand": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Brand"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "FoodUpdate",
+        "description": "Catalog fields of a food; only the given ones change, null clears."
       },
       "HTTPValidationError": {
         "properties": {
@@ -2190,17 +2372,6 @@
             "type": "string",
             "title": "Food Name"
           },
-          "group_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Group Code"
-          },
           "reference_quantity": {
             "type": "string",
             "title": "Reference Quantity"
@@ -2399,7 +2570,6 @@
           "source_name",
           "external_id",
           "food_name",
-          "group_code",
           "reference_quantity",
           "reference_unit",
           "energy_kj",
@@ -2524,17 +2694,6 @@
           "food_name": {
             "type": "string",
             "title": "Food Name"
-          },
-          "group_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Group Code"
           },
           "reference_quantity": {
             "type": "string",
@@ -2741,7 +2900,6 @@
           "source_name",
           "external_id",
           "food_name",
-          "group_code",
           "reference_quantity",
           "reference_unit",
           "energy_kj",

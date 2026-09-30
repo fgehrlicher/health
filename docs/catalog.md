@@ -57,8 +57,9 @@ in step.
   `min_fiber`, `max_energy`,
   `sort` (default `relevance`; alphabetical without `q`), `limit`, `offset`.
 - `GET /api/foods/facets`: filter values with counts, for the same `q`,
-  `group`, `kind`, and `preparation_state` as the list. Each dimension (BLS
-  groups, kinds, preparation states) is counted under the other filters, so
+  `group`, `brand`, `kind`, and `preparation_state` as the list. Each
+  dimension (food groups, brands, kinds, preparation states) is counted under
+  the other filters, so
   each count is what selecting that value would list. Values without a match
   are left out, except the selected one. `foods` counts every filter;
   `any_group` counts every filter except the group.
@@ -68,6 +69,8 @@ in step.
   `422` for an invalid barcode.
 - `POST /api/foods`: register a branded food (see below); `?dry_run=true`
   validates without writing.
+- `PATCH /api/foods/{slug}`: set a food's `food_group` or `brand` (`null`
+  clears), e.g. to put a registered product into a category.
 - `PATCH /api/foods/{slug}/sources/{source_id}`: add a registered source's
   legal name (`food_name`) or `ingredients_text` read from a later photo.
 - `GET /docs`: interactive API documentation, including the request schema.
@@ -76,9 +79,8 @@ List results show one source per food: the requested source, otherwise BLS
 4.0 if present, otherwise the newest (the current label version). Values are never merged across
 sources. Nutrition filters compare the displayed source's stated reference
 basis. Unknown values do not match numeric filters. API decimals are strings
-to preserve source precision.
-The source response includes `group_code`; it is populated by the BLS importer
-and can be `null` for a future non-BLS source.
+to preserve source precision. Each food carries `food_group` and
+`food_group_name`; the list also filters by `brand`.
 
 ## Registering branded foods
 
@@ -96,6 +98,7 @@ Agents add products from label photos or product databases. The expected flow:
 {
   "name": "High Protein Quark-Creme Pfirsich-Maracuja",
   "brand": "Milbona",
+  "food_group": "M",
   "barcode": "4335619151215",
   "source_name": "Product label",
   "ingredients_text": "Speisequark, Joghurterzeugnis, …",
@@ -111,7 +114,9 @@ Agents add products from label photos or product databases. The expected flow:
 }
 ```
 
-Required are name, energy in kcal, fat, carbs, and protein.
+Required are name, energy in kcal, fat, carbs, and protein. `food_group`
+(e.g. `"M"` for dairy; codes in `/api/foods/facets`) puts the product into
+category browsing; without one registration warns.
 `ingredients_text` is the "Zutaten" list exactly as printed, unparsed. Send it
 only when the whole list is readable; a partial list is worse than none. On a
 round package the list often wraps around: combine two photos whose overlap

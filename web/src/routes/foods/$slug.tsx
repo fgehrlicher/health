@@ -2,6 +2,8 @@ import { useSuspenseQuery } from "@tanstack/react-query"
 import { Link, createFileRoute } from "@tanstack/react-router"
 import { ArrowLeftIcon, PlusIcon } from "lucide-react"
 import { useState } from "react"
+import { FoodGroupPicker } from "@/components/food-group-picker"
+import { groupIcon } from "@/components/food-groups"
 import { MealSheet } from "@/components/log/meal-sheet"
 import { CompositionBar } from "@/components/nutrition/composition-bar"
 import { EnergyDonut } from "@/components/nutrition/energy-donut"
@@ -35,6 +37,7 @@ function FoodPage() {
   const { data: food } = useSuspenseQuery(foodQuery(slug))
   const [logging, setLogging] = useState(false)
   const unit = food.sources[0]?.reference_unit ?? "g"
+  const GroupIcon = groupIcon(food.food_group ?? undefined)
 
   return (
     <div className="flex flex-col gap-6">
@@ -58,9 +61,31 @@ function FoodPage() {
                 {food.aliases.join(" · ")}
               </p>
             )}
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              <Badge variant="secondary">{food.kind}</Badge>
-              {food.brand && <Badge variant="outline">{food.brand}</Badge>}
+            <div className="mt-2 flex flex-wrap items-center gap-1.5">
+              {food.kind === "generic" ? (
+                food.food_group && (
+                  <Badge
+                    variant="secondary"
+                    render={
+                      <Link to="/foods" search={{ group: food.food_group }} />
+                    }
+                  >
+                    <GroupIcon aria-hidden />
+                    {food.food_group_name}
+                  </Badge>
+                )
+              ) : (
+                <FoodGroupPicker food={food} />
+              )}
+              <Badge variant="outline">{food.kind}</Badge>
+              {food.brand && (
+                <Badge
+                  variant="outline"
+                  render={<Link to="/foods" search={{ brand: food.brand }} />}
+                >
+                  {food.brand}
+                </Badge>
+              )}
               {food.preparation_state && (
                 <Badge variant="outline">{food.preparation_state}</Badge>
               )}

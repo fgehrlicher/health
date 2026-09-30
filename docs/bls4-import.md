@@ -35,8 +35,8 @@ nonnumeric markers. Database writes are transactional and reruns are idempotent.
 
 Each BLS code maps to one `generic` food and one `BLS 4.0` nutrition source.
 English names are displayed initially; German names are aliases. BLS codes
-stay searchable, their group prefix is stored in `food_sources.group_code`,
-and preparation variants stay separate. Existing catalog
+stay searchable, their first letter sets `foods.food_group` (filled in when
+empty, never overwritten), and preparation variants stay separate. Existing catalog
 names and aliases are not overwritten by reruns.
 
 ## Values and limits

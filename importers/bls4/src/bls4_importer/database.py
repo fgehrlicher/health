@@ -32,11 +32,10 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
             other = {key: value for key, value in food.other_nutrients.items() if value is not None}
             values = {
                 "food_name": food.german_name,
-                "group_code": food.code[0],
                 **food.nutrients,
             }
             rows = connection.execute(
-                f"""SELECT s.id, f.id AS food_id, s.food_name, s.group_code,
+                f"""SELECT s.id, f.id AS food_id, s.food_name, f.food_group,
                           s.reference_quantity, s.reference_unit, s.upper_bounds,
                           {NUTRIENT_COLUMNS}, f.kind, f.preparation_state
                    FROM catalog.food_sources s JOIN catalog.foods f ON f.id = s.food_id
@@ -56,9 +55,16 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
                     and all(old[column] == value for column, value in values.items())
                 )
                 other_changed = stored_other.get(food.code, {}) != other
-                # Fill a missing state; never overwrite a state someone set.
+                # Fill a missing state or group; never overwrite one someone set.
                 add_state = old["preparation_state"] is None and food.preparation_state
-                if unchanged and not other_changed and not add_state and old["kind"] == "generic":
+                add_group = old["food_group"] is None
+                if (
+                    unchanged
+                    and not other_changed
+                    and not add_state
+                    and not add_group
+                    and old["kind"] == "generic"
+                ):
                     skipped += 1
                     continue
                 if old["kind"] != "generic":
@@ -70,12 +76,17 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
                         "UPDATE catalog.foods SET preparation_state = %s WHERE id = %s",
                         (food.preparation_state, old["food_id"]),
                     )
+                if add_group:
+                    connection.execute(
+                        "UPDATE catalog.foods SET food_group = %s WHERE id = %s",
+                        (food.code[0], old["food_id"]),
+                    )
                 if other_changed:
                     other_rows[old["id"]] = other
                 if not unchanged:
                     connection.execute(
                         f"""UPDATE catalog.food_sources
-                           SET food_name = %(food_name)s, group_code = %(group_code)s,
+                           SET food_name = %(food_name)s,
                                reference_quantity = 100, reference_unit = 'g',
                                upper_bounds = '{{}}', {NUTRIENT_ASSIGNMENTS}
                            WHERE id = %(id)s""",
@@ -91,16 +102,17 @@ def write_foods(database_url: str, foods: list[Food]) -> tuple[int, int, int]:
                 raise ValueError(f"food slug {slug} already exists without its BLS source")
             aliases = [] if food.german_name == food.english_name else [food.german_name]
             food_id = connection.execute(
-                """INSERT INTO catalog.foods (slug, name, aliases, kind, preparation_state)
-                   VALUES (%s, %s, %s, 'generic', %s) RETURNING id""",
-                (slug, food.english_name, aliases, food.preparation_state),
+                """INSERT INTO catalog.foods
+                       (slug, name, aliases, kind, preparation_state, food_group)
+                   VALUES (%s, %s, %s, 'generic', %s, %s) RETURNING id""",
+                (slug, food.english_name, aliases, food.preparation_state, food.code[0]),
             ).fetchone()["id"]
             source_id = connection.execute(
                 f"""INSERT INTO catalog.food_sources
-                       (food_id, source_name, external_id, food_name, group_code,
+                       (food_id, source_name, external_id, food_name,
                         reference_quantity, reference_unit, {NUTRIENT_COLUMNS})
                    VALUES (%(food_id)s, %(source_name)s, %(external_id)s, %(food_name)s,
-                           %(group_code)s, 100, 'g', {NUTRIENT_PLACEHOLDERS})
+                           100, 'g', {NUTRIENT_PLACEHOLDERS})
                    RETURNING id""",
                 {
                     **values,

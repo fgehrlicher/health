@@ -6,7 +6,7 @@ from decimal import Decimal
 
 from psycopg import Connection
 
-from health_api.catalog.models import FoodInput, NutritionInput, SourceTextUpdate
+from health_api.catalog.models import FoodInput, FoodUpdate, NutritionInput, SourceTextUpdate
 from health_api.catalog.repository import NUTRIENTS, get_food
 
 MANDATORY_LABEL_ROWS = ("energy_kj", "saturated_fat_g", "sugars_g", "salt_g")
@@ -162,6 +162,15 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
             if same:
                 message = f"{same['slug']} has the same brand and name; is it the same product?"
                 warnings.append({"field": "name", "message": message})
+        if food.food_group is None:
+            warnings.append(
+                {
+                    "field": "food_group",
+                    "message": "no food group; the food is missing from category browsing",
+                }
+            )
+        else:
+            check_food_group(connection, food.food_group)
         base = slugify(" ".join(filter(None, (food.brand, food.name))))
         slug, suffix = base, 1
         while connection.execute("SELECT 1 FROM catalog.foods WHERE slug = %s", (slug,)).fetchone():
@@ -171,9 +180,9 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
             return {"dry_run": True, "slug": slug, "warnings": warnings, "food": None}
 
         food_id = connection.execute(
-            """INSERT INTO catalog.foods (slug, name, aliases, kind, brand, barcode)
-               VALUES (%s, %s, %s, 'branded', %s, %s) RETURNING id""",
-            (slug, food.name.strip(), food.aliases, food.brand, food.barcode),
+            """INSERT INTO catalog.foods (slug, name, aliases, kind, food_group, brand, barcode)
+               VALUES (%s, %s, %s, 'branded', %s, %s, %s) RETURNING id""",
+            (slug, food.name.strip(), food.aliases, food.food_group, food.brand, food.barcode),
         ).fetchone()["id"]
         n = food.nutrition
         columns = ", ".join(NUTRIENTS)
@@ -216,6 +225,52 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
 
 class SourceNotFound(Exception):
     pass
+
+
+class FoodNotFound(Exception):
+    pass
+
+
+def check_food_group(connection: Connection, code: str) -> None:
+    exists = connection.execute(
+        "SELECT 1 FROM catalog.food_groups WHERE code = %s", (code,)
+    ).fetchone()
+    if exists is None:
+        raise RegistrationError(
+            [{"field": "food_group", "message": f"unknown food group {code!r}"}]
+        )
+
+
+def update_food(connection: Connection, slug: str, update: FoodUpdate) -> dict:
+    """Set a food's group or brand; `null` clears a field, absent fields stay."""
+    given = update.model_fields_set
+    if not given:
+        raise RegistrationError([{"field": "body", "message": "nothing to update"}])
+    brand = update.brand.strip() if update.brand is not None else None
+    if "brand" in given and update.brand is not None and not brand:
+        raise RegistrationError([{"field": "brand", "message": "must not be blank"}])
+    with connection.transaction():
+        if update.food_group is not None:
+            check_food_group(connection, update.food_group)
+        updated = connection.execute(
+            """UPDATE catalog.foods SET
+                   food_group = CASE WHEN %(set_group)s THEN %(group)s ELSE food_group END,
+                   brand = CASE WHEN %(set_brand)s THEN %(brand)s ELSE brand END
+               WHERE slug = %(slug)s RETURNING id""",
+            {
+                "slug": slug,
+                "set_group": "food_group" in given,
+                "group": update.food_group,
+                "set_brand": "brand" in given,
+                "brand": brand,
+            },
+        ).fetchone()
+        if updated is None:
+            raise FoodNotFound(f"no food {slug}")
+        if "brand" in given:
+            # Brands are search terms.
+            connection.execute("SELECT catalog.refresh_search()")
+        return get_food(connection, slug)
 
 
 def update_source_text(
