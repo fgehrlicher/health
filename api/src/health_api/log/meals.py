@@ -12,6 +12,7 @@ from decimal import Decimal
 from typing import Annotated, Literal
 from zoneinfo import ZoneInfo
 
+import psycopg
 from psycopg import Connection
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -296,3 +297,21 @@ def day_summary(connection: Connection, day: date) -> dict:
         },
         "totals": day_totals,
     }
+
+
+def add_meal(connection: Connection, meal: MealInput, dry_run: bool = False) -> dict:
+    """Store a meal and return it as the API shows it; dry_run stores nothing."""
+    eaten_at = local_time(meal.eaten_at)
+    result = None
+    with connection.transaction() as transaction:
+        rows = resolve_items(connection, meal.items)
+        meal_id = connection.execute(
+            "INSERT INTO log.meals (eaten_at, kind, note) VALUES (%s, %s, %s) RETURNING id",
+            (eaten_at, meal.kind, clean_note(meal.note)),
+        ).fetchone()["id"]
+        insert_items(connection, meal_id, rows)
+        result = get_meal(connection, meal_id)
+        if dry_run:
+            # Same path as a real write, so the preview shows what would be stored.
+            raise psycopg.Rollback(transaction)
+    return result

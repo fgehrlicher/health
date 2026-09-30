@@ -2,7 +2,6 @@
 
 from datetime import date
 
-import psycopg
 from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import JSONResponse
 
@@ -11,6 +10,7 @@ from health_api.log.meals import (
     LogError,
     MealInput,
     MealUpdate,
+    add_meal,
     clean_note,
     day_summary,
     get_meal,
@@ -35,17 +35,8 @@ def create_meal(meal: MealInput, response: Response, dry_run: bool = False):
     returns the meal as it would be stored, without storing it.
     """
     try:
-        eaten_at = local_time(meal.eaten_at)
-        with connect() as connection, connection.transaction() as transaction:
-            rows = resolve_items(connection, meal.items)
-            meal_id = connection.execute(
-                "INSERT INTO log.meals (eaten_at, kind, note) VALUES (%s, %s, %s) RETURNING id",
-                (eaten_at, meal.kind, clean_note(meal.note)),
-            ).fetchone()["id"]
-            insert_items(connection, meal_id, rows)
-            result = get_meal(connection, meal_id)
-            if dry_run:
-                raise psycopg.Rollback(transaction)
+        with connect() as connection:
+            result = add_meal(connection, meal, dry_run)
     except LogError as error:
         return issues_response(error)
     if dry_run:

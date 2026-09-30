@@ -63,12 +63,13 @@ source's stated reference quantity, usually 100 g.
 | Generic BLS 4.0 foods | 7,140, with 180,808 further nutrient values |
 | Foods with a preparation state from their name | 3,699 |
 | Branded foods | 1: Milbona High Protein Quark-Creme Pfirsich-Maracuja, registered through the API from the photos in `test-data/`: label nutrition, ingredients, legal name, and two portions |
-| Logged meals | 0 |
+| Logged meals | An example day of 7 meals, also in the mock data (`make mock-apply`) |
 
 BLS data can be rebuilt at any time with the importer. Registered foods and
 meals exist only in the local database volume and in manual backups
 (`make db-backup`); nothing backs up automatically, and `make db-reset`, the
-only way to change the schema, deletes them.
+only way to change the schema, deletes them. The example product and day are
+in [mock data](database.md#mock-data) that `make mock-apply` restores.
 
 ## What an agent can do
 

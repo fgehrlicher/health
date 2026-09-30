@@ -1,0 +1,164 @@
+{
+  "foods": [
+    {
+      "slug": "milbona-high-protein-quark-creme-pfirsich-maracuja",
+      "name": "High Protein Quark-Creme Pfirsich-Maracuja",
+      "brand": "Milbona",
+      "barcode": "4335619151215",
+      "food_group": "M",
+      "aliases": [],
+      "source_name": "Product label",
+      "source_food_name": "Speisequarkzubereitung, Magerstufe im Milchanteil, mit Joghurterzeugnis und 10% Pfirsich-Maracuja-Zubereitung, mit Süßungsmitteln.",
+      "ingredients_text": "50% Speisequark, 40% Joghurterzeugnis, 6% Pfirsiche, 1% Maracujasaft aus Maracujasaftkonzentrat, Stärke, natürliches Aroma, färbendes Karottenkonzentrat, Verdickungsmittel: Johannisbrotkernmehl; Süßungsmittel: Acesulfam K, Sucralose.",
+      "nutrition": {
+        "reference_quantity": "100",
+        "reference_unit": "g",
+        "energy_kj": "287",
+        "energy_kcal": "68",
+        "fat_g": "0.4",
+        "saturated_fat_g": "0.3",
+        "carbs_g": "3.5",
+        "sugars_g": "3.0",
+        "fiber_g": "0.2",
+        "protein_g": "12.4",
+        "salt_g": "0.13"
+      },
+      "portions": [
+        {
+          "name": "Portion",
+          "kind": "serving",
+          "quantity": "200",
+          "unit": "g"
+        },
+        {
+          "name": "Becher",
+          "kind": "package",
+          "quantity": "400",
+          "unit": "g"
+        }
+      ]
+    }
+  ],
+  "meals": [
+    {
+      "time": "07:15",
+      "kind": "breakfast",
+      "note": null,
+      "items": [
+        {
+          "food": "bls4-c133000",
+          "amount": "60"
+        },
+        {
+          "food": "bls4-m111300",
+          "amount": "200"
+        },
+        {
+          "food": "bls4-f503100",
+          "amount": "120",
+          "estimated": true
+        },
+        {
+          "food": "bls4-n410200",
+          "amount": "250"
+        }
+      ]
+    },
+    {
+      "time": "10:30",
+      "kind": "snack",
+      "note": null,
+      "items": [
+        {
+          "food": "bls4-n414000",
+          "amount": "200"
+        }
+      ]
+    },
+    {
+      "time": "12:45",
+      "kind": "lunch",
+      "note": "Canteen. Chicken a bit dry, rice portion was generous. Felt sluggish until 2.",
+      "items": [
+        {
+          "food": "bls4-v416172",
+          "amount": "150",
+          "estimated": true
+        },
+        {
+          "food": "bls4-c352032",
+          "amount": "220",
+          "estimated": true
+        },
+        {
+          "food": "bls4-g312132",
+          "amount": "120",
+          "estimated": true
+        },
+        {
+          "food": "bls4-q120000",
+          "amount": "8",
+          "estimated": true
+        }
+      ]
+    },
+    {
+      "time": "15:30",
+      "kind": "snack",
+      "note": null,
+      "items": [
+        {
+          "food": "bls4-f110100",
+          "amount": "180"
+        },
+        {
+          "food": "bls4-h210100",
+          "amount": "25",
+          "estimated": true
+        }
+      ]
+    },
+    {
+      "time": "18:15",
+      "kind": "snack",
+      "note": "Right after the gym, straight from the fridge.",
+      "items": [
+        {
+          "food": "milbona-high-protein-quark-creme-pfirsich-maracuja",
+          "amount": "400"
+        }
+      ]
+    },
+    {
+      "time": "19:45",
+      "kind": "dinner",
+      "note": null,
+      "items": [
+        {
+          "food": "bls4-b101000",
+          "amount": "100"
+        },
+        {
+          "food": "bls4-q611000",
+          "amount": "10",
+          "estimated": true
+        },
+        {
+          "food": "bls4-m402500",
+          "amount": "60"
+        },
+        {
+          "food": "bls4-g561100",
+          "amount": "150",
+          "estimated": true
+        }
+      ]
+    },
+    {
+      "time": "21:30",
+      "kind": "snack",
+      "note": "A few crisps at the neighbours while watching football, no idea which ones.",
+      "items": []
+    }
+  ]
+}
