@@ -68,12 +68,9 @@ export function FoodGroupNav({
   onNavigate?: () => void
 }) {
   const entries = [
-    { code: undefined, name: "All foods", count: facets.foods },
-    ...facets.groups.map((group) => ({
-      code: String(group.code),
-      name: String(group.name),
-      count: Number(group.count),
-    })),
+    { code: undefined, name: "All foods", count: facets.any_group },
+    // Groups with matches under the other filters, plus the chosen one.
+    ...facets.groups,
   ]
   return (
     <nav aria-label="Food groups">

@@ -122,8 +122,26 @@ def test_catalog_queries_against_postgres(monkeypatch):
     assert fruit.status_code == 200
     assert fruit.json()["total"] >= 1
     assert all(food["source"]["external_id"].startswith("F") for food in fruit.json()["items"])
-    facets = request("/api/foods/facets")
-    assert any(group["code"] == "F" for group in facets.json()["groups"])
+    facets = request("/api/foods/facets").json()
+    assert any(group["code"] == "F" for group in facets["groups"])
+    assert facets["foods"] == facets["any_group"] == request("/api/foods").json()["total"]
+
+    # Each dimension is counted under the others, and agrees with the list.
+    fruit_facets = request("/api/foods/facets?group=F").json()
+    assert fruit_facets["foods"] == fruit.json()["total"]
+    assert fruit_facets["any_group"] == facets["foods"]
+    assert [kind["value"] for kind in fruit_facets["kinds"]] == ["generic"]
+    for state in fruit_facets["preparation_states"]:
+        listed = request(f"/api/foods?group=F&preparation_state={state['value']}").json()
+        assert listed["total"] == state["count"] > 0
+    # A selected value stays listed even when the other filters exclude it.
+    no_match = request("/api/foods/facets?group=F&kind=no-such-kind").json()
+    assert no_match["foods"] == 0
+    assert {"value": "no-such-kind", "count": 0} in no_match["kinds"]
+    raw = request("/api/foods/facets?preparation_state=raw").json()
+    for group in raw["groups"]:
+        listed = request(f"/api/foods?preparation_state=raw&group={group['code']}").json()
+        assert listed["total"] == group["count"] > 0
 
     fat_sorted = request("/api/foods?sort=fat_desc&limit=20")
     assert fat_sorted.status_code == 200

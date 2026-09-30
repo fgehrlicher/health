@@ -56,8 +56,12 @@ in step.
   `preparation_state`, `source_name`, `min_protein`, `min_protein_density`,
   `min_fiber`, `max_energy`,
   `sort` (default `relevance`; alphabetical without `q`), `limit`, `offset`.
-- `GET /api/foods/facets`: counts and available filter values, including BLS
-  group names and counts.
+- `GET /api/foods/facets`: filter values with counts, for the same `q`,
+  `group`, `kind`, and `preparation_state` as the list. Each dimension (BLS
+  groups, kinds, preparation states) is counted under the other filters, so
+  each count is what selecting that value would list. Values without a match
+  are left out, except the selected one. `foods` counts every filter;
+  `any_group` counts every filter except the group.
 - `GET /api/foods/{slug}`: food details with all nutrition sources, each with
   its further `nutrients` (key, name, category, amount, unit), and portions.
 - `GET /api/foods/barcode/{barcode}`: exact barcode lookup; `404` if unknown,

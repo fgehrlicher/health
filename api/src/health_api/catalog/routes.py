@@ -63,9 +63,20 @@ def foods(
 
 
 @router.get("/api/foods/facets", response_model=CatalogFacets)
-def facets():
+def facets(
+    q: Annotated[str | None, Query(max_length=100)] = None,
+    kind: Annotated[str | None, Query(max_length=60)] = None,
+    group: Annotated[str | None, Query(pattern="^[BCDEFGHKMNPQRSTUVWXY]$")] = None,
+    preparation_state: Annotated[str | None, Query(max_length=60)] = None,
+):
+    """Filter values with counts for the same filters as `GET /api/foods`.
+
+    Each dimension is counted under the other filters, so the counts show what
+    selecting a value would yield.
+    """
+    filters = FoodFilters(q=q, kind=kind, group=group, preparation_state=preparation_state)
     with connect() as connection:
-        return get_facets(connection)
+        return get_facets(connection, filters)
 
 
 @router.get("/api/foods/barcode/{barcode}", response_model=FoodDetail)

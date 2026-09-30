@@ -36,6 +36,16 @@ export const getFood = createServerFn({ method: "GET" })
     return unwrap(result)
   })
 
-export const getFacets = createServerFn({ method: "GET" }).handler(async () =>
-  unwrap(await api.GET("/api/foods/facets"))
-)
+export const facetFiltersSchema = foodSearchSchema.pick({
+  q: true,
+  group: true,
+  kind: true,
+  preparation_state: true,
+})
+export type FacetFilters = z.infer<typeof facetFiltersSchema>
+
+export const getFacets = createServerFn({ method: "GET" })
+  .validator(facetFiltersSchema)
+  .handler(async ({ data }) =>
+    unwrap(await api.GET("/api/foods/facets", { params: { query: data } }))
+  )

@@ -84,13 +84,31 @@ class FoodPage(BaseModel):
     offset: int
 
 
+class FacetValue(BaseModel):
+    value: str
+    count: int
+
+
+class FacetGroup(BaseModel):
+    code: str
+    name: str
+    count: int
+
+
 class CatalogFacets(BaseModel):
+    """Filter values with counts. Each list is counted under every active
+    filter except its own, and holds the values with at least one food plus
+    the selected value (with count 0 if nothing matches)."""
+
+    # Foods matching every given filter.
     foods: int
+    # Foods matching every filter except the group: the "all groups" count.
+    any_group: int
     sources: int
-    kinds: list[str]
+    kinds: list[FacetValue]
     source_names: list[str]
-    preparation_states: list[str]
-    groups: list[dict[str, str | int]]
+    preparation_states: list[FacetValue]
+    groups: list[FacetGroup]
 
 
 Amount = Annotated[Decimal, Field(ge=0, max_digits=12, decimal_places=4)]

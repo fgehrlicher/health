@@ -35,7 +35,13 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Facets */
+        /**
+         * Facets
+         * @description Filter values with counts for the same filters as `GET /api/foods`.
+         *
+         *     Each dimension is counted under the other filters, so the counts show what
+         *     selecting a value would yield.
+         */
         get: operations["facets_api_foods_facets_get"];
         put?: never;
         post?: never;
@@ -177,22 +183,27 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** CatalogFacets */
+        /**
+         * CatalogFacets
+         * @description Filter values with counts. Each list is counted under every active
+         *     filter except its own, and holds the values with at least one food plus
+         *     the selected value (with count 0 if nothing matches).
+         */
         CatalogFacets: {
             /** Foods */
             foods: number;
+            /** Any Group */
+            any_group: number;
             /** Sources */
             sources: number;
             /** Kinds */
-            kinds: string[];
+            kinds: components["schemas"]["FacetValue"][];
             /** Source Names */
             source_names: string[];
             /** Preparation States */
-            preparation_states: string[];
+            preparation_states: components["schemas"]["FacetValue"][];
             /** Groups */
-            groups: {
-                [key: string]: string | number;
-            }[];
+            groups: components["schemas"]["FacetGroup"][];
         };
         /** Day */
         Day: {
@@ -204,6 +215,22 @@ export interface components {
             meals: components["schemas"]["Meal"][];
             counts: components["schemas"]["MealCounts"];
             totals: components["schemas"]["NutrientTotals"];
+        };
+        /** FacetGroup */
+        FacetGroup: {
+            /** Code */
+            code: string;
+            /** Name */
+            name: string;
+            /** Count */
+            count: number;
+        };
+        /** FacetValue */
+        FacetValue: {
+            /** Value */
+            value: string;
+            /** Count */
+            count: number;
         };
         /** FoodDetail */
         FoodDetail: {
@@ -785,7 +812,12 @@ export interface operations {
     };
     facets_api_foods_facets_get: {
         parameters: {
-            query?: never;
+            query?: {
+                q?: string | null;
+                kind?: string | null;
+                group?: string | null;
+                preparation_state?: string | null;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -799,6 +831,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CatalogFacets"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

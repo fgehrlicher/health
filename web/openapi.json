@@ -317,7 +317,78 @@
           "catalog"
         ],
         "summary": "Facets",
+        "description": "Filter values with counts for the same filters as `GET /api/foods`.\n\nEach dimension is counted under the other filters, so the counts show what\nselecting a value would yield.",
         "operationId": "facets_api_foods_facets_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 60
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Kind"
+            }
+          },
+          {
+            "name": "group",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[BCDEFGHKMNPQRSTUVWXY]$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Group"
+            }
+          },
+          {
+            "name": "preparation_state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 60
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Preparation State"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -325,6 +396,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CatalogFacets"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -708,13 +789,17 @@
             "type": "integer",
             "title": "Foods"
           },
+          "any_group": {
+            "type": "integer",
+            "title": "Any Group"
+          },
           "sources": {
             "type": "integer",
             "title": "Sources"
           },
           "kinds": {
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/FacetValue"
             },
             "type": "array",
             "title": "Kinds"
@@ -728,24 +813,14 @@
           },
           "preparation_states": {
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/FacetValue"
             },
             "type": "array",
             "title": "Preparation States"
           },
           "groups": {
             "items": {
-              "additionalProperties": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "integer"
-                  }
-                ]
-              },
-              "type": "object"
+              "$ref": "#/components/schemas/FacetGroup"
             },
             "type": "array",
             "title": "Groups"
@@ -754,13 +829,15 @@
         "type": "object",
         "required": [
           "foods",
+          "any_group",
           "sources",
           "kinds",
           "source_names",
           "preparation_states",
           "groups"
         ],
-        "title": "CatalogFacets"
+        "title": "CatalogFacets",
+        "description": "Filter values with counts. Each list is counted under every active\nfilter except its own, and holds the values with at least one food plus\nthe selected value (with count 0 if nothing matches)."
       },
       "Day": {
         "properties": {
@@ -795,6 +872,47 @@
           "totals"
         ],
         "title": "Day"
+      },
+      "FacetGroup": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "count"
+        ],
+        "title": "FacetGroup"
+      },
+      "FacetValue": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value",
+          "count"
+        ],
+        "title": "FacetValue"
       },
       "FoodDetail": {
         "properties": {

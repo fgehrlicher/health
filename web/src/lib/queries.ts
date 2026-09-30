@@ -1,6 +1,6 @@
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query"
 import { getFacets, getFood, searchFoods } from "@/server/catalog"
-import type { FoodSearch } from "@/server/catalog"
+import type { FacetFilters, FoodSearch } from "@/server/catalog"
 import { getDay } from "@/server/log"
 
 export const dayQuery = (date: string) =>
@@ -21,11 +21,12 @@ export const foodQuery = (slug: string) =>
     queryFn: () => getFood({ data: { slug } }),
   })
 
-export const facetsQuery = () =>
+/** Filter values with counts under the other active filters. */
+export const facetsQuery = (filters: FacetFilters = {}) =>
   queryOptions({
-    queryKey: ["facets"],
-    queryFn: () => getFacets(),
-    staleTime: 10 * 60 * 1000,
+    queryKey: ["facets", filters],
+    queryFn: () => getFacets({ data: filters }),
+    staleTime: 5 * 60 * 1000,
   })
 
 export const FOODS_PAGE = 40

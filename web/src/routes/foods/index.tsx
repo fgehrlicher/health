@@ -65,6 +65,23 @@ function listSearch(search: Search) {
   }
 }
 
+function facetFilters(search: Search) {
+  return {
+    q: search.q,
+    group: search.group,
+    kind: search.kind,
+    preparation_state: search.prep,
+  }
+}
+
+/** Facet values as select options, with their counts. */
+function facetOptions(values: Array<{ value: string; count: number }>) {
+  return values.map(({ value, count }) => ({
+    value,
+    label: `${capitalize(value)} (${formatNumber(count, 0)})`,
+  }))
+}
+
 export const Route = createFileRoute("/foods/")({
   validateSearch: searchSchema,
   loaderDeps: ({ search }) => search,
@@ -73,7 +90,7 @@ export const Route = createFileRoute("/foods/")({
       context.queryClient.ensureInfiniteQueryData(
         foodsInfiniteQuery(listSearch(deps))
       ),
-      context.queryClient.ensureQueryData(facetsQuery()),
+      context.queryClient.ensureQueryData(facetsQuery(facetFilters(deps))),
     ]),
   component: FoodsPage,
 })
@@ -81,7 +98,7 @@ export const Route = createFileRoute("/foods/")({
 function FoodsPage() {
   const search = Route.useSearch()
   const navigate = useNavigate({ from: Route.fullPath })
-  const { data: facets } = useSuspenseQuery(facetsQuery())
+  const { data: facets } = useSuspenseQuery(facetsQuery(facetFilters(search)))
   const foods = useSuspenseInfiniteQuery(foodsInfiniteQuery(listSearch(search)))
   const items = foods.data.pages.flatMap((page) => page.items)
   const total = foods.data.pages[0]?.total ?? 0
@@ -106,9 +123,7 @@ function FoodsPage() {
       replace: true,
     })
 
-  const activeGroup = facets.groups.find(
-    (group) => String(group.code) === search.group
-  )
+  const activeGroup = facets.groups.find((group) => group.code === search.group)
   const GroupIcon = groupIcon(search.group)
   const [groupsOpen, setGroupsOpen] = useState(false)
 
@@ -131,7 +146,7 @@ function FoodsPage() {
           </span>
           <div className="min-w-0 flex-1">
             <h1 className="truncate font-heading text-2xl font-semibold">
-              {activeGroup ? String(activeGroup.name) : "All foods"}
+              {activeGroup ? activeGroup.name : "All foods"}
             </h1>
             <div className="text-sm text-muted-foreground tabular-nums">
               {formatNumber(total, 0)} {total === 1 ? "food" : "foods"}
@@ -177,20 +192,14 @@ function FoodsPage() {
               label="Type"
               value={search.kind}
               placeholder="All types"
-              options={facets.kinds.map((kind) => ({
-                value: kind,
-                label: capitalize(kind),
-              }))}
+              options={facetOptions(facets.kinds)}
               onChange={(value) => set("kind", value)}
             />
             <SmallSelect
               label="Preparation"
               value={search.prep}
               placeholder="Any preparation"
-              options={facets.preparation_states.map((state) => ({
-                value: state,
-                label: capitalize(state),
-              }))}
+              options={facetOptions(facets.preparation_states)}
               onChange={(value) => set("prep", value)}
             />
             <div className="ml-auto">

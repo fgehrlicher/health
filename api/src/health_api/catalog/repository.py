@@ -1,7 +1,7 @@
 """Read-only queries for the food catalog."""
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from decimal import Decimal
 from typing import Literal
 
@@ -369,39 +369,55 @@ def get_food(connection: Connection, slug: str) -> dict | None:
     }
 
 
-def get_facets(connection: Connection) -> dict:
+# Facet dimensions: the listing column each one counts.
+FACET_COLUMNS = {"group": "group_code", "kind": "kind", "preparation_state": "preparation_state"}
+
+
+def count_foods(connection: Connection, filters: FoodFilters) -> int:
+    return connection.execute(
+        f"SELECT count(*) AS n FROM ({BASE_SQL}) listing", filters.sql_params()
+    ).fetchone()["n"]
+
+
+def facet_counts(connection: Connection, filters: FoodFilters, dimension: str) -> list[dict]:
+    """Counts per value of one dimension, under every filter except its own.
+
+    Leaving out the dimension's own filter keeps its other values selectable.
+    Values without a matching food are left out, except the selected one, which
+    is kept with count 0 so a client can still show and clear it.
+    """
+    column = FACET_COLUMNS[dimension]
+    rows = connection.execute(
+        f"""SELECT {column} AS value, count(*) AS count FROM ({BASE_SQL}) listing
+            WHERE {column} IS NOT NULL GROUP BY {column} ORDER BY {column}""",
+        replace(filters, **{dimension: None}).sql_params(),
+    ).fetchall()
+    selected = getattr(filters, dimension)
+    if selected is not None and all(row["value"] != selected for row in rows):
+        rows = sorted([*rows, {"value": selected, "count": 0}], key=lambda row: row["value"])
+    return rows
+
+
+def get_facets(connection: Connection, filters: FoodFilters | None = None) -> dict:
+    """Filter values with counts that follow the other active filters."""
+    filters = filters or FoodFilters()
     return {
-        "foods": connection.execute("SELECT count(*) AS n FROM catalog.foods").fetchone()["n"],
+        "foods": count_foods(connection, filters),
+        "any_group": count_foods(connection, replace(filters, group=None)),
         "sources": connection.execute("SELECT count(*) AS n FROM catalog.food_sources").fetchone()[
             "n"
         ],
-        "kinds": [
-            row["kind"]
-            for row in connection.execute(
-                "SELECT DISTINCT kind FROM catalog.foods ORDER BY kind"
-            ).fetchall()
-        ],
+        "kinds": facet_counts(connection, filters, "kind"),
         "source_names": [
             row["source_name"]
             for row in connection.execute(
                 "SELECT DISTINCT source_name FROM catalog.food_sources ORDER BY source_name"
             ).fetchall()
         ],
-        "preparation_states": [
-            row["preparation_state"]
-            for row in connection.execute(
-                "SELECT DISTINCT preparation_state FROM catalog.foods "
-                "WHERE preparation_state IS NOT NULL ORDER BY preparation_state"
-            ).fetchall()
-        ],
+        "preparation_states": facet_counts(connection, filters, "preparation_state"),
         "groups": [
-            {"code": row["code"], "name": BLS_GROUP_NAMES[row["code"]], "count": row["count"]}
-            for row in connection.execute(
-                """SELECT group_code AS code, count(*) AS count
-                   FROM catalog.food_sources WHERE source_name = 'BLS 4.0'
-                     AND group_code IS NOT NULL
-                   GROUP BY group_code ORDER BY group_code"""
-            ).fetchall()
-            if row["code"] in BLS_GROUP_NAMES
+            {"code": row["value"], "name": BLS_GROUP_NAMES[row["value"]], "count": row["count"]}
+            for row in facet_counts(connection, filters, "group")
+            if row["value"] in BLS_GROUP_NAMES
         ],
     }
