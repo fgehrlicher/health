@@ -117,6 +117,24 @@ test("search the catalog and open a food", async ({ page }) => {
   await expect(page.getByText("Vitamin C").first()).toBeVisible()
 })
 
+test("clear filters resets everything but the sort", async ({ page }) => {
+  await open(page, "/foods?group=F&prep=raw&sort=energy_asc")
+  await expect(page.getByRole("heading", { name: "Fruit" })).toBeVisible()
+  await page.getByRole("button", { name: "Clear filters (2)" }).click()
+  await expect(page.getByRole("heading", { name: "All foods" })).toBeVisible()
+  await expect(page).toHaveURL(/\/foods\?sort=energy_asc$/)
+  await expect(page.getByRole("button", { name: /Clear filters/ })).toHaveCount(
+    0
+  )
+
+  // An empty result offers the way back.
+  await page.getByPlaceholder(/German names/).fill("zzzqqq")
+  await expect(page.getByText("No matching foods.")).toBeVisible()
+  await page.getByRole("button", { name: "Clear filters", exact: true }).click()
+  await expect(page.getByPlaceholder(/German names/)).toHaveValue("")
+  await expect(page.getByText("No matching foods.")).toHaveCount(0)
+})
+
 test("an unknown food shows the not-found page", async ({ page }) => {
   const response = await open(page, "/foods/does-not-exist")
   expect(response?.status()).toBe(404)

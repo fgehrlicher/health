@@ -3,7 +3,7 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query"
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router"
-import { ListFilterIcon, SearchIcon } from "lucide-react"
+import { ListFilterIcon, SearchIcon, XIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { z } from "zod"
 import { FoodGroupNav, groupIcon } from "@/components/food-groups"
@@ -117,6 +117,23 @@ function FoodsPage() {
     return () => clearTimeout(handle)
   }, [text, search.q, navigate])
 
+  // Search, category, type, and preparation filter; the sort is a view
+  // preference and survives clearing (except "relevance", which needs a search).
+  const activeFilters = [
+    search.q,
+    search.group,
+    search.kind,
+    search.prep,
+  ].filter(Boolean).length
+  const clearFilters = () => {
+    setText("")
+    return navigate({
+      search: (prev) => ({
+        sort: prev.sort === "relevance" ? undefined : prev.sort,
+      }),
+    })
+  }
+
   const set = (key: keyof Search, value: string | undefined) =>
     navigate({
       search: (prev) => ({ ...prev, [key]: value || undefined }),
@@ -202,6 +219,15 @@ function FoodsPage() {
               options={facetOptions(facets.preparation_states)}
               onChange={(value) => set("prep", value)}
             />
+            {activeFilters > 0 && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => void clearFilters()}
+              >
+                <XIcon /> Clear filters ({activeFilters})
+              </Button>
+            )}
             <div className="ml-auto">
               <SmallSelect
                 label="Sort"
@@ -217,9 +243,14 @@ function FoodsPage() {
         </div>
 
         {items.length === 0 ? (
-          <p className="py-12 text-center text-muted-foreground">
-            No matching foods.
-          </p>
+          <div className="flex flex-col items-center gap-3 py-12 text-center text-muted-foreground">
+            <p>No matching foods.</p>
+            {activeFilters > 0 && (
+              <Button variant="outline" onClick={() => void clearFilters()}>
+                <XIcon /> Clear filters
+              </Button>
+            )}
+          </div>
         ) : (
           <ul className="grid gap-2 xl:grid-cols-2">
             {items.map((food) => (

@@ -20,7 +20,9 @@ its own.
   phones. Type, preparation, and sort ("Most protein per kcal", "Fewest
   calories", …) are menus. Categories and menus list only values that match
   the other filters, with counts: with "Branded" chosen, only categories
-  holding branded foods remain; **Load more** adds the next 40. Category, search,
+  holding branded foods remain. **Clear filters** appears while search,
+  category, type, or preparation is set, also in an empty result, and keeps
+  the sort; **Load more** adds the next 40. Category, search,
   filters, and sort are in the URL (`/foods?group=F`), so back and new tabs
   work.
 - **Food** (`/foods/{slug}`): key figures, a donut of where the energy comes
