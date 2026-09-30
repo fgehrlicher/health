@@ -41,8 +41,7 @@ Requirements: Docker with Compose. The BLS importer additionally uses uv.
 ```sh
 make db-up       # Start PostgreSQL; a new volume gets db/schema.sql automatically
 make db-status   # Show whether the base schema is installed
-make db-fixture  # Load three example BLS foods
-make db-verify   # Check the example data
+uv run --locked bls4-import  # Load the BLS 4.0 catalog
 ```
 
 The default connection is
@@ -73,7 +72,7 @@ the baseline should be frozen and changes added as migrations.
 split food names, aliases, source names, codes, brands, and barcodes into
 searchable words. They are derived data, not a third source of truth. Anything
 that inserts or renames foods or sources must refresh them in the same
-transaction, as the BLS importer, the API, and the development fixture do:
+transaction, as the BLS importer and the API do:
 
 ```sql
 SELECT catalog.refresh_search();
@@ -172,8 +171,5 @@ SELECT
     source.fiber_g
 FROM catalog.foods AS food
 JOIN catalog.food_sources AS source ON source.food_id = food.id
-WHERE food.slug = 'lentil-mature-dry';
+WHERE food.slug = 'bls4-h725100';  -- Linse reif
 ```
-
-The fixture has a fruit, grain, and legume from BLS 4.0 with energy and macros
-per 100 g. The BLS importer handles missing and censored source values.

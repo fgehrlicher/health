@@ -3,7 +3,7 @@
 DATABASE_URL ?= postgres://health:health@127.0.0.1:5432/health
 export DATABASE_URL
 
-.PHONY: db-up db-down db-reset db-backup db-restore db-status db-fixture db-verify api web web-types search-eval check check-db check-web check-e2e test-db
+.PHONY: db-up db-down db-reset db-backup db-restore db-status api web web-types search-eval check check-db check-web check-e2e test-db
 
 db-up:
 	docker compose up --detach --wait postgres
@@ -29,12 +29,6 @@ db-restore:
 
 db-status:
 	docker compose exec -T postgres psql --username=health --dbname=health --command="SELECT to_regclass('catalog.foods') AS foods, to_regclass('log.meals') AS meals"
-
-db-fixture:
-	docker compose exec -T postgres psql --username=health --dbname=health --set=ON_ERROR_STOP=1 < db/fixtures/development.sql
-
-db-verify:
-	docker compose exec -T postgres psql --username=health --dbname=health --set=ON_ERROR_STOP=1 < db/fixtures/verify.sql
 
 api:
 	uv run --locked health-api
