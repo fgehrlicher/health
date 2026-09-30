@@ -3,7 +3,7 @@
 DATABASE_URL ?= postgres://health:health@127.0.0.1:5432/health
 export DATABASE_URL
 
-.PHONY: db-up db-down db-reset db-backup db-restore db-status db-fixture db-verify api web web-types search-eval mock-export mock-apply check check-db check-web check-e2e test-db
+.PHONY: db-up db-down db-reset db-backup db-restore db-status db-fixture db-verify api web web-types search-eval check check-db check-web check-e2e test-db
 
 db-up:
 	docker compose up --detach --wait postgres
@@ -41,15 +41,6 @@ api:
 
 web:
 	pnpm --dir web dev
-
-# Development mock data: registered products and one logged day in
-# db/fixtures/mock.json. Apply after the BLS import; it logs the day on today
-# (DATE=YYYY-MM-DD for another day, REPLACE=1 to overwrite that day's meals).
-mock-export:
-	uv run --locked health-mock export $(if $(DATE),--date $(DATE))
-
-mock-apply:
-	uv run --locked health-mock apply $(if $(DATE),--date $(DATE)) $(if $(REPLACE),--replace)
 
 # Regenerates web/openapi.json and the TypeScript API types from the API code.
 web-types:

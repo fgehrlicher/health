@@ -67,24 +67,6 @@ the baseline should be frozen and changes added as migrations.
   schema change, older dumps are a record, not a restore path.
 - `make db-down` stops PostgreSQL and keeps the data.
 
-## Mock data
-
-[`db/fixtures/mock.json`](../db/fixtures/mock.json) holds development data that
-BLS cannot rebuild: the registered products and one logged day (times of day,
-no dates). On a fresh machine, after `uv run --locked bls4-import`:
-
-```sh
-make mock-apply              # logs the day on today
-make mock-apply DATE=2026-09-30
-make mock-apply REPLACE=1    # replace that day's meals
-```
-
-It registers and logs through the same code as the API, keeps products whose
-barcode is already registered, and leaves a day that already has meals alone
-unless `REPLACE=1`. `make mock-export` (optionally `DATE=`) rewrites the file
-from the current database: every branded food with its newest label, and the
-meals of that day.
-
 ## Search views
 
 `food_search_terms` and `food_search_vocabulary` are materialized views that
