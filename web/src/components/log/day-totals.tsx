@@ -67,6 +67,8 @@ export function DayTotals({ day }: { day: Day }) {
               Where today's energy comes from
               {parts &&
                 `: ${parts
+                  // Traces (e.g. alcohol in bread) would read as "0%".
+                  .filter((part) => part.share >= 0.005)
                   .map(
                     (part) =>
                       `${part.label.toLowerCase()} ${formatNumber(part.share * 100, 0)}%`
