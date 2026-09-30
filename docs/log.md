@@ -7,7 +7,9 @@ database schema.
 ## Model: meals of "this much of this"
 
 A **meal** is one sitting: a time, an optional kind (`breakfast`, `lunch`,
-`dinner`, or `snack`), and **items**. An item is a catalog food and the amount
+`dinner`, or `snack`), an optional **note**, and **items**. The note holds raw
+thoughts about the meal ("too salty, hungry again by 4 pm"), up to 2,000
+characters, stored as written and never interpreted. An item is a catalog food and the amount
 eaten, e.g. 400 g of the peach quark. A single snack is a meal with one item.
 
 Callers never send nutrition values, and the log stores none. Every value is
@@ -57,8 +59,9 @@ future are rejected. A day runs from local midnight to local midnight, including
 
 - `POST /api/log/meals`: log a meal; `?dry_run=true` returns it without storing.
 - `GET /api/log/meals/{id}`: one meal with items and totals.
-- `PATCH /api/log/meals/{id}`: change `eaten_at`, `kind` (`null` clears it), or
-  `items` (replaces all items, e.g. to fill in an unknown meal).
+- `PATCH /api/log/meals/{id}`: change `eaten_at`, `kind`, `note` (`null` or
+  blank clears them), or `items` (replaces all items, e.g. to fill in an
+  unknown meal).
 - `DELETE /api/log/meals/{id}`: delete a meal and its items.
 - `GET /api/log/days/{YYYY-MM-DD}`: a day's meals and totals.
 
@@ -70,6 +73,7 @@ POST /api/log/meals
 {
   "eaten_at": "2026-09-28T16:50:00",
   "kind": "snack",
+  "note": "Straight from the fridge after the gym",
   "items": [{"food": "milbona-high-protein-quark-creme-pfirsich-maracuja", "portion": "Becher"}]
 }
 ```

@@ -9,7 +9,8 @@ its own.
 - **Today** (`/`, `/?date=2026-09-28`): the day's totals and meals. Calories
   and macros show measured values, with estimated ones listed separately, and
   unknown meals as a badge. Arrows move between days. **Log meal** opens a
-  form: meal kind, time, and foods found by catalog search, each with an amount
+  form: meal kind, time, a note for raw thoughts, and foods found by catalog
+  search, each with an amount
   or a label portion (e.g. "Becher") and a "guessed" switch. The form shows the
   calculated calories and protein before saving, using the API's dry run. A
   meal without foods is logged as unknown. Every meal can be edited or deleted.

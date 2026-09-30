@@ -36,6 +36,7 @@ export const createMeal = createServerFn({ method: "POST" })
     z.object({
       eaten_at: z.string().optional(),
       kind: kindSchema.optional(),
+      note: z.string().max(2000).nullable().optional(),
       items: z.array(itemSchema).max(100),
       dry_run: z.boolean().optional(),
     })
@@ -57,6 +58,7 @@ export const updateMeal = createServerFn({ method: "POST" })
       id: z.number().int(),
       eaten_at: z.string().optional(),
       kind: kindSchema.optional(),
+      note: z.string().max(2000).nullable().optional(),
       items: z.array(itemSchema).max(100).optional(),
     })
   )

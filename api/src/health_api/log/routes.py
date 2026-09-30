@@ -11,6 +11,7 @@ from health_api.log.meals import (
     LogError,
     MealInput,
     MealUpdate,
+    clean_note,
     day_summary,
     get_meal,
     insert_items,
@@ -38,8 +39,8 @@ def create_meal(meal: MealInput, response: Response, dry_run: bool = False):
         with connect() as connection, connection.transaction() as transaction:
             rows = resolve_items(connection, meal.items)
             meal_id = connection.execute(
-                "INSERT INTO log.meals (eaten_at, kind) VALUES (%s, %s) RETURNING id",
-                (eaten_at, meal.kind),
+                "INSERT INTO log.meals (eaten_at, kind, note) VALUES (%s, %s, %s) RETURNING id",
+                (eaten_at, meal.kind, clean_note(meal.note)),
             ).fetchone()["id"]
             insert_items(connection, meal_id, rows)
             result = get_meal(connection, meal_id)
@@ -63,9 +64,9 @@ def read_meal(meal_id: int):
 
 @router.patch("/meals/{meal_id}", response_model=Meal)
 def update_meal(meal_id: int, update: MealUpdate):
-    """Change time, kind, or items; `items` replaces all of the meal's items.
+    """Change time, kind, note, or items; `items` replaces all of the meal's items.
 
-    Send `"kind": null` to clear the kind. Filling in an unknown meal is an
+    Send `"kind": null` or `"note": null` to clear them. Filling in an unknown meal is an
     update with items.
     """
     given = update.model_fields_set
@@ -86,7 +87,8 @@ def update_meal(meal_id: int, update: MealUpdate):
             connection.execute(
                 """UPDATE log.meals SET updated_at = now(),
                        eaten_at = CASE WHEN %(set_time)s THEN %(eaten_at)s ELSE eaten_at END,
-                       kind = CASE WHEN %(set_kind)s THEN %(kind)s ELSE kind END
+                       kind = CASE WHEN %(set_kind)s THEN %(kind)s ELSE kind END,
+                       note = CASE WHEN %(set_note)s THEN %(note)s ELSE note END
                    WHERE id = %(id)s""",
                 {
                     "id": meal_id,
@@ -94,6 +96,8 @@ def update_meal(meal_id: int, update: MealUpdate):
                     "eaten_at": eaten_at,
                     "set_kind": "kind" in given,
                     "kind": update.kind,
+                    "set_note": "note" in given,
+                    "note": clean_note(update.note),
                 },
             )
             return get_meal(connection, meal_id)

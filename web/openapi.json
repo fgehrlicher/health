@@ -575,7 +575,7 @@
           "log"
         ],
         "summary": "Update Meal",
-        "description": "Change time, kind, or items; `items` replaces all of the meal's items.\n\nSend `\"kind\": null` to clear the kind. Filling in an unknown meal is an\nupdate with items.",
+        "description": "Change time, kind, note, or items; `items` replaces all of the meal's items.\n\nSend `\"kind\": null` or `\"note\": null` to clear them. Filling in an unknown meal is an\nupdate with items.",
         "operationId": "update_meal_api_log_meals__meal_id__patch",
         "parameters": [
           {
@@ -1272,6 +1272,17 @@
             ],
             "title": "Kind"
           },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
           "status": {
             "type": "string",
             "enum": [
@@ -1297,6 +1308,7 @@
           "id",
           "eaten_at",
           "kind",
+          "note",
           "status",
           "items",
           "totals"
@@ -1356,6 +1368,18 @@
               }
             ],
             "title": "Kind"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
           },
           "items": {
             "items": {
@@ -1453,6 +1477,18 @@
               }
             ],
             "title": "Kind"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
           },
           "items": {
             "anyOf": [

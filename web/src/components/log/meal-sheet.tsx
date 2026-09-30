@@ -23,6 +23,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { Switch } from "@/components/ui/switch"
+import { Textarea } from "@/components/ui/textarea"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { capitalize, formatNumber, nowLocal, today } from "@/lib/format"
 import { foodQuery } from "@/lib/queries"
@@ -103,6 +104,7 @@ export function MealSheet({
   const queryClient = useQueryClient()
   const [kind, setKind] = useState<MealKind | null>(null)
   const [eatenAt, setEatenAt] = useState("")
+  const [note, setNote] = useState("")
   const [items, setItems] = useState<Array<ItemDraft>>([])
   const [issues, setIssues] = useState<Array<Issue>>([])
 
@@ -112,10 +114,12 @@ export function MealSheet({
     setIssues([])
     if (meal) {
       setKind(meal.kind)
+      setNote(meal.note ?? "")
       setEatenAt(meal.eaten_at.slice(0, 16))
       setItems(draftsFromMeal(meal))
     } else {
       setKind(null)
+      setNote("")
       setEatenAt(date === today() ? nowLocal() : `${date}T12:00`)
       setItems(initialFood ? [newDraft(initialFood)] : [])
     }
@@ -137,9 +141,9 @@ export function MealSheet({
     mutationFn: () =>
       meal
         ? updateMeal({
-            data: { id: meal.id, kind, eaten_at: eatenAt, items: input },
+            data: { id: meal.id, kind, note, eaten_at: eatenAt, items: input },
           })
-        : createMeal({ data: { kind, eaten_at: eatenAt, items: input } }),
+        : createMeal({ data: { kind, note, eaten_at: eatenAt, items: input } }),
     onSuccess: async (result) => {
       if (!result.ok) {
         setIssues(result.issues)
@@ -209,6 +213,18 @@ export function MealSheet({
                 value={eatenAt}
                 onChange={(event) => setEatenAt(event.target.value)}
                 required
+              />
+            </Field>
+
+            <Field>
+              <FieldLabel htmlFor="meal-note">Note</FieldLabel>
+              <Textarea
+                id="meal-note"
+                placeholder="Raw thoughts, e.g. too salty, felt full for hours"
+                maxLength={2000}
+                rows={3}
+                value={note}
+                onChange={(event) => setNote(event.target.value)}
               />
             </Field>
 

@@ -125,9 +125,14 @@ def test_log_a_day_against_postgres(monkeypatch):
         meal_ids.append(lunch.json()["id"])
         assert lunch.json()["status"] == "estimated"
 
-        dinner = request_json("POST", "/api/log/meals", {"eaten_at": f"{day}T20:00"})
+        dinner = request_json(
+            "POST",
+            "/api/log/meals",
+            {"eaten_at": f"{day}T20:00", "note": "  Italian place, way too much bread  "},
+        )
         meal_ids.append(dinner.json()["id"])
         assert dinner.json()["status"] == "unknown" and dinner.json()["kind"] is None
+        assert dinner.json()["note"] == "Italian place, way too much bread"
 
         summary = request(f"/api/log/days/{day}").json()
         assert summary["counts"] == {"measured": 1, "estimated": 1, "unknown": 1}
@@ -143,6 +148,10 @@ def test_log_a_day_against_postgres(monkeypatch):
         assert filled.json()["status"] == "measured" and filled.json()["kind"] == "dinner"
         cleared = request_json("PATCH", f"/api/log/meals/{dinner.json()['id']}", {"kind": None})
         assert cleared.json()["kind"] is None and len(cleared.json()["items"]) == 1
+        # Other fields keep the note; a blank note clears it.
+        assert cleared.json()["note"] == "Italian place, way too much bread"
+        blank = request_json("PATCH", f"/api/log/meals/{dinner.json()['id']}", {"note": " "})
+        assert blank.json()["note"] is None
 
         moved = request_json(
             "PATCH", f"/api/log/meals/{dinner.json()['id']}", {"eaten_at": "2026-01-14T21:00"}

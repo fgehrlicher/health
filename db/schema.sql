@@ -204,6 +204,8 @@ CREATE TABLE log.meals (
     eaten_at timestamptz NOT NULL,
     -- breakfast, lunch, dinner, or snack; NULL when not said.
     kind text,
+    -- Free thoughts about the meal, stored as written and never interpreted.
+    note text,
     created_at timestamptz NOT NULL DEFAULT now(),
     updated_at timestamptz NOT NULL DEFAULT now()
 );

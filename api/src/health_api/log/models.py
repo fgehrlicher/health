@@ -41,6 +41,7 @@ class Meal(BaseModel):
     id: int
     eaten_at: str
     kind: MealKind | None
+    note: str | None
     status: Literal["measured", "estimated", "unknown"]
     items: list[MealItem]
     totals: NutrientTotals

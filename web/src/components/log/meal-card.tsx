@@ -119,6 +119,11 @@ export function MealCard({ meal, onEdit }: { meal: Meal; onEdit: () => void }) {
             ))}
           </ul>
         )}
+        {meal.note && (
+          <p className="border-l-2 border-primary/40 pl-3 text-sm whitespace-pre-wrap text-muted-foreground">
+            {meal.note}
+          </p>
+        )}
       </CardContent>
 
       <Dialog open={confirming} onOpenChange={setConfirming}>

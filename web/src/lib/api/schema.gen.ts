@@ -145,9 +145,9 @@ export interface paths {
         head?: never;
         /**
          * Update Meal
-         * @description Change time, kind, or items; `items` replaces all of the meal's items.
+         * @description Change time, kind, note, or items; `items` replaces all of the meal's items.
          *
-         *     Send `"kind": null` to clear the kind. Filling in an unknown meal is an
+         *     Send `"kind": null` or `"note": null` to clear them. Filling in an unknown meal is an
          *     update with items.
          */
         patch: operations["update_meal_api_log_meals__meal_id__patch"];
@@ -347,6 +347,8 @@ export interface components {
             eaten_at: string;
             /** Kind */
             kind: ("breakfast" | "lunch" | "dinner" | "snack") | null;
+            /** Note */
+            note: string | null;
             /**
              * Status
              * @enum {string}
@@ -371,6 +373,8 @@ export interface components {
             eaten_at?: string | null;
             /** Kind */
             kind?: ("breakfast" | "lunch" | "dinner" | "snack") | null;
+            /** Note */
+            note?: string | null;
             /**
              * Items
              * @default []
@@ -406,6 +410,8 @@ export interface components {
             eaten_at?: string | null;
             /** Kind */
             kind?: ("breakfast" | "lunch" | "dinner" | "snack") | null;
+            /** Note */
+            note?: string | null;
             /** Items */
             items?: components["schemas"]["ItemInput"][] | null;
         };

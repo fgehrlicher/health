@@ -57,6 +57,7 @@ test("log, edit, and delete a meal", async ({ page }) => {
   await page.getByRole("button", { name: "Log meal" }).first().click()
   const sheet = page.getByRole("dialog")
   await sheet.getByRole("button", { name: "Snack" }).click()
+  await sheet.getByLabel("Note").fill("Tasted like peach yogurt")
   await sheet.getByRole("button", { name: "Add food" }).click()
   await page.getByPlaceholder(/Search foods/).fill("e2e quark")
   await page.getByRole("option", { name: /E2E Quark-Creme/ }).click()
@@ -72,6 +73,7 @@ test("log, edit, and delete a meal", async ({ page }) => {
     .getByText("E2E Quark-Creme")
     .locator("xpath=ancestor::*[@data-slot='card'][1]")
   await expect(card.getByText("Snack")).toBeVisible()
+  await expect(card.getByText("Tasted like peach yogurt")).toBeVisible()
   await expect(card.getByText("272 kcal").first()).toBeVisible()
 
   // Half a cup instead; editing shows the stored grams.

@@ -61,6 +61,8 @@ class MealInput(BaseModel):
     # Without an offset, the time is local (HEALTH_TIMEZONE). Default: now.
     eaten_at: datetime | None = None
     kind: MealKind | None = None
+    # Free thoughts about the meal, e.g. "too salty, portion was huge".
+    note: Annotated[str | None, Field(max_length=2000)] = None
     # Empty means "ate something, nutrition unknown".
     items: Annotated[list[ItemInput], Field(max_length=MAX_ITEMS)] = []
 
@@ -72,6 +74,7 @@ class MealUpdate(BaseModel):
 
     eaten_at: datetime | None = None
     kind: MealKind | None = None
+    note: Annotated[str | None, Field(max_length=2000)] = None
     items: Annotated[list[ItemInput] | None, Field(max_length=MAX_ITEMS)] = None
 
 
@@ -159,6 +162,11 @@ def insert_items(connection: Connection, meal_id: int, rows: list[dict]) -> None
         )
 
 
+def clean_note(note: str | None) -> str | None:
+    """Trimmed note text; blank means no note."""
+    return note.strip() or None if note is not None else None
+
+
 def rounded(column: str, value: Decimal) -> str:
     places = Decimal(1) if column.startswith("energy") else Decimal("0.01")
     return str(value.quantize(places))
@@ -185,7 +193,8 @@ def load_meals_with_items(
 ) -> list[tuple[dict, list[dict]]]:
     """Public meals, each with its raw items for exact sums across meals."""
     meals = connection.execute(
-        f"SELECT id, eaten_at, kind FROM log.meals WHERE {where} ORDER BY eaten_at, id", params
+        f"SELECT id, eaten_at, kind, note FROM log.meals WHERE {where} ORDER BY eaten_at, id",
+        params,
     ).fetchall()
     if not meals:
         return []
@@ -209,6 +218,7 @@ def load_meals_with_items(
                 "id": meal["id"],
                 "eaten_at": meal["eaten_at"].astimezone(zone).isoformat(),
                 "kind": meal["kind"],
+                "note": meal["note"],
                 "status": status(items.get(meal["id"], [])),
                 "items": [public_item(item) for item in items.get(meal["id"], [])],
                 "totals": totals(items.get(meal["id"], [])),
