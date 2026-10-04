@@ -134,6 +134,18 @@ different nutrition is a new source, and BLS sources belong to the importer. `re
 and `reference_unit` default to 100 g. Write a label's "<0,5 g" as `0.5` and
 list the column in `nutrition.upper_bounds`.
 
+### Incomplete labels
+
+A product whose current label lacks something is marked with `label_gaps`
+(in lists and details), each with a `field` and a `label` saying what to
+photograph next time: the ingredient list, the legal name (missing while the
+source's food name equals the product name), the barcode, or an EU-mandatory
+nutrition row (kJ, saturated fat, sugars, salt). The gaps are computed when
+read by `catalog.label_gaps()`, so adding the text with
+`PATCH /api/foods/{slug}/sources/{id}` clears them. `GET /api/foods?incomplete=true`
+lists only such products, and the facets count them as `incomplete`. Generic
+foods never have gaps.
+
 Validation rejects the submission with `422` and a list of `field`/`message`
 issues, writing nothing, when:
 

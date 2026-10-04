@@ -44,6 +44,9 @@ def foods(
     min_protein_density: Annotated[Decimal | None, Query(ge=0)] = None,
     min_fiber: Annotated[Decimal | None, Query(ge=0)] = None,
     max_energy: Annotated[Decimal | None, Query(ge=0)] = None,
+    incomplete: Annotated[
+        bool, Query(description="only products whose label still lacks something")
+    ] = False,
     sort: Sort = "relevance",
     limit: Annotated[int, Query(ge=1, le=100)] = 50,
     offset: Annotated[int, Query(ge=0)] = 0,
@@ -59,6 +62,7 @@ def foods(
         min_protein_density=min_protein_density,
         min_fiber=min_fiber,
         max_energy=max_energy,
+        incomplete=incomplete,
         sort=sort,
         limit=limit,
         offset=offset,
@@ -74,6 +78,7 @@ def facets(
     group: Annotated[str | None, Query(pattern="^[A-Z]$")] = None,
     brand: Annotated[str | None, Query(max_length=100)] = None,
     preparation_state: Annotated[str | None, Query(max_length=60)] = None,
+    incomplete: bool = False,
 ):
     """Filter values with counts for the same filters as `GET /api/foods`.
 
@@ -81,7 +86,12 @@ def facets(
     selecting a value would yield.
     """
     filters = FoodFilters(
-        q=q, kind=kind, group=group, brand=brand, preparation_state=preparation_state
+        q=q,
+        kind=kind,
+        group=group,
+        brand=brand,
+        preparation_state=preparation_state,
+        incomplete=incomplete,
     )
     with connect() as connection:
         return get_facets(connection, filters)

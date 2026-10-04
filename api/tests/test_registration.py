@@ -115,6 +115,12 @@ def test_register_and_find_by_barcode(monkeypatch):
         assert food["sources"][0]["energy_kj"] == "287"
         assert food["sources"][0]["ingredients_text"] == QUARK["ingredients_text"]
         assert [p["name"] for p in food["portions"]] == ["Portion", "Becher"]
+        # No legal name was read yet, so the label is incomplete.
+        assert [gap["field"] for gap in food["label_gaps"]] == ["legal_name"]
+        incomplete = request("/api/foods?incomplete=true&q=registration%20test").json()
+        assert [item["slug"] for item in incomplete["items"]] == [food["slug"]]
+        assert incomplete["items"][0]["label_gaps"][0]["field"] == "legal_name"
+        assert request("/api/foods/facets?q=registration%20test").json()["incomplete"] == 1
 
         assert request(f"/api/foods/barcode/{barcode}").json()["slug"] == food["slug"]
         search = request("/api/foods?q=registration%20test").json()["items"]
@@ -127,6 +133,8 @@ def test_register_and_find_by_barcode(monkeypatch):
         assert patched.json()["sources"][0]["food_name"] == "Test legal name"
         assert patched.json()["sources"][0]["ingredients_text"] == "Quark"
         assert patched.json()["sources"][0]["energy_kcal"] == "68"
+        assert patched.json()["label_gaps"] == []
+        assert request("/api/foods?incomplete=true&q=registration%20test").json()["total"] == 0
         assert request_json("PATCH", source_path, {}).status_code == 422
         assert request_json("PATCH", source_path, {"energy_kcal": 1}).status_code == 422
         assert request_json("PATCH", f"{source_path}0", {"food_name": "x"}).status_code == 404

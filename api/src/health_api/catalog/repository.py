@@ -178,7 +178,8 @@ SELECT
     + ", ".join(f"chosen.{column}" for column in NUTRIENTS)
     + """,
     chosen.protein_g * 100 / NULLIF(chosen.energy_kcal, 0) AS protein_per_100_kcal,
-    coalesce(m.relevance, 0) AS relevance
+    coalesce(m.relevance, 0) AS relevance,
+    gaps.label_gaps
 FROM catalog.foods f
 LEFT JOIN catalog.food_groups g ON g.code = f.food_group
 LEFT JOIN search_matches m ON m.food_id = f.id
@@ -190,6 +191,12 @@ LEFT JOIN LATERAL (
     ORDER BY (s.source_name = 'BLS 4.0') DESC, s.id DESC
     LIMIT 1
 ) chosen ON true
+CROSS JOIN LATERAL (
+    SELECT catalog.label_gaps(
+        f.kind, f.name, f.barcode, chosen.food_name, chosen.ingredients_text,
+        chosen.energy_kj, chosen.saturated_fat_g, chosen.sugars_g, chosen.salt_g
+    ) AS label_gaps
+) gaps
 WHERE (%(kind)s::text IS NULL OR f.kind = %(kind)s)
   AND (%(group)s::text IS NULL OR f.food_group = %(group)s)
   AND (%(brand)s::text IS NULL OR f.brand = %(brand)s)
@@ -201,6 +208,7 @@ WHERE (%(kind)s::text IS NULL OR f.kind = %(kind)s)
   AND (%(min_fiber)s::numeric IS NULL OR chosen.fiber_g >= %(min_fiber)s)
   AND (%(max_energy)s::numeric IS NULL OR chosen.energy_kcal <= %(max_energy)s)
   AND (%(tokens)s::text[] IS NULL OR m.food_id IS NOT NULL)
+  AND (NOT %(incomplete)s OR cardinality(gaps.label_gaps) > 0)
 """
 )
 
@@ -217,6 +225,8 @@ class FoodFilters:
     min_protein_density: Decimal | None = None
     min_fiber: Decimal | None = None
     max_energy: Decimal | None = None
+    # Only products whose label still lacks something (see LABEL_GAPS).
+    incomplete: bool = False
     sort: Sort = "relevance"
     limit: int = 24
     offset: int = 0
@@ -233,6 +243,7 @@ class FoodFilters:
             "min_protein_density": self.min_protein_density,
             "min_fiber": self.min_fiber,
             "max_energy": self.max_energy,
+            "incomplete": self.incomplete,
             "limit": self.limit,
             "offset": self.offset,
         }
@@ -242,6 +253,23 @@ def search_tokens(q: str | None) -> list[str] | None:
     """Split a query into at most eight distinct lowercase words, or None for no search."""
     tokens = list(dict.fromkeys(re.findall(r"[^\W_]+", (q or "").lower())))[:8]
     return tokens or None
+
+
+# What each label gap code means and what to photograph.
+LABEL_GAPS = {
+    "ingredients_text": "Ingredient list: photograph the side with 'Zutaten'",
+    "legal_name": "Legal name: photograph the line naming the product type, "
+    "e.g. 'Frischkäsezubereitung'",
+    "barcode": "Barcode: photograph the barcode with its digits",
+    "energy_kj": "Energy in kJ from the nutrition table",
+    "saturated_fat_g": "Saturated fat ('davon gesättigte Fettsäuren')",
+    "sugars_g": "Sugars ('davon Zucker')",
+    "salt_g": "Salt",
+}
+
+
+def label_gaps(codes: list[str]) -> list[dict]:
+    return [{"field": code, "label": LABEL_GAPS[code]} for code in codes]
 
 
 def decimal_text(value: Decimal | None) -> str | None:
@@ -279,6 +307,7 @@ def food_from_row(row: DictRow) -> dict:
         "barcode": row["barcode"],
         "source_count": row["source_count"],
         "source": source_from_row(row),
+        "label_gaps": label_gaps(row["label_gaps"]),
     }
 
 
@@ -358,8 +387,24 @@ def get_food(connection: Connection, slug: str) -> dict | None:
            ORDER BY lower(coalesce(v.brand, '')), lower(v.name)""",
         (row["id"],),
     ).fetchall()
+    current = sources[0] if sources else {}
+    gaps = connection.execute(
+        """SELECT catalog.label_gaps(%s, %s, %s, %s, %s, %s, %s, %s, %s) AS codes""",
+        (
+            row["kind"],
+            row["name"],
+            row["barcode"],
+            current.get("food_name"),
+            current.get("ingredients_text"),
+            current.get("energy_kj"),
+            current.get("saturated_fat_g"),
+            current.get("sugars_g"),
+            current.get("salt_g"),
+        ),
+    ).fetchone()["codes"]
     return {
         **dict(row),
+        "label_gaps": label_gaps(gaps),
         "variant_of": parent,
         "variants": [
             {
@@ -445,4 +490,5 @@ def get_facets(connection: Connection, filters: FoodFilters | None = None) -> di
             for row in facet_counts(connection, filters, "group")
         ],
         "brands": facet_counts(connection, filters, "brand"),
+        "incomplete": count_foods(connection, replace(filters, incomplete=True)),
     }

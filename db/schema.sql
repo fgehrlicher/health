@@ -115,6 +115,25 @@ CREATE UNIQUE INDEX foods_barcode_key ON catalog.foods (barcode) WHERE barcode I
 -- Nutrients beyond the label columns of food_sources, e.g. vitamins and
 -- minerals. Units follow EU label conventions; codes are INFOODS tagnames as
 -- used by BLS.
+-- What a registered product's current label still lacks, as codes: the
+-- ingredient list, the legal name (a source food name equal to the product name
+-- means none was read), the barcode, and EU-mandatory nutrition rows. Generic
+-- foods have none. Computed when read, so adding the text clears it.
+CREATE FUNCTION catalog.label_gaps(
+    kind text, name text, barcode text, source_food_name text, ingredients_text text,
+    energy_kj numeric, saturated_fat_g numeric, sugars_g numeric, salt_g numeric
+) RETURNS text[] LANGUAGE sql IMMUTABLE AS $$
+    SELECT CASE WHEN kind <> 'branded' THEN '{}'::text[] ELSE array_remove(ARRAY[
+        CASE WHEN ingredients_text IS NULL THEN 'ingredients_text' END,
+        CASE WHEN source_food_name IS NULL OR source_food_name = name THEN 'legal_name' END,
+        CASE WHEN barcode IS NULL THEN 'barcode' END,
+        CASE WHEN energy_kj IS NULL THEN 'energy_kj' END,
+        CASE WHEN saturated_fat_g IS NULL THEN 'saturated_fat_g' END,
+        CASE WHEN sugars_g IS NULL THEN 'sugars_g' END,
+        CASE WHEN salt_g IS NULL THEN 'salt_g' END
+    ], NULL) END
+$$;
+
 CREATE TABLE catalog.nutrients (
     key text PRIMARY KEY,
     name text NOT NULL,

@@ -170,6 +170,7 @@ def test_catalog_queries_against_postgres(monkeypatch):
     assert detail.json()["sources"][0]["energy_kj"] == "192"
     assert detail.json()["sources"][0]["sugars_g"] is not None
     assert detail.json()["portions"] == []
+    assert detail.json()["label_gaps"] == []
     assert detail.json()["preparation_state"] == "boiled"
     nutrients = {n["key"]: n for n in detail.json()["sources"][0]["nutrients"]}
     assert (

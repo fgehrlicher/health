@@ -69,9 +69,17 @@ class FoodBase(BaseModel):
     barcode: str | None
 
 
+class LabelGap(BaseModel):
+    """Something a product's current label still lacks, to photograph next time."""
+
+    field: str
+    label: str
+
+
 class FoodSummary(FoodBase):
     source_count: int
     source: NutritionSource | None
+    label_gaps: list[LabelGap]
 
 
 class FoodRef(BaseModel):
@@ -92,6 +100,8 @@ class Variant(BaseModel):
 
 
 class FoodDetail(FoodBase):
+    # For a product: what its current label still lacks; empty when complete.
+    label_gaps: list[LabelGap]
     sources: list[SourceDetail]
     portions: list[Portion]
     # For a branded product: the generic food it is a kind of.
@@ -133,6 +143,8 @@ class CatalogFacets(BaseModel):
     preparation_states: list[FacetValue]
     groups: list[FacetGroup]
     brands: list[FacetValue]
+    # Products matching the filters whose label still lacks something.
+    incomplete: int
 
 
 Amount = Annotated[Decimal, Field(ge=0, max_digits=12, decimal_places=4)]

@@ -95,7 +95,9 @@ Through the HTTP API ([reference](catalog.md#api)):
    store-internal barcodes, and label values that contradict each other, such
    as kcal that do not match the macros; it warns about missing mandatory rows.
 4. Add a label's legal name or ingredient list later, e.g. from a second photo
-   of a round cup (`PATCH /api/foods/{slug}/sources/{id}`).
+   of a round cup (`PATCH /api/foods/{slug}/sources/{id}`). Products whose label
+   still lacks something carry `label_gaps` saying what to photograph, and
+   `GET /api/foods?incomplete=true` lists them.
 5. Log a meal (`POST /api/log/meals`): an optional kind and items of catalog
    food plus amount or label portion, each optionally marked estimated. A meal
    without items is unknown. Fill in or correct it later, and read a day's
