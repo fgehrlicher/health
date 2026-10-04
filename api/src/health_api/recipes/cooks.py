@@ -293,11 +293,15 @@ def list_cooks(
     since: date | None,
     until: date | None,
     limit: int,
+    tag: str | None = None,
 ) -> list[dict]:
-    """Cooks newest first, by recipe, name words, or local days (inclusive)."""
+    """Cooks newest first, by recipe, its tag, name words, or local days (inclusive)."""
     words = (q or "").split()
     where = ["(%(recipe)s::text IS NULL OR r.slug = %(recipe)s)"]
     params: dict = {"recipe": recipe}
+    if tag and tag.strip():
+        where.append("%(tag)s = ANY(r.tags)")
+        params["tag"] = " ".join(tag.split()).lower()
     for index, word in enumerate(words):
         where.append(f"(c.name ILIKE %(w{index})s OR r.name ILIKE %(w{index})s)")
         params[f"w{index}"] = f"%{word}%"

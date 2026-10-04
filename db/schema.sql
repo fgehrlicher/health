@@ -262,8 +262,12 @@ CREATE TABLE recipe.recipes (
     name text NOT NULL,
     -- What the dish is about, stored as written.
     note text,
+    -- Free labels for browsing, e.g. breakfast, ice cream; lowercase, unique.
+    tags text[] NOT NULL DEFAULT '{}',
     created_at timestamptz NOT NULL DEFAULT now()
 );
+
+CREATE INDEX recipes_tags_idx ON recipe.recipes USING gin (tags);
 
 CREATE TABLE recipe.versions (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

@@ -31,6 +31,11 @@ improvements and the cooking log holds reality.
 **Forks**: a version whose parent belongs to another recipe, e.g. "Mango ice
 cream" v1 from "Ice cream" v2. A recipe lists the recipes forked from it.
 
+**Tags** group recipes for browsing, e.g. `breakfast`, `snack`, `ice cream`.
+They are free text, stored lowercase and single-spaced without duplicates, at
+most 20 per recipe. A fork starts with its parent recipe's tags, so a new ice
+cream flavor is in `ice cream` from the start.
+
 **Improvised cooks** have no recipe: a name, portions, and ingredients. Saving
 one as a new recipe (`from_cook`) links the cook to that recipe's version 1.
 
@@ -78,14 +83,17 @@ forks neither.
 
 Recipes:
 
-- `GET /api/recipes?q=`: recipes, recently cooked or created first, with the
-  latest version's nutrition per portion.
+- `GET /api/recipes?q=&tag=`: recipes, recently cooked or created first, with
+  the latest version's nutrition per portion.
+- `GET /api/recipes/tags`: every tag with its number of recipes, most used
+  first.
 - `POST /api/recipes`: a recipe and its version 1. Ingredients and portions
   come from `items` and `portions`, otherwise from `from_cook`, otherwise from
-  `forked_from: {"recipe": slug, "version": n}`. `?dry_run=true` stores nothing.
+  `forked_from: {"recipe": slug, "version": n}`. `tags` default to the forked
+  recipe's. `?dry_run=true` stores nothing.
 - `GET /api/recipes/{slug}`: every version (newest first) with ingredients,
   totals, and per-portion nutrition; forks; cooks.
-- `PATCH /api/recipes/{slug}`: `name`, `note`. `DELETE` if never cooked or
+- `PATCH /api/recipes/{slug}`: `name`, `note`, `tags` (replaces all). `DELETE` if never cooked or
   forked.
 - `POST /api/recipes/{slug}/versions`: a new version with a `note`. Missing
   `items` and `portions` come from `from_cook`, then from the parent; missing
@@ -95,8 +103,8 @@ Recipes:
 
 Cooking log:
 
-- `GET /api/cooks?recipe=&q=&since=&until=`: cooks newest first, by recipe,
-  name words, or local days (inclusive). "The curry from Monday" is
+- `GET /api/cooks?recipe=&tag=&q=&since=&until=`: cooks newest first, by
+  recipe, the recipe's tag, name words, or local days (inclusive). "The curry from Monday" is
   `?q=curry&since=2026-09-28&until=2026-09-28`.
 - `POST /api/cooks`: `recipe` and optional `version` (default latest),
   `cooked_at` (default now, local time without an offset), `portions` (default

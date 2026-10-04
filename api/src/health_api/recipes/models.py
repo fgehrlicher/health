@@ -79,10 +79,16 @@ class Fork(BaseModel):
     from_version: int
 
 
+class TagCount(BaseModel):
+    tag: str
+    count: int
+
+
 class Recipe(BaseModel):
     slug: str
     name: str
     note: str | None
+    tags: list[str]
     created_at: str
     # Newest first.
     versions: list[Version]
@@ -94,6 +100,7 @@ class RecipeSummary(BaseModel):
     slug: str
     name: str
     note: str | None
+    tags: list[str]
     latest_version: int
     cooks: int
     last_cooked_at: str | None

@@ -20,7 +20,14 @@ from health_api.recipes.cooks import (
     list_cooks,
     update_cook,
 )
-from health_api.recipes.models import Cook, CookSummary, Recipe, RecipeSummary, Version
+from health_api.recipes.models import (
+    Cook,
+    CookSummary,
+    Recipe,
+    RecipeSummary,
+    TagCount,
+    Version,
+)
 from health_api.recipes.recipes import (
     RecipeInput,
     RecipeInUse,
@@ -33,6 +40,7 @@ from health_api.recipes.recipes import (
     delete_recipe,
     get_recipe,
     list_recipes,
+    list_tags,
     update_recipe,
     update_version,
 )
@@ -47,10 +55,20 @@ def issues_response(error: InputError) -> JSONResponse:
 
 
 @router.get("/recipes", response_model=list[RecipeSummary])
-def read_recipes(q: Annotated[str | None, Query(max_length=200)] = None):
+def read_recipes(
+    q: Annotated[str | None, Query(max_length=200)] = None,
+    tag: Annotated[str | None, Query(max_length=40)] = None,
+):
     """Recipes, most recently cooked or created first; `q` matches name words."""
     with connect() as connection:
-        return list_recipes(connection, q)
+        return list_recipes(connection, q, tag)
+
+
+@router.get("/recipes/tags", response_model=list[TagCount])
+def read_tags():
+    """Every recipe tag with its number of recipes, most used first."""
+    with connect() as connection:
+        return list_tags(connection)
 
 
 @router.post("/recipes", status_code=201, response_model=Recipe, responses=INVALID)
@@ -150,11 +168,12 @@ def read_cooks(
     q: Annotated[str | None, Query(max_length=200)] = None,
     since: date | None = None,
     until: date | None = None,
+    tag: Annotated[str | None, Query(max_length=40)] = None,
     limit: Annotated[int, Query(ge=1, le=200)] = 50,
 ):
-    """The cooking log, newest first: by recipe slug, name words, or local days."""
+    """The cooking log, newest first: by recipe slug, its tag, name words, or local days."""
     with connect() as connection:
-        return list_cooks(connection, recipe, q, since, until, limit)
+        return list_cooks(connection, recipe, q, since, until, limit, tag)
 
 
 @router.post("/cooks", status_code=201, response_model=Cook, responses=INVALID)

@@ -30,6 +30,9 @@ from health_api.nutrition import public_sums, status, sums
 from health_api.recipes.cooks import MAX_ITEMS, Note, Portions, clean_text, list_cooks
 
 Name = Annotated[str, Field(min_length=1, max_length=200)]
+Tags = Annotated[
+    list[Annotated[str, Field(min_length=1, max_length=40)]] | None, Field(max_length=20)
+]
 Instructions = Annotated[str | None, Field(max_length=20000)]
 Items = Annotated[list[FoodAmount] | None, Field(min_length=1, max_length=MAX_ITEMS)]
 
@@ -53,6 +56,8 @@ class RecipeInput(BaseModel):
 
     name: Name
     note: Note = None
+    # E.g. ["breakfast", "ice cream"]. Default: a fork's parent recipe's tags.
+    tags: Tags = None
     items: Items = None
     portions: Portions | None = None
     instructions: Instructions = None
@@ -83,6 +88,8 @@ class RecipeUpdate(BaseModel):
 
     name: Name | None = None
     note: Note = None
+    # Replaces all tags.
+    tags: Tags = None
 
 
 class VersionUpdate(BaseModel):
@@ -104,6 +111,12 @@ class RecipeNotFound(Exception):
 
 class RecipeInUse(Exception):
     pass
+
+
+def clean_tags(tags: list[str] | None) -> list[str]:
+    """Lowercase, single-spaced, without duplicates, in the given order."""
+    cleaned = (" ".join(tag.split()).lower() for tag in tags or [])
+    return list(dict.fromkeys(tag for tag in cleaned if tag))
 
 
 def recipe_id(connection: Connection, slug: str) -> int:
@@ -216,9 +229,18 @@ def create_recipe(connection: Connection, recipe: RecipeInput) -> str:
     while connection.execute("SELECT 1 FROM recipe.recipes WHERE slug = %s", (slug,)).fetchone():
         suffix += 1
         slug = f"{slugify(name)}-{suffix}"
+    tags = recipe.tags
+    if tags is None and base:
+        # A fork starts in its parent's categories, e.g. a new ice cream flavor.
+        tags = connection.execute(
+            """SELECT r.tags FROM recipe.versions v JOIN recipe.recipes r ON r.id = v.recipe_id
+               WHERE v.id = %s""",
+            (base["id"],),
+        ).fetchone()["tags"]
     new_id = connection.execute(
-        "INSERT INTO recipe.recipes (slug, name, note) VALUES (%s, %s, %s) RETURNING id",
-        (slug, name, clean_text(recipe.note)),
+        """INSERT INTO recipe.recipes (slug, name, note, tags)
+           VALUES (%s, %s, %s, %s) RETURNING id""",
+        (slug, name, clean_text(recipe.note), clean_tags(tags)),
     ).fetchone()["id"]
     insert_version(connection, new_id, recipe, base, cook)
     return slug
@@ -255,9 +277,12 @@ def update_recipe(connection: Connection, slug: str, update: RecipeUpdate) -> No
     connection.execute(
         """UPDATE recipe.recipes SET
                name = CASE WHEN %(set_name)s THEN %(name)s ELSE name END,
-               note = CASE WHEN %(set_note)s THEN %(note)s ELSE note END
+               note = CASE WHEN %(set_note)s THEN %(note)s ELSE note END,
+               tags = CASE WHEN %(set_tags)s THEN %(tags)s ELSE tags END
            WHERE id = %(id)s""",
         {
+            "set_tags": "tags" in given,
+            "tags": clean_tags(update.tags),
             "id": recipe,
             "set_name": "name" in given,
             "name": update.name and update.name.strip(),
@@ -350,7 +375,8 @@ def load_versions(connection: Connection, recipe: int) -> list[dict]:
 
 def get_recipe(connection: Connection, slug: str) -> dict | None:
     recipe = connection.execute(
-        "SELECT id, slug, name, note, created_at FROM recipe.recipes WHERE slug = %s", (slug,)
+        "SELECT id, slug, name, note, tags, created_at FROM recipe.recipes WHERE slug = %s",
+        (slug,),
     ).fetchone()
     if recipe is None:
         return None
@@ -367,6 +393,7 @@ def get_recipe(connection: Connection, slug: str) -> dict | None:
         "slug": recipe["slug"],
         "name": recipe["name"],
         "note": recipe["note"],
+        "tags": recipe["tags"],
         "created_at": local_iso(recipe["created_at"]),
         "versions": load_versions(connection, recipe["id"]),
         "forks": forks,
@@ -374,12 +401,25 @@ def get_recipe(connection: Connection, slug: str) -> dict | None:
     }
 
 
-def list_recipes(connection: Connection, q: str | None) -> list[dict]:
-    """Recipes by name words, most recently cooked or created first."""
+def list_tags(connection: Connection) -> list[dict]:
+    """Every tag with how many recipes carry it, most used first."""
+    return connection.execute(
+        """SELECT tag, count(*) AS count FROM recipe.recipes, unnest(tags) AS tag
+           GROUP BY tag ORDER BY count(*) DESC, tag"""
+    ).fetchall()
+
+
+def list_recipes(connection: Connection, q: str | None, tag: str | None = None) -> list[dict]:
+    """Recipes by name words and a tag, most recently cooked or created first."""
     words = (q or "").split()
-    where = " AND ".join(f"r.name ILIKE %(w{index})s" for index in range(len(words))) or "true"
+    params: dict = {f"w{index}": f"%{word}%" for index, word in enumerate(words)}
+    conditions = [f"r.name ILIKE %(w{index})s" for index in range(len(words))]
+    if tags := clean_tags([tag or ""]):
+        conditions.append("%(tag)s = ANY(r.tags)")
+        params["tag"] = tags[0]
+    where = " AND ".join(conditions) or "true"
     recipes = connection.execute(
-        f"""SELECT r.id, r.slug, r.name, r.note, latest.id AS version_id,
+        f"""SELECT r.id, r.slug, r.name, r.note, r.tags, latest.id AS version_id,
                    latest.number AS latest_version, latest.portions, cooked.cooks,
                    cooked.last_cooked_at
             FROM recipe.recipes r
@@ -394,7 +434,7 @@ def list_recipes(connection: Connection, q: str | None) -> list[dict]:
             ) cooked
             WHERE {where}
             ORDER BY greatest(cooked.last_cooked_at, r.created_at) DESC, r.id DESC""",
-        {f"w{index}": f"%{word}%" for index, word in enumerate(words)},
+        params,
     ).fetchall()
     items = load_amounts(connection, "recipe.version_items", [r["version_id"] for r in recipes])
     return [
@@ -402,6 +442,7 @@ def list_recipes(connection: Connection, q: str | None) -> list[dict]:
             "slug": recipe["slug"],
             "name": recipe["name"],
             "note": recipe["note"],
+            "tags": recipe["tags"],
             "latest_version": recipe["latest_version"],
             "cooks": recipe["cooks"],
             "last_cooked_at": local_iso(recipe["last_cooked_at"]),

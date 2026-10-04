@@ -6,6 +6,7 @@ import pytest
 from health_api.ingredients import changes
 from health_api.log.meals import ItemInput
 from health_api.recipes.cooks import CookInput
+from health_api.recipes.recipes import clean_tags
 from pydantic import ValidationError
 from test_catalog import request
 from test_registration import request_json
@@ -78,6 +79,14 @@ def test_a_branded_variant_replaces_its_generic_food_as_one_change():
     assert changes(actual, actual) == []
 
 
+def test_tags_are_lowercase_single_spaced_and_unique():
+    assert clean_tags(["  Ice   Cream ", "ice cream", "Breakfast", " "]) == [
+        "ice cream",
+        "breakfast",
+    ]
+    assert clean_tags(None) == []
+
+
 def total(totals: dict, column: str) -> Decimal:
     return Decimal(totals[column]["measured"]) + Decimal(totals[column]["estimated"])
 
@@ -95,6 +104,7 @@ def test_recipes_cooks_and_eating_from_a_cook(monkeypatch):
             "/api/recipes",
             {
                 "name": "Test curry",
+                "tags": ["Test Meal Prep", "test curry", "test  curry"],
                 "portions": 4,
                 "instructions": "Fry, add coconut milk, simmer.",
                 "items": [
@@ -108,6 +118,7 @@ def test_recipes_cooks_and_eating_from_a_cook(monkeypatch):
         curry = created.json()
         slugs.append(curry["slug"])
         assert curry["slug"] == "test-curry"
+        assert curry["tags"] == ["test meal prep", "test curry"]
         v1 = curry["versions"][0]
         assert v1["number"] == 1 and v1["parent"] is None and v1["status"] == "measured"
         assert total(v1["per_portion"], "energy_kcal") == pytest.approx(
@@ -225,6 +236,21 @@ def test_recipes_cooks_and_eating_from_a_cook(monkeypatch):
             "number": 2,
         }
         assert len(fork.json()["versions"][0]["items"]) == 4
+        # A fork starts with its parent's tags.
+        assert fork.json()["tags"] == ["test meal prep", "test curry"]
+        tagged = request("/api/recipes?tag=Test%20Curry").json()
+        assert {r["slug"] for r in tagged} == {curry["slug"], fork.json()["slug"]}
+        counts = {t["tag"]: t["count"] for t in request("/api/recipes/tags").json()}
+        assert counts["test curry"] == 2
+        retagged = request_json(
+            "PATCH", f"/api/recipes/{fork.json()['slug']}", {"tags": ["Test tofu"]}
+        )
+        assert retagged.json()["tags"] == ["test tofu"]
+        assert [r["slug"] for r in request("/api/recipes?tag=test%20curry").json()] == [
+            curry["slug"]
+        ]
+        assert len(request("/api/cooks?tag=test%20curry").json()) == 2
+        assert request("/api/cooks?tag=test%20tofu").json() == []
         detail = request(f"/api/recipes/{curry['slug']}").json()
         assert [v["number"] for v in detail["versions"]] == [3, 2, 1]
         assert detail["forks"] == [

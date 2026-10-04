@@ -52,7 +52,8 @@ recipes and what was cooked, `log` for what was eaten.
 - **Search views**: materialized word lists behind the ranked search, refreshed
   after every write.
 - **`recipe.recipes`**, **`recipe.versions`**, **`recipe.version_items`**:
-  recipes as lines of versions; a version is a fixed ingredient list with
+  recipes as lines of versions, with free tags such as `ice cream`; a version
+  is a fixed ingredient list with
   portions, steps, a note, and a parent (another recipe's version for a fork).
 - **`recipe.cooks`** and **`recipe.cook_items`**: the cooking log: when
   something was cooked, from which version, what actually went in, and into how
@@ -105,7 +106,8 @@ Through the HTTP API ([reference](catalog.md#api)):
 6. Keep recipes and a cooking log ([details](recipes.md)): create a recipe or
    a new version with a note on what changed, log a cook with what actually
    went in and its portions, save a good cook as the next version, fork a
-   recipe, and log "one portion of Monday's curry" as a meal item.
+   recipe, tag recipes (e.g. `ice cream`) to browse them, and log "one portion
+   of Monday's curry" as a meal item.
 
 The agent itself reads the photos. The rules it should follow are in
 [Registering branded foods](catalog.md#registering-branded-foods).
