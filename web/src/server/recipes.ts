@@ -19,12 +19,41 @@ const items = z.array(foodAmountSchema).min(1).max(100)
 const note = z.string().max(2000).nullable().optional()
 const portions = z.number().positive().max(100)
 const instructions = z.string().max(20000).nullable().optional()
+const tags = z.array(z.string().min(1).max(40)).max(20)
 
 export const listRecipes = createServerFn({ method: "GET" })
-  .validator(z.object({ q: z.string().max(200).optional() }))
+  .validator(
+    z.object({
+      q: z.string().max(200).optional(),
+      tag: z.string().max(40).optional(),
+    })
+  )
   .handler(async ({ data }) =>
     unwrap(await api.GET("/api/recipes", { params: { query: data } }))
   )
+
+export const listTags = createServerFn({ method: "GET" }).handler(async () =>
+  unwrap(await api.GET("/api/recipes/tags"))
+)
+
+export const updateRecipe = createServerFn({ method: "POST" })
+  .validator(
+    z.object({
+      slug: z.string().min(1).max(200),
+      name: z.string().min(1).max(200).optional(),
+      note,
+      tags: tags.optional(),
+    })
+  )
+  .handler(async ({ data }): Promise<Result<Recipe>> => {
+    const { slug, ...body } = data
+    return result(
+      await api.PATCH("/api/recipes/{slug}", {
+        params: { path: { slug } },
+        body,
+      })
+    )
+  })
 
 export const getRecipe = createServerFn({ method: "GET" })
   .validator(z.object({ slug: z.string().min(1).max(200) }))
@@ -41,6 +70,7 @@ export const createRecipe = createServerFn({ method: "POST" })
     z.object({
       name: z.string().min(1).max(200),
       note,
+      tags: tags.optional(),
       items: items.optional(),
       portions: portions.optional(),
       instructions,
@@ -81,6 +111,7 @@ export const listCooks = createServerFn({ method: "GET" })
     z.object({
       recipe: z.string().max(200).optional(),
       q: z.string().max(200).optional(),
+      tag: z.string().max(40).optional(),
       limit: z.number().int().min(1).max(200).optional(),
     })
   )

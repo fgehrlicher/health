@@ -212,6 +212,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/recipes/tags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read Tags
+         * @description Every recipe tag with its number of recipes, most used first.
+         */
+        get: operations["read_tags_api_recipes_tags_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/recipes/{slug}": {
         parameters: {
             query?: never;
@@ -293,7 +313,7 @@ export interface paths {
         };
         /**
          * Read Cooks
-         * @description The cooking log, newest first: by recipe slug, name words, or local days.
+         * @description The cooking log, newest first: by recipe slug, its tag, name words, or local days.
          */
         get: operations["read_cooks_api_cooks_get"];
         put?: never;
@@ -1051,6 +1071,8 @@ export interface components {
             name: string;
             /** Note */
             note: string | null;
+            /** Tags */
+            tags: string[];
             /** Created At */
             created_at: string;
             /** Versions */
@@ -1072,6 +1094,8 @@ export interface components {
             name: string;
             /** Note */
             note?: string | null;
+            /** Tags */
+            tags?: string[] | null;
             /** Items */
             items?: components["schemas"]["FoodAmount"][] | null;
             /** Portions */
@@ -1097,6 +1121,8 @@ export interface components {
             name: string;
             /** Note */
             note: string | null;
+            /** Tags */
+            tags: string[];
             /** Latest Version */
             latest_version: number;
             /** Cooks */
@@ -1113,6 +1139,8 @@ export interface components {
             name?: string | null;
             /** Note */
             note?: string | null;
+            /** Tags */
+            tags?: string[] | null;
         };
         /** SourceDetail */
         SourceDetail: {
@@ -1189,6 +1217,13 @@ export interface components {
             food_name?: string | null;
             /** Ingredients Text */
             ingredients_text?: string | null;
+        };
+        /** TagCount */
+        TagCount: {
+            /** Tag */
+            tag: string;
+            /** Count */
+            count: number;
         };
         /** ValidationError */
         ValidationError: {
@@ -1727,6 +1762,7 @@ export interface operations {
         parameters: {
             query?: {
                 q?: string | null;
+                tag?: string | null;
             };
             header?: never;
             path?: never;
@@ -1784,6 +1820,26 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    read_tags_api_recipes_tags_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TagCount"][];
+                };
             };
         };
     };
@@ -1958,6 +2014,7 @@ export interface operations {
                 q?: string | null;
                 since?: string | null;
                 until?: string | null;
+                tag?: string | null;
                 limit?: number;
             };
             header?: never;

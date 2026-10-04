@@ -908,6 +908,23 @@
               ],
               "title": "Q"
             }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 40
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Tag"
+            }
           }
         ],
         "responses": {
@@ -979,6 +996,32 @@
           },
           "422": {
             "description": "Invalid input; nothing written"
+          }
+        }
+      }
+    },
+    "/api/recipes/tags": {
+      "get": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Read Tags",
+        "description": "Every recipe tag with its number of recipes, most used first.",
+        "operationId": "read_tags_api_recipes_tags_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TagCount"
+                  },
+                  "type": "array",
+                  "title": "Response Read Tags Api Recipes Tags Get"
+                }
+              }
+            }
           }
         }
       }
@@ -1228,7 +1271,7 @@
           "recipes"
         ],
         "summary": "Read Cooks",
-        "description": "The cooking log, newest first: by recipe slug, name words, or local days.",
+        "description": "The cooking log, newest first: by recipe slug, its tag, name words, or local days.",
         "operationId": "read_cooks_api_cooks_get",
         "parameters": [
           {
@@ -1297,6 +1340,23 @@
                 }
               ],
               "title": "Until"
+            }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 40
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Tag"
             }
           },
           {
@@ -4196,6 +4256,13 @@
             ],
             "title": "Note"
           },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags"
+          },
           "created_at": {
             "type": "string",
             "title": "Created At"
@@ -4227,6 +4294,7 @@
           "slug",
           "name",
           "note",
+          "tags",
           "created_at",
           "versions",
           "forks",
@@ -4253,6 +4321,23 @@
               }
             ],
             "title": "Note"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "maxLength": 40,
+                  "minLength": 1
+                },
+                "type": "array",
+                "maxItems": 20
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags"
           },
           "items": {
             "anyOf": [
@@ -4368,6 +4453,13 @@
             ],
             "title": "Note"
           },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags"
+          },
           "latest_version": {
             "type": "integer",
             "title": "Latest Version"
@@ -4400,6 +4492,7 @@
           "slug",
           "name",
           "note",
+          "tags",
           "latest_version",
           "cooks",
           "last_cooked_at",
@@ -4434,6 +4527,23 @@
               }
             ],
             "title": "Note"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "maxLength": 40,
+                  "minLength": 1
+                },
+                "type": "array",
+                "maxItems": 20
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags"
           }
         },
         "additionalProperties": false,
@@ -4764,6 +4874,24 @@
         "type": "object",
         "title": "SourceTextUpdate",
         "description": "Text read later from the same label, e.g. a second photo of a round cup."
+      },
+      "TagCount": {
+        "properties": {
+          "tag": {
+            "type": "string",
+            "title": "Tag"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tag",
+          "count"
+        ],
+        "title": "TagCount"
       },
       "ValidationError": {
         "properties": {

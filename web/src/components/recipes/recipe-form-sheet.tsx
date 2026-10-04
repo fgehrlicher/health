@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 import { IngredientEditor } from "@/components/recipes/ingredient-editor"
+import { TagInput } from "@/components/recipes/tag-input"
 import { draftFromAmount, toInput } from "@/components/log/meal-sheet"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -28,6 +29,7 @@ import type { Result } from "@/server/recipes"
 export type RecipeFormValues = {
   name: string
   note: string
+  tags: Array<string>
   portions: number
   instructions: string
   items: Array<ItemInput & { food: string }>
@@ -61,6 +63,7 @@ export function RecipeFormSheet({
   notePlaceholder: string
   start: {
     name?: string
+    tags?: Array<string>
     portions?: string
     instructions?: string | null
     items?: Array<Amount>
@@ -68,6 +71,7 @@ export function RecipeFormSheet({
   onSubmit: (values: RecipeFormValues) => Promise<Result<unknown>>
 }) {
   const [name, setName] = useState("")
+  const [tags, setTags] = useState<Array<string>>([])
   const [note, setNote] = useState("")
   const [portions, setPortions] = useState("")
   const [instructions, setInstructions] = useState("")
@@ -78,6 +82,7 @@ export function RecipeFormSheet({
   useEffect(() => {
     if (!open) return
     setName(start.name ?? "")
+    setTags(start.tags ?? [])
     setNote("")
     setPortions(start.portions ?? "")
     setInstructions(start.instructions ?? "")
@@ -92,6 +97,7 @@ export function RecipeFormSheet({
     mutationFn: () =>
       onSubmit({
         name: name.trim(),
+        tags,
         note,
         portions: Number(portions),
         instructions,
@@ -132,6 +138,12 @@ export function RecipeFormSheet({
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                 />
+              </Field>
+            )}
+            {showName && (
+              <Field>
+                <FieldLabel>Tags</FieldLabel>
+                <TagInput tags={tags} onChange={setTags} />
               </Field>
             )}
             <Field>

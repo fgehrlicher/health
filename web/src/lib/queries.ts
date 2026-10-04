@@ -2,7 +2,13 @@ import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query"
 import { getFacets, getFood, searchFoods } from "@/server/catalog"
 import type { FacetFilters, FoodSearch } from "@/server/catalog"
 import { getDay } from "@/server/log"
-import { getCook, getRecipe, listCooks, listRecipes } from "@/server/recipes"
+import {
+  getCook,
+  getRecipe,
+  listCooks,
+  listRecipes,
+  listTags,
+} from "@/server/recipes"
 
 export const dayQuery = (date: string) =>
   queryOptions({
@@ -47,10 +53,17 @@ export const foodsInfiniteQuery = (
       offset + FOODS_PAGE < last.total ? offset + FOODS_PAGE : undefined,
   })
 
-export const recipesQuery = (q?: string) =>
+export const recipesQuery = (search: { q?: string; tag?: string } = {}) =>
   queryOptions({
-    queryKey: ["recipes", q ?? ""],
-    queryFn: () => listRecipes({ data: q ? { q } : {} }),
+    queryKey: ["recipes", search],
+    queryFn: () => listRecipes({ data: search }),
+  })
+
+/** Every recipe tag with its count, most used first. */
+export const tagsQuery = () =>
+  queryOptions({
+    queryKey: ["recipes", "tags"],
+    queryFn: () => listTags(),
   })
 
 export const recipeQuery = (slug: string) =>
@@ -59,7 +72,9 @@ export const recipeQuery = (slug: string) =>
     queryFn: () => getRecipe({ data: { slug } }),
   })
 
-export const cooksQuery = (search: { recipe?: string; q?: string } = {}) =>
+export const cooksQuery = (
+  search: { recipe?: string; q?: string; tag?: string } = {}
+) =>
   queryOptions({
     queryKey: ["cooks", search],
     queryFn: () => listCooks({ data: search }),

@@ -1,4 +1,8 @@
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query"
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router"
 import {
   ArrowLeftIcon,
@@ -16,6 +20,7 @@ import { CookSheet } from "@/components/recipes/cook-sheet"
 import { IngredientList } from "@/components/recipes/ingredient-list"
 import { PortionNutrition } from "@/components/recipes/portion-nutrition"
 import { RecipeFormSheet } from "@/components/recipes/recipe-form-sheet"
+import { TagInput } from "@/components/recipes/tag-input"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -27,7 +32,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { dayLabel, formatNumber } from "@/lib/format"
 import { recipeQuery } from "@/lib/queries"
-import { addVersion, createRecipe } from "@/server/recipes"
+import { addVersion, createRecipe, updateRecipe } from "@/server/recipes"
 import type { CookStart } from "@/components/recipes/cook-sheet"
 import type { Recipe, Version } from "@/lib/api/types"
 
@@ -50,6 +55,19 @@ function RecipePage() {
   const navigate = useNavigate()
   const [editing, setEditing] = useState<Editing>(null)
   const [cooking, setCooking] = useState<CookStart | null>(null)
+  const saveTags = useMutation({
+    mutationFn: (tags: Array<string>) =>
+      updateRecipe({ data: { slug: recipe.slug, tags } }),
+    onSuccess: async (result) => {
+      if (!result.ok) {
+        toast.error(result.issues.map((issue) => issue.message).join("; "))
+        return
+      }
+      queryClient.setQueryData(["recipe", slug], result.value)
+      await queryClient.invalidateQueries({ queryKey: ["recipes"] })
+    },
+    onError: (error) => toast.error(error.message),
+  })
   const latest = recipe.versions[0]
   const first = recipe.versions.at(-1)
   const forkedFrom =
@@ -62,12 +80,13 @@ function RecipePage() {
               editing.kind === "fork"
                 ? `${recipe.name} (variation)`
                 : undefined,
+            tags: recipe.tags,
             portions: editing.version.portions,
             instructions: editing.version.instructions,
             items: editing.version.items,
           }
         : {},
-    [editing, recipe.name]
+    [editing, recipe.name, recipe.tags]
   )
   const cook = (version: Version) =>
     setCooking({
@@ -97,6 +116,12 @@ function RecipePage() {
             {recipe.note && (
               <p className="text-sm text-muted-foreground">{recipe.note}</p>
             )}
+            <TagInput
+              className="mt-2"
+              tags={recipe.tags}
+              disabled={saveTags.isPending}
+              onChange={(tags) => saveTags.mutate(tags)}
+            />
             <div className="mt-2 flex flex-wrap gap-1.5">
               <Badge variant="secondary">
                 {recipe.versions.length}{" "}
@@ -197,6 +222,7 @@ function RecipePage() {
               data: {
                 name: values.name,
                 note: values.note,
+                tags: values.tags,
                 portions: values.portions,
                 items: values.items,
                 instructions: values.instructions,

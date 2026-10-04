@@ -15,10 +15,13 @@ its own.
   cooked dish picked from the cooking log. The form shows the
   calculated calories and protein before saving, using the API's dry run. A
   meal without foods is logged as unknown. Every meal can be edited or deleted.
-- **Recipes** (`/recipes`): recipe cards with the latest version's calories,
-  protein, and energy split per portion, a name filter, and the cooking log
-  with portions left. **New recipe** and **Log improvised cook** open forms.
-- **Recipe** (`/recipes/{slug}`): the history of versions, newest first. Each
+- **Recipes** (`/recipes`, `/recipes?tag=ice%20cream`): recipe cards with
+  their tags and the latest version's calories, protein, and energy split per
+  portion, a name filter, and the cooking log with portions left. Tags with
+  their counts form a sidebar on wide screens and chips on phones; choosing one
+  narrows the recipes and the cooking log, and a new recipe starts with it. **New recipe** and **Log improvised cook** open forms.
+- **Recipe** (`/recipes/{slug}`): its tags, edited in place with suggestions
+  from existing tags, and the history of versions, newest first. Each
   shows its note on what changed, the ingredients that differ from its parent
   (e.g. "Rice 600 → 400 g"), nutrition per portion, ingredients and steps, and
   the cooks made from it. Each version can be cooked, developed into a new

@@ -160,3 +160,33 @@ test("swap a generic ingredient for a branded variant when cooking", async ({
   ).toBeVisible()
   await expect(page.getByText("99", { exact: true })).toBeVisible()
 })
+
+test("browse recipes by tag and edit a recipe's tags", async ({
+  page,
+  request,
+}) => {
+  const created = await request.post(`${API}/api/recipes`, {
+    data: {
+      name: "E2E Sorbet",
+      tags: ["E2E Dessert"],
+      portions: 2,
+      items: [{ food: "bls4-c352032", amount: 100 }],
+    },
+  })
+  expect(created.status()).toBe(201)
+
+  await open(page, "/recipes")
+  await page.getByRole("link", { name: /^e2e dessert/i }).click()
+  await expect(page).toHaveURL(/tag=e2e/)
+  await expect(page.getByRole("heading", { name: "E2e dessert" })).toBeVisible()
+  await page.getByRole("link", { name: /E2E Sorbet/ }).click()
+
+  await expect(page.getByRole("heading", { name: "E2E Sorbet" })).toBeVisible()
+  const input = page.getByLabel("Add tag")
+  await input.fill("E2E  Ice Cream")
+  await input.press("Enter")
+  await expect(page.getByText("e2e ice cream", { exact: true })).toBeVisible()
+
+  await open(page, "/recipes?tag=e2e%20ice%20cream")
+  await expect(page.getByRole("link", { name: /E2E Sorbet/ })).toBeVisible()
+})

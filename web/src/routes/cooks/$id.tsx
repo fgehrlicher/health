@@ -275,6 +275,7 @@ function CookPage() {
             data: {
               name: values.name,
               note: values.note,
+              tags: values.tags,
               items,
               portions,
               instructions: values.instructions,
