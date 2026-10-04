@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { Link, createFileRoute } from "@tanstack/react-router"
-import { ArrowLeftIcon, PlusIcon } from "lucide-react"
+import { ArrowLeftIcon, CameraIcon, PlusIcon } from "lucide-react"
 import { useState } from "react"
 import { FoodGroupPicker } from "@/components/food-group-picker"
 import { groupIcon } from "@/components/food-groups"
@@ -9,6 +9,7 @@ import { VariantOfPicker } from "@/components/variant-of-picker"
 import { CompositionBar } from "@/components/nutrition/composition-bar"
 import { EnergyDonut } from "@/components/nutrition/energy-donut"
 import { ReferenceIntakeBars } from "@/components/nutrition/reference-intake-bars"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -105,6 +106,20 @@ function FoodPage() {
         </div>
         {food.kind === "branded" && <VariantOfPicker food={food} />}
       </div>
+
+      {food.label_gaps.length > 0 && (
+        <Alert>
+          <CameraIcon />
+          <AlertTitle>Label incomplete: photograph next time</AlertTitle>
+          <AlertDescription>
+            <ul className="list-disc pl-4">
+              {food.label_gaps.map((gap) => (
+                <li key={gap.field}>{gap.label}</li>
+              ))}
+            </ul>
+          </AlertDescription>
+        </Alert>
+      )}
 
       {food.variants.length > 0 && (
         <section className="flex flex-col gap-2">

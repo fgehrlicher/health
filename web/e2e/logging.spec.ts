@@ -169,3 +169,19 @@ test("an unknown food shows the not-found page", async ({ page }) => {
   expect(response?.status()).toBe(404)
   await expect(page.getByText("This page does not exist.")).toBeVisible()
 })
+
+test("products with an incomplete label are marked and filterable", async ({
+  page,
+}) => {
+  // The e2e product has no legal name, so its label is incomplete.
+  await open(page, "/foods?kind=branded")
+  await page.getByRole("button", { name: /Needs photos/ }).click()
+  await expect(page).toHaveURL(/incomplete=true/)
+  const card = page.getByRole("link", { name: /E2E Quark-Creme/ })
+  await expect(card.getByText("needs photos")).toBeVisible()
+  await card.click()
+  await expect(
+    page.getByText("Label incomplete: photograph next time")
+  ).toBeVisible()
+  await expect(page.getByText(/^Legal name:/)).toBeVisible()
+})

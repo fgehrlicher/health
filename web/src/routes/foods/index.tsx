@@ -3,7 +3,7 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query"
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router"
-import { ListFilterIcon, SearchIcon, XIcon } from "lucide-react"
+import { CameraIcon, ListFilterIcon, SearchIcon, XIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { z } from "zod"
 import { FoodGroupNav, groupIcon } from "@/components/food-groups"
@@ -51,6 +51,8 @@ const searchSchema = z.object({
   brand: z.string().max(100).optional(),
   kind: z.string().optional(),
   prep: z.string().optional(),
+  // Only products whose label still lacks something.
+  incomplete: z.boolean().optional(),
   sort: z.string().optional(),
 })
 type Search = z.infer<typeof searchSchema>
@@ -62,6 +64,7 @@ function listSearch(search: Search) {
     brand: search.brand,
     kind: search.kind,
     preparation_state: search.prep,
+    incomplete: search.incomplete,
     // Without a query the API lists alphabetically for "relevance".
     sort: search.sort,
   }
@@ -74,6 +77,7 @@ function facetFilters(search: Search) {
     brand: search.brand,
     kind: search.kind,
     preparation_state: search.prep,
+    incomplete: search.incomplete,
   }
 }
 
@@ -128,6 +132,7 @@ function FoodsPage() {
     search.brand,
     search.kind,
     search.prep,
+    search.incomplete,
   ].filter(Boolean).length
   const clearFilters = () => {
     setText("")
@@ -235,6 +240,25 @@ function FoodsPage() {
               options={facetOptions(facets.preparation_states)}
               onChange={(value) => set("prep", value)}
             />
+            {(facets.incomplete > 0 || search.incomplete) && (
+              <Button
+                variant={search.incomplete ? "secondary" : "outline"}
+                size="sm"
+                aria-pressed={!!search.incomplete}
+                onClick={() =>
+                  void navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      incomplete: prev.incomplete ? undefined : true,
+                    }),
+                    replace: true,
+                  })
+                }
+              >
+                <CameraIcon /> Needs photos (
+                {formatNumber(facets.incomplete, 0)})
+              </Button>
+            )}
             {activeFilters > 0 && (
               <Button
                 variant="ghost"
@@ -335,7 +359,15 @@ function FoodCard({ food }: { food: FoodSummary }) {
           label="Carbs"
           value={source?.carbs_g}
         />
-        {food.kind === "branded" ? (
+        {food.label_gaps.length > 0 ? (
+          <Badge
+            variant="outline"
+            className="ml-auto"
+            title={food.label_gaps.map((gap) => gap.label).join("\n")}
+          >
+            <CameraIcon aria-hidden /> needs photos
+          </Badge>
+        ) : food.kind === "branded" ? (
           <Badge variant="secondary" className="ml-auto">
             branded
           </Badge>

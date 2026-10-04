@@ -38,7 +38,9 @@ its own.
   phones. Type, preparation, and sort ("Most protein per kcal", "Fewest
   calories", …) are menus. Categories and menus list only values that match
   the other filters, with counts: with "Branded" chosen, only categories
-  holding branded foods remain, and a **Brand** menu lists the brands. **Clear filters** appears while search,
+  holding branded foods remain, and a **Brand** menu lists the brands. **Needs photos** (shown while any product
+  has an incomplete label, with its count) lists only those products, marked
+  "needs photos" on their cards. **Clear filters** appears while search,
   category, type, or preparation is set, also in an empty result, and keeps
   the sort; **Load more** adds the next 40. Category, search,
   filters, and sort are in the URL (`/foods?group=F`), so back and new tabs
@@ -48,7 +50,9 @@ its own.
   label with ingredients, and vitamins and minerals as a share of the EU daily
   reference intake, plus **Log this food**. A generic food's group links to
   its category; a product has a category menu to set it, and its brand links
-  to all products of that brand. A product can be linked to the generic food
+  to all products of that brand. A product whose label still lacks something (ingredient list,
+  legal name, barcode, or a mandatory nutrition row) shows **Label incomplete**
+  with what to photograph next time. A product can be linked to the generic food
   it is a kind of (**Kind of**), and a generic food lists its linked
   **Products of this kind** with their calories and protein.
 

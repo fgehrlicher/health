@@ -393,6 +393,8 @@ export interface components {
             groups: components["schemas"]["FacetGroup"][];
             /** Brands */
             brands: components["schemas"]["FacetValue"][];
+            /** Incomplete */
+            incomplete: number;
         };
         /**
          * Change
@@ -593,6 +595,8 @@ export interface components {
             brand: string | null;
             /** Barcode */
             barcode: string | null;
+            /** Label Gaps */
+            label_gaps: components["schemas"]["LabelGap"][];
             /** Sources */
             sources: components["schemas"]["SourceDetail"][];
             /** Portions */
@@ -690,6 +694,8 @@ export interface components {
             /** Source Count */
             source_count: number;
             source: components["schemas"]["NutritionSource"] | null;
+            /** Label Gaps */
+            label_gaps: components["schemas"]["LabelGap"][];
         };
         /**
          * FoodUpdate
@@ -749,6 +755,16 @@ export interface components {
              * @default false
              */
             estimated?: boolean;
+        };
+        /**
+         * LabelGap
+         * @description Something a product's current label still lacks, to photograph next time.
+         */
+        LabelGap: {
+            /** Field */
+            field: string;
+            /** Label */
+            label: string;
         };
         /** Meal */
         Meal: {
@@ -1295,6 +1311,8 @@ export interface operations {
                 min_protein_density?: number | string | null;
                 min_fiber?: number | string | null;
                 max_energy?: number | string | null;
+                /** @description only products whose label still lacks something */
+                incomplete?: boolean;
                 sort?: "relevance" | "name" | "name_desc" | "group_asc" | "group_desc" | "code_asc" | "code_desc" | "source_asc" | "source_desc" | "energy_asc" | "energy_desc" | "protein_asc" | "protein_desc" | "protein_density_asc" | "protein_density_desc" | "fat_asc" | "fat_desc" | "carbs_asc" | "carbs_desc" | "fiber_asc" | "fiber_desc";
                 limit?: number;
                 offset?: number;
@@ -1373,6 +1391,7 @@ export interface operations {
                 group?: string | null;
                 brand?: string | null;
                 preparation_state?: string | null;
+                incomplete?: boolean;
             };
             header?: never;
             path?: never;
