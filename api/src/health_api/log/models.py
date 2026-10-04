@@ -25,13 +25,39 @@ NutrientTotals = create_model(
 )
 
 
-class MealItem(BaseModel):
+class Amount(BaseModel):
+    """An amount of a catalog source with its nutrition."""
+
     id: int
     food: str
     food_name: str
     source_id: int
     source_name: str
     amount: str
+    unit: str
+    estimated: bool
+    nutrition: Nutrition
+
+
+class RecipeRef(BaseModel):
+    slug: str
+    name: str
+
+
+class MealItem(BaseModel):
+    """A catalog food, or portions of a cook (then `food` and `source_id` are null)."""
+
+    id: int
+    food: str | None
+    # The food's name, or the cook's.
+    food_name: str
+    source_id: int | None
+    source_name: str | None
+    cook_id: int | None
+    recipe: RecipeRef | None
+    cooked_at: str | None
+    amount: str
+    # g or ml for a food; "portion" for a cook.
     unit: str
     estimated: bool
     nutrition: Nutrition

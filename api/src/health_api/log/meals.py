@@ -1,43 +1,48 @@
 """Meals: what was eaten, when, and how much. Nutrition always comes from the catalog.
 
-Callers send "this much of this": catalog foods with amounts. They cannot send
-nutrition values; every number is the referenced source's value times the
-amount, calculated when read. A meal without items is logged with unknown
-nutrition.
+Callers send "this much of this": catalog foods with amounts, or portions of a
+cook from the cooking log. They cannot send nutrition values; every number is
+the referenced source's value times the amount (for a cook: its ingredients'
+total per portion), calculated when read. A meal without items is logged with
+unknown nutrition.
 """
 
-import os
-from datetime import UTC, date, datetime, time, timedelta
+from datetime import date, datetime
 from decimal import Decimal
 from typing import Annotated, Literal
-from zoneinfo import ZoneInfo
 
 from psycopg import Connection
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from health_api.catalog.repository import NUTRIENTS
+from health_api.clock import day_bounds, timezone
+from health_api.ingredients import (
+    FoodAmount,
+    InputError,
+    load_amounts,
+    public_amount,
+    resolve_amount,
+)
+from health_api.nutrition import item_values, rounded_values, status, totals
+from health_api.recipes.cooks import cook_sources
 
 MealKind = Literal["breakfast", "lunch", "dinner", "snack"]
-MAX_AMOUNT = Decimal(5000)
 MAX_ITEMS = 100
-# Accept slightly future times from clock skew, not planned meals.
-FUTURE_TOLERANCE = timedelta(minutes=10)
-
-
-def timezone() -> ZoneInfo:
-    """The person's local zone; days start at local midnight."""
-    return ZoneInfo(os.environ.get("HEALTH_TIMEZONE", "Europe/Berlin"))
+MAX_PORTIONS = Decimal(20)
 
 
 class ItemInput(BaseModel):
-    """One food in a meal: a catalog food and how much, as an amount or a portion."""
+    """One thing eaten: a catalog food (amount or portion), or portions of a cook."""
 
     model_config = ConfigDict(extra="forbid")
 
-    food: Annotated[str, Field(min_length=1, max_length=200, description="catalog slug")]
+    food: Annotated[str | None, Field(min_length=1, max_length=200, description="catalog slug")] = (
+        None
+    )
+    # A cooked dish from the cooking log; `amount` is then in its portions.
+    cook: int | None = None
     # Default: the food's BLS 4.0 source, otherwise its newest source.
     source_id: int | None = None
-    # In the source's unit (g or ml). Give this or a portion, not both.
+    # In the source's unit (g or ml), or portions of a cook. Give this or a portion.
     amount: Annotated[Decimal | None, Field(gt=0, max_digits=10, decimal_places=3)] = None
     # A named portion of the food, e.g. "Becher", times count.
     portion: Annotated[str | None, Field(min_length=1, max_length=60)] = None
@@ -47,11 +52,16 @@ class ItemInput(BaseModel):
     estimated: bool = False
 
     @model_validator(mode="after")
-    def amount_or_portion(self):
-        if (self.amount is None) == (self.portion is None):
-            raise ValueError("give either amount or portion")
-        if self.count is not None and self.portion is None:
-            raise ValueError("count applies only to a portion")
+    def food_or_cook(self):
+        if (self.food is None) == (self.cook is None):
+            raise ValueError("give either food or cook")
+        if self.cook is not None:
+            if self.amount is None:
+                raise ValueError("give the portions of the cook as amount")
+            if self.source_id is not None or self.portion is not None or self.count is not None:
+                raise ValueError("a cook takes only amount and estimated")
+            return self
+        FoodAmount.model_validate(self.model_dump(exclude={"cook"}))
         return self
 
 
@@ -78,87 +88,42 @@ class MealUpdate(BaseModel):
     items: Annotated[list[ItemInput] | None, Field(max_length=MAX_ITEMS)] = None
 
 
-class LogError(Exception):
-    def __init__(self, issues: list[dict]):
-        super().__init__("; ".join(issue["message"] for issue in issues))
-        self.issues = issues
-
-
-def local_time(value: datetime | None) -> datetime:
-    zone = timezone()
-    if value is None:
-        return datetime.now(zone)
-    value = value.replace(tzinfo=zone) if value.tzinfo is None else value
-    if value > datetime.now(UTC) + FUTURE_TOLERANCE:
-        raise LogError([{"field": "eaten_at", "message": "lies in the future"}])
-    return value
-
-
 def resolve_items(connection: Connection, items: list[ItemInput]) -> list[dict]:
-    """Find each item's source and turn portions into amounts; fail with all issues."""
+    """Find each item's source or cook and its amount; fail with all issues."""
     rows, issues = [], []
     for index, item in enumerate(items):
         field = f"items.{index}"
-        food = connection.execute(
-            "SELECT id FROM catalog.foods WHERE slug = %s", (item.food,)
-        ).fetchone()
-        if food is None:
-            issues.append({"field": f"{field}.food", "message": f"unknown food {item.food!r}"})
-            continue
-        source = connection.execute(
-            """SELECT id, reference_unit FROM catalog.food_sources
-               WHERE food_id = %(food)s AND (%(source)s::bigint IS NULL OR id = %(source)s)
-               ORDER BY (source_name = 'BLS 4.0') DESC, id DESC
-               LIMIT 1""",
-            {"food": food["id"], "source": item.source_id},
-        ).fetchone()
-        if source is None:
-            message = f"source {item.source_id} is not a source of {item.food!r}"
-            issues.append({"field": f"{field}.source_id", "message": message})
-            continue
-        amount = item.amount
-        if item.portion is not None:
-            portion = connection.execute(
-                """SELECT quantity, unit FROM catalog.food_portions
-                   WHERE food_id = %s AND lower(name) = lower(%s)""",
-                (food["id"], item.portion),
+        if item.cook is not None:
+            found = connection.execute(
+                "SELECT 1 FROM recipe.cooks WHERE id = %s", (item.cook,)
             ).fetchone()
-            if portion is None:
-                names = [
-                    row["name"]
-                    for row in connection.execute(
-                        "SELECT name FROM catalog.food_portions WHERE food_id = %s ORDER BY name",
-                        (food["id"],),
-                    )
-                ]
-                message = f"{item.food!r} has no portion {item.portion!r}; known: {names}"
-                issues.append({"field": f"{field}.portion", "message": message})
-                continue
-            if portion["unit"] != source["reference_unit"]:
-                message = (
-                    f"portion {item.portion!r} is in {portion['unit']}, but source "
-                    f"{source['id']} is per {source['reference_unit']}; pick a source_id in "
-                    f"{portion['unit']} or give an amount"
+            if found is None:
+                issues.append({"field": f"{field}.cook", "message": f"unknown cook {item.cook}"})
+            elif item.amount > MAX_PORTIONS:
+                issues.append({"field": field, "message": f"more than {MAX_PORTIONS} portions"})
+            else:
+                rows.append(
+                    {"cook_id": item.cook, "amount": item.amount, "estimated": item.estimated}
                 )
-                issues.append({"field": f"{field}.portion", "message": message})
-                continue
-            amount = portion["quantity"] * (item.count or 1)
-        if amount > MAX_AMOUNT:
-            unit = source["reference_unit"]
-            issues.append({"field": field, "message": f"more than {MAX_AMOUNT} {unit}"})
             continue
-        rows.append({"source_id": source["id"], "amount": amount, "estimated": item.estimated})
+        row, issue = resolve_amount(
+            connection, FoodAmount.model_validate(item.model_dump(exclude={"cook"})), field
+        )
+        if issue:
+            issues.append(issue)
+        else:
+            rows.append(row)
     if issues:
-        raise LogError(issues)
+        raise InputError(issues)
     return rows
 
 
 def insert_items(connection: Connection, meal_id: int, rows: list[dict]) -> None:
     for row in rows:
         connection.execute(
-            """INSERT INTO log.meal_items (meal_id, source_id, amount, estimated)
-               VALUES (%(meal_id)s, %(source_id)s, %(amount)s, %(estimated)s)""",
-            {**row, "meal_id": meal_id},
+            """INSERT INTO log.meal_items (meal_id, source_id, cook_id, amount, estimated)
+               VALUES (%(meal_id)s, %(source_id)s, %(cook_id)s, %(amount)s, %(estimated)s)""",
+            {"source_id": None, "cook_id": None} | row | {"meal_id": meal_id},
         )
 
 
@@ -167,21 +132,28 @@ def clean_note(note: str | None) -> str | None:
     return note.strip() or None if note is not None else None
 
 
-def rounded(column: str, value: Decimal) -> str:
-    places = Decimal(1) if column.startswith("energy") else Decimal("0.01")
-    return str(value.quantize(places))
-
-
-def item_values(item: dict) -> dict[str, Decimal | None]:
-    """Each nutrient for the eaten amount; None where the source has no value."""
-    factor = item["amount"] / item["reference_quantity"]
-    return {column: None if item[column] is None else item[column] * factor for column in NUTRIENTS}
-
-
-def status(items: list[dict]) -> Literal["measured", "estimated", "unknown"]:
-    if not items:
-        return "unknown"
-    return "estimated" if any(item["estimated"] for item in items) else "measured"
+def cook_items(connection: Connection, meal_ids: list[int]) -> dict[int, list[dict]]:
+    """Portions of cooks, shaped like source amounts: the cook's total per its portions."""
+    rows = connection.execute(
+        """SELECT id, meal_id, cook_id, amount, estimated FROM log.meal_items
+           WHERE meal_id = ANY(%s) AND cook_id IS NOT NULL ORDER BY id""",
+        (meal_ids,),
+    ).fetchall()
+    cooks = cook_sources(connection, sorted({row["cook_id"] for row in rows}))
+    result: dict[int, list[dict]] = {}
+    for row in rows:
+        cook = cooks[row["cook_id"]]
+        result.setdefault(row["meal_id"], []).append(
+            {
+                **row,
+                "cook": cook,
+                "own_estimated": row["estimated"],
+                "estimated": row["estimated"] or cook["estimated"],
+                "reference_quantity": cook["portions"],
+                **cook["values"],
+            }
+        )
+    return result
 
 
 def load_meals(connection: Connection, where: str, params: dict) -> list[dict]:
@@ -198,19 +170,10 @@ def load_meals_with_items(
     ).fetchall()
     if not meals:
         return []
-    items: dict[int, list] = {}
-    for item in connection.execute(
-        f"""SELECT i.id, i.meal_id, f.slug AS food, f.name AS food_name, i.source_id,
-                   s.source_name, i.amount, s.reference_unit AS unit, i.estimated,
-                   s.reference_quantity, {", ".join(f"s.{c}" for c in NUTRIENTS)}
-            FROM log.meal_items i
-            JOIN catalog.food_sources s ON s.id = i.source_id
-            JOIN catalog.foods f ON f.id = s.food_id
-            WHERE i.meal_id = ANY(%s)
-            ORDER BY i.id""",
-        ([meal["id"] for meal in meals],),
-    ):
-        items.setdefault(item["meal_id"], []).append(item)
+    meal_ids = [meal["id"] for meal in meals]
+    items = load_amounts(connection, "log.meal_items", meal_ids)
+    for meal_id, portions in cook_items(connection, meal_ids).items():
+        items[meal_id] = sorted(items.get(meal_id, []) + portions, key=lambda item: item["id"])
     zone = timezone()
     return [
         (
@@ -230,52 +193,28 @@ def load_meals_with_items(
 
 
 def public_item(item: dict) -> dict:
+    if "cook" not in item:
+        return public_amount(item) | {"cook_id": None, "recipe": None, "cooked_at": None}
+    cook = item["cook"]
     return {
         "id": item["id"],
-        "food": item["food"],
-        "food_name": item["food_name"],
-        "source_id": item["source_id"],
-        "source_name": item["source_name"],
+        "food": None,
+        "food_name": cook["name"],
+        "source_id": None,
+        "source_name": None,
+        "cook_id": cook["id"],
+        "recipe": cook["recipe"],
+        "cooked_at": cook["cooked_at"].astimezone(timezone()).isoformat(),
         "amount": str(item["amount"]),
-        "unit": item["unit"],
-        "estimated": item["estimated"],
-        "nutrition": {
-            column: None if value is None else rounded(column, value)
-            for column, value in item_values(item).items()
-        },
+        "unit": "portion",
+        "estimated": item["own_estimated"],
+        "nutrition": rounded_values(item_values(item)),
     }
-
-
-def totals(items: list[dict]) -> dict:
-    """Per nutrient: sums of measured and estimated items, and items lacking a value."""
-    result = {}
-    for column in NUTRIENTS:
-        measured = estimated = Decimal(0)
-        missing = 0
-        for item in items:
-            value = item_values(item)[column]
-            if value is None:
-                missing += 1
-            elif item["estimated"]:
-                estimated += value
-            else:
-                measured += value
-        result[column] = {
-            "measured": rounded(column, measured),
-            "estimated": rounded(column, estimated),
-            "items_without_value": missing,
-        }
-    return result
 
 
 def get_meal(connection: Connection, meal_id: int) -> dict | None:
     meals = load_meals(connection, "id = %(id)s", {"id": meal_id})
     return meals[0] if meals else None
-
-
-def day_bounds(day: date) -> tuple[datetime, datetime]:
-    zone = timezone()
-    return datetime.combine(day, time(), zone), datetime.combine(day + timedelta(1), time(), zone)
 
 
 def day_summary(connection: Connection, day: date) -> dict:

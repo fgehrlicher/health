@@ -225,6 +225,92 @@ $$;
 CREATE UNIQUE INDEX food_search_vocabulary_word_idx ON catalog.food_search_vocabulary (word);
 CREATE INDEX food_search_vocabulary_trgm_idx ON catalog.food_search_vocabulary USING gin (word gin_trgm_ops);
 
+-- Recipes and the cooking log. A recipe is a line of versions; a version is a
+-- fixed ingredient list that only changes by adding a new version. A cook is one
+-- time something was cooked, with what actually went into the pot. Nutrition is
+-- never stored; it is always the ingredients' source values times the amounts.
+CREATE SCHEMA recipe;
+
+CREATE TABLE recipe.recipes (
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    slug text NOT NULL UNIQUE,
+    name text NOT NULL,
+    -- What the dish is about, stored as written.
+    note text,
+    created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE recipe.versions (
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    recipe_id bigint NOT NULL REFERENCES recipe.recipes(id) ON DELETE CASCADE,
+    -- 1, 2, 3, ... within the recipe.
+    number integer NOT NULL CHECK (number > 0),
+    -- The version this one was developed from: usually an earlier version of the
+    -- same recipe, or another recipe's version for a fork. NULL for a first idea.
+    -- Checked at statement end, so a recipe's versions delete together.
+    parent_id bigint REFERENCES recipe.versions(id),
+    -- The cook this version was saved from, when a cook turned out well.
+    from_cook_id bigint,
+    -- What changed and why, e.g. "less salt: v3 was too salty".
+    note text,
+    -- Steps as free text.
+    instructions text,
+    -- How many portions the ingredients make.
+    portions numeric NOT NULL CHECK (portions > 0),
+    created_at timestamptz NOT NULL DEFAULT now(),
+    UNIQUE (recipe_id, number)
+);
+
+CREATE INDEX versions_parent_id_idx ON recipe.versions (parent_id);
+
+-- "This much of this" per version: a catalog source and its amount.
+CREATE TABLE recipe.version_items (
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    version_id bigint NOT NULL REFERENCES recipe.versions(id) ON DELETE CASCADE,
+    source_id bigint NOT NULL REFERENCES catalog.food_sources(id) ON DELETE RESTRICT,
+    -- In the source's reference unit (g or ml).
+    amount numeric NOT NULL CHECK (amount > 0),
+    estimated boolean NOT NULL DEFAULT false
+);
+
+CREATE INDEX version_items_version_id_idx ON recipe.version_items (version_id);
+CREATE INDEX version_items_source_id_idx ON recipe.version_items (source_id);
+
+-- One time something was cooked: the cooking log.
+CREATE TABLE recipe.cooks (
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    -- The version cooked from; NULL for an improvised dish. A cooked version stays.
+    version_id bigint REFERENCES recipe.versions(id),
+    -- Shown in the log; the recipe's name unless improvised.
+    name text NOT NULL,
+    cooked_at timestamptz NOT NULL,
+    -- Equal parts the pot was split into; one portion is 1/portions of everything.
+    portions numeric NOT NULL CHECK (portions > 0),
+    -- Weight of the finished dish when weighed, in g.
+    weight_g numeric CHECK (weight_g > 0),
+    -- How it turned out, e.g. "too watery".
+    note text,
+    created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX cooks_version_id_idx ON recipe.cooks (version_id);
+CREATE INDEX cooks_cooked_at_idx ON recipe.cooks (cooked_at);
+
+ALTER TABLE recipe.versions ADD FOREIGN KEY (from_cook_id)
+    REFERENCES recipe.cooks(id) ON DELETE SET NULL;
+
+-- What actually went into the pot, which often differs from the version.
+CREATE TABLE recipe.cook_items (
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    cook_id bigint NOT NULL REFERENCES recipe.cooks(id) ON DELETE CASCADE,
+    source_id bigint NOT NULL REFERENCES catalog.food_sources(id) ON DELETE RESTRICT,
+    amount numeric NOT NULL CHECK (amount > 0),
+    estimated boolean NOT NULL DEFAULT false
+);
+
+CREATE INDEX cook_items_cook_id_idx ON recipe.cook_items (cook_id);
+CREATE INDEX cook_items_source_id_idx ON recipe.cook_items (source_id);
+
 -- Consumption log: what was eaten, when, and how much. Nutrition is never
 -- stored here; it is always the referenced source's value times the amount.
 CREATE SCHEMA log;
@@ -243,17 +329,22 @@ CREATE TABLE log.meals (
 
 CREATE INDEX meals_eaten_at_idx ON log.meals (eaten_at);
 
--- "This much of this": a catalog source and the amount eaten.
+-- "This much of this": a catalog source and the amount eaten, or portions of
+-- a cooked dish.
 CREATE TABLE log.meal_items (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     meal_id bigint NOT NULL REFERENCES log.meals(id) ON DELETE CASCADE,
     -- The exact source (e.g. one label version); an eaten food cannot be deleted.
-    source_id bigint NOT NULL REFERENCES catalog.food_sources(id) ON DELETE RESTRICT,
-    -- In the source's reference unit (g or ml).
+    source_id bigint REFERENCES catalog.food_sources(id) ON DELETE RESTRICT,
+    -- A cooked dish; nutrition follows its ingredients, so an eaten cook stays.
+    cook_id bigint REFERENCES recipe.cooks(id) ON DELETE RESTRICT,
+    -- In the source's reference unit (g or ml), or portions of the cook.
     amount numeric NOT NULL,
     -- Guessed rather than weighed or read from a package.
-    estimated boolean NOT NULL DEFAULT false
+    estimated boolean NOT NULL DEFAULT false,
+    CHECK (num_nonnulls(source_id, cook_id) = 1)
 );
 
 CREATE INDEX meal_items_meal_id_idx ON log.meal_items (meal_id);
 CREATE INDEX meal_items_source_id_idx ON log.meal_items (source_id);
+CREATE INDEX meal_items_cook_id_idx ON log.meal_items (cook_id);

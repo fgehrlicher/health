@@ -5,7 +5,9 @@ from decimal import Decimal
 import psycopg
 import pytest
 from health_api.catalog.repository import NUTRIENTS
-from health_api.log.meals import ItemInput, MealInput, day_bounds, status, totals
+from health_api.clock import day_bounds
+from health_api.log.meals import ItemInput, MealInput
+from health_api.nutrition import status, totals
 from pydantic import ValidationError
 from test_catalog import request
 from test_registration import QUARK, request_json

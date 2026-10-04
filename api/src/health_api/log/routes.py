@@ -6,16 +6,16 @@ import psycopg
 from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import JSONResponse
 
+from health_api.clock import local_time
 from health_api.db import connect
+from health_api.ingredients import InputError
 from health_api.log.meals import (
-    LogError,
     MealInput,
     MealUpdate,
     clean_note,
     day_summary,
     get_meal,
     insert_items,
-    local_time,
     resolve_items,
 )
 from health_api.log.models import Day, Meal
@@ -23,7 +23,7 @@ from health_api.log.models import Day, Meal
 router = APIRouter(prefix="/api/log", tags=["log"])
 
 
-def issues_response(error: LogError) -> JSONResponse:
+def issues_response(error: InputError) -> JSONResponse:
     return JSONResponse(status_code=422, content={"detail": error.issues})
 
 
@@ -46,7 +46,7 @@ def create_meal(meal: MealInput, response: Response, dry_run: bool = False):
             result = get_meal(connection, meal_id)
             if dry_run:
                 raise psycopg.Rollback(transaction)
-    except LogError as error:
+    except InputError as error:
         return issues_response(error)
     if dry_run:
         response.status_code = 200
@@ -79,7 +79,7 @@ def update_meal(meal_id: int, update: MealUpdate):
             if found is None:
                 raise HTTPException(status_code=404, detail="No such meal")
             if "eaten_at" in given and update.eaten_at is None:
-                raise LogError([{"field": "eaten_at", "message": "cannot be cleared"}])
+                raise InputError([{"field": "eaten_at", "message": "cannot be cleared"}])
             if update.items is not None:
                 rows = resolve_items(connection, update.items)
                 connection.execute("DELETE FROM log.meal_items WHERE meal_id = %s", (meal_id,))
@@ -101,7 +101,7 @@ def update_meal(meal_id: int, update: MealUpdate):
                 },
             )
             return get_meal(connection, meal_id)
-    except LogError as error:
+    except InputError as error:
         return issues_response(error)
 
 

@@ -13,7 +13,8 @@ characters, stored as written and never interpreted. An item is a catalog food a
 eaten, e.g. 400 g of the peach quark. A single snack is a meal with one item.
 
 Callers never send nutrition values, and the log stores none. Every value is
-calculated when read: the referenced source's value times the amount. A
+calculated when read: the referenced source's value times the amount, or for a
+cooked dish its ingredients' total per portion. A
 corrected catalog value therefore also corrects past days. A new recipe of a
 product must be registered as a new source, not by changing the old one, so
 meals keep pointing at what was actually eaten. Sources referenced by a meal
@@ -33,7 +34,9 @@ rather than getting an invented number.
 
 ## Items
 
-Each item names a food by `food` (its slug) and either:
+An item is either portions of a cook from the
+[cooking log](recipes.md#eating-from-a-cook), `{"cook": 12, "amount": 1}`, or a
+food named by `food` (its slug) with either:
 
 - `amount`: in the source's unit (g or ml), or
 - `portion` and optional `count` (default 1): a named portion of that food,

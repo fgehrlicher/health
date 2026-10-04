@@ -9,6 +9,7 @@ nutrition, recipe, and meal-prep tracking.
 - [Web frontend](docs/web.md)
 - [Food catalog API](docs/catalog.md)
 - [Consumption log](docs/log.md)
+- [Recipes and cooking log](docs/recipes.md)
 - [Product and technical vision](docs/VISION.md)
 
 Python packages share the root [`pyproject.toml`](pyproject.toml) and `uv.lock`:
