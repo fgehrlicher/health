@@ -132,11 +132,14 @@ def load_amounts(connection: Connection, table: str, owner_ids: list[int]) -> di
         return result
     for item in connection.execute(
         f"""SELECT i.id, i.{owner} AS owner_id, f.slug AS food, f.name AS food_name,
+                   g.slug AS variant_of, g.name AS variant_of_name,
+                   (SELECT count(*) FROM catalog.foods v WHERE v.variant_of = f.id) AS variants,
                    i.source_id, s.source_name, i.amount, s.reference_unit AS unit, i.estimated,
                    s.reference_quantity, {", ".join(f"s.{c}" for c in NUTRIENTS)}
             FROM {table} i
             JOIN catalog.food_sources s ON s.id = i.source_id
             JOIN catalog.foods f ON f.id = s.food_id
+            LEFT JOIN catalog.foods g ON g.id = f.variant_of
             WHERE i.{owner} = ANY(%s)
             ORDER BY i.id""",
         (owner_ids,),
@@ -160,6 +163,8 @@ def public_amount(item: dict) -> dict:
         "id": item["id"],
         "food": item["food"],
         "food_name": item["food_name"],
+        "variant_of": item["variant_of"],
+        "variants": item["variants"],
         "source_id": item["source_id"],
         "source_name": item["source_name"],
         "amount": str(item["amount"]),
@@ -167,3 +172,43 @@ def public_amount(item: dict) -> dict:
         "estimated": item["estimated"],
         "nutrition": rounded_values(item_values(item)),
     }
+
+
+def changes(before: list[dict], after: list[dict]) -> list[dict]:
+    """What differs between two ingredient lists, per ingredient.
+
+    A branded product counts as the generic food it is a variant of, so soy
+    drink in a recipe and a brand's soy drink in the pot are one ingredient:
+    a swap, not a removal and an addition.
+    """
+
+    def parts(items: list[dict]) -> dict[str, dict[tuple, dict]]:
+        result: dict[str, dict[tuple, dict]] = {}
+        for item in items:
+            key = item["variant_of"] or item["food"]
+            part = result.setdefault(key, {}).setdefault(
+                (item["food"], item["unit"]),
+                {
+                    "food": item["food"],
+                    "food_name": item["food_name"],
+                    "amount": Decimal(0),
+                    "unit": item["unit"],
+                },
+            )
+            part["amount"] += item["amount"]
+        return result
+
+    planned, actual = parts(before), parts(after)
+    result = []
+    for key in list(planned) + [key for key in actual if key not in planned]:
+        was = list(planned.get(key, {}).values())
+        now = list(actual.get(key, {}).values())
+        if was == now:
+            continue
+        result.append(
+            {
+                "planned": [part | {"amount": str(part["amount"])} for part in was],
+                "actual": [part | {"amount": str(part["amount"])} for part in now],
+            }
+        )
+    return result

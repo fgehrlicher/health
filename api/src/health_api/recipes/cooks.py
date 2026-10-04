@@ -17,6 +17,7 @@ from health_api.clock import day_bounds, local_time, timezone
 from health_api.ingredients import (
     FoodAmount,
     InputError,
+    changes,
     insert_amounts,
     load_amounts,
     public_amount,
@@ -222,35 +223,6 @@ def cook_sources(connection: Connection, cook_ids: list[int]) -> dict[int, dict]
             "estimated": any(item["estimated"] for item in ingredients),
             "values": dish_values(ingredients),
         }
-    return result
-
-
-def changes(planned: list[dict], actual: list[dict]) -> list[dict]:
-    """Per food source: the version's amount against what went in, where they differ."""
-
-    def by_source(items: list[dict]) -> dict[int, dict]:
-        result: dict[int, dict] = {}
-        for item in items:
-            entry = result.setdefault(item["source_id"], {**item, "amount": Decimal(0)})
-            entry["amount"] += item["amount"]
-        return result
-
-    plan, real = by_source(planned), by_source(actual)
-    result = []
-    for source_id in list(plan) + [source for source in real if source not in plan]:
-        before, after = plan.get(source_id), real.get(source_id)
-        if before and after and before["amount"] == after["amount"]:
-            continue
-        item = after or before
-        result.append(
-            {
-                "food": item["food"],
-                "food_name": item["food_name"],
-                "unit": item["unit"],
-                "planned": str(before["amount"]) if before else None,
-                "actual": str(after["amount"]) if after else None,
-            }
-        )
     return result
 
 

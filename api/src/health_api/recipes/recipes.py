@@ -20,6 +20,7 @@ from health_api.clock import timezone
 from health_api.ingredients import (
     FoodAmount,
     InputError,
+    changes,
     insert_amounts,
     load_amounts,
     public_amount,
@@ -302,7 +303,7 @@ def load_versions(connection: Connection, recipe: int) -> list[dict]:
     """A recipe's versions, newest first, with ingredients and nutrition."""
     versions = connection.execute(
         """SELECT v.id, v.number, v.from_cook_id, v.note, v.instructions, v.portions,
-                  v.created_at, p.number AS parent_number, pr.slug AS parent_recipe,
+                  v.created_at, v.parent_id, p.number AS parent_number, pr.slug AS parent_recipe,
                   pr.name AS parent_recipe_name,
                   (SELECT count(*) FROM recipe.cooks c WHERE c.version_id = v.id) AS cooks
            FROM recipe.versions v
@@ -312,7 +313,8 @@ def load_versions(connection: Connection, recipe: int) -> list[dict]:
            ORDER BY v.number DESC""",
         (recipe,),
     ).fetchall()
-    items = load_amounts(connection, "recipe.version_items", [v["id"] for v in versions])
+    ids = {v["id"] for v in versions} | {v["parent_id"] for v in versions if v["parent_id"]}
+    items = load_amounts(connection, "recipe.version_items", sorted(ids))
     result = []
     for version in versions:
         ingredients = items.get(version["id"], [])
@@ -328,6 +330,9 @@ def load_versions(connection: Connection, recipe: int) -> list[dict]:
                 }
                 if version["parent_recipe"]
                 else None,
+                "changes": changes(items.get(version["parent_id"], []), ingredients)
+                if version["parent_id"]
+                else [],
                 "from_cook_id": version["from_cook_id"],
                 "note": version["note"],
                 "instructions": version["instructions"],

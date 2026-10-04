@@ -34,6 +34,25 @@ cream" v1 from "Ice cream" v2. A recipe lists the recipes forked from it.
 **Improvised cooks** have no recipe: a name, portions, and ingredients. Saving
 one as a new recipe (`from_cook`) links the cook to that recipe's version 1.
 
+## Generic foods and products
+
+A recipe usually names a generic food ("Soya drink unsweetened", "Chicken
+breast, raw"), while the pot gets a specific product whose label differs. A
+branded product can be linked to the generic food it is a kind of
+(`variant_of`, see [Registering branded foods](catalog.md#registering-branded-foods)).
+Then:
+
+- a version's ingredients stay generic, and its per-portion nutrition uses the
+  generic values, so it is an estimate for planning;
+- a cook names the product that went in, and its nutrition, and every meal
+  eaten from it, uses that label;
+- `changes` treats a product and its generic food as one ingredient: swapping
+  soy drink for a brand's soy drink is one change with both foods, not a
+  removal and an addition. Versions list their `changes` against their parent
+  the same way;
+- each ingredient carries `variant_of` (a product's generic food) and
+  `variants` (how many products a generic food has).
+
 ## Portions
 
 The pot is split into equal portions; one portion is 1/`portions` of every

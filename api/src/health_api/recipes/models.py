@@ -9,14 +9,22 @@ from health_api.log.models import Amount, NutrientTotals, RecipeRef
 Status = Literal["measured", "estimated", "unknown"]
 
 
-class Change(BaseModel):
-    """A food whose amount in a cook differs from its version; null means absent."""
-
+class ChangePart(BaseModel):
     food: str
     food_name: str
+    amount: str
     unit: str
-    planned: str | None
-    actual: str | None
+
+
+class Change(BaseModel):
+    """One ingredient that differs, before and after; empty means absent.
+
+    A branded product and its generic food are the same ingredient, so a swap
+    is one change with different foods on either side.
+    """
+
+    planned: list[ChangePart]
+    actual: list[ChangePart]
 
 
 class CookSummary(BaseModel):
@@ -51,6 +59,8 @@ class Version(BaseModel):
     id: int
     number: int
     parent: ParentRef | None
+    # Against the parent version; empty without a parent.
+    changes: list[Change]
     from_cook_id: int | None
     note: str | None
     instructions: str | None

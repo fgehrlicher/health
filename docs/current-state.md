@@ -37,7 +37,7 @@ recipes and what was cooked, `log` for what was eaten.
 
 - **`catalog.foods`**: the catalog entry: name, aliases, `kind` (`generic` from BLS,
   `branded` from labels), food group, brand, barcode (unique), preparation
-  state.
+  state, and for a product the generic food it is a kind of (`variant_of`).
 - **`catalog.food_groups`**: the 20 food groups (BLS codes and names) that
   generic foods and products share.
 - **`catalog.food_sources`**: nutrition evidence for a food, e.g. one BLS row or one

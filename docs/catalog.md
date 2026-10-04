@@ -69,8 +69,9 @@ in step.
   `422` for an invalid barcode.
 - `POST /api/foods`: register a branded food (see below); `?dry_run=true`
   validates without writing.
-- `PATCH /api/foods/{slug}`: set a food's `food_group` or `brand` (`null`
-  clears), e.g. to put a registered product into a category.
+- `PATCH /api/foods/{slug}`: set a food's `food_group`, `brand`, or
+  `variant_of` (`null` clears), e.g. to put a registered product into a
+  category or link it to its generic food.
 - `PATCH /api/foods/{slug}/sources/{source_id}`: add a registered source's
   legal name (`food_name`) or `ingredients_text` read from a later photo.
 - `GET /docs`: interactive API documentation, including the request schema.
@@ -113,6 +114,13 @@ Agents add products from label photos or product databases. The expected flow:
   ]
 }
 ```
+
+`variant_of` names the generic food the product is a kind of, by slug, e.g.
+`"bls4-h841100"` (Soya drink unsweetened) for a brand's unsweetened soy drink.
+Pick the closest BLS food, including sweetened or not. Recipes name the generic
+food, and a cook swaps in the product that went into the pot (see
+[Recipes](recipes.md#generic-foods-and-products)). A generic food's details list
+its `variants`; a product's details show its `variant_of`.
 
 Required are name, energy in kcal, fat, carbs, and protein. `food_group`
 (e.g. `"M"` for dairy; codes in `/api/foods/facets`) puts the product into

@@ -31,6 +31,10 @@ class Amount(BaseModel):
     id: int
     food: str
     food_name: str
+    # For a branded product: the generic food it is a kind of.
+    variant_of: str | None
+    # For a generic food: how many branded products are a kind of it.
+    variants: int
     source_id: int
     source_name: str
     amount: str

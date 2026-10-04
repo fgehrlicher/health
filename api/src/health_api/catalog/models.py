@@ -74,9 +74,30 @@ class FoodSummary(FoodBase):
     source: NutritionSource | None
 
 
+class FoodRef(BaseModel):
+    slug: str
+    name: str
+
+
+class Variant(BaseModel):
+    """A branded product that is a kind of this generic food, with its current values."""
+
+    slug: str
+    name: str
+    brand: str | None
+    reference_quantity: str | None
+    reference_unit: str | None
+    energy_kcal: str | None
+    protein_g: str | None
+
+
 class FoodDetail(FoodBase):
     sources: list[SourceDetail]
     portions: list[Portion]
+    # For a branded product: the generic food it is a kind of.
+    variant_of: FoodRef | None
+    # For a generic food: the branded products that are a kind of it.
+    variants: list[Variant]
 
 
 class FoodPage(BaseModel):
@@ -187,6 +208,9 @@ class FoodInput(BaseModel):
     ingredients_text: Annotated[str | None, Field(min_length=1, max_length=5000)] = None
     nutrition: NutritionInput
     portions: list[PortionInput] = []
+    # Slug of the generic food this product is a kind of, e.g. "bls4-h841100"
+    # (Soya drink unsweetened) for a brand's unsweetened soy drink.
+    variant_of: Annotated[str | None, Field(min_length=1, max_length=200)] = None
 
 
 class FoodUpdate(BaseModel):
@@ -196,6 +220,8 @@ class FoodUpdate(BaseModel):
 
     food_group: Annotated[str | None, Field(pattern="^[A-Z]$")] = None
     brand: Annotated[str | None, Field(min_length=1, max_length=100)] = None
+    # Slug of the generic food a branded product is a kind of.
+    variant_of: Annotated[str | None, Field(min_length=1, max_length=200)] = None
 
 
 class SourceTextUpdate(BaseModel):

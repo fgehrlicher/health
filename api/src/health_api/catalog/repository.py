@@ -340,8 +340,37 @@ def get_food(connection: Connection, slug: str) -> dict | None:
            WHERE food_id = %s ORDER BY quantity, name""",
         (row["id"],),
     ).fetchall()
+    parent = connection.execute(
+        """SELECT p.slug, p.name FROM catalog.foods f JOIN catalog.foods p ON p.id = f.variant_of
+           WHERE f.id = %s""",
+        (row["id"],),
+    ).fetchone()
+    # Each variant with its current source: the newest label.
+    variants = connection.execute(
+        """SELECT v.slug, v.name, v.brand, s.reference_quantity, s.reference_unit,
+                  s.energy_kcal, s.protein_g
+           FROM catalog.foods v
+           LEFT JOIN LATERAL (
+               SELECT * FROM catalog.food_sources WHERE food_id = v.id
+               ORDER BY (source_name = 'BLS 4.0') DESC, id DESC LIMIT 1
+           ) s ON true
+           WHERE v.variant_of = %s
+           ORDER BY lower(coalesce(v.brand, '')), lower(v.name)""",
+        (row["id"],),
+    ).fetchall()
     return {
         **dict(row),
+        "variant_of": parent,
+        "variants": [
+            {
+                **variant,
+                **{
+                    key: decimal_text(variant[key])
+                    for key in ("reference_quantity", "energy_kcal", "protein_g")
+                },
+            }
+            for variant in variants
+        ],
         "sources": [
             {**source_from_row(source), "nutrients": nutrients.get(source["source_id"], [])}
             for source in sources

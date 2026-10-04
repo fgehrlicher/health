@@ -162,6 +162,7 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
             if same:
                 message = f"{same['slug']} has the same brand and name; is it the same product?"
                 warnings.append({"field": "name", "message": message})
+        variant_of = generic_food(connection, food.variant_of) if food.variant_of else None
         if food.food_group is None:
             warnings.append(
                 {
@@ -180,9 +181,18 @@ def register_food(connection: Connection, food: FoodInput, dry_run: bool) -> dic
             return {"dry_run": True, "slug": slug, "warnings": warnings, "food": None}
 
         food_id = connection.execute(
-            """INSERT INTO catalog.foods (slug, name, aliases, kind, food_group, brand, barcode)
-               VALUES (%s, %s, %s, 'branded', %s, %s, %s) RETURNING id""",
-            (slug, food.name.strip(), food.aliases, food.food_group, food.brand, food.barcode),
+            """INSERT INTO catalog.foods
+                   (slug, name, aliases, kind, food_group, brand, barcode, variant_of)
+               VALUES (%s, %s, %s, 'branded', %s, %s, %s, %s) RETURNING id""",
+            (
+                slug,
+                food.name.strip(),
+                food.aliases,
+                food.food_group,
+                food.brand,
+                food.barcode,
+                variant_of,
+            ),
         ).fetchone()["id"]
         n = food.nutrition
         columns = ", ".join(NUTRIENTS)
@@ -241,8 +251,21 @@ def check_food_group(connection: Connection, code: str) -> None:
         )
 
 
+def generic_food(connection: Connection, slug: str) -> int:
+    """The id of the generic food a product can be a variant of."""
+    found = connection.execute(
+        "SELECT id, kind FROM catalog.foods WHERE slug = %s", (slug,)
+    ).fetchone()
+    if found is None:
+        raise RegistrationError([{"field": "variant_of", "message": f"unknown food {slug!r}"}])
+    if found["kind"] != "generic":
+        message = f"{slug!r} is not a generic food; variants belong to a generic food"
+        raise RegistrationError([{"field": "variant_of", "message": message}])
+    return found["id"]
+
+
 def update_food(connection: Connection, slug: str, update: FoodUpdate) -> dict:
-    """Set a food's group or brand; `null` clears a field, absent fields stay."""
+    """Set a food's group, brand, or generic food; `null` clears, absent fields stay."""
     given = update.model_fields_set
     if not given:
         raise RegistrationError([{"field": "body", "message": "nothing to update"}])
@@ -252,12 +275,23 @@ def update_food(connection: Connection, slug: str, update: FoodUpdate) -> dict:
     with connection.transaction():
         if update.food_group is not None:
             check_food_group(connection, update.food_group)
+        variant_of = generic_food(connection, update.variant_of) if update.variant_of else None
+        if "variant_of" in given:
+            kind = connection.execute(
+                "SELECT kind FROM catalog.foods WHERE slug = %s", (slug,)
+            ).fetchone()
+            if kind and kind["kind"] != "branded":
+                message = "only branded products can be a variant of a generic food"
+                raise RegistrationError([{"field": "variant_of", "message": message}])
         updated = connection.execute(
             """UPDATE catalog.foods SET
                    food_group = CASE WHEN %(set_group)s THEN %(group)s ELSE food_group END,
-                   brand = CASE WHEN %(set_brand)s THEN %(brand)s ELSE brand END
+                   brand = CASE WHEN %(set_brand)s THEN %(brand)s ELSE brand END,
+                   variant_of = CASE WHEN %(set_variant)s THEN %(variant)s ELSE variant_of END
                WHERE slug = %(slug)s RETURNING id""",
             {
+                "set_variant": "variant_of" in given,
+                "variant": variant_of,
                 "slug": slug,
                 "set_group": "food_group" in given,
                 "group": update.food_group,

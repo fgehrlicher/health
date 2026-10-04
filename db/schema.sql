@@ -51,10 +51,16 @@ CREATE TABLE catalog.foods (
     food_group text REFERENCES catalog.food_groups(code),
     brand text,
     barcode text,
+    -- For a branded product: the generic food it is a kind of, e.g. a brand's
+    -- unsweetened soy drink -> "Soya drink unsweetened". Recipes can name the
+    -- generic food while cooks name the product that actually went in.
+    variant_of bigint REFERENCES catalog.foods(id) ON DELETE SET NULL,
 
     -- When this catalog entry was added.
     created_at timestamptz NOT NULL DEFAULT now()
 );
+
+CREATE INDEX foods_variant_of_idx ON catalog.foods (variant_of);
 
 -- One piece of nutrition evidence for exactly one catalog food.
 CREATE TABLE catalog.food_sources (
