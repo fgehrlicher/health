@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { XIcon } from "lucide-react"
 import { useDeferredValue, useEffect, useState } from "react"
 import { toast } from "sonner"
+import { CookPicker } from "@/components/cook-picker"
 import { FoodPicker } from "@/components/food-picker"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -25,19 +26,31 @@ import {
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { capitalize, formatNumber, nowLocal, today } from "@/lib/format"
+import {
+  capitalize,
+  dayLabel,
+  formatNumber,
+  nowLocal,
+  today,
+} from "@/lib/format"
 import { foodQuery } from "@/lib/queries"
 import { MEAL_KINDS } from "@/lib/api/types"
 import { createMeal, updateMeal } from "@/server/log"
 import type { ItemInput } from "@/server/log"
 import type { Issue, Meal, MealKind } from "@/lib/api/types"
 
-/** A food in the form. `unit` is the source unit or a portion name. */
+/**
+ * A food in the form. `unit` is the source unit or a portion name. With
+ * `cookId` it is portions of a cook instead, and `food` is empty.
+ */
 export type ItemDraft = {
   key: string
   food: string
   foodName: string
   sourceId?: number
+  cookId?: number
+  /** For a cook: when it was cooked, shown under the name. */
+  detail?: string
   baseUnit: string
   unit: string
   quantity: string
@@ -62,20 +75,69 @@ export function newDraft(food: {
   }
 }
 
-function draftsFromMeal(meal: Meal): Array<ItemDraft> {
-  return meal.items.map((item) => ({
+/** One portion of a cook, as a form row. */
+export function cookDraft(cook: {
+  id: number
+  name: string
+  cooked_at: string
+}): ItemDraft {
+  return {
+    ...newDraft({ slug: "", name: cook.name, unit: "portion" }),
+    cookId: cook.id,
+    detail: `Cooked ${dayLabel(cook.cooked_at.slice(0, 10))}`,
+    quantity: "1",
+  }
+}
+
+/** An amount of a catalog source (a meal item, an ingredient) as a form row. */
+export function draftFromAmount(item: {
+  food: string
+  food_name: string
+  unit: string
+  source_id: number
+  amount: string
+  estimated: boolean
+}): ItemDraft {
+  return {
     ...newDraft({ slug: item.food, name: item.food_name, unit: item.unit }),
     sourceId: item.source_id,
     quantity: item.amount,
     estimated: item.estimated,
-  }))
+  }
+}
+
+function draftsFromMeal(meal: Meal): Array<ItemDraft> {
+  return meal.items.map((item) =>
+    item.cook_id !== null && item.cooked_at !== null
+      ? {
+          ...cookDraft({
+            id: item.cook_id,
+            name: item.food_name,
+            cooked_at: item.cooked_at,
+          }),
+          quantity: item.amount,
+          estimated: item.estimated,
+        }
+      : draftFromAmount({
+          ...item,
+          food: item.food ?? "",
+          source_id: item.source_id ?? 0,
+        })
+  )
 }
 
 /** API items for drafts with a usable quantity. */
-function toInput(drafts: Array<ItemDraft>): Array<ItemInput> {
+export function toInput(drafts: Array<ItemDraft>): Array<ItemInput> {
   return drafts
     .filter((draft) => Number(draft.quantity) > 0)
     .map((draft) => {
+      if (draft.cookId !== undefined) {
+        return {
+          cook: draft.cookId,
+          amount: Number(draft.quantity),
+          estimated: draft.estimated,
+        }
+      }
       const base = {
         food: draft.food,
         source_id: draft.sourceId,
@@ -93,6 +155,7 @@ export function MealSheet({
   open,
   onOpenChange,
   initialFood,
+  initialCook,
 }: {
   date: string
   /** The meal to edit, or null to log a new one. */
@@ -100,6 +163,8 @@ export function MealSheet({
   open: boolean
   onOpenChange: (open: boolean) => void
   initialFood?: { slug: string; name: string; unit: string }
+  /** Start with one portion of this cook. */
+  initialCook?: { id: number; name: string; cooked_at: string }
 }) {
   const queryClient = useQueryClient()
   const [kind, setKind] = useState<MealKind | null>(null)
@@ -121,9 +186,15 @@ export function MealSheet({
       setKind(null)
       setNote("")
       setEatenAt(date === today() ? nowLocal() : `${date}T12:00`)
-      setItems(initialFood ? [newDraft(initialFood)] : [])
+      setItems(
+        initialFood
+          ? [newDraft(initialFood)]
+          : initialCook
+            ? [cookDraft(initialCook)]
+            : []
+      )
     }
-  }, [open, meal, date, initialFood])
+  }, [open, meal, date, initialFood, initialCook])
 
   const input = toInput(items)
   const incomplete = items.length > input.length
@@ -249,18 +320,25 @@ export function MealSheet({
                     }
                   />
                 ))}
-                <FoodPicker
-                  onPick={(food) =>
-                    setItems((all) => [
-                      ...all,
-                      newDraft({
-                        slug: food.slug,
-                        name: food.name,
-                        unit: food.source?.reference_unit ?? "g",
-                      }),
-                    ])
-                  }
-                />
+                <div className="grid grid-cols-2 gap-2">
+                  <FoodPicker
+                    onPick={(food) =>
+                      setItems((all) => [
+                        ...all,
+                        newDraft({
+                          slug: food.slug,
+                          name: food.name,
+                          unit: food.source?.reference_unit ?? "g",
+                        }),
+                      ])
+                    }
+                  />
+                  <CookPicker
+                    onPick={(cook) =>
+                      setItems((all) => [...all, cookDraft(cook)])
+                    }
+                  />
+                </div>
               </div>
             </Field>
 
@@ -326,7 +404,7 @@ export function MealSheet({
   )
 }
 
-function ItemRow({
+export function ItemRow({
   item,
   onChange,
   onRemove,
@@ -336,7 +414,10 @@ function ItemRow({
   onRemove: () => void
 }) {
   // Portions ("Becher", "Portion") come with the food's details.
-  const food = useQuery(foodQuery(item.food))
+  const food = useQuery({
+    ...foodQuery(item.food),
+    enabled: item.cookId === undefined,
+  })
   const portions = (food.data?.portions ?? []).filter(
     (portion) => portion.unit === item.baseUnit
   )
@@ -345,8 +426,13 @@ function ItemRow({
   return (
     <div className="flex flex-col gap-2 rounded-lg border p-3">
       <div className="flex items-start gap-2">
-        <span className="min-w-0 flex-1 text-sm font-medium">
+        <span className="flex min-w-0 flex-1 flex-col text-sm font-medium">
           {item.foodName}
+          {item.detail && (
+            <span className="text-xs font-normal text-muted-foreground">
+              {item.detail}
+            </span>
+          )}
         </span>
         <Button
           type="button"
@@ -372,33 +458,39 @@ function ItemRow({
             onChange({ ...item, quantity: event.target.value })
           }
         />
-        <Select
-          value={item.unit}
-          onValueChange={(unit) =>
-            onChange({
-              ...item,
-              unit: unit as string,
-              // One portion is the usual answer; grams need typing.
-              quantity: unit === item.baseUnit ? "" : "1",
-            })
-          }
-        >
-          <SelectTrigger className="min-w-24" aria-label="Unit">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {units.map((unit) => {
-              const portion = portions.find((option) => option.name === unit)
-              return (
-                <SelectItem key={unit} value={unit}>
-                  {portion
-                    ? `${portion.name} (${formatNumber(portion.quantity)} ${portion.unit})`
-                    : unit}
-                </SelectItem>
-              )
-            })}
-          </SelectContent>
-        </Select>
+        {item.cookId !== undefined ? (
+          <span className="text-sm text-muted-foreground">
+            {Number(item.quantity) === 1 ? "portion" : "portions"}
+          </span>
+        ) : (
+          <Select
+            value={item.unit}
+            onValueChange={(unit) =>
+              onChange({
+                ...item,
+                unit: unit as string,
+                // One portion is the usual answer; grams need typing.
+                quantity: unit === item.baseUnit ? "" : "1",
+              })
+            }
+          >
+            <SelectTrigger className="min-w-24" aria-label="Unit">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {units.map((unit) => {
+                const portion = portions.find((option) => option.name === unit)
+                return (
+                  <SelectItem key={unit} value={unit}>
+                    {portion
+                      ? `${portion.name} (${formatNumber(portion.quantity)} ${portion.unit})`
+                      : unit}
+                  </SelectItem>
+                )
+              })}
+            </SelectContent>
+          </Select>
+        )}
         <label className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
           <Switch
             checked={item.estimated}

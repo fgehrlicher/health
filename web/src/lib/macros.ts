@@ -125,3 +125,11 @@ export const REFERENCE_INTAKE: Record<string, number> = {
   zinc: 10,
   iodine: 150,
 }
+
+/** Measured plus estimated, as one number for charts and ratios. */
+export function totalOf(total: {
+  measured: string
+  estimated: string
+}): number {
+  return Number(total.measured) + Number(total.estimated)
+}

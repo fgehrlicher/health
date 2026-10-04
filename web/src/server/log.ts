@@ -3,8 +3,20 @@ import { z } from "zod"
 import { api, toIssues, unwrap } from "./api"
 import type { Issue, Meal } from "@/lib/api/types"
 
-const itemSchema = z.object({
+/** A catalog food and how much: an amount, or a named portion times count. */
+export const foodAmountSchema = z.object({
   food: z.string().min(1).max(200),
+  source_id: z.number().int().optional(),
+  amount: z.number().positive().optional(),
+  portion: z.string().min(1).max(60).optional(),
+  count: z.number().positive().optional(),
+  estimated: z.boolean().optional(),
+})
+
+/** A food, or portions of a cook (`cook` with `amount`). */
+const itemSchema = z.object({
+  food: z.string().min(1).max(200).optional(),
+  cook: z.number().int().optional(),
   source_id: z.number().int().optional(),
   amount: z.number().positive().optional(),
   portion: z.string().min(1).max(60).optional(),

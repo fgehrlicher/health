@@ -1,6 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
-import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from "lucide-react"
+import {
+  CookingPotIcon,
+  MoreHorizontalIcon,
+  PencilIcon,
+  Trash2Icon,
+} from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
@@ -101,16 +106,35 @@ export function MealCard({ meal, onEdit }: { meal: Meal; onEdit: () => void }) {
           <ul className="flex flex-col gap-1.5 text-sm">
             {meal.items.map((item) => (
               <li key={item.id} className="flex items-baseline gap-2">
-                <Link
-                  to="/foods/$slug"
-                  params={{ slug: item.food }}
-                  className="min-w-0 truncate hover:underline"
-                >
-                  {item.food_name}
-                </Link>
+                {item.cook_id !== null ? (
+                  <Link
+                    to="/cooks/$id"
+                    params={{ id: item.cook_id }}
+                    className="flex min-w-0 items-center gap-1.5 truncate hover:underline"
+                  >
+                    <CookingPotIcon
+                      aria-label="Cooked dish"
+                      className="size-3.5 shrink-0 text-primary"
+                    />
+                    {item.food_name}
+                  </Link>
+                ) : (
+                  <Link
+                    to="/foods/$slug"
+                    params={{ slug: item.food ?? "" }}
+                    className="min-w-0 truncate hover:underline"
+                  >
+                    {item.food_name}
+                  </Link>
+                )}
                 <span className="shrink-0 text-muted-foreground tabular-nums">
                   {item.estimated ? "~" : ""}
-                  {formatNumber(item.amount)} {item.unit}
+                  {formatNumber(item.amount)}{" "}
+                  {item.cook_id !== null
+                    ? Number(item.amount) === 1
+                      ? "portion"
+                      : "portions"
+                    : item.unit}
                 </span>
                 <span className="ml-auto shrink-0 text-muted-foreground tabular-nums">
                   {formatNumber(item.nutrition.energy_kcal, 0)} kcal

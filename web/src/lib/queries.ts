@@ -2,6 +2,7 @@ import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query"
 import { getFacets, getFood, searchFoods } from "@/server/catalog"
 import type { FacetFilters, FoodSearch } from "@/server/catalog"
 import { getDay } from "@/server/log"
+import { getCook, getRecipe, listCooks, listRecipes } from "@/server/recipes"
 
 export const dayQuery = (date: string) =>
   queryOptions({
@@ -44,4 +45,28 @@ export const foodsInfiniteQuery = (
     initialPageParam: 0,
     getNextPageParam: (last, _pages, offset) =>
       offset + FOODS_PAGE < last.total ? offset + FOODS_PAGE : undefined,
+  })
+
+export const recipesQuery = (q?: string) =>
+  queryOptions({
+    queryKey: ["recipes", q ?? ""],
+    queryFn: () => listRecipes({ data: q ? { q } : {} }),
+  })
+
+export const recipeQuery = (slug: string) =>
+  queryOptions({
+    queryKey: ["recipe", slug],
+    queryFn: () => getRecipe({ data: { slug } }),
+  })
+
+export const cooksQuery = (search: { recipe?: string; q?: string } = {}) =>
+  queryOptions({
+    queryKey: ["cooks", search],
+    queryFn: () => listCooks({ data: search }),
+  })
+
+export const cookQuery = (id: number) =>
+  queryOptions({
+    queryKey: ["cook", id],
+    queryFn: () => getCook({ data: { id } }),
   })

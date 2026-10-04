@@ -185,10 +185,187 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/recipes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read Recipes
+         * @description Recipes, most recently cooked or created first; `q` matches name words.
+         */
+        get: operations["read_recipes_api_recipes_get"];
+        put?: never;
+        /**
+         * Post Recipe
+         * @description Create a recipe with version 1, from ingredients, a cook, or another recipe's version.
+         *
+         *     `forked_from` develops it from another recipe's version; `from_cook` saves
+         *     what went into a cook. `dry_run=true` returns it without storing.
+         */
+        post: operations["post_recipe_api_recipes_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/recipes/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read Recipe
+         * @description A recipe with every version (newest first), forks, and its cooks.
+         */
+        get: operations["read_recipe_api_recipes__slug__get"];
+        put?: never;
+        post?: never;
+        /**
+         * Remove Recipe
+         * @description Delete a recipe that was never cooked or forked.
+         */
+        delete: operations["remove_recipe_api_recipes__slug__delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Patch Recipe
+         * @description Rename a recipe or change its note.
+         */
+        patch: operations["patch_recipe_api_recipes__slug__patch"];
+        trace?: never;
+    };
+    "/api/recipes/{slug}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Post Version
+         * @description Add a version: changed ingredients or portions, with a note on what and why.
+         *
+         *     Missing fields come from `from_cook` (ingredients, portions) and the parent
+         *     version (ingredients, portions, steps). The parent defaults to the cook's
+         *     version, else the latest.
+         */
+        post: operations["post_version_api_recipes__slug__versions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/recipes/{slug}/versions/{number}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Patch Version
+         * @description Change a version's note or steps; ingredients and portions are fixed.
+         */
+        patch: operations["patch_version_api_recipes__slug__versions__number__patch"];
+        trace?: never;
+    };
+    "/api/cooks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read Cooks
+         * @description The cooking log, newest first: by recipe slug, name words, or local days.
+         */
+        get: operations["read_cooks_api_cooks_get"];
+        put?: never;
+        /**
+         * Post Cook
+         * @description Log a cook: a recipe version and what actually went in, split into portions.
+         *
+         *     Without `items`, the version's ingredients are used. Without a recipe, the
+         *     cook is improvised and needs `name`, `portions`, and `items`.
+         */
+        post: operations["post_cook_api_cooks_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/cooks/{cook_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read Cook
+         * @description A cook with its ingredients, nutrition per portion, and changes to its version.
+         */
+        get: operations["read_cook_api_cooks__cook_id__get"];
+        put?: never;
+        post?: never;
+        /**
+         * Remove Cook
+         * @description Delete a cook nothing was logged from.
+         */
+        delete: operations["remove_cook_api_cooks__cook_id__delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Patch Cook
+         * @description Correct a cook; meals eaten from it follow. `items` replaces all ingredients.
+         */
+        patch: operations["patch_cook_api_cooks__cook_id__patch"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /**
+         * Amount
+         * @description An amount of a catalog source with its nutrition.
+         */
+        Amount: {
+            /** Id */
+            id: number;
+            /** Food */
+            food: string;
+            /** Food Name */
+            food_name: string;
+            /** Source Id */
+            source_id: number;
+            /** Source Name */
+            source_name: string;
+            /** Amount */
+            amount: string;
+            /** Unit */
+            unit: string;
+            /** Estimated */
+            estimated: boolean;
+            nutrition: components["schemas"]["Nutrition"];
+        };
         /**
          * CatalogFacets
          * @description Filter values with counts. Each list is counted under every active
@@ -212,6 +389,124 @@ export interface components {
             groups: components["schemas"]["FacetGroup"][];
             /** Brands */
             brands: components["schemas"]["FacetValue"][];
+        };
+        /**
+         * Change
+         * @description A food whose amount in a cook differs from its version; null means absent.
+         */
+        Change: {
+            /** Food */
+            food: string;
+            /** Food Name */
+            food_name: string;
+            /** Unit */
+            unit: string;
+            /** Planned */
+            planned: string | null;
+            /** Actual */
+            actual: string | null;
+        };
+        /** Cook */
+        Cook: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            recipe: components["schemas"]["RecipeRef"] | null;
+            /** Version */
+            version: number | null;
+            /** Cooked At */
+            cooked_at: string;
+            /** Portions */
+            portions: string;
+            /** Weight G */
+            weight_g: string | null;
+            /** Note */
+            note: string | null;
+            /** Portions Eaten */
+            portions_eaten: string;
+            /** Portions Left */
+            portions_left: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "measured" | "estimated" | "unknown";
+            totals: components["schemas"]["NutrientTotals"];
+            per_portion: components["schemas"]["NutrientTotals"];
+            /** Items */
+            items: components["schemas"]["Amount"][];
+            /** Changes */
+            changes: components["schemas"]["Change"][];
+        };
+        /**
+         * CookInput
+         * @description A cook from a recipe version, or an improvised one with a name and items.
+         */
+        CookInput: {
+            /** Recipe */
+            recipe?: string | null;
+            /** Version */
+            version?: number | null;
+            /** Name */
+            name?: string | null;
+            /** Cooked At */
+            cooked_at?: string | null;
+            /** Portions */
+            portions?: number | string | null;
+            /** Weight G */
+            weight_g?: number | string | null;
+            /** Note */
+            note?: string | null;
+            /** Items */
+            items?: components["schemas"]["FoodAmount"][] | null;
+        };
+        /** CookSummary */
+        CookSummary: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+            recipe: components["schemas"]["RecipeRef"] | null;
+            /** Version */
+            version: number | null;
+            /** Cooked At */
+            cooked_at: string;
+            /** Portions */
+            portions: string;
+            /** Weight G */
+            weight_g: string | null;
+            /** Note */
+            note: string | null;
+            /** Portions Eaten */
+            portions_eaten: string;
+            /** Portions Left */
+            portions_left: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "measured" | "estimated" | "unknown";
+            totals: components["schemas"]["NutrientTotals"];
+            per_portion: components["schemas"]["NutrientTotals"];
+        };
+        /**
+         * CookUpdate
+         * @description Only the given fields change; `items` replaces all ingredients.
+         */
+        CookUpdate: {
+            /** Name */
+            name?: string | null;
+            /** Cooked At */
+            cooked_at?: string | null;
+            /** Portions */
+            portions?: number | string | null;
+            /** Weight G */
+            weight_g?: number | string | null;
+            /** Note */
+            note?: string | null;
+            /** Items */
+            items?: components["schemas"]["FoodAmount"][] | null;
         };
         /** Day */
         Day: {
@@ -239,6 +534,30 @@ export interface components {
             value: string;
             /** Count */
             count: number;
+        };
+        /**
+         * FoodAmount
+         * @description A catalog food and how much, as an amount or a portion.
+         */
+        FoodAmount: {
+            /**
+             * Food
+             * @description catalog slug
+             */
+            food: string;
+            /** Source Id */
+            source_id?: number | null;
+            /** Amount */
+            amount?: number | string | null;
+            /** Portion */
+            portion?: string | null;
+            /** Count */
+            count?: number | string | null;
+            /**
+             * Estimated
+             * @default false
+             */
+            estimated?: boolean;
         };
         /** FoodDetail */
         FoodDetail: {
@@ -358,6 +677,15 @@ export interface components {
             /** Brand */
             brand?: string | null;
         };
+        /** Fork */
+        Fork: {
+            /** Slug */
+            slug: string;
+            /** Name */
+            name: string;
+            /** From Version */
+            from_version: number;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -372,14 +700,16 @@ export interface components {
         };
         /**
          * ItemInput
-         * @description One food in a meal: a catalog food and how much, as an amount or a portion.
+         * @description One thing eaten: a catalog food (amount or portion), or portions of a cook.
          */
         ItemInput: {
             /**
              * Food
              * @description catalog slug
              */
-            food: string;
+            food?: string | null;
+            /** Cook */
+            cook?: number | null;
             /** Source Id */
             source_id?: number | null;
             /** Amount */
@@ -436,18 +766,26 @@ export interface components {
              */
             items?: components["schemas"]["ItemInput"][];
         };
-        /** MealItem */
+        /**
+         * MealItem
+         * @description A catalog food, or portions of a cook (then `food` and `source_id` are null).
+         */
         MealItem: {
             /** Id */
             id: number;
             /** Food */
-            food: string;
+            food: string | null;
             /** Food Name */
             food_name: string;
             /** Source Id */
-            source_id: number;
+            source_id: number | null;
             /** Source Name */
-            source_name: string;
+            source_name: string | null;
+            /** Cook Id */
+            cook_id: number | null;
+            recipe: components["schemas"]["RecipeRef"] | null;
+            /** Cooked At */
+            cooked_at: string | null;
             /** Amount */
             amount: string;
             /** Unit */
@@ -626,6 +964,15 @@ export interface components {
             /** Ingredients Text */
             ingredients_text: string | null;
         };
+        /** ParentRef */
+        ParentRef: {
+            /** Recipe */
+            recipe: string;
+            /** Recipe Name */
+            recipe_name: string;
+            /** Number */
+            number: number;
+        };
         /** Portion */
         Portion: {
             /** Name */
@@ -653,6 +1000,77 @@ export interface components {
              * @enum {string}
              */
             unit: "g" | "ml";
+        };
+        /** Recipe */
+        Recipe: {
+            /** Slug */
+            slug: string;
+            /** Name */
+            name: string;
+            /** Note */
+            note: string | null;
+            /** Created At */
+            created_at: string;
+            /** Versions */
+            versions: components["schemas"]["Version"][];
+            /** Forks */
+            forks: components["schemas"]["Fork"][];
+            /** Cooks */
+            cooks: components["schemas"]["CookSummary"][];
+        };
+        /**
+         * RecipeInput
+         * @description A new recipe and its first version.
+         *
+         *     Ingredients and portions come from `items` and `portions`, otherwise from
+         *     `from_cook`, otherwise from the `forked_from` version.
+         */
+        RecipeInput: {
+            /** Name */
+            name: string;
+            /** Note */
+            note?: string | null;
+            /** Items */
+            items?: components["schemas"]["FoodAmount"][] | null;
+            /** Portions */
+            portions?: number | string | null;
+            /** Instructions */
+            instructions?: string | null;
+            forked_from?: components["schemas"]["VersionRef"] | null;
+            /** From Cook */
+            from_cook?: number | null;
+        };
+        /** RecipeRef */
+        RecipeRef: {
+            /** Slug */
+            slug: string;
+            /** Name */
+            name: string;
+        };
+        /** RecipeSummary */
+        RecipeSummary: {
+            /** Slug */
+            slug: string;
+            /** Name */
+            name: string;
+            /** Note */
+            note: string | null;
+            /** Latest Version */
+            latest_version: number;
+            /** Cooks */
+            cooks: number;
+            /** Last Cooked At */
+            last_cooked_at: string | null;
+            /** Portions */
+            portions: string;
+            per_portion: components["schemas"]["NutrientTotals"];
+        };
+        /** RecipeUpdate */
+        RecipeUpdate: {
+            /** Name */
+            name?: string | null;
+            /** Note */
+            note?: string | null;
         };
         /** SourceDetail */
         SourceDetail: {
@@ -742,6 +1160,70 @@ export interface components {
             input?: unknown;
             /** Context */
             ctx?: Record<string, never>;
+        };
+        /** Version */
+        Version: {
+            /** Id */
+            id: number;
+            /** Number */
+            number: number;
+            parent: components["schemas"]["ParentRef"] | null;
+            /** From Cook Id */
+            from_cook_id: number | null;
+            /** Note */
+            note: string | null;
+            /** Instructions */
+            instructions: string | null;
+            /** Portions */
+            portions: string;
+            /** Created At */
+            created_at: string;
+            /** Cooks */
+            cooks: number;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "measured" | "estimated" | "unknown";
+            /** Items */
+            items: components["schemas"]["Amount"][];
+            totals: components["schemas"]["NutrientTotals"];
+            per_portion: components["schemas"]["NutrientTotals"];
+        };
+        /**
+         * VersionInput
+         * @description A new version; anything not given comes from `from_cook` or the parent.
+         */
+        VersionInput: {
+            /** Note */
+            note?: string | null;
+            /** Items */
+            items?: components["schemas"]["FoodAmount"][] | null;
+            /** Portions */
+            portions?: number | string | null;
+            /** Instructions */
+            instructions?: string | null;
+            /** Parent */
+            parent?: number | null;
+            /** From Cook */
+            from_cook?: number | null;
+        };
+        /** VersionRef */
+        VersionRef: {
+            /** Recipe */
+            recipe: string;
+            /** Version */
+            version?: number | null;
+        };
+        /**
+         * VersionUpdate
+         * @description Only text changes; different ingredients or portions are a new version.
+         */
+        VersionUpdate: {
+            /** Note */
+            note?: string | null;
+            /** Instructions */
+            instructions?: string | null;
         };
     };
     responses: never;
@@ -1171,6 +1653,395 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
                 };
+            };
+        };
+    };
+    read_recipes_api_recipes_get: {
+        parameters: {
+            query?: {
+                q?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RecipeSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_recipe_api_recipes_post: {
+        parameters: {
+            query?: {
+                dry_run?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecipeInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Recipe"];
+                };
+            };
+            /** @description Invalid input; nothing written */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    read_recipe_api_recipes__slug__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Recipe"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    remove_recipe_api_recipes__slug__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    patch_recipe_api_recipes__slug__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecipeUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Recipe"];
+                };
+            };
+            /** @description Invalid input; nothing written */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    post_version_api_recipes__slug__versions_post: {
+        parameters: {
+            query?: {
+                dry_run?: boolean;
+            };
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VersionInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Version"];
+                };
+            };
+            /** @description Invalid input; nothing written */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    patch_version_api_recipes__slug__versions__number__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VersionUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Version"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    read_cooks_api_cooks_get: {
+        parameters: {
+            query?: {
+                recipe?: string | null;
+                q?: string | null;
+                since?: string | null;
+                until?: string | null;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CookSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_cook_api_cooks_post: {
+        parameters: {
+            query?: {
+                dry_run?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CookInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Cook"];
+                };
+            };
+            /** @description Invalid input; nothing written */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    read_cook_api_cooks__cook_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                cook_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Cook"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    remove_cook_api_cooks__cook_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                cook_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    patch_cook_api_cooks__cook_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                cook_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CookUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Cook"];
+                };
+            };
+            /** @description Invalid input; nothing written */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

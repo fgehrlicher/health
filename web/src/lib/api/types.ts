@@ -16,6 +16,14 @@ export type Meal = Schemas["Meal"]
 export type MealItem = Schemas["MealItem"]
 export type MealKind = NonNullable<Meal["kind"]>
 export type NutrientTotals = Schemas["NutrientTotals"]
+export type Amount = Schemas["Amount"]
+
+export type RecipeSummary = Schemas["RecipeSummary"]
+export type Recipe = Schemas["Recipe"]
+export type Version = Schemas["Version"]
+export type CookSummary = Schemas["CookSummary"]
+export type Cook = Schemas["Cook"]
+export type Change = Schemas["Change"]
 export type Nutrient = keyof NutrientTotals
 
 export const MEAL_KINDS: ReadonlyArray<MealKind> = [

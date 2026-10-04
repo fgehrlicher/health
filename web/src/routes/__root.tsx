@@ -87,6 +87,9 @@ function AppHeader() {
           <Link to="/" className={link} activeOptions={{ exact: true }}>
             Today
           </Link>
+          <Link to="/recipes" className={link}>
+            Recipes
+          </Link>
           <Link to="/foods" className={link}>
             Foods
           </Link>

@@ -860,10 +860,686 @@
           }
         }
       }
+    },
+    "/api/recipes": {
+      "get": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Read Recipes",
+        "description": "Recipes, most recently cooked or created first; `q` matches name words.",
+        "operationId": "read_recipes_api_recipes_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecipeSummary"
+                  },
+                  "title": "Response Read Recipes Api Recipes Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Post Recipe",
+        "description": "Create a recipe with version 1, from ingredients, a cook, or another recipe's version.\n\n`forked_from` develops it from another recipe's version; `from_cook` saves\nwhat went into a cook. `dry_run=true` returns it without storing.",
+        "operationId": "post_recipe_api_recipes_post",
+        "parameters": [
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Dry Run"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecipeInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipe"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input; nothing written"
+          }
+        }
+      }
+    },
+    "/api/recipes/{slug}": {
+      "get": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Read Recipe",
+        "description": "A recipe with every version (newest first), forks, and its cooks.",
+        "operationId": "read_recipe_api_recipes__slug__get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipe"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Patch Recipe",
+        "description": "Rename a recipe or change its note.",
+        "operationId": "patch_recipe_api_recipes__slug__patch",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecipeUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recipe"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input; nothing written"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Remove Recipe",
+        "description": "Delete a recipe that was never cooked or forked.",
+        "operationId": "remove_recipe_api_recipes__slug__delete",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recipes/{slug}/versions": {
+      "post": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Post Version",
+        "description": "Add a version: changed ingredients or portions, with a note on what and why.\n\nMissing fields come from `from_cook` (ingredients, portions) and the parent\nversion (ingredients, portions, steps). The parent defaults to the cook's\nversion, else the latest.",
+        "operationId": "post_version_api_recipes__slug__versions_post",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Dry Run"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VersionInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Version"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input; nothing written"
+          }
+        }
+      }
+    },
+    "/api/recipes/{slug}/versions/{number}": {
+      "patch": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Patch Version",
+        "description": "Change a version's note or steps; ingredients and portions are fixed.",
+        "operationId": "patch_version_api_recipes__slug__versions__number__patch",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VersionUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Version"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cooks": {
+      "get": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Read Cooks",
+        "description": "The cooking log, newest first: by recipe slug, name words, or local days.",
+        "operationId": "read_cooks_api_cooks_get",
+        "parameters": [
+          {
+            "name": "recipe",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Recipe"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Since"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Until"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CookSummary"
+                  },
+                  "title": "Response Read Cooks Api Cooks Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Post Cook",
+        "description": "Log a cook: a recipe version and what actually went in, split into portions.\n\nWithout `items`, the version's ingredients are used. Without a recipe, the\ncook is improvised and needs `name`, `portions`, and `items`.",
+        "operationId": "post_cook_api_cooks_post",
+        "parameters": [
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Dry Run"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CookInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cook"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input; nothing written"
+          }
+        }
+      }
+    },
+    "/api/cooks/{cook_id}": {
+      "get": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Read Cook",
+        "description": "A cook with its ingredients, nutrition per portion, and changes to its version.",
+        "operationId": "read_cook_api_cooks__cook_id__get",
+        "parameters": [
+          {
+            "name": "cook_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Cook Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cook"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Patch Cook",
+        "description": "Correct a cook; meals eaten from it follow. `items` replaces all ingredients.",
+        "operationId": "patch_cook_api_cooks__cook_id__patch",
+        "parameters": [
+          {
+            "name": "cook_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Cook Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CookUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cook"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input; nothing written"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Remove Cook",
+        "description": "Delete a cook nothing was logged from.",
+        "operationId": "remove_cook_api_cooks__cook_id__delete",
+        "parameters": [
+          {
+            "name": "cook_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Cook Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "Amount": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "food": {
+            "type": "string",
+            "title": "Food"
+          },
+          "food_name": {
+            "type": "string",
+            "title": "Food Name"
+          },
+          "source_id": {
+            "type": "integer",
+            "title": "Source Id"
+          },
+          "source_name": {
+            "type": "string",
+            "title": "Source Name"
+          },
+          "amount": {
+            "type": "string",
+            "title": "Amount"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit"
+          },
+          "estimated": {
+            "type": "boolean",
+            "title": "Estimated"
+          },
+          "nutrition": {
+            "$ref": "#/components/schemas/Nutrition"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "food",
+          "food_name",
+          "source_id",
+          "source_name",
+          "amount",
+          "unit",
+          "estimated",
+          "nutrition"
+        ],
+        "title": "Amount",
+        "description": "An amount of a catalog source with its nutrition."
+      },
       "CatalogFacets": {
         "properties": {
           "foods": {
@@ -927,6 +1603,491 @@
         ],
         "title": "CatalogFacets",
         "description": "Filter values with counts. Each list is counted under every active\nfilter except its own, and holds the values with at least one food plus\nthe selected value (with count 0 if nothing matches)."
+      },
+      "Change": {
+        "properties": {
+          "food": {
+            "type": "string",
+            "title": "Food"
+          },
+          "food_name": {
+            "type": "string",
+            "title": "Food Name"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit"
+          },
+          "planned": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Planned"
+          },
+          "actual": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actual"
+          }
+        },
+        "type": "object",
+        "required": [
+          "food",
+          "food_name",
+          "unit",
+          "planned",
+          "actual"
+        ],
+        "title": "Change",
+        "description": "A food whose amount in a cook differs from its version; null means absent."
+      },
+      "Cook": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "recipe": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RecipeRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "cooked_at": {
+            "type": "string",
+            "title": "Cooked At"
+          },
+          "portions": {
+            "type": "string",
+            "title": "Portions"
+          },
+          "weight_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weight G"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "portions_eaten": {
+            "type": "string",
+            "title": "Portions Eaten"
+          },
+          "portions_left": {
+            "type": "string",
+            "title": "Portions Left"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "estimated",
+              "unknown"
+            ],
+            "title": "Status"
+          },
+          "totals": {
+            "$ref": "#/components/schemas/NutrientTotals"
+          },
+          "per_portion": {
+            "$ref": "#/components/schemas/NutrientTotals"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Amount"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "changes": {
+            "items": {
+              "$ref": "#/components/schemas/Change"
+            },
+            "type": "array",
+            "title": "Changes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "recipe",
+          "version",
+          "cooked_at",
+          "portions",
+          "weight_g",
+          "note",
+          "portions_eaten",
+          "portions_left",
+          "status",
+          "totals",
+          "per_portion",
+          "items",
+          "changes"
+        ],
+        "title": "Cook"
+      },
+      "CookInput": {
+        "properties": {
+          "recipe": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recipe"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "cooked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cooked At"
+          },
+          "portions": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,3}|(?=[\\d.]{1,7}0*$)\\d{0,3}\\.\\d{0,3}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Portions"
+          },
+          "weight_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 50000.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,7}|(?=[\\d.]{1,9}0*$)\\d{0,7}\\.\\d{0,1}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weight G"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "items": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/FoodAmount"
+                },
+                "type": "array",
+                "maxItems": 100,
+                "minItems": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CookInput",
+        "description": "A cook from a recipe version, or an improvised one with a name and items."
+      },
+      "CookSummary": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "recipe": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RecipeRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "cooked_at": {
+            "type": "string",
+            "title": "Cooked At"
+          },
+          "portions": {
+            "type": "string",
+            "title": "Portions"
+          },
+          "weight_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weight G"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "portions_eaten": {
+            "type": "string",
+            "title": "Portions Eaten"
+          },
+          "portions_left": {
+            "type": "string",
+            "title": "Portions Left"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "estimated",
+              "unknown"
+            ],
+            "title": "Status"
+          },
+          "totals": {
+            "$ref": "#/components/schemas/NutrientTotals"
+          },
+          "per_portion": {
+            "$ref": "#/components/schemas/NutrientTotals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "recipe",
+          "version",
+          "cooked_at",
+          "portions",
+          "weight_g",
+          "note",
+          "portions_eaten",
+          "portions_left",
+          "status",
+          "totals",
+          "per_portion"
+        ],
+        "title": "CookSummary"
+      },
+      "CookUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "cooked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cooked At"
+          },
+          "portions": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,3}|(?=[\\d.]{1,7}0*$)\\d{0,3}\\.\\d{0,3}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Portions"
+          },
+          "weight_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 50000.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,7}|(?=[\\d.]{1,9}0*$)\\d{0,7}\\.\\d{0,1}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weight G"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "items": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/FoodAmount"
+                },
+                "type": "array",
+                "maxItems": 100,
+                "minItems": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CookUpdate",
+        "description": "Only the given fields change; `items` replaces all ingredients."
       },
       "Day": {
         "properties": {
@@ -1002,6 +2163,85 @@
           "count"
         ],
         "title": "FacetValue"
+      },
+      "FoodAmount": {
+        "properties": {
+          "food": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Food",
+            "description": "catalog slug"
+          },
+          "source_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Id"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,7}|(?=[\\d.]{1,11}0*$)\\d{0,7}\\.\\d{0,3}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "portion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 60,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Portion"
+          },
+          "count": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,3}|(?=[\\d.]{1,7}0*$)\\d{0,3}\\.\\d{0,3}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Count"
+          },
+          "estimated": {
+            "type": "boolean",
+            "title": "Estimated",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "food"
+        ],
+        "title": "FoodAmount",
+        "description": "A catalog food and how much, as an amount or a portion."
       },
       "FoodDetail": {
         "properties": {
@@ -1435,6 +2675,29 @@
         "title": "FoodUpdate",
         "description": "Catalog fields of a food; only the given ones change, null clears."
       },
+      "Fork": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "from_version": {
+            "type": "integer",
+            "title": "From Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "name",
+          "from_version"
+        ],
+        "title": "Fork"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -1469,11 +2732,29 @@
       "ItemInput": {
         "properties": {
           "food": {
-            "type": "string",
-            "maxLength": 200,
-            "minLength": 1,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Food",
             "description": "catalog slug"
+          },
+          "cook": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cook"
           },
           "source_id": {
             "anyOf": [
@@ -1539,11 +2820,8 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "required": [
-          "food"
-        ],
         "title": "ItemInput",
-        "description": "One food in a meal: a catalog food and how much, as an amount or a portion."
+        "description": "One thing eaten: a catalog food (amount or portion), or portions of a cook."
       },
       "Meal": {
         "properties": {
@@ -1702,7 +2980,14 @@
             "title": "Id"
           },
           "food": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Food"
           },
           "food_name": {
@@ -1710,12 +2995,58 @@
             "title": "Food Name"
           },
           "source_id": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Source Id"
           },
           "source_name": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Source Name"
+          },
+          "cook_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cook Id"
+          },
+          "recipe": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RecipeRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cooked_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cooked At"
           },
           "amount": {
             "type": "string",
@@ -1740,12 +3071,16 @@
           "food_name",
           "source_id",
           "source_name",
+          "cook_id",
+          "recipe",
+          "cooked_at",
           "amount",
           "unit",
           "estimated",
           "nutrition"
         ],
-        "title": "MealItem"
+        "title": "MealItem",
+        "description": "A catalog food, or portions of a cook (then `food` and `source_id` are null)."
       },
       "MealUpdate": {
         "properties": {
@@ -2592,6 +3927,29 @@
         ],
         "title": "NutritionSource"
       },
+      "ParentRef": {
+        "properties": {
+          "recipe": {
+            "type": "string",
+            "title": "Recipe"
+          },
+          "recipe_name": {
+            "type": "string",
+            "title": "Recipe Name"
+          },
+          "number": {
+            "type": "integer",
+            "title": "Number"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recipe",
+          "recipe_name",
+          "number"
+        ],
+        "title": "ParentRef"
+      },
       "Portion": {
         "properties": {
           "name": {
@@ -2669,6 +4027,271 @@
           "unit"
         ],
         "title": "PortionInput"
+      },
+      "Recipe": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "versions": {
+            "items": {
+              "$ref": "#/components/schemas/Version"
+            },
+            "type": "array",
+            "title": "Versions"
+          },
+          "forks": {
+            "items": {
+              "$ref": "#/components/schemas/Fork"
+            },
+            "type": "array",
+            "title": "Forks"
+          },
+          "cooks": {
+            "items": {
+              "$ref": "#/components/schemas/CookSummary"
+            },
+            "type": "array",
+            "title": "Cooks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "name",
+          "note",
+          "created_at",
+          "versions",
+          "forks",
+          "cooks"
+        ],
+        "title": "Recipe"
+      },
+      "RecipeInput": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "items": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/FoodAmount"
+                },
+                "type": "array",
+                "maxItems": 100,
+                "minItems": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Items"
+          },
+          "portions": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,3}|(?=[\\d.]{1,7}0*$)\\d{0,3}\\.\\d{0,3}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Portions"
+          },
+          "instructions": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instructions"
+          },
+          "forked_from": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VersionRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "from_cook": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From Cook"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "RecipeInput",
+        "description": "A new recipe and its first version.\n\nIngredients and portions come from `items` and `portions`, otherwise from\n`from_cook`, otherwise from the `forked_from` version."
+      },
+      "RecipeRef": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "name"
+        ],
+        "title": "RecipeRef"
+      },
+      "RecipeSummary": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "latest_version": {
+            "type": "integer",
+            "title": "Latest Version"
+          },
+          "cooks": {
+            "type": "integer",
+            "title": "Cooks"
+          },
+          "last_cooked_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Cooked At"
+          },
+          "portions": {
+            "type": "string",
+            "title": "Portions"
+          },
+          "per_portion": {
+            "$ref": "#/components/schemas/NutrientTotals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "name",
+          "note",
+          "latest_version",
+          "cooks",
+          "last_cooked_at",
+          "portions",
+          "per_portion"
+        ],
+        "title": "RecipeSummary"
+      },
+      "RecipeUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "RecipeUpdate"
       },
       "SourceDetail": {
         "properties": {
@@ -3034,6 +4657,260 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "Version": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "number": {
+            "type": "integer",
+            "title": "Number"
+          },
+          "parent": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ParentRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "from_cook_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From Cook Id"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "instructions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instructions"
+          },
+          "portions": {
+            "type": "string",
+            "title": "Portions"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "cooks": {
+            "type": "integer",
+            "title": "Cooks"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "estimated",
+              "unknown"
+            ],
+            "title": "Status"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Amount"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "totals": {
+            "$ref": "#/components/schemas/NutrientTotals"
+          },
+          "per_portion": {
+            "$ref": "#/components/schemas/NutrientTotals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "parent",
+          "from_cook_id",
+          "note",
+          "instructions",
+          "portions",
+          "created_at",
+          "cooks",
+          "status",
+          "items",
+          "totals",
+          "per_portion"
+        ],
+        "title": "Version"
+      },
+      "VersionInput": {
+        "properties": {
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "items": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/FoodAmount"
+                },
+                "type": "array",
+                "maxItems": 100,
+                "minItems": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Items"
+          },
+          "portions": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,3}|(?=[\\d.]{1,7}0*$)\\d{0,3}\\.\\d{0,3}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Portions"
+          },
+          "instructions": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instructions"
+          },
+          "parent": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent"
+          },
+          "from_cook": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From Cook"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "VersionInput",
+        "description": "A new version; anything not given comes from `from_cook` or the parent."
+      },
+      "VersionRef": {
+        "properties": {
+          "recipe": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Recipe"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "recipe"
+        ],
+        "title": "VersionRef"
+      },
+      "VersionUpdate": {
+        "properties": {
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "instructions": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instructions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "VersionUpdate",
+        "description": "Only text changes; different ingredients or portions are a new version."
       }
     }
   }

@@ -11,9 +11,25 @@ its own.
   unknown meals as a badge. Arrows move between days. **Log meal** opens a
   form: meal kind, time, a note for raw thoughts, and foods found by catalog
   search, each with an amount
-  or a label portion (e.g. "Becher") and a "guessed" switch. The form shows the
+  or a label portion (e.g. "Becher") and a "guessed" switch, or portions of a
+  cooked dish picked from the cooking log. The form shows the
   calculated calories and protein before saving, using the API's dry run. A
   meal without foods is logged as unknown. Every meal can be edited or deleted.
+- **Recipes** (`/recipes`): recipe cards with the latest version's calories,
+  protein, and energy split per portion, a name filter, and the cooking log
+  with portions left. **New recipe** and **Log improvised cook** open forms.
+- **Recipe** (`/recipes/{slug}`): the history of versions, newest first. Each
+  shows its note on what changed, the ingredients that differ from its parent
+  (e.g. "Rice 600 → 400 g"), nutrition per portion, ingredients and steps, and
+  the cooks made from it. Each version can be cooked, developed into a new
+  version, or forked into a new recipe; variations and the recipe it was
+  forked from are linked.
+- **Cook** (`/cooks/{id}`): when it was cooked, how it turned out, one
+  portion's nutrition, what went in, and how that differs from its version.
+  **Eat a portion** logs it as a meal; **Save as new version** (or **Save as
+  recipe** for an improvised cook) turns it into the next version. A cook form
+  starts with the version's ingredients to adjust freely and previews calories
+  per portion.
 - **Foods** (`/foods`): the catalog as cards. Each card shows calories and a
   bar of where the energy comes from. The 20 BLS food groups, each with an
   icon and count, form a sidebar on wide screens and a **Categories** menu on
