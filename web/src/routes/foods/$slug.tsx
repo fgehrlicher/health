@@ -5,6 +5,7 @@ import { useState } from "react"
 import { FoodGroupPicker } from "@/components/food-group-picker"
 import { groupIcon } from "@/components/food-groups"
 import { MealSheet } from "@/components/log/meal-sheet"
+import { VariantOfPicker } from "@/components/variant-of-picker"
 import { CompositionBar } from "@/components/nutrition/composition-bar"
 import { EnergyDonut } from "@/components/nutrition/energy-donut"
 import { ReferenceIntakeBars } from "@/components/nutrition/reference-intake-bars"
@@ -102,7 +103,40 @@ function FoodPage() {
             <PlusIcon /> Log this food
           </Button>
         </div>
+        {food.kind === "branded" && <VariantOfPicker food={food} />}
       </div>
+
+      {food.variants.length > 0 && (
+        <section className="flex flex-col gap-2">
+          <h2 className="text-sm font-medium text-muted-foreground">
+            Products of this kind
+          </h2>
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {food.variants.map((variant) => (
+              <Link
+                key={variant.slug}
+                to="/foods/$slug"
+                params={{ slug: variant.slug }}
+                className="flex items-center gap-3 rounded-lg border bg-card px-3 py-2.5 text-sm transition-colors hover:bg-muted/60"
+              >
+                <span className="flex min-w-0 flex-1 flex-col">
+                  <span className="truncate font-medium">{variant.name}</span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    {variant.brand ?? "No brand"}
+                  </span>
+                </span>
+                <span className="shrink-0 text-right text-xs text-muted-foreground tabular-nums">
+                  {formatNumber(variant.energy_kcal, 0)} kcal ·{" "}
+                  {formatNumber(variant.protein_g)} g protein
+                  <br />
+                  per {formatNumber(variant.reference_quantity)}{" "}
+                  {variant.reference_unit}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {food.sources.map((source) => (
         <SourceView

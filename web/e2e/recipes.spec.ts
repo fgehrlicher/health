@@ -108,3 +108,55 @@ test("create a recipe, cook it differently, eat a portion, and improve it", asyn
     page.getByRole("link", { name: "saved from a cook" })
   ).toBeVisible()
 })
+
+test("swap a generic ingredient for a branded variant when cooking", async ({
+  page,
+  request,
+}) => {
+  const soy = "bls4-h841100" // Soya drink unsweetened
+  const product = await request.post(`${API}/api/foods`, {
+    data: {
+      name: "E2E Soja Drink",
+      brand: "E2E",
+      barcode: "4000000000044", // valid check digit, not a real product
+      food_group: "H",
+      variant_of: soy,
+      nutrition: {
+        reference_unit: "ml",
+        energy_kcal: 33,
+        fat_g: 1.8,
+        carbs_g: 0.2,
+        protein_g: 3.3,
+      },
+    },
+  })
+  expect([201, 409]).toContain(product.status())
+  const recipe = await request.post(`${API}/api/recipes`, {
+    data: {
+      name: "E2E Porridge",
+      portions: 1,
+      items: [{ food: soy, amount: 300 }],
+    },
+  })
+  expect(recipe.status()).toBe(201)
+
+  // The generic food lists the product.
+  await open(page, `/foods/${soy}`)
+  await expect(page.getByText("Products of this kind")).toBeVisible()
+  await expect(page.getByRole("link", { name: /E2E Soja Drink/ })).toBeVisible()
+
+  await open(page, "/recipes/e2e-porridge")
+  await expect(page.getByText(/Generic values for Soya drink/)).toBeVisible()
+  await page.getByRole("button", { name: "Cook v1" }).click()
+  const sheet = page.getByRole("dialog")
+  await sheet.getByRole("combobox", { name: "Product" }).click()
+  await page.getByRole("option", { name: "E2E E2E Soja Drink" }).click()
+  await sheet.getByLabel("Amount").fill("300")
+  await sheet.getByRole("button", { name: "Log cook" }).click()
+
+  await expect(page.getByText("Compared with v1")).toBeVisible()
+  await expect(
+    page.getByText("instead of Soya drink unsweetened")
+  ).toBeVisible()
+  await expect(page.getByText("99", { exact: true })).toBeVisible()
+})

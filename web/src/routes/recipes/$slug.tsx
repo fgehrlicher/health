@@ -10,7 +10,7 @@ import {
 } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
-import { ChangeList, diffAmounts } from "@/components/recipes/change-list"
+import { ChangeList } from "@/components/recipes/change-list"
 import { CookRow } from "@/components/recipes/cook-row"
 import { CookSheet } from "@/components/recipes/cook-sheet"
 import { IngredientList } from "@/components/recipes/ingredient-list"
@@ -262,7 +262,9 @@ function VersionCard({
     version.parent?.recipe === recipe.slug
       ? recipe.versions.find((other) => other.number === version.parent?.number)
       : undefined
-  const changes = parent ? diffAmounts(parent.items, version.items) : []
+  const generic = version.items
+    .filter((item) => item.variants > 0)
+    .map((item) => item.food_name)
   const cooks = recipe.cooks.filter((cook) => cook.version === version.number)
 
   return (
@@ -324,8 +326,14 @@ function VersionCard({
             {version.note}
           </p>
         )}
-        {changes.length > 0 && <ChangeList changes={changes} />}
+        {version.changes.length > 0 && <ChangeList changes={version.changes} />}
         <PortionNutrition perPortion={version.per_portion} compact={!latest} />
+        {generic.length > 0 && (
+          <p className="text-xs text-muted-foreground">
+            Generic values for {generic.join(", ")}; cooks count the products
+            that actually went in.
+          </p>
+        )}
 
         <details open={latest} className="group text-sm">
           <summary className="cursor-pointer text-muted-foreground select-none hover:text-foreground">

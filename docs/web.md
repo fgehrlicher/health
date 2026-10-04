@@ -29,7 +29,9 @@ its own.
   **Eat a portion** logs it as a meal; **Save as new version** (or **Save as
   recipe** for an improvised cook) turns it into the next version. A cook form
   starts with the version's ingredients to adjust freely and previews calories
-  per portion.
+  per portion. An ingredient that is a generic food with linked products (or
+  one of those products) gets a **Product** menu to swap in what was actually
+  used; the cook then shows "Alpro … instead of Soya drink unsweetened".
 - **Foods** (`/foods`): the catalog as cards. Each card shows calories and a
   bar of where the energy comes from. The 20 BLS food groups, each with an
   icon and count, form a sidebar on wide screens and a **Categories** menu on
@@ -46,7 +48,9 @@ its own.
   label with ingredients, and vitamins and minerals as a share of the EU daily
   reference intake, plus **Log this food**. A generic food's group links to
   its category; a product has a category menu to set it, and its brand links
-  to all products of that brand.
+  to all products of that brand. A product can be linked to the generic food
+  it is a kind of (**Kind of**), and a generic food lists its linked
+  **Products of this kind** with their calories and protein.
 
 The theme is warm: cream surfaces and green as the main color, in light and
 dark variants that follow the system or the toggle in the header. Protein,

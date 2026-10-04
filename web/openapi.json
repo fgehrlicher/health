@@ -1501,6 +1501,21 @@
             "type": "string",
             "title": "Food Name"
           },
+          "variant_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variant Of"
+          },
+          "variants": {
+            "type": "integer",
+            "title": "Variants"
+          },
           "source_id": {
             "type": "integer",
             "title": "Source Id"
@@ -1530,6 +1545,8 @@
           "id",
           "food",
           "food_name",
+          "variant_of",
+          "variants",
           "source_id",
           "source_name",
           "amount",
@@ -1606,6 +1623,31 @@
       },
       "Change": {
         "properties": {
+          "planned": {
+            "items": {
+              "$ref": "#/components/schemas/ChangePart"
+            },
+            "type": "array",
+            "title": "Planned"
+          },
+          "actual": {
+            "items": {
+              "$ref": "#/components/schemas/ChangePart"
+            },
+            "type": "array",
+            "title": "Actual"
+          }
+        },
+        "type": "object",
+        "required": [
+          "planned",
+          "actual"
+        ],
+        "title": "Change",
+        "description": "One ingredient that differs, before and after; empty means absent.\n\nA branded product and its generic food are the same ingredient, so a swap\nis one change with different foods on either side."
+      },
+      "ChangePart": {
+        "properties": {
           "food": {
             "type": "string",
             "title": "Food"
@@ -1614,43 +1656,23 @@
             "type": "string",
             "title": "Food Name"
           },
+          "amount": {
+            "type": "string",
+            "title": "Amount"
+          },
           "unit": {
             "type": "string",
             "title": "Unit"
-          },
-          "planned": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Planned"
-          },
-          "actual": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Actual"
           }
         },
         "type": "object",
         "required": [
           "food",
           "food_name",
-          "unit",
-          "planned",
-          "actual"
+          "amount",
+          "unit"
         ],
-        "title": "Change",
-        "description": "A food whose amount in a cook differs from its version; null means absent."
+        "title": "ChangePart"
       },
       "Cook": {
         "properties": {
@@ -2336,6 +2358,23 @@
             },
             "type": "array",
             "title": "Portions"
+          },
+          "variant_of": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FoodRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "variants": {
+            "items": {
+              "$ref": "#/components/schemas/Variant"
+            },
+            "type": "array",
+            "title": "Variants"
           }
         },
         "type": "object",
@@ -2351,7 +2390,9 @@
           "brand",
           "barcode",
           "sources",
-          "portions"
+          "portions",
+          "variant_of",
+          "variants"
         ],
         "title": "FoodDetail"
       },
@@ -2451,6 +2492,19 @@
             "type": "array",
             "title": "Portions",
             "default": []
+          },
+          "variant_of": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variant Of"
           }
         },
         "additionalProperties": false,
@@ -2492,6 +2546,24 @@
           "offset"
         ],
         "title": "FoodPage"
+      },
+      "FoodRef": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "name"
+        ],
+        "title": "FoodRef"
       },
       "FoodRegistration": {
         "properties": {
@@ -2668,6 +2740,19 @@
               }
             ],
             "title": "Brand"
+          },
+          "variant_of": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variant Of"
           }
         },
         "additionalProperties": false,
@@ -4658,6 +4743,85 @@
         ],
         "title": "ValidationError"
       },
+      "Variant": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "brand": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Brand"
+          },
+          "reference_quantity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Quantity"
+          },
+          "reference_unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Unit"
+          },
+          "energy_kcal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Energy Kcal"
+          },
+          "protein_g": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protein G"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "name",
+          "brand",
+          "reference_quantity",
+          "reference_unit",
+          "energy_kcal",
+          "protein_g"
+        ],
+        "title": "Variant",
+        "description": "A branded product that is a kind of this generic food, with its current values."
+      },
       "Version": {
         "properties": {
           "id": {
@@ -4677,6 +4841,13 @@
                 "type": "null"
               }
             ]
+          },
+          "changes": {
+            "items": {
+              "$ref": "#/components/schemas/Change"
+            },
+            "type": "array",
+            "title": "Changes"
           },
           "from_cook_id": {
             "anyOf": [
@@ -4751,6 +4922,7 @@
           "id",
           "number",
           "parent",
+          "changes",
           "from_cook_id",
           "note",
           "instructions",

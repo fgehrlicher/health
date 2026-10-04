@@ -421,6 +421,30 @@ export function ItemRow({
   const portions = (food.data?.portions ?? []).filter(
     (portion) => portion.unit === item.baseUnit
   )
+  // A generic food and its branded variants are interchangeable: offer them
+  // all, whether the row holds the generic food or one of the products.
+  const parentSlug = food.data?.variant_of?.slug
+  const parent = useQuery({
+    ...foodQuery(parentSlug ?? ""),
+    enabled: parentSlug !== undefined,
+  })
+  const family = food.data?.variants.length ? food.data : parent.data
+  const choices = family
+    ? [
+        {
+          value: family.slug,
+          label: `${family.name} (generic)`,
+          name: family.name,
+          unit: family.sources[0]?.reference_unit ?? "g",
+        },
+        ...family.variants.map((variant) => ({
+          value: variant.slug,
+          label: [variant.brand, variant.name].filter(Boolean).join(" "),
+          name: variant.name,
+          unit: variant.reference_unit ?? "g",
+        })),
+      ]
+    : []
   const units = [item.baseUnit, ...portions.map((portion) => portion.name)]
 
   return (
@@ -444,6 +468,37 @@ export function ItemRow({
           <XIcon />
         </Button>
       </div>
+      {choices.length > 1 && (
+        <Select
+          value={item.food}
+          items={choices}
+          onValueChange={(slug) => {
+            const choice = choices.find((option) => option.value === slug)
+            if (!choice) return
+            onChange({
+              ...item,
+              food: choice.value,
+              foodName: choice.name,
+              sourceId: undefined,
+              baseUnit: choice.unit,
+              unit: choice.unit,
+              // A count of another food's portion means nothing here.
+              quantity: item.unit === item.baseUnit ? item.quantity : "",
+            })
+          }}
+        >
+          <SelectTrigger size="sm" aria-label="Product" className="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {choices.map((choice) => (
+              <SelectItem key={choice.value} value={choice.value}>
+                {choice.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
       <div className="flex items-center gap-2">
         <Input
           type="number"

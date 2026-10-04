@@ -52,13 +52,14 @@ export const getFacets = createServerFn({ method: "GET" })
     unwrap(await api.GET("/api/foods/facets", { params: { query: data } }))
   )
 
-/** Set a food's group or brand; null clears it. */
+/** Set a food's group, brand, or generic food; null clears it. */
 export const updateFood = createServerFn({ method: "POST" })
   .validator(
     z.object({
       slug: z.string().min(1).max(200),
       food_group: z.string().length(1).nullable().optional(),
       brand: z.string().min(1).max(100).nullable().optional(),
+      variant_of: z.string().min(1).max(200).nullable().optional(),
     })
   )
   .handler(async ({ data }) => {

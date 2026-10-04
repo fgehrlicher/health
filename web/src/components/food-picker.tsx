@@ -23,22 +23,37 @@ import type { FoodSummary } from "@/lib/api/types"
 /** Search the catalog and pick a food; ranking comes from the API. */
 export function FoodPicker({
   onPick,
+  kind,
+  label = "Add food",
+  size,
 }: {
   onPick: (food: FoodSummary) => void
+  /** Only foods of this kind, e.g. "generic". */
+  kind?: string
+  label?: string
+  size?: "sm"
 }) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState("")
   const deferred = useDeferredValue(query.trim())
   const results = useQuery({
-    ...foodsQuery({ q: deferred, limit: 12 }),
+    ...foodsQuery({ q: deferred, limit: 12, kind }),
     enabled: open && deferred.length >= 2,
     placeholderData: keepPreviousData,
   })
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger render={<Button variant="outline" className="w-full" />}>
-        <PlusIcon /> Add food
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            size={size}
+            className={size ? undefined : "w-full"}
+          />
+        }
+      >
+        <PlusIcon /> {label}
       </PopoverTrigger>
       <PopoverContent className="w-(--anchor-width) min-w-72 p-0" align="start">
         {/* The API ranks results, so cmdk must not filter them again. */}

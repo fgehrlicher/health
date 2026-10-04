@@ -354,6 +354,10 @@ export interface components {
             food: string;
             /** Food Name */
             food_name: string;
+            /** Variant Of */
+            variant_of: string | null;
+            /** Variants */
+            variants: number;
             /** Source Id */
             source_id: number;
             /** Source Name */
@@ -392,19 +396,27 @@ export interface components {
         };
         /**
          * Change
-         * @description A food whose amount in a cook differs from its version; null means absent.
+         * @description One ingredient that differs, before and after; empty means absent.
+         *
+         *     A branded product and its generic food are the same ingredient, so a swap
+         *     is one change with different foods on either side.
          */
         Change: {
+            /** Planned */
+            planned: components["schemas"]["ChangePart"][];
+            /** Actual */
+            actual: components["schemas"]["ChangePart"][];
+        };
+        /** ChangePart */
+        ChangePart: {
             /** Food */
             food: string;
             /** Food Name */
             food_name: string;
+            /** Amount */
+            amount: string;
             /** Unit */
             unit: string;
-            /** Planned */
-            planned: string | null;
-            /** Actual */
-            actual: string | null;
         };
         /** Cook */
         Cook: {
@@ -585,6 +597,9 @@ export interface components {
             sources: components["schemas"]["SourceDetail"][];
             /** Portions */
             portions: components["schemas"]["Portion"][];
+            variant_of: components["schemas"]["FoodRef"] | null;
+            /** Variants */
+            variants: components["schemas"]["Variant"][];
         };
         /**
          * FoodInput
@@ -619,6 +634,8 @@ export interface components {
              * @default []
              */
             portions?: components["schemas"]["PortionInput"][];
+            /** Variant Of */
+            variant_of?: string | null;
         };
         /** FoodPage */
         FoodPage: {
@@ -630,6 +647,13 @@ export interface components {
             limit: number;
             /** Offset */
             offset: number;
+        };
+        /** FoodRef */
+        FoodRef: {
+            /** Slug */
+            slug: string;
+            /** Name */
+            name: string;
         };
         /** FoodRegistration */
         FoodRegistration: {
@@ -676,6 +700,8 @@ export interface components {
             food_group?: string | null;
             /** Brand */
             brand?: string | null;
+            /** Variant Of */
+            variant_of?: string | null;
         };
         /** Fork */
         Fork: {
@@ -1161,6 +1187,26 @@ export interface components {
             /** Context */
             ctx?: Record<string, never>;
         };
+        /**
+         * Variant
+         * @description A branded product that is a kind of this generic food, with its current values.
+         */
+        Variant: {
+            /** Slug */
+            slug: string;
+            /** Name */
+            name: string;
+            /** Brand */
+            brand: string | null;
+            /** Reference Quantity */
+            reference_quantity: string | null;
+            /** Reference Unit */
+            reference_unit: string | null;
+            /** Energy Kcal */
+            energy_kcal: string | null;
+            /** Protein G */
+            protein_g: string | null;
+        };
         /** Version */
         Version: {
             /** Id */
@@ -1168,6 +1214,8 @@ export interface components {
             /** Number */
             number: number;
             parent: components["schemas"]["ParentRef"] | null;
+            /** Changes */
+            changes: components["schemas"]["Change"][];
             /** From Cook Id */
             from_cook_id: number | null;
             /** Note */
