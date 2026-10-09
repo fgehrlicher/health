@@ -1,0 +1,15 @@
+.git/
+.venv/
+.env
+.pytest_cache/
+.ruff_cache/
+**/__pycache__/
+backups/
+data/
+target/
+ingest/
+test-data/
+temp
+web/node_modules/
+web/dist/
+.DS_Store
