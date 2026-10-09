@@ -1,0 +1,10 @@
+[Unit]
+Description=Nightly dump of the health database
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+User=fabian
+Group=fabian
+ExecStart=/home/fabian/health/scripts/backup-db.sh
