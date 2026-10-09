@@ -155,9 +155,7 @@ test("swap a generic ingredient for a branded variant when cooking", async ({
   await sheet.getByRole("button", { name: "Log cook" }).click()
 
   await expect(page.getByText("Compared with v1")).toBeVisible()
-  await expect(
-    page.getByText("instead of Sojadrink ungesüßt")
-  ).toBeVisible()
+  await expect(page.getByText("instead of Sojadrink ungesüßt")).toBeVisible()
   await expect(page.getByText("99", { exact: true })).toBeVisible()
 })
 
