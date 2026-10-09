@@ -39,7 +39,7 @@ to the food, not a source, so branded and generic foods browse together.
 Requirements: Docker with Compose. The BLS importer additionally uses uv.
 
 ```sh
-make db-up       # Start PostgreSQL; a new volume gets db/schema.sql automatically
+make db-up       # Start PostgreSQL and apply pending migrations
 make db-status   # Show whether the base schema is installed
 uv run --locked bls4-import  # Load the BLS 4.0 catalog
 ```
@@ -47,23 +47,39 @@ uv run --locked bls4-import  # Load the BLS 4.0 catalog
 The default connection is
 `postgres://health:health@127.0.0.1:5432/health`. Copy `.env.example` to
 change the local port or password, and set `DATABASE_URL` accordingly. For an
-otherwise empty PostgreSQL database outside Compose, apply `db/schema.sql` with
-`psql` or your database client.
+otherwise empty PostgreSQL database outside Compose, point `DATABASE_URL` at it
+and run `make db-migrate`, which applies the baseline and every migration.
 
-## Schema changes, resets, and backups
+## Schema changes, migrations, resets, and backups
 
-`db/schema.sql` is still a mutable baseline with no migrations: a schema change
-means editing it and running `make db-reset`. That deletes the volume,
-**including every registered food and logged meal**, and rebuilds from the
-current schema. BLS data returns with the importer; everything else only from a
-backup or by registering it again. Once real data must survive schema changes,
-the baseline should be frozen and changes added as migrations.
+`db/schema.sql` is the frozen baseline: the schema as it was when migrations
+began. Do not edit it. Every later change is a new file in `db/migrations/`,
+named with the next number and a short name, for example
+`0001_recipe_tags.sql`:
+
+```sh
+make db-migrate   # applies pending migrations to the local database
+```
+
+Each file runs once, in order, in its own transaction, and its name is recorded
+in `schema_migrations`. A failed migration is rolled back and not recorded, so
+it can be fixed and run again. A new empty database gets the baseline and then
+every migration; an existing database that predates the table records its files
+without running them. Write migrations so that they only add or change what the
+database needs, and never rewrite a file that has already been applied on any
+database, including the server.
+
+The server runs the same migrations at each deploy (see
+[Deployment](deployment.md)).
+
+`make db-reset` deletes the volume, **including every registered food and logged
+meal**, and rebuilds from the baseline and the migrations. BLS data returns with
+the importer; everything else only from a backup or by registering it again.
 
 - `make db-backup` writes a full dump to `backups/`, which Git ignores.
   `make db-restore FILE=backups/<file>.dump` replaces the database with it.
-  Take one before a reset. Nothing runs backups automatically. Without
-  migrations, a dump restores only into the schema it was taken from: after a
-  schema change, older dumps are a record, not a restore path.
+  Take one before a reset. A dump restores into the schema it was taken from;
+  after a migration, apply the migration to the restored database.
 - `make db-down` stops PostgreSQL and keeps the data.
 
 ## Search views
