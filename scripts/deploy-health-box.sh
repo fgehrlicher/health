@@ -22,6 +22,9 @@ ssh "$HOST" 'set -e
     if ! grep -q "managed by deploy: food-terminal-guard" ~/.hermes/profiles/food/config.yaml; then
       cat agents/food/hooks/config-snippet.yaml >> ~/.hermes/profiles/food/config.yaml
     fi
+    if ! grep -q "managed by deploy: food-vision" ~/.hermes/profiles/food/config.yaml; then
+      cat agents/food/vision-config-snippet.yaml >> ~/.hermes/profiles/food/config.yaml
+    fi
     ~/.local/bin/hermes -p food tools disable web browser code_execution image_gen tts \
       delegation cronjob computer_use connections >/dev/null 2>&1 || true
   fi

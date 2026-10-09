@@ -102,13 +102,18 @@ the structure takes it without changes.
 ## Models
 
 - **Main model per profile: Haiku 5.5.** Chat, tool calls and routing.
-- **Vision: Opus 5.** Hermes has a per-task setting for vision
-  (`auxiliary.vision`, with its own `provider` and `model`). This keeps photos on
-  the stronger model and everyday messages on Haiku.
-- **Caveat to test first.** The config comments say that providers other than
-  OpenRouter and Nous Portal are experimental for these tasks. We test Opus over
-  the direct Anthropic provider first. If that fails, the route is OpenRouter,
-  which needs its own API key.
+- **Vision: Opus 5.5 (`claude-opus-5-5`)**, set in the food profile's config
+  (`agents/food/vision-config-snippet.yaml`, appended by the deploy script).
+  Hermes has a per-task setting for vision (`auxiliary.vision`, with its own
+  `provider` and `model`).
+- **Tested on health-box (2026-10-09).** The direct Anthropic route works, so
+  OpenRouter isn't needed. A deliberately wrong model name made the vision call
+  fail, so the configured model is the one that answers.
+- **Photos go to Opus, not Haiku.** Haiku can see images itself, and by default
+  Hermes attaches photos straight to it, which skips the vision setting. Naming a
+  vision provider changes that: Opus describes each photo first, and Haiku works
+  from the description, never seeing the photo itself.
+- **Still to test:** a real photo sent through Telegram. The test used a file path.
 - **Cost.** Each photo sent to Opus costs more than a text message. The agent
   should ask before reading many photos at once.
 
