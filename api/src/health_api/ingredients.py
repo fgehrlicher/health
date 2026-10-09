@@ -132,6 +132,8 @@ def load_amounts(connection: Connection, table: str, owner_ids: list[int]) -> di
         return result
     for item in connection.execute(
         f"""SELECT i.id, i.{owner} AS owner_id, f.slug AS food, f.name AS food_name,
+                   (SELECT b.food_name FROM catalog.food_sources b WHERE b.food_id = f.id
+                    AND b.source_name = 'BLS 4.0' ORDER BY b.id LIMIT 1) AS food_name_de,
                    g.slug AS variant_of, g.name AS variant_of_name,
                    (SELECT count(*) FROM catalog.foods v WHERE v.variant_of = f.id) AS variants,
                    i.source_id, s.source_name, i.amount, s.reference_unit AS unit, i.estimated,
@@ -163,6 +165,7 @@ def public_amount(item: dict) -> dict:
         "id": item["id"],
         "food": item["food"],
         "food_name": item["food_name"],
+        "food_name_de": item.get("food_name_de"),
         "variant_of": item["variant_of"],
         "variants": item["variants"],
         "source_id": item["source_id"],
@@ -191,6 +194,7 @@ def changes(before: list[dict], after: list[dict]) -> list[dict]:
                 {
                     "food": item["food"],
                     "food_name": item["food_name"],
+                    "food_name_de": item.get("food_name_de"),
                     "amount": Decimal(0),
                     "unit": item["unit"],
                 },

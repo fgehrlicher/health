@@ -31,6 +31,8 @@ class Amount(BaseModel):
     id: int
     food: str
     food_name: str
+    # German name of a BLS food; null for products.
+    food_name_de: str | None
     # For a branded product: the generic food it is a kind of.
     variant_of: str | None
     # For a generic food: how many branded products are a kind of it.
@@ -55,6 +57,7 @@ class MealItem(BaseModel):
     food: str | None
     # The food's name, or the cook's.
     food_name: str
+    food_name_de: str | None
     source_id: int | None
     source_name: str | None
     cook_id: int | None

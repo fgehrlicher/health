@@ -34,8 +34,8 @@ Sort = Literal[
 SORT_SQL = {
     "relevance": "relevance DESC, length(name) ASC, lower(name) ASC, id ASC",
     # Leading quotes and brackets ("Berliner" doughnut) do not sort first.
-    "name": "regexp_replace(lower(name), '^[^[:alnum:]]+', '') ASC, id ASC",
-    "name_desc": "regexp_replace(lower(name), '^[^[:alnum:]]+', '') DESC, id ASC",
+    "name": "regexp_replace(lower(coalesce(name_de, name)), '^[^[:alnum:]]+', '') ASC, id ASC",
+    "name_desc": "regexp_replace(lower(coalesce(name_de, name)), '^[^[:alnum:]]+', '') DESC, id ASC",
     "group_asc": "food_group ASC NULLS LAST, lower(name) ASC, id ASC",
     "group_desc": "food_group DESC NULLS LAST, lower(name) ASC, id ASC",
     "code_asc": "external_id ASC NULLS LAST, lower(name) ASC, id ASC",
@@ -171,6 +171,7 @@ BASE_SQL = (
 SELECT
     f.id, f.slug, f.name, f.aliases, f.kind, f.preparation_state, f.food_group,
     g.name AS food_group_name, f.brand, f.barcode,
+    bls.food_name AS name_de,
     (SELECT count(*) FROM catalog.food_sources s WHERE s.food_id = f.id) AS source_count,
     chosen.id AS source_id, chosen.source_name, chosen.external_id,
     chosen.food_name, chosen.reference_quantity, chosen.reference_unit,
@@ -183,6 +184,11 @@ SELECT
 FROM catalog.foods f
 LEFT JOIN catalog.food_groups g ON g.code = f.food_group
 LEFT JOIN search_matches m ON m.food_id = f.id
+LEFT JOIN LATERAL (
+    SELECT b.food_name FROM catalog.food_sources b
+    WHERE b.food_id = f.id AND b.source_name = 'BLS 4.0'
+    ORDER BY b.id LIMIT 1
+) bls ON true
 LEFT JOIN LATERAL (
     SELECT s.* FROM catalog.food_sources s
     WHERE s.food_id = f.id
@@ -298,6 +304,8 @@ def food_from_row(row: DictRow) -> dict:
         "id": row["id"],
         "slug": row["slug"],
         "name": row["name"],
+        "name_de": row["name_de"],
+        "name_en": row["name"] if row["name_de"] else None,
         "aliases": row["aliases"],
         "kind": row["kind"],
         "preparation_state": row["preparation_state"],
@@ -334,6 +342,7 @@ def list_foods(connection: Connection, filters: FoodFilters) -> dict:
 def get_food(connection: Connection, slug: str) -> dict | None:
     row = connection.execute(
         """SELECT f.id, f.slug, f.name, f.aliases, f.kind, f.preparation_state,
+                  (SELECT b.food_name FROM catalog.food_sources b WHERE b.food_id = f.id AND b.source_name = 'BLS 4.0' ORDER BY b.id LIMIT 1) AS name_de,
                   f.food_group, g.name AS food_group_name, f.brand, f.barcode
            FROM catalog.foods f
            LEFT JOIN catalog.food_groups g ON g.code = f.food_group
@@ -404,6 +413,7 @@ def get_food(connection: Connection, slug: str) -> dict | None:
     ).fetchone()["codes"]
     return {
         **dict(row),
+        "name_en": row["name"] if row["name_de"] else None,
         "label_gaps": label_gaps(gaps),
         "variant_of": parent,
         "variants": [

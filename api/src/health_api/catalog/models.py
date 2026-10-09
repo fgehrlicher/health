@@ -59,6 +59,10 @@ class FoodBase(BaseModel):
     id: int
     slug: str
     name: str
+    # German name (BLS food name) for generic foods; null for products.
+    name_de: str | None
+    # The catalog name (English for BLS foods) when a German name exists; else null.
+    name_en: str | None
     aliases: list[str]
     kind: str
     preparation_state: str | None

@@ -12,6 +12,7 @@ Status = Literal["measured", "estimated", "unknown"]
 class ChangePart(BaseModel):
     food: str
     food_name: str
+    food_name_de: str | None
     amount: str
     unit: str
 

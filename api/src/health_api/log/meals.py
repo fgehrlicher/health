@@ -200,6 +200,7 @@ def public_item(item: dict) -> dict:
         "id": item["id"],
         "food": None,
         "food_name": cook["name"],
+        "food_name_de": None,
         "source_id": None,
         "source_name": None,
         "cook_id": cook["id"],

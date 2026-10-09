@@ -177,6 +177,9 @@ def test_catalog_queries_against_postgres(monkeypatch):
         nutrients["potassium"]["unit"] == "mg" and nutrients["potassium"]["category"] == "mineral"
     )
     assert nutrients["vitamin_b6"]["unit"] == "mg"
+    # German first: the BLS food name, with the catalog (English) name underneath.
+    assert detail.json()["name_de"] == detail.json()["sources"][0]["food_name"]
+    assert detail.json()["name_en"] == detail.json()["name"]
     assert request("/api/foods/not-a-food").status_code == 404
 
 
