@@ -17,6 +17,13 @@ ssh "$HOST" 'set -e
     mkdir -p ~/.hermes/profiles/food/skills/health/food-logging
     install -m 644 agents/food/skills/health/food-logging/SKILL.md \
       ~/.hermes/profiles/food/skills/health/food-logging/SKILL.md
+    mkdir -p ~/.hermes/agent-hooks
+    install -m 755 agents/food/hooks/terminal_guard.py ~/.hermes/agent-hooks/food-terminal-guard.py
+    if ! grep -q "managed by deploy: food-terminal-guard" ~/.hermes/profiles/food/config.yaml; then
+      cat agents/food/hooks/config-snippet.yaml >> ~/.hermes/profiles/food/config.yaml
+    fi
+    ~/.local/bin/hermes -p food tools disable web browser code_execution image_gen tts \
+      delegation cronjob computer_use connections >/dev/null 2>&1 || true
   fi
   sudo install -m 644 deploy/health-backup.service deploy/health-backup.timer /etc/systemd/system/
   sudo systemctl daemon-reload

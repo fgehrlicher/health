@@ -1,0 +1,9 @@
+
+# managed by deploy: food-terminal-guard
+hooks:
+  pre_tool_call:
+    - matcher: "terminal"
+      command: "~/.hermes/agent-hooks/food-terminal-guard.py"
+      timeout: 10
+      fail_closed: true
+hooks_auto_accept: true
