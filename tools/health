@@ -1,0 +1,219 @@
+#!/usr/bin/env python3
+"""Command-line access to the health API, for people and for agents.
+
+Standard library only, so it runs with the system python3 and needs no install.
+It holds no rules of its own: validation, nutrition and status all come from
+the API. Writes are dry runs unless --commit is given.
+
+    health foods search quark
+    health day 2026-10-10
+    health meal log --file meal.json            # dry run: shows what would be stored
+    health meal log --file meal.json --commit   # stores it
+
+Output is JSON. Exit codes: 0 ok, 1 unexpected error, 2 the API rejected the
+input (its issues are printed), 3 not found, 4 the API is unreachable.
+"""
+
+import argparse
+import datetime
+import json
+import os
+import sys
+import urllib.error
+import urllib.parse
+import urllib.request
+from zoneinfo import ZoneInfo
+
+DEFAULT_URL = "http://127.0.0.1:8000"
+TIMEZONE = ZoneInfo(os.environ.get("HEALTH_TIMEZONE", "Europe/Berlin"))
+
+OK, FAILED, REJECTED, NOT_FOUND, UNREACHABLE = 0, 1, 2, 3, 4
+
+
+class Unreachable(Exception):
+    pass
+
+
+def request(base: str, method: str, path: str, body=None, query=None) -> tuple[int, object]:
+    """One API call; returns (status, parsed JSON). Raises Unreachable if no answer."""
+    url = base.rstrip("/") + path
+    params = {key: value for key, value in (query or {}).items() if value is not None}
+    if params:
+        url += "?" + urllib.parse.urlencode(params)
+    data = None
+    headers = {"Accept": "application/json"}
+    if body is not None:
+        data = json.dumps(body).encode("utf-8")
+        headers["Content-Type"] = "application/json"
+    call = urllib.request.Request(url, data=data, method=method, headers=headers)
+    try:
+        with urllib.request.urlopen(call, timeout=20) as response:
+            raw = response.read()
+            return response.status, json.loads(raw) if raw else None
+    except urllib.error.HTTPError as error:
+        raw = error.read()
+        try:
+            return error.code, json.loads(raw)
+        except ValueError:
+            return error.code, {"detail": raw.decode("utf-8", "replace")}
+    except (urllib.error.URLError, TimeoutError) as error:
+        raise Unreachable(str(error)) from error
+
+
+def issues_of(detail) -> list[dict]:
+    """The API's issues as {field, message}; FastAPI's own errors use loc and msg."""
+    if isinstance(detail, str):
+        return [{"field": "", "message": detail}]
+    issues = []
+    for item in detail or []:
+        if "message" in item:
+            issues.append({"field": item.get("field", ""), "message": item["message"]})
+        else:
+            location = [str(part) for part in item.get("loc", [])[1:]]
+            issues.append({"field": ".".join(location), "message": item.get("msg", "")})
+    return issues
+
+
+def emit(status: int, payload, dry_run: bool = False) -> int:
+    """Print a result and return the exit code for it."""
+    if status == 404:
+        print(json.dumps({"error": "not found", "detail": payload}, ensure_ascii=False, indent=2))
+        return NOT_FOUND
+    if status >= 400:
+        code = REJECTED if status in (409, 422) else FAILED
+        detail = payload.get("detail", payload) if isinstance(payload, dict) else payload
+        print(json.dumps({"error": "rejected", "issues": issues_of(detail)},
+                         ensure_ascii=False, indent=2))
+        return code
+    if dry_run:
+        print("dry run: nothing was stored; repeat with --commit to store it", file=sys.stderr)
+    print(json.dumps(payload, ensure_ascii=False, indent=2))
+    return OK
+
+
+def read_json(path: str):
+    """A JSON document from a file, or from stdin for '-'."""
+    if path == "-":
+        return json.load(sys.stdin)
+    with open(path, encoding="utf-8") as document:
+        return json.load(document)
+
+
+def today() -> str:
+    return datetime.datetime.now(TIMEZONE).date().isoformat()
+
+
+def run(args, base: str) -> int:
+    if args.area == "foods":
+        if args.action == "search":
+            status, payload = request(base, "GET", "/api/foods", query={"q": args.query, "limit": args.limit})
+        elif args.action == "get":
+            status, payload = request(base, "GET", f"/api/foods/{urllib.parse.quote(args.slug)}")
+        else:  # barcode
+            status, payload = request(base, "GET", f"/api/foods/barcode/{urllib.parse.quote(args.code)}")
+        return emit(status, payload)
+
+    if args.area == "product":
+        body = read_json(args.file)
+        if args.action == "check" or not args.commit:
+            status, payload = request(base, "POST", "/api/foods", body, {"dry_run": "true"})
+            return emit(status, payload, dry_run=True)
+        status, payload = request(base, "POST", "/api/foods", body)
+        return emit(status, payload)
+
+    if args.area == "meal":
+        if args.action == "get":
+            status, payload = request(base, "GET", f"/api/log/meals/{args.id}")
+            return emit(status, payload)
+        body = read_json(args.file)
+        status, payload = request(base, "POST", "/api/log/meals", body,
+                                  {"dry_run": None if args.commit else "true"})
+        return emit(status, payload, dry_run=not args.commit)
+
+    if args.area == "day":
+        status, payload = request(base, "GET", f"/api/log/days/{args.date or today()}")
+        return emit(status, payload)
+
+    if args.area == "recipes":
+        if args.action == "list":
+            status, payload = request(base, "GET", "/api/recipes", query={"tag": args.tag, "q": args.query})
+        else:
+            status, payload = request(base, "GET", f"/api/recipes/{urllib.parse.quote(args.slug)}")
+        return emit(status, payload)
+
+    if args.area == "cook":
+        if args.action == "list":
+            status, payload = request(base, "GET", "/api/cooks", query={
+                "recipe": args.recipe, "q": args.query, "tag": args.tag,
+                "since": args.since, "until": args.until, "limit": args.limit})
+            return emit(status, payload)
+        body = read_json(args.file)
+        status, payload = request(base, "POST", "/api/cooks", body,
+                                  {"dry_run": None if args.commit else "true"})
+        return emit(status, payload, dry_run=not args.commit)
+
+    raise SystemExit(f"unknown area {args.area}")
+
+
+def parser() -> argparse.ArgumentParser:
+    top = argparse.ArgumentParser(prog="health", description="Health app from the command line (JSON output).")
+    top.add_argument("--url", default=os.environ.get("HEALTH_API_URL", DEFAULT_URL),
+                     help="API base URL (default: $HEALTH_API_URL or %(default)s)")
+    areas = top.add_subparsers(dest="area", required=True)
+
+    foods = areas.add_parser("foods", help="search and read catalog foods").add_subparsers(dest="action", required=True)
+    search = foods.add_parser("search", help="search by name, code or barcode")
+    search.add_argument("query")
+    search.add_argument("--limit", type=int, default=12)
+    foods.add_parser("get", help="one food with nutrition and label gaps").add_argument("slug")
+    foods.add_parser("barcode", help="a food by barcode").add_argument("code")
+
+    product = areas.add_parser("product", help="validate or register a branded product").add_subparsers(dest="action", required=True)
+    for name in ("check", "register"):
+        sub = product.add_parser(name)
+        sub.add_argument("--file", required=True, help="product JSON, or - for stdin")
+        sub.add_argument("--commit", action="store_true", help="store it (register only)")
+
+    meal = areas.add_parser("meal", help="log or read meals").add_subparsers(dest="action", required=True)
+    log = meal.add_parser("log", help="log a meal from a JSON file")
+    log.add_argument("--file", required=True, help="meal JSON, or - for stdin")
+    log.add_argument("--commit", action="store_true", help="store it; without this, only a dry run")
+    meal.add_parser("get", help="one meal by ID").add_argument("id", type=int)
+
+    day = areas.add_parser("day", help="what was eaten on a day (default: today, Berlin time)")
+    day.add_argument("date", nargs="?", help="YYYY-MM-DD")
+
+    recipes = areas.add_parser("recipes", help="recipes and versions").add_subparsers(dest="action", required=True)
+    rlist = recipes.add_parser("list", help="recipes, optionally by tag or name")
+    rlist.add_argument("--tag")
+    rlist.add_argument("--query", dest="query")
+    recipes.add_parser("get", help="one recipe with versions").add_argument("slug")
+
+    cook = areas.add_parser("cook", help="the cooking log").add_subparsers(dest="action", required=True)
+    clist = cook.add_parser("list", help="cooks, newest first")
+    clist.add_argument("--recipe")
+    clist.add_argument("--tag")
+    clist.add_argument("--query", dest="query")
+    clist.add_argument("--since", help="YYYY-MM-DD")
+    clist.add_argument("--until", help="YYYY-MM-DD")
+    clist.add_argument("--limit", type=int, default=20)
+    clog = cook.add_parser("log", help="record a cook from a JSON file")
+    clog.add_argument("--file", required=True, help="cook JSON, or - for stdin")
+    clog.add_argument("--commit", action="store_true", help="store it; without this, only a dry run")
+    return top
+
+
+def main(argv=None) -> int:
+    args = parser().parse_args(argv)
+    try:
+        return run(args, args.url)
+    except Unreachable as error:
+        print(json.dumps({"error": "API unreachable", "detail": str(error)}, ensure_ascii=False, indent=2))
+        return UNREACHABLE
+    except (OSError, ValueError) as error:
+        print(json.dumps({"error": "input", "detail": str(error)}, ensure_ascii=False, indent=2))
+        return REJECTED
+
+
+if __name__ == "__main__":
+    sys.exit(main())
