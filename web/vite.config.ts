@@ -14,6 +14,9 @@ const config = defineConfig({
     tanstackStart(),
     viteReact(),
   ],
+  // The production preview server (on the home server) rejects host names it
+  // does not know. These are the names the home network uses for it.
+  preview: { allowedHosts: ["health.fritz.box", "health"] },
 })
 
 export default config
