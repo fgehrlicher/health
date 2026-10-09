@@ -7,3 +7,6 @@
 __pycache__/
 .pytest_cache/
 .ruff_cache/
+# Personal photos (label and plate images with GPS data); never commit.
+ingest/
+test-data/

@@ -3,10 +3,15 @@
 DATABASE_URL ?= postgres://health:health@127.0.0.1:5432/health
 export DATABASE_URL
 
-.PHONY: db-up db-down db-reset db-backup db-restore db-status api web web-types search-eval check check-db check-web check-e2e test-db
+.PHONY: db-up db-down db-reset db-migrate db-backup db-restore db-status api web web-types search-eval check check-db check-web check-e2e test-db
 
+# Starts PostgreSQL, then applies pending migrations (a new volume gets the baseline first).
 db-up:
 	docker compose up --detach --wait postgres
+	$(MAKE) db-migrate
+
+db-migrate:
+	uv run --locked python -m health_api.migrate
 
 db-down:
 	docker compose down
@@ -49,13 +54,13 @@ check:
 	uv run --locked ruff format --check .
 	uv run --locked pytest
 
-# Rebuilds a throwaway database from db/schema.sql and imports BLS into it.
+# Rebuilds a throwaway database from the baseline and migrations, then imports BLS.
 # Tests that write use it, never the real data.
 TEST_DB ?= health_test
 TEST_DATABASE_URL = $(patsubst %/health,%/$(TEST_DB),$(DATABASE_URL))
 test-db:
 	docker compose exec -T postgres psql --username=health --dbname=health --quiet --command="DROP DATABASE IF EXISTS $(TEST_DB)" --command="CREATE DATABASE $(TEST_DB)"
-	docker compose exec -T postgres psql --username=health --dbname=$(TEST_DB) --quiet --set=ON_ERROR_STOP=1 < db/schema.sql
+	DATABASE_URL=$(TEST_DATABASE_URL) uv run --locked python -m health_api.migrate
 	DATABASE_URL=$(TEST_DATABASE_URL) uv run --locked bls4-import > /dev/null
 
 # Every API test, including those that write, against the test database.
