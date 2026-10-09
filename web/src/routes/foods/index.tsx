@@ -154,7 +154,7 @@ function FoodsPage() {
   const [groupsOpen, setGroupsOpen] = useState(false)
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[17rem_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[17rem_minmax(0,1fr)]">
       {/* Food groups: a sidebar on wide screens, a sheet on phones. */}
       <aside className="hidden lg:block">
         <div className="sticky top-18 max-h-[calc(100svh-5.5rem)] overflow-y-auto pr-1 pb-4">
@@ -292,7 +292,7 @@ function FoodsPage() {
             )}
           </div>
         ) : (
-          <ul className="grid gap-2 xl:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-2 xl:grid-cols-2">
             {items.map((food) => (
               <li key={food.slug}>
                 <FoodCard food={food} />
