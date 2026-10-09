@@ -133,6 +133,22 @@ works, but it means maintaining groups.
 Our recommendation is A now, and B only once there are three or more agents and
 a test shows it works.
 
+## Safety of agent access
+
+- **Only the CLI reaches the API.** The food profile's terminal may run plain
+  `health` commands. A pre-tool hook (`agents/food/hooks/terminal_guard.py`)
+  blocks everything else: curl, Python, URLs, pipes, redirects and chains.
+  It fails closed.
+- **Toolsets are narrowed per profile.** The food profile has no web, browser,
+  code execution, desktop, cron or delegation tools.
+- **No deletes or edits from chat.** The CLI has no such command, and the
+  persona and skill say so. Changes go through the web app.
+- **Known gap:** the default profile still has an unguarded terminal, so it can
+  call the API directly. Give it the same kind of guard, or narrow it, before
+  it is given health tools.
+- **Model behaviour is not guaranteed.** The rules tell the agent not to narrate
+  its steps, and the first test followed them. Keep checking real replies.
+
 ## Phases
 
 1. **Health agent through the CLI.** Build the CLI, set up the profile from a
