@@ -1,6 +1,7 @@
 import { FoodPicker } from "@/components/food-picker"
 import { ItemRow, newDraft } from "@/components/log/meal-sheet"
 import type { ItemDraft } from "@/components/log/meal-sheet"
+import { foodNames } from "@/lib/names"
 
 /** Edit a list of catalog foods with amounts or label portions. */
 export function IngredientEditor({
@@ -32,7 +33,8 @@ export function IngredientEditor({
             ...items,
             newDraft({
               slug: food.slug,
-              name: food.name,
+              name: foodNames(food).primary,
+              english: foodNames(food).secondary,
               unit: food.source?.reference_unit ?? "g",
             }),
           ])

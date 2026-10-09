@@ -1583,6 +1583,17 @@
             "type": "string",
             "title": "Food Name"
           },
+          "food_name_de": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Food Name De"
+          },
           "variant_of": {
             "anyOf": [
               {
@@ -1627,6 +1638,7 @@
           "id",
           "food",
           "food_name",
+          "food_name_de",
           "variant_of",
           "variants",
           "source_id",
@@ -1743,6 +1755,17 @@
             "type": "string",
             "title": "Food Name"
           },
+          "food_name_de": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Food Name De"
+          },
           "amount": {
             "type": "string",
             "title": "Amount"
@@ -1756,6 +1779,7 @@
         "required": [
           "food",
           "food_name",
+          "food_name_de",
           "amount",
           "unit"
         ],
@@ -2366,6 +2390,28 @@
             "type": "string",
             "title": "Name"
           },
+          "name_de": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name De"
+          },
+          "name_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name En"
+          },
           "aliases": {
             "items": {
               "type": "string"
@@ -2476,6 +2522,8 @@
           "id",
           "slug",
           "name",
+          "name_de",
+          "name_en",
           "aliases",
           "kind",
           "preparation_state",
@@ -2711,6 +2759,28 @@
             "type": "string",
             "title": "Name"
           },
+          "name_de": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name De"
+          },
+          "name_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name En"
+          },
           "aliases": {
             "items": {
               "type": "string"
@@ -2804,6 +2874,8 @@
           "id",
           "slug",
           "name",
+          "name_de",
+          "name_en",
           "aliases",
           "kind",
           "preparation_state",
@@ -3201,6 +3273,17 @@
             "type": "string",
             "title": "Food Name"
           },
+          "food_name_de": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Food Name De"
+          },
           "source_id": {
             "anyOf": [
               {
@@ -3276,6 +3359,7 @@
           "id",
           "food",
           "food_name",
+          "food_name_de",
           "source_id",
           "source_name",
           "cook_id",

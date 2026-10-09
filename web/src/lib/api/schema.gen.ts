@@ -374,6 +374,8 @@ export interface components {
             food: string;
             /** Food Name */
             food_name: string;
+            /** Food Name De */
+            food_name_de: string | null;
             /** Variant Of */
             variant_of: string | null;
             /** Variants */
@@ -435,6 +437,8 @@ export interface components {
             food: string;
             /** Food Name */
             food_name: string;
+            /** Food Name De */
+            food_name_de: string | null;
             /** Amount */
             amount: string;
             /** Unit */
@@ -601,6 +605,10 @@ export interface components {
             slug: string;
             /** Name */
             name: string;
+            /** Name De */
+            name_de: string | null;
+            /** Name En */
+            name_en: string | null;
             /** Aliases */
             aliases: string[];
             /** Kind */
@@ -697,6 +705,10 @@ export interface components {
             slug: string;
             /** Name */
             name: string;
+            /** Name De */
+            name_de: string | null;
+            /** Name En */
+            name_en: string | null;
             /** Aliases */
             aliases: string[];
             /** Kind */
@@ -839,6 +851,8 @@ export interface components {
             food: string | null;
             /** Food Name */
             food_name: string;
+            /** Food Name De */
+            food_name_de: string | null;
             /** Source Id */
             source_id: number | null;
             /** Source Name */

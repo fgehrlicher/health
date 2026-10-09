@@ -35,6 +35,7 @@ import { recipeQuery } from "@/lib/queries"
 import { addVersion, createRecipe, updateRecipe } from "@/server/recipes"
 import type { CookStart } from "@/components/recipes/cook-sheet"
 import type { Recipe, Version } from "@/lib/api/types"
+import { itemNames } from "@/lib/names"
 
 export const Route = createFileRoute("/recipes/$slug")({
   loader: ({ context, params }) =>
@@ -290,7 +291,7 @@ function VersionCard({
       : undefined
   const generic = version.items
     .filter((item) => item.variants > 0)
-    .map((item) => item.food_name)
+    .map((item) => itemNames(item).primary)
   const cooks = recipe.cooks.filter((cook) => cook.version === version.number)
 
   return (

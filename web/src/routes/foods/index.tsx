@@ -34,6 +34,7 @@ import { capitalize, formatNumber } from "@/lib/format"
 import { energySplit } from "@/lib/macros"
 import { facetsQuery, foodsInfiniteQuery } from "@/lib/queries"
 import type { FoodSummary } from "@/lib/api/types"
+import { foodNames } from "@/lib/names"
 
 const SORTS = [
   { value: "relevance", label: "Best match" },
@@ -320,7 +321,8 @@ function FoodsPage() {
 function FoodCard({ food }: { food: FoodSummary }) {
   const source = food.source
   const parts = source ? energySplit(source) : null
-  const secondary = food.brand ?? food.aliases.at(0)
+  const names = foodNames(food)
+  const secondary = names.secondary ?? food.brand ?? food.aliases.at(0)
   return (
     <Link
       to="/foods/$slug"
@@ -329,7 +331,7 @@ function FoodCard({ food }: { food: FoodSummary }) {
     >
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
-          <div className="leading-snug font-medium">{food.name}</div>
+          <div className="leading-snug font-medium">{names.primary}</div>
           {secondary && (
             <div className="truncate text-xs text-muted-foreground">
               {secondary}

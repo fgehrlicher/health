@@ -6,11 +6,12 @@ import {
 } from "lucide-react"
 import { formatNumber } from "@/lib/format"
 import type { Change } from "@/lib/api/types"
+import { itemNames } from "@/lib/names"
 
 type Part = Change["planned"][number]
 
 const names = (parts: Array<Part>) =>
-  parts.map((part) => part.food_name).join(" + ")
+  parts.map((part) => itemNames(part).primary).join(" + ")
 const amounts = (parts: Array<Part>) =>
   parts.map((part) => `${formatNumber(part.amount)} ${part.unit}`).join(" + ")
 

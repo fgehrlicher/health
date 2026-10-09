@@ -27,6 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { capitalize, clockTime, formatNumber } from "@/lib/format"
+import { itemNames } from "@/lib/names"
 import { deleteMeal } from "@/server/log"
 import type { Meal } from "@/lib/api/types"
 
@@ -122,9 +123,14 @@ export function MealCard({ meal, onEdit }: { meal: Meal; onEdit: () => void }) {
                   <Link
                     to="/foods/$slug"
                     params={{ slug: item.food ?? "" }}
-                    className="min-w-0 truncate hover:underline"
+                    className="flex min-w-0 flex-col hover:underline"
                   >
-                    {item.food_name}
+                    <span className="truncate">{itemNames(item).primary}</span>
+                    {itemNames(item).secondary && (
+                      <span className="truncate text-xs text-muted-foreground">
+                        {itemNames(item).secondary}
+                      </span>
+                    )}
                   </Link>
                 )}
                 <span className="shrink-0 text-muted-foreground tabular-nums">

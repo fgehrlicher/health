@@ -23,6 +23,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { capitalize, formatNumber, today } from "@/lib/format"
 import { energySplit } from "@/lib/macros"
 import { foodQuery } from "@/lib/queries"
+import { foodNames } from "@/lib/names"
 import type { Source, SourceNutrient } from "@/lib/api/types"
 
 export const Route = createFileRoute("/foods/$slug")({
@@ -39,6 +40,10 @@ function FoodPage() {
   const { data: food } = useSuspenseQuery(foodQuery(slug))
   const [logging, setLogging] = useState(false)
   const unit = food.sources[0]?.reference_unit ?? "g"
+  // The heading already shows the German name; list only the other aliases.
+  const otherAliases = food.aliases.filter(
+    (alias) => alias !== foodNames(food).primary
+  )
   const GroupIcon = groupIcon(food.food_group ?? undefined)
 
   return (
@@ -56,11 +61,16 @@ function FoodPage() {
         <div className="flex flex-wrap items-start gap-3">
           <div className="min-w-0 flex-1">
             <h1 className="font-heading text-2xl font-semibold sm:text-3xl">
-              {food.name}
+              {foodNames(food).primary}
             </h1>
-            {food.aliases.length > 0 && (
+            {foodNames(food).secondary && (
               <p className="text-sm text-muted-foreground">
-                {food.aliases.join(" · ")}
+                {foodNames(food).secondary}
+              </p>
+            )}
+            {otherAliases.length > 0 && (
+              <p className="text-sm text-muted-foreground">
+                {otherAliases.join(" · ")}
               </p>
             )}
             <div className="mt-2 flex flex-wrap items-center gap-1.5">
@@ -166,7 +176,12 @@ function FoodPage() {
         meal={null}
         open={logging}
         onOpenChange={setLogging}
-        initialFood={{ slug: food.slug, name: food.name, unit }}
+        initialFood={{
+          slug: food.slug,
+          name: foodNames(food).primary,
+          english: foodNames(food).secondary,
+          unit,
+        }}
       />
     </div>
   )

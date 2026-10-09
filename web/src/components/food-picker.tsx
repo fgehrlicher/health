@@ -19,6 +19,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { formatNumber } from "@/lib/format"
 import { foodsQuery } from "@/lib/queries"
 import type { FoodSummary } from "@/lib/api/types"
+import { foodNames } from "@/lib/names"
 
 /** Search the catalog and pick a food; ranking comes from the API. */
 export function FoodPicker({
@@ -85,9 +86,12 @@ export function FoodPicker({
                       }}
                     >
                       <div className="flex min-w-0 flex-col">
-                        <span className="truncate">{food.name}</span>
+                        <span className="truncate">
+                          {foodNames(food).primary}
+                        </span>
                         <span className="truncate text-xs text-muted-foreground">
-                          {food.brand ??
+                          {foodNames(food).secondary ??
+                            food.brand ??
                             food.aliases.at(0) ??
                             food.source?.source_name}
                         </span>

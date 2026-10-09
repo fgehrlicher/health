@@ -4,6 +4,7 @@ import { useDeferredValue, useEffect, useState } from "react"
 import { toast } from "sonner"
 import { CookPicker } from "@/components/cook-picker"
 import { FoodPicker } from "@/components/food-picker"
+import { foodNames, itemNames } from "@/lib/names"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
@@ -47,6 +48,8 @@ export type ItemDraft = {
   key: string
   food: string
   foodName: string
+  /** The English catalog name, shown under the German one when there is one. */
+  foodEnglish?: string
   sourceId?: number
   cookId?: number
   /** For a cook: when it was cooked, shown under the name. */
@@ -61,6 +64,7 @@ let nextKey = 0
 export function newDraft(food: {
   slug: string
   name: string
+  english?: string | null
   unit: string
 }): ItemDraft {
   nextKey += 1
@@ -68,6 +72,7 @@ export function newDraft(food: {
     key: `item-${nextKey}`,
     food: food.slug,
     foodName: food.name,
+    foodEnglish: food.english ?? undefined,
     baseUnit: food.unit,
     unit: food.unit,
     quantity: "",
@@ -93,13 +98,19 @@ export function cookDraft(cook: {
 export function draftFromAmount(item: {
   food: string
   food_name: string
+  food_name_de?: string | null
   unit: string
   source_id: number
   amount: string
   estimated: boolean
 }): ItemDraft {
   return {
-    ...newDraft({ slug: item.food, name: item.food_name, unit: item.unit }),
+    ...newDraft({
+      slug: item.food,
+      name: itemNames(item).primary,
+      english: itemNames(item).secondary,
+      unit: item.unit,
+    }),
     sourceId: item.source_id,
     quantity: item.amount,
     estimated: item.estimated,
@@ -162,7 +173,12 @@ export function MealSheet({
   meal: Meal | null
   open: boolean
   onOpenChange: (open: boolean) => void
-  initialFood?: { slug: string; name: string; unit: string }
+  initialFood?: {
+    slug: string
+    name: string
+    english?: string | null
+    unit: string
+  }
   /** Start with one portion of this cook. */
   initialCook?: { id: number; name: string; cooked_at: string }
 }) {
@@ -327,7 +343,8 @@ export function MealSheet({
                         ...all,
                         newDraft({
                           slug: food.slug,
-                          name: food.name,
+                          name: foodNames(food).primary,
+                          english: foodNames(food).secondary,
                           unit: food.source?.reference_unit ?? "g",
                         }),
                       ])
@@ -452,6 +469,11 @@ export function ItemRow({
       <div className="flex items-start gap-2">
         <span className="flex min-w-0 flex-1 flex-col text-sm font-medium">
           {item.foodName}
+          {item.foodEnglish && (
+            <span className="text-xs font-normal text-muted-foreground">
+              {item.foodEnglish}
+            </span>
+          )}
           {item.detail && (
             <span className="text-xs font-normal text-muted-foreground">
               {item.detail}

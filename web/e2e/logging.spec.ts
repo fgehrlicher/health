@@ -109,10 +109,10 @@ test("search the catalog and open a food", async ({ page }) => {
   await page.getByPlaceholder(/German names/).fill("brocoli")
   await expect(page).toHaveURL(/q=brocoli/)
   // A card's link name starts with the food name, then its details.
-  await page.getByRole("link", { name: /^Broccoli raw / }).click()
+  await page.getByRole("link", { name: /^Broccoli roh / }).click()
 
   await expect(
-    page.getByRole("heading", { name: "Broccoli raw" })
+    page.getByRole("heading", { name: "Broccoli roh" })
   ).toBeVisible()
   await expect(page.getByText("Where the energy comes from")).toBeVisible()
   await expect(page.getByText("Vitamin C").first()).toBeVisible()

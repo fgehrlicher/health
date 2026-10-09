@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router"
 import { formatNumber } from "@/lib/format"
 import type { Amount } from "@/lib/api/types"
+import { itemNames } from "@/lib/names"
 
 /** Ingredients with their amounts and calories for the whole pot. */
 export function IngredientList({ items }: { items: Array<Amount> }) {
@@ -11,9 +12,14 @@ export function IngredientList({ items }: { items: Array<Amount> }) {
           <Link
             to="/foods/$slug"
             params={{ slug: item.food }}
-            className="min-w-0 truncate hover:underline"
+            className="flex min-w-0 flex-col hover:underline"
           >
-            {item.food_name}
+            <span className="truncate">{itemNames(item).primary}</span>
+            {itemNames(item).secondary && (
+              <span className="truncate text-xs text-muted-foreground">
+                {itemNames(item).secondary}
+              </span>
+            )}
           </Link>
           <span className="shrink-0 text-muted-foreground tabular-nums">
             {item.estimated ? "~" : ""}

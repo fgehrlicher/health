@@ -113,7 +113,7 @@ test("swap a generic ingredient for a branded variant when cooking", async ({
   page,
   request,
 }) => {
-  const soy = "bls4-h841100" // Soya drink unsweetened
+  const soy = "bls4-h841100" // Sojadrink ungesüßt
   const product = await request.post(`${API}/api/foods`, {
     data: {
       name: "E2E Soja Drink",
@@ -146,7 +146,7 @@ test("swap a generic ingredient for a branded variant when cooking", async ({
   await expect(page.getByRole("link", { name: /E2E Soja Drink/ })).toBeVisible()
 
   await open(page, "/recipes/e2e-porridge")
-  await expect(page.getByText(/Generic values for Soya drink/)).toBeVisible()
+  await expect(page.getByText(/Generic values for Sojadrink/)).toBeVisible()
   await page.getByRole("button", { name: "Cook v1" }).click()
   const sheet = page.getByRole("dialog")
   await sheet.getByRole("combobox", { name: "Product" }).click()
@@ -156,7 +156,7 @@ test("swap a generic ingredient for a branded variant when cooking", async ({
 
   await expect(page.getByText("Compared with v1")).toBeVisible()
   await expect(
-    page.getByText("instead of Soya drink unsweetened")
+    page.getByText("instead of Sojadrink ungesüßt")
   ).toBeVisible()
   await expect(page.getByText("99", { exact: true })).toBeVisible()
 })
