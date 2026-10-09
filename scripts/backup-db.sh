@@ -3,6 +3,7 @@
 # KEEP_DAYS. Runs on the server (see deploy/health-backup.timer). Dumps stay on
 # the server; nothing is copied off the machine.
 set -euo pipefail
+umask 077  # dumps hold health data: owner only
 
 cd "$(dirname "$0")/.."
 DEST="${HEALTH_BACKUP_DIR:-$HOME/health-backups}"
