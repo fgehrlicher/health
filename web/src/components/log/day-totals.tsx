@@ -12,7 +12,7 @@ const MACROS: Array<{ key: Nutrient; label: string; color: string }> = [
   { key: "fiber_g", label: "Fiber", color: "var(--macro-fiber)" },
 ]
 
-/** Measured plus estimated, as one number for charts and ratios. */
+/** Measured plus estimated: estimates count as normal amounts in the day's totals. */
 function sum(total: Day["totals"]["protein_g"]): number {
   return Number(total.measured) + Number(total.estimated)
 }
@@ -38,15 +38,10 @@ export function DayTotals({ day }: { day: Day }) {
         <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
           <div>
             <span className="font-heading text-5xl font-semibold tabular-nums">
-              {formatNumber(kcal.measured, 0)}
+              {formatNumber(energy, 0)}
             </span>
             <span className="ml-1 text-muted-foreground">kcal</span>
           </div>
-          {Number(kcal.estimated) > 0 && (
-            <span className="pb-1.5 text-sm text-muted-foreground">
-              + {formatNumber(kcal.estimated, 0)} estimated
-            </span>
-          )}
           <div className="ml-auto flex gap-1.5 pb-1.5">
             {day.counts.unknown > 0 && (
               <Badge variant="outline">
@@ -90,13 +85,8 @@ export function DayTotals({ day }: { day: Day }) {
                 {label}
               </div>
               <div className="text-lg font-medium tabular-nums">
-                {formatNumber(day.totals[key].measured)} g
+                {formatNumber(sum(day.totals[key]))} g
               </div>
-              {Number(day.totals[key].estimated) > 0 && (
-                <div className="text-xs text-muted-foreground tabular-nums">
-                  + {formatNumber(day.totals[key].estimated)} g est.
-                </div>
-              )}
             </div>
           ))}
           <div className="col-span-2 rounded-lg bg-secondary p-3 text-secondary-foreground sm:col-span-1">
