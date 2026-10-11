@@ -169,11 +169,12 @@ def read_cooks(
     since: date | None = None,
     until: date | None = None,
     tag: Annotated[str | None, Query(max_length=40)] = None,
+    left: Annotated[bool, Query(description="only cooks with portions still to eat")] = False,
     limit: Annotated[int, Query(ge=1, le=200)] = 50,
 ):
     """The cooking log, newest first: by recipe slug, its tag, name words, or local days."""
     with connect() as connection:
-        return list_cooks(connection, recipe, q, since, until, limit, tag)
+        return list_cooks(connection, recipe, q, since, until, limit, tag, left)
 
 
 @router.post("/cooks", status_code=201, response_model=Cook, responses=INVALID)

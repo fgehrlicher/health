@@ -10,6 +10,7 @@ import {
   GitBranchIcon,
   GitForkIcon,
   MoreHorizontalIcon,
+  PencilIcon,
   PlusIcon,
 } from "lucide-react"
 import { useMemo, useState } from "react"
@@ -24,6 +25,17 @@ import { TagInput } from "@/components/recipes/tag-input"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -66,6 +78,30 @@ function RecipePage() {
       }
       queryClient.setQueryData(["recipe", slug], result.value)
       await queryClient.invalidateQueries({ queryKey: ["recipes"] })
+    },
+    onError: (error) => toast.error(error.message),
+  })
+  // The name and description are not versioned: changing them keeps every version.
+  const [details, setDetails] = useState<{ name: string; note: string } | null>(
+    null
+  )
+  const saveDetails = useMutation({
+    mutationFn: (values: { name: string; note: string }) =>
+      updateRecipe({
+        data: {
+          slug: recipe.slug,
+          name: values.name.trim(),
+          note: values.note.trim() || null,
+        },
+      }),
+    onSuccess: async (result) => {
+      if (!result.ok) {
+        toast.error(result.issues.map((issue) => issue.message).join("; "))
+        return
+      }
+      queryClient.setQueryData(["recipe", slug], result.value)
+      await queryClient.invalidateQueries({ queryKey: ["recipes"] })
+      setDetails(null)
     },
     onError: (error) => toast.error(error.message),
   })
@@ -114,6 +150,71 @@ function RecipePage() {
             <h1 className="font-heading text-2xl font-semibold sm:text-3xl">
               {recipe.name}
             </h1>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="-ml-2"
+              onClick={() =>
+                setDetails({ name: recipe.name, note: recipe.note ?? "" })
+              }
+            >
+              <PencilIcon /> Edit name and description
+            </Button>
+            <Dialog
+              open={details !== null}
+              onOpenChange={(open) => !open && setDetails(null)}
+            >
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Edit name and description</DialogTitle>
+                  <DialogDescription>
+                    This does not create a new version. Every version keeps its
+                    own note and steps.
+                  </DialogDescription>
+                </DialogHeader>
+                {details && (
+                  <form
+                    className="flex flex-col gap-3"
+                    onSubmit={(event) => {
+                      event.preventDefault()
+                      saveDetails.mutate(details)
+                    }}
+                  >
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="recipe-name">Name</Label>
+                      <Input
+                        id="recipe-name"
+                        required
+                        maxLength={200}
+                        value={details.name}
+                        onChange={(event) =>
+                          setDetails({ ...details, name: event.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="recipe-note">Description</Label>
+                      <Textarea
+                        id="recipe-note"
+                        maxLength={2000}
+                        value={details.note}
+                        onChange={(event) =>
+                          setDetails({ ...details, note: event.target.value })
+                        }
+                      />
+                    </div>
+                    <DialogFooter>
+                      <Button
+                        type="submit"
+                        disabled={saveDetails.isPending || !details.name.trim()}
+                      >
+                        Save
+                      </Button>
+                    </DialogFooter>
+                  </form>
+                )}
+              </DialogContent>
+            </Dialog>
             {recipe.note && (
               <p className="text-sm text-muted-foreground">{recipe.note}</p>
             )}

@@ -193,6 +193,8 @@ def test_source_filter_and_facets_against_postgres(monkeypatch):
     bls = request("/api/foods?source_name=BLS%204.0").json()
     assert bls["total"] == total  # the test database holds BLS foods only
     assert request("/api/foods?source_name=No%20such%20source").json()["total"] == 0
+    # A preferred source reorders the list; it never drops a food.
+    assert request("/api/foods?prefer_source=BLS%204.0&limit=5").json()["total"] == total
 
     facets = request("/api/foods/facets").json()
     assert {"value": "BLS 4.0", "count": total} in facets["source_facets"]

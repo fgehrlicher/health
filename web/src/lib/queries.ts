@@ -73,7 +73,13 @@ export const recipeQuery = (slug: string) =>
   })
 
 export const cooksQuery = (
-  search: { recipe?: string; q?: string; tag?: string } = {}
+  search: {
+    recipe?: string
+    q?: string
+    tag?: string
+    left?: boolean
+    limit?: number
+  } = {}
 ) =>
   queryOptions({
     queryKey: ["cooks", search],

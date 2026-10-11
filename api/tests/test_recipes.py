@@ -208,6 +208,11 @@ def test_recipes_cooks_and_eating_from_a_cook(monkeypatch):
         assert [c["id"] for c in found] == [cook["id"]]
         assert cook["id"] not in [c["id"] for c in request("/api/cooks?until=2026-01-18").json()]
 
+        # The inventory: cooks with portions still to eat, and only those.
+        inventory = request("/api/cooks?left=true").json()
+        assert cook["id"] in [c["id"] for c in inventory]
+        assert all(Decimal(c["portions_left"]) > 0 for c in inventory)
+
         # A cook that turned out well becomes the next version.
         v3 = request_json(
             "POST",

@@ -1357,6 +1357,8 @@ export interface operations {
                 group?: string | null;
                 brand?: string | null;
                 source_name?: string | null;
+                /** @description foods from this source come first */
+                prefer_source?: string | null;
                 preparation_state?: string | null;
                 min_protein?: number | string | null;
                 min_protein_density?: number | string | null;
@@ -2032,6 +2034,8 @@ export interface operations {
                 since?: string | null;
                 until?: string | null;
                 tag?: string | null;
+                /** @description only cooks with portions still to eat */
+                left?: boolean;
                 limit?: number;
             };
             header?: never;

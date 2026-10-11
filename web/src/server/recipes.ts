@@ -112,6 +112,7 @@ export const listCooks = createServerFn({ method: "GET" })
       recipe: z.string().max(200).optional(),
       q: z.string().max(200).optional(),
       tag: z.string().max(40).optional(),
+      left: z.boolean().optional(),
       limit: z.number().int().min(1).max(200).optional(),
     })
   )

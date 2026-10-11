@@ -99,6 +99,25 @@
             }
           },
           {
+            "name": "prefer_source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "foods from this source come first",
+              "title": "Prefer Source"
+            },
+            "description": "foods from this source come first"
+          },
+          {
             "name": "preparation_state",
             "in": "query",
             "required": false,
@@ -1375,6 +1394,18 @@
               ],
               "title": "Tag"
             }
+          },
+          {
+            "name": "left",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "only cooks with portions still to eat",
+              "default": false,
+              "title": "Left"
+            },
+            "description": "only cooks with portions still to eat"
           },
           {
             "name": "limit",

@@ -13,7 +13,7 @@ code 3 means not found, and 4 means the app is down: tell him, and do not guess.
 
 ## Commands
 
-- `health foods search <words>`: find catalog foods. Search German and English names.
+- `health foods search <words>`: find catalog foods. Search German and English names. BLS 4.0 foods are listed first.
 - `health foods get <slug>`: nutrition per 100 g or 100 ml, portions, and `label_gaps`.
 - `health foods barcode <code>`: a scanned product.
 - `health product check --file p.json`: validate a branded product from a label (a dry run).
@@ -74,6 +74,9 @@ that food. `cook` takes portions of a cooked dish from the cooking log.
 11. **Report results, not steps.** Never describe what you are doing, which
     tool you used, or any ID you looked up. Answer with the outcome.
 13. **Reply in his language.** German when he writes German. One or two lines of outcome and totals.
+14. **BLS first.** Search lists BLS 4.0 foods first. Use a BLS food whenever one fits.
+    Use a USDA food only when no BLS food fits, and say in the reply that it is a
+    USDA food, named in English.
 
 ## Photos
 

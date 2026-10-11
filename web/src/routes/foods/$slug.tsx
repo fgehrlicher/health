@@ -3,6 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router"
 import { ArrowLeftIcon, CameraIcon, PlusIcon } from "lucide-react"
 import { useState } from "react"
 import { FoodGroupPicker } from "@/components/food-group-picker"
+import { SourceBadge } from "@/components/source-badge"
 import { groupIcon } from "@/components/food-groups"
 import { MealSheet } from "@/components/log/meal-sheet"
 import { VariantOfPicker } from "@/components/variant-of-picker"
@@ -68,6 +69,11 @@ function FoodPage() {
                 {foodNames(food).secondary}
               </p>
             )}
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {food.sources.map((source) => (
+                <SourceBadge key={source.id} name={source.source_name} />
+              ))}
+            </div>
             {otherAliases.length > 0 && (
               <p className="text-sm text-muted-foreground">
                 {otherAliases.join(" · ")}

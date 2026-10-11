@@ -39,6 +39,9 @@ def foods(
     group: Annotated[str | None, Query(pattern="^[A-Z]$")] = None,
     brand: Annotated[str | None, Query(max_length=100)] = None,
     source_name: Annotated[str | None, Query(max_length=100)] = None,
+    prefer_source: Annotated[
+        str | None, Query(max_length=100, description="foods from this source come first")
+    ] = None,
     preparation_state: Annotated[str | None, Query(max_length=60)] = None,
     min_protein: Annotated[Decimal | None, Query(ge=0)] = None,
     min_protein_density: Annotated[Decimal | None, Query(ge=0)] = None,
@@ -57,6 +60,7 @@ def foods(
         group=group,
         brand=brand,
         source_name=source_name,
+        prefer_source=prefer_source,
         preparation_state=preparation_state,
         min_protein=min_protein,
         min_protein_density=min_protein_density,

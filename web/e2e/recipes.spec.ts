@@ -188,3 +188,61 @@ test("browse recipes by tag and edit a recipe's tags", async ({
   await open(page, "/recipes?tag=e2e%20ice%20cream")
   await expect(page.getByRole("link", { name: /E2E Sorbet/ })).toBeVisible()
 })
+
+test("rename a recipe and change its description without a new version", async ({
+  page,
+  request,
+}) => {
+  const created = await request.post(`${API}/api/recipes`, {
+    data: {
+      name: "E2E Salsa Falsa – Fake Guacamole",
+      portions: 2,
+      items: [{ food: "bls4-c352032", amount: 100 }],
+    },
+  })
+  expect(created.status()).toBe(201)
+  const recipe = await created.json()
+
+  await open(page, `/recipes/${recipe.slug}`)
+  await page.getByRole("button", { name: "Edit name and description" }).click()
+  const dialog = page.getByRole("dialog")
+  await dialog.getByLabel("Name").fill("E2E Salsa")
+  await dialog.getByLabel("Description").fill("Mild, for the table")
+  await dialog.getByRole("button", { name: "Save" }).click()
+
+  await expect(
+    page.getByRole("heading", { name: "E2E Salsa", exact: true })
+  ).toBeVisible()
+  await expect(page.getByText("Mild, for the table")).toBeVisible()
+  const after = await (
+    await request.get(`${API}/api/recipes/${recipe.slug}`)
+  ).json()
+  expect(after.name).toBe("E2E Salsa")
+  expect(after.versions).toHaveLength(1)
+})
+
+test("the inventory lists cooks with portions still to eat", async ({
+  page,
+  request,
+}) => {
+  const recipe = await (
+    await request.post(`${API}/api/recipes`, {
+      data: {
+        name: "E2E Batch Curry",
+        portions: 4,
+        items: [{ food: "bls4-c352032", amount: 400 }],
+      },
+    })
+  ).json()
+  const cook = await request.post(`${API}/api/cooks`, {
+    data: { recipe: recipe.slug, version: 1 },
+  })
+  expect(cook.status()).toBe(201)
+
+  await open(page, "/inventory")
+  await expect(page.getByRole("heading", { name: "Inventory" })).toBeVisible()
+  await expect(
+    page.getByRole("link", { name: /E2E Batch Curry/ })
+  ).toBeVisible()
+  await expect(page.getByText("4/4 left")).toBeVisible()
+})

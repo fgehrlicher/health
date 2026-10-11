@@ -226,6 +226,8 @@ class FoodFilters:
     group: str | None = None
     brand: str | None = None
     source_name: str | None = None
+    # Foods from this source come first; the rest follow in the usual order.
+    prefer_source: str | None = None
     preparation_state: str | None = None
     min_protein: Decimal | None = None
     min_protein_density: Decimal | None = None
@@ -244,6 +246,7 @@ class FoodFilters:
             "group": self.group,
             "brand": self.brand,
             "source_name": self.source_name,
+            "prefer_source": self.prefer_source,
             "preparation_state": self.preparation_state,
             "min_protein": self.min_protein,
             "min_protein_density": self.min_protein_density,
@@ -326,9 +329,11 @@ def list_foods(connection: Connection, filters: FoodFilters) -> dict:
     total = connection.execute(
         f"SELECT count(*) AS total FROM ({BASE_SQL}) listing", params
     ).fetchone()["total"]
+    order = SORT_SQL[sort]
+    if filters.prefer_source:
+        order = f"(source_name = %(prefer_source)s) DESC, {order}"
     rows = connection.execute(
-        f"SELECT * FROM ({BASE_SQL}) listing ORDER BY {SORT_SQL[sort]} "
-        "LIMIT %(limit)s OFFSET %(offset)s",
+        f"SELECT * FROM ({BASE_SQL}) listing ORDER BY {order} LIMIT %(limit)s OFFSET %(offset)s",
         params,
     ).fetchall()
     return {

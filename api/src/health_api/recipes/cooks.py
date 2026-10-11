@@ -299,8 +299,12 @@ def list_cooks(
     until: date | None,
     limit: int,
     tag: str | None = None,
+    left: bool = False,
 ) -> list[dict]:
-    """Cooks newest first, by recipe, its tag, name words, or local days (inclusive)."""
+    """Cooks newest first, by recipe, its tag, name words, or local days (inclusive).
+
+    left keeps only the cooks with portions still to eat: the inventory.
+    """
     words = (q or "").split()
     where = ["(%(recipe)s::text IS NULL OR r.slug = %(recipe)s)"]
     params: dict = {"recipe": recipe}
@@ -316,4 +320,9 @@ def list_cooks(
     if until:
         where.append("c.cooked_at < %(until)s")
         params["until"] = day_bounds(until)[1]
+    if left:
+        where.append(
+            "c.portions > (SELECT coalesce(sum(m.amount), 0) FROM log.meal_items m "
+            "WHERE m.cook_id = c.id)"
+        )
     return load_cooks(connection, " AND ".join(where), params, details=False, limit=limit)

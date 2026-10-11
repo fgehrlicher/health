@@ -90,6 +90,9 @@ function AppHeader() {
           <Link to="/recipes" className={link}>
             Recipes
           </Link>
+          <Link to="/inventory" className={link}>
+            Inventory
+          </Link>
           <Link to="/foods" className={link}>
             Foods
           </Link>

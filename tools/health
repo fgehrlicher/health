@@ -106,7 +106,9 @@ def today() -> str:
 def run(args, base: str) -> int:
     if args.area == "foods":
         if args.action == "search":
-            status, payload = request(base, "GET", "/api/foods", query={"q": args.query, "limit": args.limit})
+            status, payload = request(base, "GET", "/api/foods", query={
+                "q": args.query, "limit": args.limit,
+                "prefer_source": args.prefer_source or None})
         elif args.action == "get":
             status, payload = request(base, "GET", f"/api/foods/{urllib.parse.quote(args.slug)}")
         else:  # barcode
@@ -165,6 +167,9 @@ def parser() -> argparse.ArgumentParser:
     search = foods.add_parser("search", help="search by name, code or barcode")
     search.add_argument("query")
     search.add_argument("--limit", type=int, default=12)
+    search.add_argument(
+        "--prefer-source", default="BLS 4.0",
+        help="foods from this source come first; empty for no preference (default: BLS 4.0)")
     foods.add_parser("get", help="one food with nutrition and label gaps").add_argument("slug")
     foods.add_parser("barcode", help="a food by barcode").add_argument("code")
 

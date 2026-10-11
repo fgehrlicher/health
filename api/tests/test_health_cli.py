@@ -88,8 +88,15 @@ def test_search_sends_query_and_limit(stub, capsys):
     assert run(server.url, "foods", "search", "quark", "--limit", "3") == 0
     method, url, _ = server.seen[0]
     assert method == "GET" and url.path == "/api/foods"
-    assert parse_qs(url.query) == {"q": ["quark"], "limit": ["3"]}
+    # BLS 4.0 comes first unless told otherwise.
+    assert parse_qs(url.query) == {"q": ["quark"], "limit": ["3"], "prefer_source": ["BLS 4.0"]}
     assert json.loads(capsys.readouterr().out) == {"items": [], "total": 0}
+
+
+def test_search_without_a_source_preference(stub):
+    server = stub((200, {"items": [], "total": 0}))
+    assert run(server.url, "foods", "search", "quark", "--prefer-source", "") == 0
+    assert "prefer_source" not in parse_qs(server.seen[0][1].query)
 
 
 def test_meal_log_is_a_dry_run_unless_committed(stub, tmp_path, capsys):

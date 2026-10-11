@@ -29,6 +29,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { SourceBadge } from "@/components/source-badge"
 import { Spinner } from "@/components/ui/spinner"
 import { capitalize, formatNumber } from "@/lib/format"
 import { energySplit } from "@/lib/macros"
@@ -357,6 +358,11 @@ function FoodCard({ food }: { food: FoodSummary }) {
           {secondary && (
             <div className="truncate text-xs text-muted-foreground">
               {secondary}
+            </div>
+          )}
+          {source && (
+            <div className="mt-1">
+              <SourceBadge name={source.source_name} />
             </div>
           )}
         </div>
