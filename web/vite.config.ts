@@ -15,8 +15,10 @@ const config = defineConfig({
     viteReact(),
   ],
   // The production preview server (on the home server) rejects host names it
-  // does not know. These are the names the home network uses for it.
-  preview: { allowedHosts: ["health.fritz.box", "health"] },
+  // does not know. These are the names the home network uses for it, and the
+  // Tailscale names (".ts.net" covers every tailnet). Reaching the server is
+  // still limited to devices on the tailnet or the home network.
+  preview: { allowedHosts: ["health.fritz.box", "health", ".ts.net"] },
 })
 
 export default config
