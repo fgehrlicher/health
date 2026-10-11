@@ -7,6 +7,10 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 HOST="${HEALTH_BOX:-fabian@192.168.178.161}"
 
+# Hermes edits the food skills on the box; bring those edits into the repo first,
+# or stop, so a deploy never overwrites them unseen.
+scripts/sync-food-skills.sh
+
 rsync -az --delete --exclude-from=deploy/rsync-exclude.txt ./ "$HOST:health/"
 ssh "$HOST" 'set -e
   cd health
@@ -15,8 +19,7 @@ ssh "$HOST" 'set -e
   if [ -d ~/.hermes/profiles/food ]; then
     install -m 644 agents/food/SOUL.md ~/.hermes/profiles/food/SOUL.md
     mkdir -p ~/.hermes/profiles/food/skills/health/food-logging
-    install -m 644 agents/food/skills/health/food-logging/SKILL.md \
-      ~/.hermes/profiles/food/skills/health/food-logging/SKILL.md
+    cp -R agents/food/skills/health/food-logging/. ~/.hermes/profiles/food/skills/health/food-logging/
     mkdir -p ~/.hermes/agent-hooks
     install -m 755 agents/food/hooks/terminal_guard.py ~/.hermes/agent-hooks/food-terminal-guard.py
     if ! grep -q "managed by deploy: food-terminal-guard" ~/.hermes/profiles/food/config.yaml; then
@@ -27,6 +30,8 @@ ssh "$HOST" 'set -e
     fi
     ~/.local/bin/hermes -p food tools disable web browser code_execution image_gen tts \
       delegation cronjob computer_use connections >/dev/null 2>&1 || true
+    # What the repo put on the box, so the next deploy can tell if Hermes has changed it.
+    (cd ~/.hermes/profiles/food && find SOUL.md skills/health/food-logging -type f | LC_ALL=C sort | xargs sha256sum > .deployed-manifest)
   fi
   sudo install -m 644 deploy/health-backup.service deploy/health-backup.timer /etc/systemd/system/
   sudo systemctl daemon-reload
