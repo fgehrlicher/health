@@ -8,6 +8,7 @@ export const foodSearchSchema = z.object({
   group: z.string().length(1).optional(),
   brand: z.string().max(100).optional(),
   kind: z.string().max(60).optional(),
+  source_name: z.string().max(100).optional(),
   preparation_state: z.string().max(60).optional(),
   incomplete: z.boolean().optional(),
   sort: z.string().max(40).optional(),
@@ -43,6 +44,7 @@ export const facetFiltersSchema = foodSearchSchema.pick({
   group: true,
   brand: true,
   kind: true,
+  source_name: true,
   preparation_state: true,
   incomplete: true,
 })

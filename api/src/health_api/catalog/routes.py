@@ -77,6 +77,7 @@ def facets(
     kind: Annotated[str | None, Query(max_length=60)] = None,
     group: Annotated[str | None, Query(pattern="^[A-Z]$")] = None,
     brand: Annotated[str | None, Query(max_length=100)] = None,
+    source_name: Annotated[str | None, Query(max_length=100)] = None,
     preparation_state: Annotated[str | None, Query(max_length=60)] = None,
     incomplete: bool = False,
 ):
@@ -90,6 +91,7 @@ def facets(
         kind=kind,
         group=group,
         brand=brand,
+        source_name=source_name,
         preparation_state=preparation_state,
         incomplete=incomplete,
     )

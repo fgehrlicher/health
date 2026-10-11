@@ -143,7 +143,9 @@ class CatalogFacets(BaseModel):
     any_group: int
     sources: int
     kinds: list[FacetValue]
+    # Sources of the listed foods, each with the foods whose chosen source it is.
     source_names: list[str]
+    source_facets: list[FacetValue]
     preparation_states: list[FacetValue]
     groups: list[FacetGroup]
     brands: list[FacetValue]

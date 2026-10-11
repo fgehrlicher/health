@@ -442,6 +442,7 @@ FACET_COLUMNS = {
     "brand": "brand",
     "kind": "kind",
     "preparation_state": "preparation_state",
+    "source_name": "source_name",
 }
 
 
@@ -490,6 +491,7 @@ def get_facets(connection: Connection, filters: FoodFilters | None = None) -> di
                 "SELECT DISTINCT source_name FROM catalog.food_sources ORDER BY source_name"
             ).fetchall()
         ],
+        "source_facets": facet_counts(connection, filters, "source_name"),
         "preparation_states": facet_counts(connection, filters, "preparation_state"),
         "groups": [
             {

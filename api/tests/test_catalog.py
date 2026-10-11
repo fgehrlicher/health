@@ -183,6 +183,24 @@ def test_catalog_queries_against_postgres(monkeypatch):
     assert request("/api/foods/not-a-food").status_code == 404
 
 
+def test_source_filter_and_facets_against_postgres(monkeypatch):
+    database_url = os.environ.get("TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+    monkeypatch.setenv("DATABASE_URL", database_url)
+
+    total = request("/api/foods").json()["total"]
+    bls = request("/api/foods?source_name=BLS%204.0").json()
+    assert bls["total"] == total  # the test database holds BLS foods only
+    assert request("/api/foods?source_name=No%20such%20source").json()["total"] == 0
+
+    facets = request("/api/foods/facets").json()
+    assert {"value": "BLS 4.0", "count": total} in facets["source_facets"]
+    # Selecting a source keeps the other sources listed, with count 0.
+    selected = request("/api/foods/facets?source_name=No%20such%20source").json()
+    assert {"value": "No such source", "count": 0} in selected["source_facets"]
+
+
 def test_search_tokens_are_distinct_lowercase_words():
     assert search_tokens(None) is None
     assert search_tokens(" ,; ") is None

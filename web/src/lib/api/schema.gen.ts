@@ -409,6 +409,8 @@ export interface components {
             kinds: components["schemas"]["FacetValue"][];
             /** Source Names */
             source_names: string[];
+            /** Source Facets */
+            source_facets: components["schemas"]["FacetValue"][];
             /** Preparation States */
             preparation_states: components["schemas"]["FacetValue"][];
             /** Groups */
@@ -1439,6 +1441,7 @@ export interface operations {
                 kind?: string | null;
                 group?: string | null;
                 brand?: string | null;
+                source_name?: string | null;
                 preparation_state?: string | null;
                 incomplete?: boolean;
             };

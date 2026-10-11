@@ -418,6 +418,23 @@
             }
           },
           {
+            "name": "source_name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source Name"
+            }
+          },
+          {
             "name": "preparation_state",
             "in": "query",
             "required": false,
@@ -1679,6 +1696,13 @@
             "type": "array",
             "title": "Source Names"
           },
+          "source_facets": {
+            "items": {
+              "$ref": "#/components/schemas/FacetValue"
+            },
+            "type": "array",
+            "title": "Source Facets"
+          },
           "preparation_states": {
             "items": {
               "$ref": "#/components/schemas/FacetValue"
@@ -1712,6 +1736,7 @@
           "sources",
           "kinds",
           "source_names",
+          "source_facets",
           "preparation_states",
           "groups",
           "brands",

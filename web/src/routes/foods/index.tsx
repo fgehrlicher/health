@@ -51,6 +51,7 @@ const searchSchema = z.object({
   group: z.string().length(1).optional(),
   brand: z.string().max(100).optional(),
   kind: z.string().optional(),
+  source: z.string().max(100).optional(),
   prep: z.string().optional(),
   // Only products whose label still lacks something.
   incomplete: z.boolean().optional(),
@@ -58,12 +59,19 @@ const searchSchema = z.object({
 })
 type Search = z.infer<typeof searchSchema>
 
+/** Names as the sources are stored; the labels say which language a source uses. */
+const SOURCE_LABELS: Record<string, string> = {
+  "BLS 4.0": "BLS 4.0 (German)",
+  "USDA FoodData Central": "USDA (English)",
+}
+
 function listSearch(search: Search) {
   return {
     q: search.q,
     group: search.group,
     brand: search.brand,
     kind: search.kind,
+    source_name: search.source,
     preparation_state: search.prep,
     incomplete: search.incomplete,
     // Without a query the API lists alphabetically for "relevance".
@@ -77,6 +85,7 @@ function facetFilters(search: Search) {
     group: search.group,
     brand: search.brand,
     kind: search.kind,
+    source_name: search.source,
     preparation_state: search.prep,
     incomplete: search.incomplete,
   }
@@ -132,6 +141,7 @@ function FoodsPage() {
     search.group,
     search.brand,
     search.kind,
+    search.source,
     search.prep,
     search.incomplete,
   ].filter(Boolean).length
@@ -222,6 +232,18 @@ function FoodsPage() {
               options={facetOptions(facets.kinds)}
               onChange={(value) => set("kind", value)}
             />
+            {(facets.source_facets.length > 1 || search.source) && (
+              <SmallSelect
+                label="Source"
+                value={search.source}
+                placeholder="All sources"
+                options={facets.source_facets.map(({ value, count }) => ({
+                  value,
+                  label: `${SOURCE_LABELS[value] ?? value} (${formatNumber(count, 0)})`,
+                }))}
+                onChange={(value) => set("source", value)}
+              />
+            )}
             {(facets.brands.length > 0 || search.brand) && (
               <SmallSelect
                 label="Brand"
