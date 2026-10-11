@@ -1,0 +1,13 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "usda-importer"
+version = "0.1.0"
+description = "Import specific USDA FoodData Central foods, by FDC ID"
+requires-python = ">=3.12"
+dependencies = ["psycopg[binary]>=3.2,<4"]
+
+[project.scripts]
+usda-import = "usda_importer.cli:main"

@@ -1,0 +1,6 @@
+# German names for FDC IDs, one per line: fdcId<TAB>name. Used only for IDs that are
+# imported. They are stored as aliases, not as the food's name. Review before use.
+169997	Koriander, frisch (Blätter)
+171329	Paprikapulver (generisch)
+170923	Kreuzkümmel, Samen
+171328	Oregano, getrocknet
