@@ -8,6 +8,7 @@ from health_api.catalog.repository import NUTRIENTS
 from health_api.clock import day_bounds
 from health_api.log.meals import ItemInput, MealInput
 from health_api.nutrition import status, totals
+from health_api.recipes.cooks import dish_values
 from pydantic import ValidationError
 from test_catalog import request
 from test_registration import QUARK, request_json
@@ -69,6 +70,17 @@ def test_status_and_totals_keep_measured_and_estimated_apart():
         "estimated": "0.00",
         "items_without_value": 1,
     }
+
+
+def test_dish_totals_leave_out_ingredients_without_a_value():
+    chia = item(30, fiber_g=12.07)
+    whey = item(50, protein_g=39)  # its label has no fiber value
+    bread = item(120, estimated=True, fiber_g=4)
+    values = dish_values([chia, whey, bread])
+    assert values["fiber_g"] == Decimal("8.421")  # 3.621 measured + 4.8 estimated
+    assert values["protein_g"] == Decimal("19.5")
+    assert values["energy_kcal"] is None
+    assert dish_values([])["fiber_g"] == 0
 
 
 def test_days_follow_local_midnight_across_dst(monkeypatch):

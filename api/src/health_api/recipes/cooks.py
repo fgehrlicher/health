@@ -191,11 +191,16 @@ def delete_cook(connection: Connection, cook_id: int) -> None:
 
 
 def dish_values(items: list[dict]) -> dict[str, Decimal | None]:
-    """A dish's exact total per nutrient; None when any ingredient lacks it."""
-    return {
-        column: None if part["missing"] else part["measured"] + part["estimated"]
-        for column, part in sums(items).items()
-    }
+    """A dish's exact total per nutrient, summed over the ingredients that have a value.
+
+    An ingredient without a value for a nutrient is left out of that sum. The total
+    is None only when no ingredient has the value at all.
+    """
+    values = {}
+    for column, part in sums(items).items():
+        has_value = len(items) > part["missing"]
+        values[column] = part["measured"] + part["estimated"] if has_value or not items else None
+    return values
 
 
 def cook_sources(connection: Connection, cook_ids: list[int]) -> dict[int, dict]:
