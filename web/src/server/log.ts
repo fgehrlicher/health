@@ -43,7 +43,19 @@ export const getDay = createServerFn({ method: "GET" })
     )
   )
 
-/** Days with meals between two dates, inclusive. */
+/** Marks a day incomplete (left out of the stats) or complete again. */
+export const setDayIncomplete = createServerFn({ method: "POST" })
+  .validator(z.object({ date: z.iso.date(), incomplete: z.boolean() }))
+  .handler(async ({ data }) =>
+    unwrap(
+      await api.PUT("/api/log/days/{day}/incomplete", {
+        params: { path: { day: data.date } },
+        body: { incomplete: data.incomplete },
+      })
+    )
+  )
+
+/** Days with meals or marked incomplete between two dates, inclusive. */
 export const getCalendar = createServerFn({ method: "GET" })
   .validator(z.object({ start: z.iso.date(), end: z.iso.date() }))
   .handler(async ({ data }) =>

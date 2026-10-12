@@ -198,6 +198,61 @@ def test_log_a_day_against_postgres(monkeypatch):
             connection.execute("SELECT catalog.refresh_search()")
 
 
+def test_incomplete_days_are_flagged_and_kept_on_the_calendar_against_postgres(monkeypatch):
+    database_url = os.environ.get("TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+    monkeypatch.setenv("DATABASE_URL", database_url)
+    monkeypatch.setenv("HEALTH_TIMEZONE", "Europe/Berlin")
+    day, empty = "2026-03-20", "2026-03-21"
+    meal_ids = []
+    try:
+        meal = request_json(
+            "POST",
+            "/api/log/meals",
+            {"eaten_at": f"{day}T12:00", "items": [{"food": "bls4-c352032", "amount": 100}]},
+        )
+        assert meal.status_code == 201, meal.text
+        meal_ids.append(meal.json()["id"])
+        assert request(f"/api/log/days/{day}").json()["incomplete"] is False
+
+        marked = request_json("PUT", f"/api/log/days/{day}/incomplete", {"incomplete": True})
+        assert marked.status_code == 200 and marked.json() == {"date": day, "incomplete": True}
+        assert request(f"/api/log/days/{day}").json()["incomplete"] is True
+
+        # A flagged day without meals is still listed, so it can be unflagged on the calendar.
+        assert (
+            request_json(
+                "PUT", f"/api/log/days/{empty}/incomplete", {"incomplete": True}
+            ).status_code
+            == 200
+        )
+        calendar = request(f"/api/log/calendar?start={day}&end={empty}").json()
+        days = {entry["date"]: entry for entry in calendar["days"]}
+        assert days[day]["incomplete"] is True and days[day]["meals"] == 1
+        assert days[empty]["incomplete"] is True and days[empty]["meals"] == 0
+        assert Decimal(days[empty]["energy_kcal"]["measured"]) == 0
+
+        # Marking twice changes nothing; unmarking brings the day back.
+        again = request_json("PUT", f"/api/log/days/{day}/incomplete", {"incomplete": True})
+        assert again.status_code == 200
+        unmarked = request_json("PUT", f"/api/log/days/{day}/incomplete", {"incomplete": False})
+        assert unmarked.json()["incomplete"] is False
+        assert request(f"/api/log/days/{day}").json()["incomplete"] is False
+        assert (
+            request_json(
+                "PUT", f"/api/log/days/{day}/incomplete", {"incomplete": "maybe"}
+            ).status_code
+            == 422
+        )
+    finally:
+        with psycopg.connect(database_url) as connection:
+            connection.execute("DELETE FROM log.meals WHERE id = ANY(%s)", (meal_ids,))
+            connection.execute(
+                "DELETE FROM log.incomplete_days WHERE day IN (%s, %s)", (day, empty)
+            )
+
+
 def test_calendar_counts_each_local_day_against_postgres(monkeypatch):
     database_url = os.environ.get("TEST_DATABASE_URL")
     if not database_url:

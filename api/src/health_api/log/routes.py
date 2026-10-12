@@ -18,8 +18,9 @@ from health_api.log.meals import (
     get_meal,
     insert_items,
     resolve_items,
+    set_incomplete,
 )
-from health_api.log.models import Calendar, Day, Meal
+from health_api.log.models import Calendar, Day, DayStatus, IncompleteInput, Meal
 
 # The calendar shows 53 weeks; a longer range would only slow the query down.
 MAX_CALENDAR_DAYS = 400
@@ -125,6 +126,14 @@ def read_day(day: date):
     """A local day's meals and totals, keeping measured, estimated, and unknown apart."""
     with connect() as connection:
         return day_summary(connection, day)
+
+
+@router.put("/days/{day}/incomplete", response_model=DayStatus)
+def mark_day(day: date, body: IncompleteInput):
+    """Mark a local day incomplete (left out of the stats), or complete again."""
+    with connect() as connection:
+        set_incomplete(connection, day, body.incomplete)
+    return {"date": day.isoformat(), "incomplete": body.incomplete}
 
 
 @router.get("/calendar", response_model=Calendar)

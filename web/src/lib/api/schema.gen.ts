@@ -185,6 +185,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/log/days/{day}/incomplete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Mark Day
+         * @description Mark a local day incomplete (left out of the stats), or complete again.
+         */
+        put: operations["mark_day_api_log_days__day__incomplete_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/log/calendar": {
         parameters: {
             query?: never;
@@ -421,16 +441,24 @@ export interface components {
         };
         /**
          * CalendarDay
-         * @description A local day with meals: its energy, measured and estimated apart, and its meal counts.
+         * @description A local day with meals or marked incomplete, with the nutrients the stats use.
          */
         CalendarDay: {
             /** Date */
             date: string;
-            energy_kcal: components["schemas"]["NutrientTotal"];
+            /** Incomplete */
+            incomplete: boolean;
             /** Meals */
             meals: number;
             /** Unknown Meals */
             unknown_meals: number;
+            energy_kcal: components["schemas"]["NutrientTotal"];
+            protein_g: components["schemas"]["NutrientTotal"];
+            fat_g: components["schemas"]["NutrientTotal"];
+            carbs_g: components["schemas"]["NutrientTotal"];
+            fiber_g: components["schemas"]["NutrientTotal"];
+            polyols_g: components["schemas"]["NutrientTotal"];
+            alcohol_g: components["schemas"]["NutrientTotal"];
         };
         /**
          * CatalogFacets
@@ -594,10 +622,19 @@ export interface components {
             date: string;
             /** Timezone */
             timezone: string;
+            /** Incomplete */
+            incomplete: boolean;
             /** Meals */
             meals: components["schemas"]["Meal"][];
             counts: components["schemas"]["MealCounts"];
             totals: components["schemas"]["NutrientTotals"];
+        };
+        /** DayStatus */
+        DayStatus: {
+            /** Date */
+            date: string;
+            /** Incomplete */
+            incomplete: boolean;
         };
         /** FacetGroup */
         FacetGroup: {
@@ -796,6 +833,11 @@ export interface components {
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /** IncompleteInput */
+        IncompleteInput: {
+            /** Incomplete */
+            incomplete: boolean;
         };
         /** Issue */
         Issue: {
@@ -1804,6 +1846,41 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Day"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    mark_day_api_log_days__day__incomplete_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                day: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IncompleteInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DayStatus"];
                 };
             };
             /** @description Validation Error */

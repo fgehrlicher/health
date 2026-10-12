@@ -2,7 +2,7 @@
 
 from typing import Literal
 
-from pydantic import BaseModel, create_model
+from pydantic import BaseModel, ConfigDict, create_model
 
 from health_api.catalog.repository import NUTRIENTS
 from health_api.log.meals import MealKind
@@ -89,21 +89,41 @@ class MealCounts(BaseModel):
 class Day(BaseModel):
     date: str
     timezone: str
+    # Marked incomplete: left out of the stats, but its meals are still shown.
+    incomplete: bool
     meals: list[Meal]
     counts: MealCounts
     totals: NutrientTotals
 
 
 class CalendarDay(BaseModel):
-    """A local day with meals: its energy, measured and estimated apart, and its meal counts."""
+    """A local day with meals or marked incomplete, with the nutrients the stats use."""
 
     date: str
-    energy_kcal: NutrientTotal
+    incomplete: bool
     meals: int
     unknown_meals: int
+    energy_kcal: NutrientTotal
+    protein_g: NutrientTotal
+    fat_g: NutrientTotal
+    carbs_g: NutrientTotal
+    fiber_g: NutrientTotal
+    polyols_g: NutrientTotal
+    alcohol_g: NutrientTotal
 
 
 class Calendar(BaseModel):
     timezone: str
-    # Only days with meals; days without any are left out.
+    # Days with meals or marked incomplete; other days are left out.
     days: list[CalendarDay]
+
+
+class DayStatus(BaseModel):
+    date: str
+    incomplete: bool
+
+
+class IncompleteInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    incomplete: bool

@@ -10,8 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as InventoryRouteImport } from './routes/inventory'
+import { Route as StatsRouteImport } from './routes/stats'
 import { Route as CooksIdRouteImport } from './routes/cooks/$id'
 import { Route as FoodsIndexRouteImport } from './routes/foods/index'
 import { Route as FoodsSlugRouteImport } from './routes/foods/$slug'
@@ -23,14 +23,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CalendarRoute = CalendarRouteImport.update({
-  id: '/calendar',
-  path: '/calendar',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const InventoryRoute = InventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatsRoute = StatsRouteImport.update({
+  id: '/stats',
+  path: '/stats',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CooksIdRoute = CooksIdRouteImport.update({
@@ -61,8 +61,8 @@ const RecipesSlugRoute = RecipesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/calendar': typeof CalendarRoute
   '/inventory': typeof InventoryRoute
+  '/stats': typeof StatsRoute
   '/cooks/$id': typeof CooksIdRoute
   '/foods/$slug': typeof FoodsSlugRoute
   '/recipes/$slug': typeof RecipesSlugRoute
@@ -71,8 +71,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/calendar': typeof CalendarRoute
   '/inventory': typeof InventoryRoute
+  '/stats': typeof StatsRoute
   '/cooks/$id': typeof CooksIdRoute
   '/foods/$slug': typeof FoodsSlugRoute
   '/recipes/$slug': typeof RecipesSlugRoute
@@ -82,8 +82,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/calendar': typeof CalendarRoute
   '/inventory': typeof InventoryRoute
+  '/stats': typeof StatsRoute
   '/cooks/$id': typeof CooksIdRoute
   '/foods/$slug': typeof FoodsSlugRoute
   '/recipes/$slug': typeof RecipesSlugRoute
@@ -94,8 +94,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/calendar'
     | '/inventory'
+    | '/stats'
     | '/cooks/$id'
     | '/foods/$slug'
     | '/recipes/$slug'
@@ -104,8 +104,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/calendar'
     | '/inventory'
+    | '/stats'
     | '/cooks/$id'
     | '/foods/$slug'
     | '/recipes/$slug'
@@ -114,8 +114,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/calendar'
     | '/inventory'
+    | '/stats'
     | '/cooks/$id'
     | '/foods/$slug'
     | '/recipes/$slug'
@@ -125,8 +125,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CalendarRoute: typeof CalendarRoute
   InventoryRoute: typeof InventoryRoute
+  StatsRoute: typeof StatsRoute
   CooksIdRoute: typeof CooksIdRoute
   FoodsSlugRoute: typeof FoodsSlugRoute
   RecipesSlugRoute: typeof RecipesSlugRoute
@@ -143,18 +143,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/calendar': {
-      id: '/calendar'
-      path: '/calendar'
-      fullPath: '/calendar'
-      preLoaderRoute: typeof CalendarRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/inventory': {
       id: '/inventory'
       path: '/inventory'
       fullPath: '/inventory'
       preLoaderRoute: typeof InventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stats': {
+      id: '/stats'
+      path: '/stats'
+      fullPath: '/stats'
+      preLoaderRoute: typeof StatsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cooks/$id': {
@@ -197,8 +197,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CalendarRoute: CalendarRoute,
   InventoryRoute: InventoryRoute,
+  StatsRoute: StatsRoute,
   CooksIdRoute: CooksIdRoute,
   FoodsSlugRoute: FoodsSlugRoute,
   RecipesSlugRoute: RecipesSlugRoute,

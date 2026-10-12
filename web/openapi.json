@@ -919,6 +919,60 @@
         }
       }
     },
+    "/api/log/days/{day}/incomplete": {
+      "put": {
+        "tags": [
+          "log"
+        ],
+        "summary": "Mark Day",
+        "description": "Mark a local day incomplete (left out of the stats), or complete again.",
+        "operationId": "mark_day_api_log_days__day__incomplete_put",
+        "parameters": [
+          {
+            "name": "day",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Day"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncompleteInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DayStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/log/calendar": {
       "get": {
         "tags": [
@@ -1780,8 +1834,9 @@
             "type": "string",
             "title": "Date"
           },
-          "energy_kcal": {
-            "$ref": "#/components/schemas/NutrientTotal"
+          "incomplete": {
+            "type": "boolean",
+            "title": "Incomplete"
           },
           "meals": {
             "type": "integer",
@@ -1790,17 +1845,45 @@
           "unknown_meals": {
             "type": "integer",
             "title": "Unknown Meals"
+          },
+          "energy_kcal": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "protein_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "fat_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "carbs_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "fiber_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "polyols_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "alcohol_g": {
+            "$ref": "#/components/schemas/NutrientTotal"
           }
         },
         "type": "object",
         "required": [
           "date",
-          "energy_kcal",
+          "incomplete",
           "meals",
-          "unknown_meals"
+          "unknown_meals",
+          "energy_kcal",
+          "protein_g",
+          "fat_g",
+          "carbs_g",
+          "fiber_g",
+          "polyols_g",
+          "alcohol_g"
         ],
         "title": "CalendarDay",
-        "description": "A local day with meals: its energy, measured and estimated apart, and its meal counts."
+        "description": "A local day with meals or marked incomplete, with the nutrients the stats use."
       },
       "CatalogFacets": {
         "properties": {
@@ -2391,6 +2474,10 @@
             "type": "string",
             "title": "Timezone"
           },
+          "incomplete": {
+            "type": "boolean",
+            "title": "Incomplete"
+          },
           "meals": {
             "items": {
               "$ref": "#/components/schemas/Meal"
@@ -2409,11 +2496,30 @@
         "required": [
           "date",
           "timezone",
+          "incomplete",
           "meals",
           "counts",
           "totals"
         ],
         "title": "Day"
+      },
+      "DayStatus": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "incomplete": {
+            "type": "boolean",
+            "title": "Incomplete"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "incomplete"
+        ],
+        "title": "DayStatus"
       },
       "FacetGroup": {
         "properties": {
@@ -3129,6 +3235,20 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "IncompleteInput": {
+        "properties": {
+          "incomplete": {
+            "type": "boolean",
+            "title": "Incomplete"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "incomplete"
+        ],
+        "title": "IncompleteInput"
       },
       "Issue": {
         "properties": {

@@ -6,6 +6,7 @@ import { z } from "zod"
 import { DayTotals } from "@/components/log/day-totals"
 import { MealCard } from "@/components/log/meal-card"
 import { MealSheet } from "@/components/log/meal-sheet"
+import { IncompleteSwitch } from "@/components/stats/incomplete-switch"
 import { Button } from "@/components/ui/button"
 import {
   Empty,
@@ -76,6 +77,8 @@ function TodayPage() {
       </div>
 
       <DayTotals day={day} />
+
+      <IncompleteSwitch date={date} incomplete={day.incomplete} />
 
       <section className="flex flex-col gap-3">
         <h2 className="text-sm font-medium text-muted-foreground">Meals</h2>

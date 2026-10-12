@@ -229,6 +229,7 @@ def day_summary(connection: Connection, day: date) -> dict:
     return {
         "date": day.isoformat(),
         "timezone": timezone().key,
+        "incomplete": is_incomplete(connection, day),
         "meals": meals,
         "counts": {
             name: sum(meal["status"] == name for meal in meals)
@@ -238,8 +239,36 @@ def day_summary(connection: Connection, day: date) -> dict:
     }
 
 
+def is_incomplete(connection: Connection, day: date) -> bool:
+    row = connection.execute(
+        "SELECT EXISTS (SELECT 1 FROM log.incomplete_days WHERE day = %s) AS flagged", (day,)
+    ).fetchone()
+    return row["flagged"]
+
+
+def set_incomplete(connection: Connection, day: date, incomplete: bool) -> None:
+    if incomplete:
+        connection.execute(
+            "INSERT INTO log.incomplete_days (day) VALUES (%s) ON CONFLICT DO NOTHING", (day,)
+        )
+    else:
+        connection.execute("DELETE FROM log.incomplete_days WHERE day = %s", (day,))
+
+
+# The nutrients the calendar sends per day: energy, and what the energy split needs.
+CALENDAR_NUTRIENTS = (
+    "energy_kcal",
+    "protein_g",
+    "fat_g",
+    "carbs_g",
+    "fiber_g",
+    "polyols_g",
+    "alcohol_g",
+)
+
+
 def calendar_days(connection: Connection, first: date, last: date) -> list[dict]:
-    """Days with meals from first to last, local time: kcal and meal counts.
+    """Days from first to last, local time, that have meals or are marked incomplete.
 
     Each day sums its items the way day_summary does, in one query for the whole range.
     """
@@ -248,18 +277,27 @@ def calendar_days(connection: Connection, first: date, last: date) -> list[dict]
     loaded = load_meals_with_items(
         connection, "eaten_at >= %(start)s AND eaten_at < %(end)s", {"start": start, "end": end}
     )
-    by_day: dict[str, list[tuple[dict, list[dict]]]] = {}
+    flagged = {
+        row["day"].isoformat()
+        for row in connection.execute(
+            "SELECT day FROM log.incomplete_days WHERE day BETWEEN %(first)s AND %(last)s",
+            {"first": first, "last": last},
+        )
+    }
+    by_day: dict[str, list[tuple[dict, list[dict]]]] = {day: [] for day in flagged}
     for meal, items in loaded:
         # The stored times are local (isoformat in the app zone), so the date is the local one.
         by_day.setdefault(meal["eaten_at"][:10], []).append((meal, items))
-    return [
-        {
-            "date": day,
-            "energy_kcal": totals([item for _meal, items in entries for item in items])[
-                "energy_kcal"
-            ],
-            "meals": len(entries),
-            "unknown_meals": sum(meal["status"] == "unknown" for meal, _items in entries),
-        }
-        for day, entries in sorted(by_day.items())
-    ]
+    days = []
+    for day, entries in sorted(by_day.items()):
+        day_totals = totals([item for _meal, items in entries for item in items])
+        days.append(
+            {
+                "date": day,
+                "incomplete": day in flagged,
+                "meals": len(entries),
+                "unknown_meals": sum(meal["status"] == "unknown" for meal, _items in entries),
+            }
+            | {name: day_totals[name] for name in CALENDAR_NUTRIENTS}
+        )
+    return days

@@ -12,6 +12,7 @@ export type SourceNutrient = Schemas["SourceNutrient"]
 export type Portion = Schemas["Portion"]
 
 export type Day = Schemas["Day"]
+export type CalendarDay = Schemas["CalendarDay"]
 export type Meal = Schemas["Meal"]
 export type MealItem = Schemas["MealItem"]
 export type MealKind = NonNullable<Meal["kind"]>
