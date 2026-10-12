@@ -66,3 +66,15 @@ on deploy.
   name, and `name_de` is not used.
 - The groups are fixed. A food that fits no group needs a decision on whether to
   add one to `groups.json` and the database.
+
+## Consistency review against BLS
+
+After the first decisions, the BLS foods already in the catalog were used as the
+reference for the cases the batches disagreed on. Ice cream stays in sweets (S),
+as BLS files it there. Mayonnaise stays in fats and oils (Q), as BLS files it there.
+
+One correction was made to the decisions: juice drinks in the fruit group (F) moved
+to non-alcoholic drinks (N), as BLS files spritzers and juice drinks there. A USDA
+food in F moved to N when its name starts with "Beverages,", contains "cocktail" or
+"smoothie", or contains "V8". Names with "100%" and "fruit cocktail" (canned fruit)
+stay in F. That moved 23 foods. The decision files are the record of the result.

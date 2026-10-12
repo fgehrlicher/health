@@ -1,252 +1,1252 @@
 [
- {"slug": "usda-167512", "food_group": "D", "name_de": "Pillsbury Golden Layer Buttermilk Biscuits, künstliches Aroma, gekühlter Teig"},
- {"slug": "usda-167513", "food_group": "D", "name_de": "Pillsbury, Zimtschnecken mit Zuckerguss, gekühlter Teig"},
- {"slug": "usda-167514", "food_group": "R", "name_de": "Kraft Foods, Shake N Bake Original Recipe, Panade für Schweinefleisch, trocken"},
- {"slug": "usda-167515", "food_group": "B", "name_de": "George Weston Bakeries, Thomas English Muffins"},
- {"slug": "usda-167516", "food_group": "D", "name_de": "Waffeln, Buttermilch, tiefgefroren, aufbackfertig"},
- {"slug": "usda-167517", "food_group": "D", "name_de": "Waffel, Buttermilch, tiefgefroren, aufbackfertig, getoastet"},
- {"slug": "usda-167518", "food_group": "D", "name_de": "Waffel, Buttermilch, tiefgefroren, aufbackfertig, in der Mikrowelle erhitzt"},
- {"slug": "usda-167519", "food_group": "D", "name_de": "Waffel, natur, tiefgefroren, aufbackfertig, Mikrowelle"},
- {"slug": "usda-167520", "food_group": "D", "name_de": "Tortenboden, Keksart, Grahamcracker, Fertigboden"},
- {"slug": "usda-167521", "food_group": "D", "name_de": "Tortenboden, Keksart, Schokolade, Fertigboden"},
- {"slug": "usda-167522", "food_group": "D", "name_de": "Pie, Dutch Apple, Fertigprodukt"},
- {"slug": "usda-167523", "food_group": "D", "name_de": "Tortenboden, tiefe Form, tiefgefroren, ungebacken, mit angereichertem Mehl"},
- {"slug": "usda-167524", "food_group": "D", "name_de": "Waffeln, Schokostückchen, tiefgefroren, aufbackfertig"},
- {"slug": "usda-167525", "food_group": "D", "name_de": "Tostadaschalen, Mais"},
- {"slug": "usda-167526", "food_group": "D", "name_de": "Brot, salvadorianisch, mit süßem Käse (Quesadilla salvadorena)"},
- {"slug": "usda-167527", "food_group": "D", "name_de": "Brot, Rührkuchenart, Pan de Torta salvadorianisch"},
- {"slug": "usda-167528", "food_group": "D", "name_de": "Gebäck, Pastelitos de Guava (Guavengebäck)"},
- {"slug": "usda-167529", "food_group": "D", "name_de": "Cracker, Snack, Goya Crackers"},
- {"slug": "usda-167530", "food_group": "D", "name_de": "Cracker, Cream, Gamesa Sabrosas"},
- {"slug": "usda-167531", "food_group": "D", "name_de": "Cracker, Cream, La Moderna Rikis Cream Crackers"},
- {"slug": "usda-167532", "food_group": "B", "name_de": "Brot, Weizen, weiß"},
- {"slug": "usda-167533", "food_group": "B", "name_de": "Bagels, Weizen"},
- {"slug": "usda-167534", "food_group": "D", "name_de": "Windbeutel, Eclair, mit Pudding- oder Sahnefüllung, glasiert"},
- {"slug": "usda-167535", "food_group": "B", "name_de": "Tortillas, Weizenmehl, zum Backen oder Braten, haltbar"},
- {"slug": "usda-167536", "food_group": "W", "name_de": "Snacks, Beef Jerky, gehackt und geformt"},
- {"slug": "usda-167537", "food_group": "C", "name_de": "Snacks, auf Maisbasis, extrudiert, Chips, natur"},
- {"slug": "usda-167538", "food_group": "C", "name_de": "Snacks, auf Maisbasis, extrudiert, Chips, Barbecue-Geschmack"},
- {"slug": "usda-167539", "food_group": "C", "name_de": "Snacks, auf Maisbasis, extrudiert, Hörnchen, natur"},
- {"slug": "usda-167540", "food_group": "S", "name_de": "Snacks, Fruchtleder, Stücke"},
- {"slug": "usda-167541", "food_group": "S", "name_de": "Snacks, Fruchtleder, Rollen"},
- {"slug": "usda-167542", "food_group": "S", "name_de": "Snacks, Müsliriegel, hart, natur"},
- {"slug": "usda-167543", "food_group": "S", "name_de": "Snacks, Müsliriegel, hart, Mandel"},
- {"slug": "usda-167544", "food_group": "S", "name_de": "Snacks, Müsliriegel, weich, ohne Überzug, Rosinen"},
- {"slug": "usda-167545", "food_group": "S", "name_de": "Snacks, Müsliriegel, weich, überzogen, Milchschokoladenüberzug, Schokostückchen"},
- {"slug": "usda-167546", "food_group": "S", "name_de": "Süßigkeiten, Honeycomb, mit Erdnussbutter"},
- {"slug": "usda-167547", "food_group": "S", "name_de": "Snacks, Müsliriegel, weich, überzogen, Milchschokoladenüberzug, Erdnussbutter"},
- {"slug": "usda-167548", "food_group": "S", "name_de": "Snacks, Müsliriegel, weich, ohne Überzug, Erdnussbutter und Schokostückchen"},
- {"slug": "usda-167549", "food_group": "C", "name_de": "Snacks, Popcorn, in Öl gepoppt, Mikrowelle, normaler Geschmack, ohne Transfette"},
- {"slug": "usda-167550", "food_group": "C", "name_de": "Snacks, Popcorn, Cakes"},
- {"slug": "usda-167551", "food_group": "S", "name_de": "Snacks, Popcorn, karamellüberzogen, mit Erdnüssen"},
- {"slug": "usda-167552", "food_group": "S", "name_de": "Snacks, Popcorn, karamellüberzogen, ohne Erdnüsse"},
- {"slug": "usda-167553", "food_group": "K", "name_de": "Snacks, Kartoffelchips, aus getrockneten Kartoffeln, fettreduziert"},
- {"slug": "usda-167554", "food_group": "K", "name_de": "Snacks, Kartoffelchips, aus getrockneten Kartoffeln, Sauerrahm-Zwiebel-Geschmack"},
- {"slug": "usda-167555", "food_group": "D", "name_de": "Snacks, Brezeln, hart, natur, gesalzen"},
- {"slug": "usda-167556", "food_group": "D", "name_de": "Snacks, Brezeln, hart, Süßwarenüberzug, Schokoladengeschmack"},
- {"slug": "usda-167557", "food_group": "C", "name_de": "Snacks, Reiswaffeln, Naturreis, Sesam"},
- {"slug": "usda-167558", "food_group": "C", "name_de": "Snacks, Tortilla-Chips, natur, weißer Mais, gesalzen"},
- {"slug": "usda-167559", "food_group": "C", "name_de": "Snacks, Tortilla-Chips, Nacho-Käse"},
- {"slug": "usda-167560", "food_group": "C", "name_de": "Snacks, Tortilla-Chips, Ranch-Geschmack"},
- {"slug": "usda-167561", "food_group": "H", "name_de": "Snacks, Studentenfutter, normal"},
- {"slug": "usda-167562", "food_group": "S", "name_de": "Süßigkeiten, ALMOND JOY Riegel"},
- {"slug": "usda-167563", "food_group": "S", "name_de": "Süßigkeiten, TWIZZLERS CHERRY BITES"},
- {"slug": "usda-167564", "food_group": "S", "name_de": "Süßigkeiten, NESTLE, BIT-O'-HONEY Kaubonbons"},
- {"slug": "usda-167565", "food_group": "S", "name_de": "Süßigkeiten, NESTLE, BUTTERFINGER Riegel"},
- {"slug": "usda-167566", "food_group": "S", "name_de": "Süßigkeiten, Karamell, Schokoladengeschmack, Rolle"},
- {"slug": "usda-167567", "food_group": "S", "name_de": "Backschokolade, ungesüßt, flüssig"},
- {"slug": "usda-167568", "food_group": "S", "name_de": "Backschokolade, ungesüßt, Quadrate"},
- {"slug": "usda-167569", "food_group": "S", "name_de": "Süßigkeiten, Süßwarenüberzug, Joghurt"},
- {"slug": "usda-167570", "food_group": "S", "name_de": "Süßigkeiten, Süßwarenüberzug, Erdnussbutter"},
- {"slug": "usda-167571", "food_group": "S", "name_de": "Süßigkeiten, weiße Schokolade"},
- {"slug": "usda-167572", "food_group": "S", "name_de": "Eiscreme, Vanille, light"},
- {"slug": "usda-167573", "food_group": "S", "name_de": "Eiscreme, Vanille, reichhaltig"},
- {"slug": "usda-167574", "food_group": "S", "name_de": "Desserts, Flan, Karamellpudding, nach Rezept zubereitet"},
- {"slug": "usda-167575", "food_group": "S", "name_de": "Eiscreme, Vanille"},
- {"slug": "usda-167576", "food_group": "S", "name_de": "Eiscreme, Vanille, light, Softeis"},
- {"slug": "usda-167577", "food_group": "S", "name_de": "Sherbet, Orange"},
- {"slug": "usda-167578", "food_group": "S", "name_de": "Süßigkeiten, Fudge, Erdnussbutter, nach Rezept zubereitet"},
- {"slug": "usda-167579", "food_group": "S", "name_de": "Süßigkeiten, Fudge, Vanille, nach Rezept zubereitet"},
- {"slug": "usda-167580", "food_group": "S", "name_de": "Süßigkeiten, Fudge, Vanille mit Nüssen"},
- {"slug": "usda-167581", "food_group": "S", "name_de": "Süßigkeiten, NESTLE, GOOBERS mit Schokolade überzogene Erdnüsse"},
- {"slug": "usda-167582", "food_group": "S", "name_de": "Süßigkeiten, NESTLE, BABY RUTH Riegel"},
- {"slug": "usda-167583", "food_group": "S", "name_de": "Süßigkeiten, TWIZZLERS Strawberry Twists"},
- {"slug": "usda-167584", "food_group": "S", "name_de": "Sirup, Tischsirup-Mischung, Pfannkuchen, mit Butter"},
- {"slug": "usda-167585", "food_group": "S", "name_de": "Eiscreme, Schokolade, light"},
- {"slug": "usda-167586", "food_group": "S", "name_de": "Süßigkeiten, NESTLE, CHUNKY Riegel"},
- {"slug": "usda-167587", "food_group": "S", "name_de": "Süßigkeiten, Milchschokolade"},
- {"slug": "usda-167588", "food_group": "S", "name_de": "Pudding, Banane, Trockenmischung, Instant, mit 2 % Milch zubereitet"},
- {"slug": "usda-167589", "food_group": "S", "name_de": "Pudding, Banane, Trockenmischung, normal, mit 2 % Milch zubereitet"},
- {"slug": "usda-167590", "food_group": "B", "name_de": "Andrea's, glutenfreies weiches Brötchen"},
- {"slug": "usda-167591", "food_group": "D", "name_de": "Crunchmaster, Mehrkorn-Crisps, Snack-Cracker, glutenfrei"},
- {"slug": "usda-167592", "food_group": "D", "name_de": "Glutino, glutenfreie Kekse, Schokolade-Vanille-Creme"},
- {"slug": "usda-167593", "food_group": "D", "name_de": "Glutino, glutenfreie Kekse, Vanillecreme"},
- {"slug": "usda-167594", "food_group": "D", "name_de": "Pepperidge Farm, Goldfish, gebackene Snack-Cracker, Original"},
- {"slug": "usda-167595", "food_group": "D", "name_de": "Pepperidge Farm, Goldfish, gebackene Snack-Cracker, Parmesan"},
- {"slug": "usda-167596", "food_group": "D", "name_de": "Pepperidge Farm, Goldfish, gebackene Snack-Cracker, Pizza"},
- {"slug": "usda-167597", "food_group": "B", "name_de": "Rudi's, Gluten-Free Bakery, Sandwichbrot, Original"},
- {"slug": "usda-167598", "food_group": "B", "name_de": "Udi's, glutenfrei, Soft & Delicious, weißes Sandwichbrot"},
- {"slug": "usda-167599", "food_group": "B", "name_de": "Udi's, glutenfrei, Soft & Hearty, Vollkornbrot"},
- {"slug": "usda-167600", "food_group": "B", "name_de": "Udi's, glutenfrei, Vollkornbrötchen"},
- {"slug": "usda-167601", "food_group": "D", "name_de": "Van's, glutenfrei, Totally Original Pfannkuchen"},
- {"slug": "usda-167602", "food_group": "G", "name_de": "Seetang, kanadisch kultiviert, EMI-TSUNOMATA, getrocknet"},
- {"slug": "usda-167603", "food_group": "G", "name_de": "Seetang, kanadisch kultiviert, EMI-TSUNOMATA, rehydriert"},
- {"slug": "usda-167604", "food_group": "K", "name_de": "Kartoffeln, Hash Browns, gekühlt, unzubereitet"},
- {"slug": "usda-167605", "food_group": "K", "name_de": "Kartoffeln, Hash Browns, gekühlt, zubereitet, in Rapsöl gebraten"},
- {"slug": "usda-167606", "food_group": "K", "name_de": "Süßkartoffeln, Pommes frites, tiefgefroren, wie verpackt, bei der Herstellung gesalzen"},
- {"slug": "usda-167681", "food_group": "N", "name_de": "Getränke, Fruchtgetränk, Trockenpulvermischung, kalorienarm, mit Aspartam"},
- {"slug": "usda-167682", "food_group": "R", "name_de": "Pektin, flüssig"},
- {"slug": "usda-167683", "food_group": "S", "name_de": "Eisspezialitäten, Eiscremeart, Vanilleeiscreme, light, ohne Zuckerzusatz, schokoladenüberzogen"},
- {"slug": "usda-167684", "food_group": "R", "name_de": "Cremiges Dressing, mit saurer Sahne und/oder Buttermilch und Öl, kalorienreduziert"},
- {"slug": "usda-167685", "food_group": "W", "name_de": "Bologna, Rind und Schwein, fettarm"},
- {"slug": "usda-167686", "food_group": "S", "name_de": "Milchdessert, tiefgefroren, milchfettfrei, Schokolade"},
- {"slug": "usda-167687", "food_group": "M", "name_de": "Schlagtopping, tiefgefroren, fettarm"},
- {"slug": "usda-167688", "food_group": "M", "name_de": "Sahneersatz, Pulver, light"},
- {"slug": "usda-167689", "food_group": "S", "name_de": "Süßigkeiten, MARS SNACKFOOD US, M&M's Erdnussbutter-Schokobonbons"},
- {"slug": "usda-167691", "food_group": "Q", "name_de": "Pflanzenöl-Butter-Aufstrich, kalorienreduziert"},
- {"slug": "usda-167692", "food_group": "R", "name_de": "Salatdressing, Blauschimmelkäse- oder Roquefort-Dressing, light"},
- {"slug": "usda-167693", "food_group": "R", "name_de": "Salatdressing, French Dressing, kalorienreduziert"},
- {"slug": "usda-167694", "food_group": "W", "name_de": "Wurst, Pute und Schwein, frisch, lose, Patty oder Würstchen, gekocht"},
- {"slug": "usda-167695", "food_group": "Q", "name_de": "Mayonnaise, mit Tofu hergestellt"},
- {"slug": "usda-167696", "food_group": "W", "name_de": "Frankfurter Würstchen, Rind, fettarm"},
- {"slug": "usda-167697", "food_group": "M", "name_de": "Buttermilch, flüssig, gesäuert, fettreduziert"},
- {"slug": "usda-167698", "food_group": "W", "name_de": "Schweinswürstchen mit Reis, Brown-and-Serve, gekocht"},
- {"slug": "usda-167699", "food_group": "R", "name_de": "Salatdressing, Blauschimmelkäse- oder Roquefort-Dressing, fettfrei"},
- {"slug": "usda-167700", "food_group": "R", "name_de": "Salatdressing, mayonnaiseartig, fettfrei"},
- {"slug": "usda-167701", "food_group": "S", "name_de": "Süßigkeiten, MARS SNACKFOOD US, MILKY WAY Midnight Riegel"},
- {"slug": "usda-167702", "food_group": "Q", "name_de": "Leinöl, kaltgepresst"},
- {"slug": "usda-167703", "food_group": "M", "name_de": "Hüttenkäse, fettarm, 1 % Milchfett, laktosereduziert"},
- {"slug": "usda-167704", "food_group": "Q", "name_de": "Salatdressing, Speck und Tomate"},
- {"slug": "usda-167705", "food_group": "M", "name_de": "Parmesan, natriumarm"},
- {"slug": "usda-167706", "food_group": "S", "name_de": "Konfitüre, Fruchtaufstrich, Marmelade, zuckerreduziert"},
- {"slug": "usda-167707", "food_group": "N", "name_de": "Getränke, Fruchtgetränk, Pulver, mit hohem Vitamin-C-Gehalt und weiteren zugesetzten Vitaminen, kalorienarm"},
- {"slug": "usda-167708", "food_group": "G", "name_de": "Tomaten- und Gemüsesaft, natriumarm"},
- {"slug": "usda-167709", "food_group": "V", "name_de": "Pute, Flügel, geräuchert, gegart, mit Haut, ohne Knochen"},
- {"slug": "usda-167710", "food_group": "V", "name_de": "Pute, Keule, geräuchert, gegart, mit Haut, ohne Knochen"},
- {"slug": "usda-167711", "food_group": "N", "name_de": "Getränke, Schokoladengetränk, auf Molke- und Milchbasis"},
- {"slug": "usda-167712", "food_group": "W", "name_de": "Schweinefleisch, gepökelt, Bacon, gegart, gegrillt, in der Pfanne gebraten oder geröstet, natriumreduziert"},
- {"slug": "usda-167713", "food_group": "V", "name_de": "Pute, helles oder dunkles Fleisch, geräuchert, gegart, ohne Haut und Knochen"},
- {"slug": "usda-167714", "food_group": "G", "name_de": "Palmherzen, roh"},
- {"slug": "usda-167715", "food_group": "C", "name_de": "Frühstückscerealien, verzehrfertig, POST, Shredded Wheat n' Bran, löffelgerecht"},
- {"slug": "usda-167716", "food_group": "M", "name_de": "Hüttenkäse, fettarm, 1 % Milchfett, mit Gemüse"},
- {"slug": "usda-167717", "food_group": "R", "name_de": "Hefeextrakt-Aufstrich"},
- {"slug": "usda-167719", "food_group": "H", "name_de": "Hähnchen, fleischlos, paniert, gebraten"},
- {"slug": "usda-167721", "food_group": "S", "name_de": "Eisspezialitäten, Fruchtsafttyp, Saft mit Sahne"},
- {"slug": "usda-167722", "food_group": "H", "name_de": "Tofu-Joghurt"},
- {"slug": "usda-167723", "food_group": "P", "name_de": "Alkoholisches Getränk, Reis (Sake)"},
- {"slug": "usda-167724", "food_group": "C", "name_de": "Hirse, gepufft"},
- {"slug": "usda-167725", "food_group": "C", "name_de": "Frühstückscerealien, verzehrfertig, Haferkleieflocken, HEALTH VALLEY"},
- {"slug": "usda-167727", "food_group": "N", "name_de": "Getränke, ABBOTT, ENSURE PLUS, trinkfertig"},
- {"slug": "usda-167730", "food_group": "N", "name_de": "Milchersatz, ohne Soja"},
- {"slug": "usda-167734", "food_group": "D", "name_de": "Frühstücksriegel, Cornflakes-Boden mit Obst"},
- {"slug": "usda-167735", "food_group": "M", "name_de": "Mozzarella, natriumarm"},
- {"slug": "usda-167736", "food_group": "Q", "name_de": "Mayonnaise-Dressing, cholesterinfrei"},
- {"slug": "usda-167737", "food_group": "Q", "name_de": "Öl aus Mais, Erdnuss und Olive"},
- {"slug": "usda-167738", "food_group": "S", "name_de": "Tortenfüllung, Heidelbeere, aus der Dose"},
- {"slug": "usda-167739", "food_group": "N", "name_de": "Getränke, Cocktailmischung, alkoholfrei, Konzentrat, tiefgefroren"},
- {"slug": "usda-167740", "food_group": "S", "name_de": "Pudding, Schokoladengeschmack, kalorienarm, normal, Trockenmischung"},
- {"slug": "usda-167741", "food_group": "S", "name_de": "Pudding, alle Geschmacksrichtungen außer Schokolade, kalorienarm, normal, Trockenmischung"},
- {"slug": "usda-167742", "food_group": "T", "name_de": "Weichtiere, Jakobsmuschel (Bay- und Sea-Scallop), gegart, gedämpft"},
- {"slug": "usda-167743", "food_group": "S", "name_de": "Sirup, Zuckerrohr"},
- {"slug": "usda-167744", "food_group": "T", "name_de": "Weichtiere, Schnecke, roh"},
- {"slug": "usda-167745", "food_group": "T", "name_de": "Schildkröte, grün, roh"},
- {"slug": "usda-167746", "food_group": "F", "name_de": "Zitronen, roh, ohne Schale"},
- {"slug": "usda-167747", "food_group": "F", "name_de": "Zitronensaft, roh"},
- {"slug": "usda-167748", "food_group": "F", "name_de": "Zitronensaft aus Konzentrat, aus der Dose oder Flasche"},
- {"slug": "usda-167749", "food_group": "F", "name_de": "Zitronenschale, roh"},
- {"slug": "usda-167750", "food_group": "F", "name_de": "Kaktusfeigen, roh"},
- {"slug": "usda-167751", "food_group": "F", "name_de": "Pflaumen, getrocknet (Backpflaumen), gedünstet, ohne Zuckerzusatz"},
- {"slug": "usda-167752", "food_group": "F", "name_de": "Pflaumen, getrocknet (Backpflaumen), gedünstet, mit Zuckerzusatz"},
- {"slug": "usda-167753", "food_group": "F", "name_de": "Pflaumensaft, aus der Dose"},
- {"slug": "usda-167754", "food_group": "F", "name_de": "Pomelo, roh"},
- {"slug": "usda-167755", "food_group": "F", "name_de": "Himbeeren, roh"},
- {"slug": "usda-167756", "food_group": "F", "name_de": "Himbeeren, aus der Dose, rot, in dickem Zuckersirup, mit Flüssigkeit"},
- {"slug": "usda-167757", "food_group": "F", "name_de": "Himbeeren, tiefgefroren, rot, gezuckert"},
- {"slug": "usda-167758", "food_group": "G", "name_de": "Rhabarber, roh"},
- {"slug": "usda-167759", "food_group": "F", "name_de": "Sapodilla, roh"},
- {"slug": "usda-167760", "food_group": "F", "name_de": "Sapote, Mamey, roh"},
- {"slug": "usda-167761", "food_group": "F", "name_de": "Sauersack, roh"},
- {"slug": "usda-167762", "food_group": "F", "name_de": "Erdbeeren, roh"},
- {"slug": "usda-167763", "food_group": "F", "name_de": "Tamarinden, roh"},
- {"slug": "usda-167764", "food_group": "F", "name_de": "Obstsalat (Ananas, Papaya, Banane, Guave), tropisch, aus der Dose, in dickem Zuckersirup, mit Flüssigkeit"},
- {"slug": "usda-167765", "food_group": "F", "name_de": "Wassermelone, roh"},
- {"slug": "usda-167766", "food_group": "F", "name_de": "Maraschino-Kirschen, aus der Dose, abgetropft"},
- {"slug": "usda-167767", "food_group": "F", "name_de": "Ananas, aus der Dose, in Saft, abgetropft"},
- {"slug": "usda-167768", "food_group": "F", "name_de": "Aprikosen, aus der Dose, in dickem Zuckersirup, abgetropft"},
- {"slug": "usda-167769", "food_group": "F", "name_de": "Sauerkirschen, aus der Dose, in Wasser, abgetropft"},
- {"slug": "usda-167770", "food_group": "F", "name_de": "Süßkirschen, aus der Dose, entsteint, in dickem Zuckersirup, abgetropft"},
- {"slug": "usda-167771", "food_group": "F", "name_de": "Apfelsaft, aus der Dose oder Flasche, ungesüßt, mit zugesetzter Ascorbinsäure"},
- {"slug": "usda-167772", "food_group": "F", "name_de": "Apfelmus, aus der Dose, ungesüßt, mit zugesetzter Ascorbinsäure"},
- {"slug": "usda-167773", "food_group": "F", "name_de": "Apfelmus, aus der Dose, gesüßt, mit Salz"},
- {"slug": "usda-167774", "food_group": "F", "name_de": "Grapefruitsaft, rosa, roh"},
- {"slug": "usda-167775", "food_group": "F", "name_de": "Apfelsaft, tiefgefrorenes Konzentrat, ungesüßt, mit 3 Teilen Wasser verdünnt, mit zugesetzter Ascorbinsäure"},
- {"slug": "usda-167776", "food_group": "F", "name_de": "Birnen, roh, Bartlett"},
- {"slug": "usda-167777", "food_group": "F", "name_de": "Birnen, roh, Red Anjou"},
- {"slug": "usda-167778", "food_group": "F", "name_de": "Birnen, roh, Bosc"},
- {"slug": "usda-167779", "food_group": "F", "name_de": "Birnen, roh, Green Anjou"},
- {"slug": "usda-167780", "food_group": "F", "name_de": "Backpflaumenpüree"},
- {"slug": "usda-167781", "food_group": "F", "name_de": "Früchte, kandiert"},
- {"slug": "usda-167782", "food_group": "F", "name_de": "Abiyuch, roh"},
- {"slug": "usda-167783", "food_group": "F", "name_de": "Rowal, roh"},
- {"slug": "usda-167784", "food_group": "F", "name_de": "Guavennektar, aus der Dose, mit zugesetzter Ascorbinsäure"},
- {"slug": "usda-167785", "food_group": "F", "name_de": "Mangonektar, aus der Dose"},
- {"slug": "usda-167786", "food_group": "F", "name_de": "Tamarindennektar, aus der Dose"},
- {"slug": "usda-167787", "food_group": "F", "name_de": "Granatapfelsaft, in Flaschen"},
- {"slug": "usda-167788", "food_group": "F", "name_de": "Nance, aus der Dose, in Sirup, abgetropft"},
- {"slug": "usda-167789", "food_group": "F", "name_de": "Nance, tiefgefroren, ungesüßt"},
- {"slug": "usda-167790", "food_group": "F", "name_de": "Naranjilla (Lulo), Fruchtpulpe, tiefgefroren, ungesüßt"},
- {"slug": "usda-167791", "food_group": "F", "name_de": "Hornmelone (Kiwano)"},
- {"slug": "usda-167792", "food_group": "F", "name_de": "Orangen-Ananas-Saftmischung"},
- {"slug": "usda-167793", "food_group": "F", "name_de": "Äpfel, roh, Fuji, mit Schale"},
- {"slug": "usda-167794", "food_group": "F", "name_de": "Orangensaft, gekühlt, auch aus Konzentrat, mit zugesetztem Calcium und Vitamin A, D, E"},
- {"slug": "usda-167795", "food_group": "F", "name_de": "Fruchtsaft-Smoothie, NAKED JUICE, MIGHTY MANGO"},
- {"slug": "usda-167796", "food_group": "F", "name_de": "Fruchtsaft-Smoothie, NAKED JUICE, GREEN MACHINE"},
- {"slug": "usda-167797", "food_group": "F", "name_de": "Fruchtsaft-Smoothie, BOLTHOUSE FARMS, BERRY BOOST"},
- {"slug": "usda-167798", "food_group": "F", "name_de": "Fruchtsaft-Smoothie, BOLTHOUSE FARMS, GREEN GOODNESS"},
- {"slug": "usda-167799", "food_group": "F", "name_de": "Fruchtsaft-Smoothie, BOLTHOUSE FARMS, Erdbeere-Banane"},
- {"slug": "usda-167800", "food_group": "F", "name_de": "Apfelsaft, aus der Dose oder Flasche, ungesüßt, mit zugesetzter Ascorbinsäure, Calcium und Kalium"},
- {"slug": "usda-167801", "food_group": "F", "name_de": "Zitronensaft aus Konzentrat, in Flaschen, CONCORD"},
- {"slug": "usda-167802", "food_group": "F", "name_de": "Zitronensaft aus Konzentrat, in Flaschen, REAL LEMON"},
- {"slug": "usda-167803", "food_group": "F", "name_de": "Cranberry-Sauce, ganze Beeren, aus der Dose, OCEAN SPRAY"},
- {"slug": "usda-167804", "food_group": "F", "name_de": "Cranberry-Sauce, geliert, aus der Dose, OCEAN SPRAY"},
- {"slug": "usda-167805", "food_group": "F", "name_de": "Ruby-Red-Grapefruitsaftmischung (Grapefruit, Traube, Apfel), OCEAN SPRAY, in Flaschen, mit zugesetztem Vitamin C"},
- {"slug": "usda-167806", "food_group": "F", "name_de": "Baobabpulver"},
- {"slug": "usda-167807", "food_group": "F", "name_de": "Sauerkirschsaft"},
- {"slug": "usda-167808", "food_group": "F", "name_de": "Himbeeren, Püree, ohne Kerne"},
- {"slug": "usda-167809", "food_group": "F", "name_de": "Himbeeren, Püree, mit Kernen"},
- {"slug": "usda-167810", "food_group": "U", "name_de": "Schweinefleisch, frisch, Mischung aus Keule, Rücken, Schulter und Spareribs (pariert, einschließlich Stücken zum Pökeln), Magerfleisch und Fett, roh"},
- {"slug": "usda-167811", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rückenspeck, roh"},
- {"slug": "usda-167812", "food_group": "U", "name_de": "Schweinefleisch, frisch, Bauch, roh"},
- {"slug": "usda-167813", "food_group": "U", "name_de": "Schweinefleisch, frisch, Fett (abtrennbar), roh"},
- {"slug": "usda-167814", "food_group": "U", "name_de": "Schweinefleisch, frisch, Keule (Schinken), Hüftstück, Magerfleisch und Fett, roh"},
- {"slug": "usda-167815", "food_group": "U", "name_de": "Schweinefleisch, frisch, Keule (Schinken), Hüftstück, Magerfleisch und Fett, gegart, geröstet"},
- {"slug": "usda-167816", "food_group": "U", "name_de": "Schweinefleisch, frisch, Keule (Schinken), Hüftstück, nur Magerfleisch, roh"},
- {"slug": "usda-167817", "food_group": "U", "name_de": "Schweinefleisch, frisch, Keule (Schinken), Hüftstück, nur Magerfleisch, gegart, geröstet"},
- {"slug": "usda-167818", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, ganz, Magerfleisch und Fett, roh"},
- {"slug": "usda-167819", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, ganz, Magerfleisch und Fett, gegart, geschmort"},
- {"slug": "usda-167820", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, ganz, Magerfleisch und Fett, gegart, gegrillt"},
- {"slug": "usda-167821", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, ganz, Magerfleisch und Fett, gegart, geröstet"},
- {"slug": "usda-167822", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Schulterende (Koteletts oder Braten), mit Knochen, Magerfleisch und Fett, roh"},
- {"slug": "usda-167823", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Schulterende (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, geschmort"},
- {"slug": "usda-167824", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Schulterende (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, gegrillt"},
- {"slug": "usda-167825", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Schulterende (Braten), mit Knochen, Magerfleisch und Fett, gegart, geröstet"},
- {"slug": "usda-167826", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Mittelstück (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, geschmort"},
- {"slug": "usda-167827", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Mittelstück (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, gegrillt"},
- {"slug": "usda-167828", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Mittelstück (Braten), mit Knochen, Magerfleisch und Fett, gegart, geröstet"},
- {"slug": "usda-167829", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Mittelstück (Koteletts), mit Knochen, nur Magerfleisch, roh"},
- {"slug": "usda-167830", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Mittelrippe (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, geschmort"},
- {"slug": "usda-167831", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Mittelrippe (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, gegrillt"},
- {"slug": "usda-167832", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Mittelrippe (Braten), mit Knochen, Magerfleisch und Fett, gegart, geröstet"},
- {"slug": "usda-167833", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Mittelrippe (Koteletts oder Braten), mit Knochen, nur Magerfleisch, roh"},
- {"slug": "usda-167834", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Sirloin (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, geschmort"},
- {"slug": "usda-167835", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Sirloin (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, gegrillt"},
- {"slug": "usda-167836", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Sirloin (Braten), mit Knochen, Magerfleisch und Fett, gegart, geröstet"},
- {"slug": "usda-167837", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Sirloin (Koteletts oder Braten), mit Knochen, nur Magerfleisch, roh"},
- {"slug": "usda-167838", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Sirloin (Koteletts), mit Knochen, nur Magerfleisch, gegart, geschmort"},
- {"slug": "usda-167839", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Top Loin (Koteletts), ohne Knochen, Magerfleisch und Fett, roh"},
- {"slug": "usda-167840", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Top Loin (Koteletts), ohne Knochen, Magerfleisch und Fett, gegart, geschmort"},
- {"slug": "usda-167841", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Top Loin (Koteletts), ohne Knochen, Magerfleisch und Fett, gegart, gegrillt"},
- {"slug": "usda-167842", "food_group": "U", "name_de": "Schweinefleisch, frisch, Rücken, Top Loin (Braten), ohne Knochen, Magerfleisch und Fett, gegart, geröstet"},
- {"slug": "usda-167843", "food_group": "U", "name_de": "Schweinefleisch, frisch, Schulter, ganz, Magerfleisch und Fett, roh"},
- {"slug": "usda-167844", "food_group": "U", "name_de": "Schweinefleisch, frisch, Schulter, ganz, Magerfleisch und Fett, gegart, geröstet"}
+ {
+  "slug": "usda-167512",
+  "food_group": "D",
+  "name_de": "Pillsbury Golden Layer Buttermilk Biscuits, künstliches Aroma, gekühlter Teig"
+ },
+ {
+  "slug": "usda-167513",
+  "food_group": "D",
+  "name_de": "Pillsbury, Zimtschnecken mit Zuckerguss, gekühlter Teig"
+ },
+ {
+  "slug": "usda-167514",
+  "food_group": "R",
+  "name_de": "Kraft Foods, Shake N Bake Original Recipe, Panade für Schweinefleisch, trocken"
+ },
+ {
+  "slug": "usda-167515",
+  "food_group": "B",
+  "name_de": "George Weston Bakeries, Thomas English Muffins"
+ },
+ {
+  "slug": "usda-167516",
+  "food_group": "D",
+  "name_de": "Waffeln, Buttermilch, tiefgefroren, aufbackfertig"
+ },
+ {
+  "slug": "usda-167517",
+  "food_group": "D",
+  "name_de": "Waffel, Buttermilch, tiefgefroren, aufbackfertig, getoastet"
+ },
+ {
+  "slug": "usda-167518",
+  "food_group": "D",
+  "name_de": "Waffel, Buttermilch, tiefgefroren, aufbackfertig, in der Mikrowelle erhitzt"
+ },
+ {
+  "slug": "usda-167519",
+  "food_group": "D",
+  "name_de": "Waffel, natur, tiefgefroren, aufbackfertig, Mikrowelle"
+ },
+ {
+  "slug": "usda-167520",
+  "food_group": "D",
+  "name_de": "Tortenboden, Keksart, Grahamcracker, Fertigboden"
+ },
+ {
+  "slug": "usda-167521",
+  "food_group": "D",
+  "name_de": "Tortenboden, Keksart, Schokolade, Fertigboden"
+ },
+ {
+  "slug": "usda-167522",
+  "food_group": "D",
+  "name_de": "Pie, Dutch Apple, Fertigprodukt"
+ },
+ {
+  "slug": "usda-167523",
+  "food_group": "D",
+  "name_de": "Tortenboden, tiefe Form, tiefgefroren, ungebacken, mit angereichertem Mehl"
+ },
+ {
+  "slug": "usda-167524",
+  "food_group": "D",
+  "name_de": "Waffeln, Schokostückchen, tiefgefroren, aufbackfertig"
+ },
+ {
+  "slug": "usda-167525",
+  "food_group": "D",
+  "name_de": "Tostadaschalen, Mais"
+ },
+ {
+  "slug": "usda-167526",
+  "food_group": "D",
+  "name_de": "Brot, salvadorianisch, mit süßem Käse (Quesadilla salvadorena)"
+ },
+ {
+  "slug": "usda-167527",
+  "food_group": "D",
+  "name_de": "Brot, Rührkuchenart, Pan de Torta salvadorianisch"
+ },
+ {
+  "slug": "usda-167528",
+  "food_group": "D",
+  "name_de": "Gebäck, Pastelitos de Guava (Guavengebäck)"
+ },
+ {
+  "slug": "usda-167529",
+  "food_group": "D",
+  "name_de": "Cracker, Snack, Goya Crackers"
+ },
+ {
+  "slug": "usda-167530",
+  "food_group": "D",
+  "name_de": "Cracker, Cream, Gamesa Sabrosas"
+ },
+ {
+  "slug": "usda-167531",
+  "food_group": "D",
+  "name_de": "Cracker, Cream, La Moderna Rikis Cream Crackers"
+ },
+ {
+  "slug": "usda-167532",
+  "food_group": "B",
+  "name_de": "Brot, Weizen, weiß"
+ },
+ {
+  "slug": "usda-167533",
+  "food_group": "B",
+  "name_de": "Bagels, Weizen"
+ },
+ {
+  "slug": "usda-167534",
+  "food_group": "D",
+  "name_de": "Windbeutel, Eclair, mit Pudding- oder Sahnefüllung, glasiert"
+ },
+ {
+  "slug": "usda-167535",
+  "food_group": "B",
+  "name_de": "Tortillas, Weizenmehl, zum Backen oder Braten, haltbar"
+ },
+ {
+  "slug": "usda-167536",
+  "food_group": "W",
+  "name_de": "Snacks, Beef Jerky, gehackt und geformt"
+ },
+ {
+  "slug": "usda-167537",
+  "food_group": "C",
+  "name_de": "Snacks, auf Maisbasis, extrudiert, Chips, natur"
+ },
+ {
+  "slug": "usda-167538",
+  "food_group": "C",
+  "name_de": "Snacks, auf Maisbasis, extrudiert, Chips, Barbecue-Geschmack"
+ },
+ {
+  "slug": "usda-167539",
+  "food_group": "C",
+  "name_de": "Snacks, auf Maisbasis, extrudiert, Hörnchen, natur"
+ },
+ {
+  "slug": "usda-167540",
+  "food_group": "S",
+  "name_de": "Snacks, Fruchtleder, Stücke"
+ },
+ {
+  "slug": "usda-167541",
+  "food_group": "S",
+  "name_de": "Snacks, Fruchtleder, Rollen"
+ },
+ {
+  "slug": "usda-167542",
+  "food_group": "S",
+  "name_de": "Snacks, Müsliriegel, hart, natur"
+ },
+ {
+  "slug": "usda-167543",
+  "food_group": "S",
+  "name_de": "Snacks, Müsliriegel, hart, Mandel"
+ },
+ {
+  "slug": "usda-167544",
+  "food_group": "S",
+  "name_de": "Snacks, Müsliriegel, weich, ohne Überzug, Rosinen"
+ },
+ {
+  "slug": "usda-167545",
+  "food_group": "S",
+  "name_de": "Snacks, Müsliriegel, weich, überzogen, Milchschokoladenüberzug, Schokostückchen"
+ },
+ {
+  "slug": "usda-167546",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, Honeycomb, mit Erdnussbutter"
+ },
+ {
+  "slug": "usda-167547",
+  "food_group": "S",
+  "name_de": "Snacks, Müsliriegel, weich, überzogen, Milchschokoladenüberzug, Erdnussbutter"
+ },
+ {
+  "slug": "usda-167548",
+  "food_group": "S",
+  "name_de": "Snacks, Müsliriegel, weich, ohne Überzug, Erdnussbutter und Schokostückchen"
+ },
+ {
+  "slug": "usda-167549",
+  "food_group": "C",
+  "name_de": "Snacks, Popcorn, in Öl gepoppt, Mikrowelle, normaler Geschmack, ohne Transfette"
+ },
+ {
+  "slug": "usda-167550",
+  "food_group": "C",
+  "name_de": "Snacks, Popcorn, Cakes"
+ },
+ {
+  "slug": "usda-167551",
+  "food_group": "S",
+  "name_de": "Snacks, Popcorn, karamellüberzogen, mit Erdnüssen"
+ },
+ {
+  "slug": "usda-167552",
+  "food_group": "S",
+  "name_de": "Snacks, Popcorn, karamellüberzogen, ohne Erdnüsse"
+ },
+ {
+  "slug": "usda-167553",
+  "food_group": "K",
+  "name_de": "Snacks, Kartoffelchips, aus getrockneten Kartoffeln, fettreduziert"
+ },
+ {
+  "slug": "usda-167554",
+  "food_group": "K",
+  "name_de": "Snacks, Kartoffelchips, aus getrockneten Kartoffeln, Sauerrahm-Zwiebel-Geschmack"
+ },
+ {
+  "slug": "usda-167555",
+  "food_group": "D",
+  "name_de": "Snacks, Brezeln, hart, natur, gesalzen"
+ },
+ {
+  "slug": "usda-167556",
+  "food_group": "D",
+  "name_de": "Snacks, Brezeln, hart, Süßwarenüberzug, Schokoladengeschmack"
+ },
+ {
+  "slug": "usda-167557",
+  "food_group": "C",
+  "name_de": "Snacks, Reiswaffeln, Naturreis, Sesam"
+ },
+ {
+  "slug": "usda-167558",
+  "food_group": "C",
+  "name_de": "Snacks, Tortilla-Chips, natur, weißer Mais, gesalzen"
+ },
+ {
+  "slug": "usda-167559",
+  "food_group": "C",
+  "name_de": "Snacks, Tortilla-Chips, Nacho-Käse"
+ },
+ {
+  "slug": "usda-167560",
+  "food_group": "C",
+  "name_de": "Snacks, Tortilla-Chips, Ranch-Geschmack"
+ },
+ {
+  "slug": "usda-167561",
+  "food_group": "H",
+  "name_de": "Snacks, Studentenfutter, normal"
+ },
+ {
+  "slug": "usda-167562",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, ALMOND JOY Riegel"
+ },
+ {
+  "slug": "usda-167563",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, TWIZZLERS CHERRY BITES"
+ },
+ {
+  "slug": "usda-167564",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, NESTLE, BIT-O'-HONEY Kaubonbons"
+ },
+ {
+  "slug": "usda-167565",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, NESTLE, BUTTERFINGER Riegel"
+ },
+ {
+  "slug": "usda-167566",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, Karamell, Schokoladengeschmack, Rolle"
+ },
+ {
+  "slug": "usda-167567",
+  "food_group": "S",
+  "name_de": "Backschokolade, ungesüßt, flüssig"
+ },
+ {
+  "slug": "usda-167568",
+  "food_group": "S",
+  "name_de": "Backschokolade, ungesüßt, Quadrate"
+ },
+ {
+  "slug": "usda-167569",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, Süßwarenüberzug, Joghurt"
+ },
+ {
+  "slug": "usda-167570",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, Süßwarenüberzug, Erdnussbutter"
+ },
+ {
+  "slug": "usda-167571",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, weiße Schokolade"
+ },
+ {
+  "slug": "usda-167572",
+  "food_group": "S",
+  "name_de": "Eiscreme, Vanille, light"
+ },
+ {
+  "slug": "usda-167573",
+  "food_group": "S",
+  "name_de": "Eiscreme, Vanille, reichhaltig"
+ },
+ {
+  "slug": "usda-167574",
+  "food_group": "S",
+  "name_de": "Desserts, Flan, Karamellpudding, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-167575",
+  "food_group": "S",
+  "name_de": "Eiscreme, Vanille"
+ },
+ {
+  "slug": "usda-167576",
+  "food_group": "S",
+  "name_de": "Eiscreme, Vanille, light, Softeis"
+ },
+ {
+  "slug": "usda-167577",
+  "food_group": "S",
+  "name_de": "Sherbet, Orange"
+ },
+ {
+  "slug": "usda-167578",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, Fudge, Erdnussbutter, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-167579",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, Fudge, Vanille, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-167580",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, Fudge, Vanille mit Nüssen"
+ },
+ {
+  "slug": "usda-167581",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, NESTLE, GOOBERS mit Schokolade überzogene Erdnüsse"
+ },
+ {
+  "slug": "usda-167582",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, NESTLE, BABY RUTH Riegel"
+ },
+ {
+  "slug": "usda-167583",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, TWIZZLERS Strawberry Twists"
+ },
+ {
+  "slug": "usda-167584",
+  "food_group": "S",
+  "name_de": "Sirup, Tischsirup-Mischung, Pfannkuchen, mit Butter"
+ },
+ {
+  "slug": "usda-167585",
+  "food_group": "S",
+  "name_de": "Eiscreme, Schokolade, light"
+ },
+ {
+  "slug": "usda-167586",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, NESTLE, CHUNKY Riegel"
+ },
+ {
+  "slug": "usda-167587",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, Milchschokolade"
+ },
+ {
+  "slug": "usda-167588",
+  "food_group": "S",
+  "name_de": "Pudding, Banane, Trockenmischung, Instant, mit 2 % Milch zubereitet"
+ },
+ {
+  "slug": "usda-167589",
+  "food_group": "S",
+  "name_de": "Pudding, Banane, Trockenmischung, normal, mit 2 % Milch zubereitet"
+ },
+ {
+  "slug": "usda-167590",
+  "food_group": "B",
+  "name_de": "Andrea's, glutenfreies weiches Brötchen"
+ },
+ {
+  "slug": "usda-167591",
+  "food_group": "D",
+  "name_de": "Crunchmaster, Mehrkorn-Crisps, Snack-Cracker, glutenfrei"
+ },
+ {
+  "slug": "usda-167592",
+  "food_group": "D",
+  "name_de": "Glutino, glutenfreie Kekse, Schokolade-Vanille-Creme"
+ },
+ {
+  "slug": "usda-167593",
+  "food_group": "D",
+  "name_de": "Glutino, glutenfreie Kekse, Vanillecreme"
+ },
+ {
+  "slug": "usda-167594",
+  "food_group": "D",
+  "name_de": "Pepperidge Farm, Goldfish, gebackene Snack-Cracker, Original"
+ },
+ {
+  "slug": "usda-167595",
+  "food_group": "D",
+  "name_de": "Pepperidge Farm, Goldfish, gebackene Snack-Cracker, Parmesan"
+ },
+ {
+  "slug": "usda-167596",
+  "food_group": "D",
+  "name_de": "Pepperidge Farm, Goldfish, gebackene Snack-Cracker, Pizza"
+ },
+ {
+  "slug": "usda-167597",
+  "food_group": "B",
+  "name_de": "Rudi's, Gluten-Free Bakery, Sandwichbrot, Original"
+ },
+ {
+  "slug": "usda-167598",
+  "food_group": "B",
+  "name_de": "Udi's, glutenfrei, Soft & Delicious, weißes Sandwichbrot"
+ },
+ {
+  "slug": "usda-167599",
+  "food_group": "B",
+  "name_de": "Udi's, glutenfrei, Soft & Hearty, Vollkornbrot"
+ },
+ {
+  "slug": "usda-167600",
+  "food_group": "B",
+  "name_de": "Udi's, glutenfrei, Vollkornbrötchen"
+ },
+ {
+  "slug": "usda-167601",
+  "food_group": "D",
+  "name_de": "Van's, glutenfrei, Totally Original Pfannkuchen"
+ },
+ {
+  "slug": "usda-167602",
+  "food_group": "G",
+  "name_de": "Seetang, kanadisch kultiviert, EMI-TSUNOMATA, getrocknet"
+ },
+ {
+  "slug": "usda-167603",
+  "food_group": "G",
+  "name_de": "Seetang, kanadisch kultiviert, EMI-TSUNOMATA, rehydriert"
+ },
+ {
+  "slug": "usda-167604",
+  "food_group": "K",
+  "name_de": "Kartoffeln, Hash Browns, gekühlt, unzubereitet"
+ },
+ {
+  "slug": "usda-167605",
+  "food_group": "K",
+  "name_de": "Kartoffeln, Hash Browns, gekühlt, zubereitet, in Rapsöl gebraten"
+ },
+ {
+  "slug": "usda-167606",
+  "food_group": "K",
+  "name_de": "Süßkartoffeln, Pommes frites, tiefgefroren, wie verpackt, bei der Herstellung gesalzen"
+ },
+ {
+  "slug": "usda-167681",
+  "food_group": "N",
+  "name_de": "Getränke, Fruchtgetränk, Trockenpulvermischung, kalorienarm, mit Aspartam"
+ },
+ {
+  "slug": "usda-167682",
+  "food_group": "R",
+  "name_de": "Pektin, flüssig"
+ },
+ {
+  "slug": "usda-167683",
+  "food_group": "S",
+  "name_de": "Eisspezialitäten, Eiscremeart, Vanilleeiscreme, light, ohne Zuckerzusatz, schokoladenüberzogen"
+ },
+ {
+  "slug": "usda-167684",
+  "food_group": "R",
+  "name_de": "Cremiges Dressing, mit saurer Sahne und/oder Buttermilch und Öl, kalorienreduziert"
+ },
+ {
+  "slug": "usda-167685",
+  "food_group": "W",
+  "name_de": "Bologna, Rind und Schwein, fettarm"
+ },
+ {
+  "slug": "usda-167686",
+  "food_group": "S",
+  "name_de": "Milchdessert, tiefgefroren, milchfettfrei, Schokolade"
+ },
+ {
+  "slug": "usda-167687",
+  "food_group": "M",
+  "name_de": "Schlagtopping, tiefgefroren, fettarm"
+ },
+ {
+  "slug": "usda-167688",
+  "food_group": "M",
+  "name_de": "Sahneersatz, Pulver, light"
+ },
+ {
+  "slug": "usda-167689",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, M&M's Erdnussbutter-Schokobonbons"
+ },
+ {
+  "slug": "usda-167691",
+  "food_group": "Q",
+  "name_de": "Pflanzenöl-Butter-Aufstrich, kalorienreduziert"
+ },
+ {
+  "slug": "usda-167692",
+  "food_group": "R",
+  "name_de": "Salatdressing, Blauschimmelkäse- oder Roquefort-Dressing, light"
+ },
+ {
+  "slug": "usda-167693",
+  "food_group": "R",
+  "name_de": "Salatdressing, French Dressing, kalorienreduziert"
+ },
+ {
+  "slug": "usda-167694",
+  "food_group": "W",
+  "name_de": "Wurst, Pute und Schwein, frisch, lose, Patty oder Würstchen, gekocht"
+ },
+ {
+  "slug": "usda-167695",
+  "food_group": "Q",
+  "name_de": "Mayonnaise, mit Tofu hergestellt"
+ },
+ {
+  "slug": "usda-167696",
+  "food_group": "W",
+  "name_de": "Frankfurter Würstchen, Rind, fettarm"
+ },
+ {
+  "slug": "usda-167697",
+  "food_group": "M",
+  "name_de": "Buttermilch, flüssig, gesäuert, fettreduziert"
+ },
+ {
+  "slug": "usda-167698",
+  "food_group": "W",
+  "name_de": "Schweinswürstchen mit Reis, Brown-and-Serve, gekocht"
+ },
+ {
+  "slug": "usda-167699",
+  "food_group": "R",
+  "name_de": "Salatdressing, Blauschimmelkäse- oder Roquefort-Dressing, fettfrei"
+ },
+ {
+  "slug": "usda-167700",
+  "food_group": "R",
+  "name_de": "Salatdressing, mayonnaiseartig, fettfrei"
+ },
+ {
+  "slug": "usda-167701",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, MILKY WAY Midnight Riegel"
+ },
+ {
+  "slug": "usda-167702",
+  "food_group": "Q",
+  "name_de": "Leinöl, kaltgepresst"
+ },
+ {
+  "slug": "usda-167703",
+  "food_group": "M",
+  "name_de": "Hüttenkäse, fettarm, 1 % Milchfett, laktosereduziert"
+ },
+ {
+  "slug": "usda-167704",
+  "food_group": "Q",
+  "name_de": "Salatdressing, Speck und Tomate"
+ },
+ {
+  "slug": "usda-167705",
+  "food_group": "M",
+  "name_de": "Parmesan, natriumarm"
+ },
+ {
+  "slug": "usda-167706",
+  "food_group": "S",
+  "name_de": "Konfitüre, Fruchtaufstrich, Marmelade, zuckerreduziert"
+ },
+ {
+  "slug": "usda-167707",
+  "food_group": "N",
+  "name_de": "Getränke, Fruchtgetränk, Pulver, mit hohem Vitamin-C-Gehalt und weiteren zugesetzten Vitaminen, kalorienarm"
+ },
+ {
+  "slug": "usda-167708",
+  "food_group": "G",
+  "name_de": "Tomaten- und Gemüsesaft, natriumarm"
+ },
+ {
+  "slug": "usda-167709",
+  "food_group": "V",
+  "name_de": "Pute, Flügel, geräuchert, gegart, mit Haut, ohne Knochen"
+ },
+ {
+  "slug": "usda-167710",
+  "food_group": "V",
+  "name_de": "Pute, Keule, geräuchert, gegart, mit Haut, ohne Knochen"
+ },
+ {
+  "slug": "usda-167711",
+  "food_group": "N",
+  "name_de": "Getränke, Schokoladengetränk, auf Molke- und Milchbasis"
+ },
+ {
+  "slug": "usda-167712",
+  "food_group": "W",
+  "name_de": "Schweinefleisch, gepökelt, Bacon, gegart, gegrillt, in der Pfanne gebraten oder geröstet, natriumreduziert"
+ },
+ {
+  "slug": "usda-167713",
+  "food_group": "V",
+  "name_de": "Pute, helles oder dunkles Fleisch, geräuchert, gegart, ohne Haut und Knochen"
+ },
+ {
+  "slug": "usda-167714",
+  "food_group": "G",
+  "name_de": "Palmherzen, roh"
+ },
+ {
+  "slug": "usda-167715",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, POST, Shredded Wheat n' Bran, löffelgerecht"
+ },
+ {
+  "slug": "usda-167716",
+  "food_group": "M",
+  "name_de": "Hüttenkäse, fettarm, 1 % Milchfett, mit Gemüse"
+ },
+ {
+  "slug": "usda-167717",
+  "food_group": "R",
+  "name_de": "Hefeextrakt-Aufstrich"
+ },
+ {
+  "slug": "usda-167719",
+  "food_group": "H",
+  "name_de": "Hähnchen, fleischlos, paniert, gebraten"
+ },
+ {
+  "slug": "usda-167721",
+  "food_group": "S",
+  "name_de": "Eisspezialitäten, Fruchtsafttyp, Saft mit Sahne"
+ },
+ {
+  "slug": "usda-167722",
+  "food_group": "H",
+  "name_de": "Tofu-Joghurt"
+ },
+ {
+  "slug": "usda-167723",
+  "food_group": "P",
+  "name_de": "Alkoholisches Getränk, Reis (Sake)"
+ },
+ {
+  "slug": "usda-167724",
+  "food_group": "C",
+  "name_de": "Hirse, gepufft"
+ },
+ {
+  "slug": "usda-167725",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, Haferkleieflocken, HEALTH VALLEY"
+ },
+ {
+  "slug": "usda-167727",
+  "food_group": "N",
+  "name_de": "Getränke, ABBOTT, ENSURE PLUS, trinkfertig"
+ },
+ {
+  "slug": "usda-167730",
+  "food_group": "N",
+  "name_de": "Milchersatz, ohne Soja"
+ },
+ {
+  "slug": "usda-167734",
+  "food_group": "D",
+  "name_de": "Frühstücksriegel, Cornflakes-Boden mit Obst"
+ },
+ {
+  "slug": "usda-167735",
+  "food_group": "M",
+  "name_de": "Mozzarella, natriumarm"
+ },
+ {
+  "slug": "usda-167736",
+  "food_group": "Q",
+  "name_de": "Mayonnaise-Dressing, cholesterinfrei"
+ },
+ {
+  "slug": "usda-167737",
+  "food_group": "Q",
+  "name_de": "Öl aus Mais, Erdnuss und Olive"
+ },
+ {
+  "slug": "usda-167738",
+  "food_group": "S",
+  "name_de": "Tortenfüllung, Heidelbeere, aus der Dose"
+ },
+ {
+  "slug": "usda-167739",
+  "food_group": "N",
+  "name_de": "Getränke, Cocktailmischung, alkoholfrei, Konzentrat, tiefgefroren"
+ },
+ {
+  "slug": "usda-167740",
+  "food_group": "S",
+  "name_de": "Pudding, Schokoladengeschmack, kalorienarm, normal, Trockenmischung"
+ },
+ {
+  "slug": "usda-167741",
+  "food_group": "S",
+  "name_de": "Pudding, alle Geschmacksrichtungen außer Schokolade, kalorienarm, normal, Trockenmischung"
+ },
+ {
+  "slug": "usda-167742",
+  "food_group": "T",
+  "name_de": "Weichtiere, Jakobsmuschel (Bay- und Sea-Scallop), gegart, gedämpft"
+ },
+ {
+  "slug": "usda-167743",
+  "food_group": "S",
+  "name_de": "Sirup, Zuckerrohr"
+ },
+ {
+  "slug": "usda-167744",
+  "food_group": "T",
+  "name_de": "Weichtiere, Schnecke, roh"
+ },
+ {
+  "slug": "usda-167745",
+  "food_group": "T",
+  "name_de": "Schildkröte, grün, roh"
+ },
+ {
+  "slug": "usda-167746",
+  "food_group": "F",
+  "name_de": "Zitronen, roh, ohne Schale"
+ },
+ {
+  "slug": "usda-167747",
+  "food_group": "F",
+  "name_de": "Zitronensaft, roh"
+ },
+ {
+  "slug": "usda-167748",
+  "food_group": "F",
+  "name_de": "Zitronensaft aus Konzentrat, aus der Dose oder Flasche"
+ },
+ {
+  "slug": "usda-167749",
+  "food_group": "F",
+  "name_de": "Zitronenschale, roh"
+ },
+ {
+  "slug": "usda-167750",
+  "food_group": "F",
+  "name_de": "Kaktusfeigen, roh"
+ },
+ {
+  "slug": "usda-167751",
+  "food_group": "F",
+  "name_de": "Pflaumen, getrocknet (Backpflaumen), gedünstet, ohne Zuckerzusatz"
+ },
+ {
+  "slug": "usda-167752",
+  "food_group": "F",
+  "name_de": "Pflaumen, getrocknet (Backpflaumen), gedünstet, mit Zuckerzusatz"
+ },
+ {
+  "slug": "usda-167753",
+  "food_group": "F",
+  "name_de": "Pflaumensaft, aus der Dose"
+ },
+ {
+  "slug": "usda-167754",
+  "food_group": "F",
+  "name_de": "Pomelo, roh"
+ },
+ {
+  "slug": "usda-167755",
+  "food_group": "F",
+  "name_de": "Himbeeren, roh"
+ },
+ {
+  "slug": "usda-167756",
+  "food_group": "F",
+  "name_de": "Himbeeren, aus der Dose, rot, in dickem Zuckersirup, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-167757",
+  "food_group": "F",
+  "name_de": "Himbeeren, tiefgefroren, rot, gezuckert"
+ },
+ {
+  "slug": "usda-167758",
+  "food_group": "G",
+  "name_de": "Rhabarber, roh"
+ },
+ {
+  "slug": "usda-167759",
+  "food_group": "F",
+  "name_de": "Sapodilla, roh"
+ },
+ {
+  "slug": "usda-167760",
+  "food_group": "F",
+  "name_de": "Sapote, Mamey, roh"
+ },
+ {
+  "slug": "usda-167761",
+  "food_group": "F",
+  "name_de": "Sauersack, roh"
+ },
+ {
+  "slug": "usda-167762",
+  "food_group": "F",
+  "name_de": "Erdbeeren, roh"
+ },
+ {
+  "slug": "usda-167763",
+  "food_group": "F",
+  "name_de": "Tamarinden, roh"
+ },
+ {
+  "slug": "usda-167764",
+  "food_group": "F",
+  "name_de": "Obstsalat (Ananas, Papaya, Banane, Guave), tropisch, aus der Dose, in dickem Zuckersirup, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-167765",
+  "food_group": "F",
+  "name_de": "Wassermelone, roh"
+ },
+ {
+  "slug": "usda-167766",
+  "food_group": "F",
+  "name_de": "Maraschino-Kirschen, aus der Dose, abgetropft"
+ },
+ {
+  "slug": "usda-167767",
+  "food_group": "F",
+  "name_de": "Ananas, aus der Dose, in Saft, abgetropft"
+ },
+ {
+  "slug": "usda-167768",
+  "food_group": "F",
+  "name_de": "Aprikosen, aus der Dose, in dickem Zuckersirup, abgetropft"
+ },
+ {
+  "slug": "usda-167769",
+  "food_group": "F",
+  "name_de": "Sauerkirschen, aus der Dose, in Wasser, abgetropft"
+ },
+ {
+  "slug": "usda-167770",
+  "food_group": "F",
+  "name_de": "Süßkirschen, aus der Dose, entsteint, in dickem Zuckersirup, abgetropft"
+ },
+ {
+  "slug": "usda-167771",
+  "food_group": "F",
+  "name_de": "Apfelsaft, aus der Dose oder Flasche, ungesüßt, mit zugesetzter Ascorbinsäure"
+ },
+ {
+  "slug": "usda-167772",
+  "food_group": "F",
+  "name_de": "Apfelmus, aus der Dose, ungesüßt, mit zugesetzter Ascorbinsäure"
+ },
+ {
+  "slug": "usda-167773",
+  "food_group": "F",
+  "name_de": "Apfelmus, aus der Dose, gesüßt, mit Salz"
+ },
+ {
+  "slug": "usda-167774",
+  "food_group": "F",
+  "name_de": "Grapefruitsaft, rosa, roh"
+ },
+ {
+  "slug": "usda-167775",
+  "food_group": "F",
+  "name_de": "Apfelsaft, tiefgefrorenes Konzentrat, ungesüßt, mit 3 Teilen Wasser verdünnt, mit zugesetzter Ascorbinsäure"
+ },
+ {
+  "slug": "usda-167776",
+  "food_group": "F",
+  "name_de": "Birnen, roh, Bartlett"
+ },
+ {
+  "slug": "usda-167777",
+  "food_group": "F",
+  "name_de": "Birnen, roh, Red Anjou"
+ },
+ {
+  "slug": "usda-167778",
+  "food_group": "F",
+  "name_de": "Birnen, roh, Bosc"
+ },
+ {
+  "slug": "usda-167779",
+  "food_group": "F",
+  "name_de": "Birnen, roh, Green Anjou"
+ },
+ {
+  "slug": "usda-167780",
+  "food_group": "F",
+  "name_de": "Backpflaumenpüree"
+ },
+ {
+  "slug": "usda-167781",
+  "food_group": "F",
+  "name_de": "Früchte, kandiert"
+ },
+ {
+  "slug": "usda-167782",
+  "food_group": "F",
+  "name_de": "Abiyuch, roh"
+ },
+ {
+  "slug": "usda-167783",
+  "food_group": "F",
+  "name_de": "Rowal, roh"
+ },
+ {
+  "slug": "usda-167784",
+  "food_group": "F",
+  "name_de": "Guavennektar, aus der Dose, mit zugesetzter Ascorbinsäure"
+ },
+ {
+  "slug": "usda-167785",
+  "food_group": "F",
+  "name_de": "Mangonektar, aus der Dose"
+ },
+ {
+  "slug": "usda-167786",
+  "food_group": "F",
+  "name_de": "Tamarindennektar, aus der Dose"
+ },
+ {
+  "slug": "usda-167787",
+  "food_group": "F",
+  "name_de": "Granatapfelsaft, in Flaschen"
+ },
+ {
+  "slug": "usda-167788",
+  "food_group": "F",
+  "name_de": "Nance, aus der Dose, in Sirup, abgetropft"
+ },
+ {
+  "slug": "usda-167789",
+  "food_group": "F",
+  "name_de": "Nance, tiefgefroren, ungesüßt"
+ },
+ {
+  "slug": "usda-167790",
+  "food_group": "F",
+  "name_de": "Naranjilla (Lulo), Fruchtpulpe, tiefgefroren, ungesüßt"
+ },
+ {
+  "slug": "usda-167791",
+  "food_group": "F",
+  "name_de": "Hornmelone (Kiwano)"
+ },
+ {
+  "slug": "usda-167792",
+  "food_group": "F",
+  "name_de": "Orangen-Ananas-Saftmischung"
+ },
+ {
+  "slug": "usda-167793",
+  "food_group": "F",
+  "name_de": "Äpfel, roh, Fuji, mit Schale"
+ },
+ {
+  "slug": "usda-167794",
+  "food_group": "F",
+  "name_de": "Orangensaft, gekühlt, auch aus Konzentrat, mit zugesetztem Calcium und Vitamin A, D, E"
+ },
+ {
+  "slug": "usda-167795",
+  "food_group": "N",
+  "name_de": "Fruchtsaft-Smoothie, NAKED JUICE, MIGHTY MANGO"
+ },
+ {
+  "slug": "usda-167796",
+  "food_group": "N",
+  "name_de": "Fruchtsaft-Smoothie, NAKED JUICE, GREEN MACHINE"
+ },
+ {
+  "slug": "usda-167797",
+  "food_group": "N",
+  "name_de": "Fruchtsaft-Smoothie, BOLTHOUSE FARMS, BERRY BOOST"
+ },
+ {
+  "slug": "usda-167798",
+  "food_group": "N",
+  "name_de": "Fruchtsaft-Smoothie, BOLTHOUSE FARMS, GREEN GOODNESS"
+ },
+ {
+  "slug": "usda-167799",
+  "food_group": "N",
+  "name_de": "Fruchtsaft-Smoothie, BOLTHOUSE FARMS, Erdbeere-Banane"
+ },
+ {
+  "slug": "usda-167800",
+  "food_group": "F",
+  "name_de": "Apfelsaft, aus der Dose oder Flasche, ungesüßt, mit zugesetzter Ascorbinsäure, Calcium und Kalium"
+ },
+ {
+  "slug": "usda-167801",
+  "food_group": "F",
+  "name_de": "Zitronensaft aus Konzentrat, in Flaschen, CONCORD"
+ },
+ {
+  "slug": "usda-167802",
+  "food_group": "F",
+  "name_de": "Zitronensaft aus Konzentrat, in Flaschen, REAL LEMON"
+ },
+ {
+  "slug": "usda-167803",
+  "food_group": "F",
+  "name_de": "Cranberry-Sauce, ganze Beeren, aus der Dose, OCEAN SPRAY"
+ },
+ {
+  "slug": "usda-167804",
+  "food_group": "F",
+  "name_de": "Cranberry-Sauce, geliert, aus der Dose, OCEAN SPRAY"
+ },
+ {
+  "slug": "usda-167805",
+  "food_group": "F",
+  "name_de": "Ruby-Red-Grapefruitsaftmischung (Grapefruit, Traube, Apfel), OCEAN SPRAY, in Flaschen, mit zugesetztem Vitamin C"
+ },
+ {
+  "slug": "usda-167806",
+  "food_group": "F",
+  "name_de": "Baobabpulver"
+ },
+ {
+  "slug": "usda-167807",
+  "food_group": "F",
+  "name_de": "Sauerkirschsaft"
+ },
+ {
+  "slug": "usda-167808",
+  "food_group": "F",
+  "name_de": "Himbeeren, Püree, ohne Kerne"
+ },
+ {
+  "slug": "usda-167809",
+  "food_group": "F",
+  "name_de": "Himbeeren, Püree, mit Kernen"
+ },
+ {
+  "slug": "usda-167810",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Mischung aus Keule, Rücken, Schulter und Spareribs (pariert, einschließlich Stücken zum Pökeln), Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167811",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rückenspeck, roh"
+ },
+ {
+  "slug": "usda-167812",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Bauch, roh"
+ },
+ {
+  "slug": "usda-167813",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Fett (abtrennbar), roh"
+ },
+ {
+  "slug": "usda-167814",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Keule (Schinken), Hüftstück, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167815",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Keule (Schinken), Hüftstück, Magerfleisch und Fett, gegart, geröstet"
+ },
+ {
+  "slug": "usda-167816",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Keule (Schinken), Hüftstück, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-167817",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Keule (Schinken), Hüftstück, nur Magerfleisch, gegart, geröstet"
+ },
+ {
+  "slug": "usda-167818",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, ganz, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167819",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, ganz, Magerfleisch und Fett, gegart, geschmort"
+ },
+ {
+  "slug": "usda-167820",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, ganz, Magerfleisch und Fett, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-167821",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, ganz, Magerfleisch und Fett, gegart, geröstet"
+ },
+ {
+  "slug": "usda-167822",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Schulterende (Koteletts oder Braten), mit Knochen, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167823",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Schulterende (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, geschmort"
+ },
+ {
+  "slug": "usda-167824",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Schulterende (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-167825",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Schulterende (Braten), mit Knochen, Magerfleisch und Fett, gegart, geröstet"
+ },
+ {
+  "slug": "usda-167826",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Mittelstück (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, geschmort"
+ },
+ {
+  "slug": "usda-167827",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Mittelstück (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-167828",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Mittelstück (Braten), mit Knochen, Magerfleisch und Fett, gegart, geröstet"
+ },
+ {
+  "slug": "usda-167829",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Mittelstück (Koteletts), mit Knochen, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-167830",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Mittelrippe (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, geschmort"
+ },
+ {
+  "slug": "usda-167831",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Mittelrippe (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-167832",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Mittelrippe (Braten), mit Knochen, Magerfleisch und Fett, gegart, geröstet"
+ },
+ {
+  "slug": "usda-167833",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Mittelrippe (Koteletts oder Braten), mit Knochen, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-167834",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Sirloin (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, geschmort"
+ },
+ {
+  "slug": "usda-167835",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Sirloin (Koteletts), mit Knochen, Magerfleisch und Fett, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-167836",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Sirloin (Braten), mit Knochen, Magerfleisch und Fett, gegart, geröstet"
+ },
+ {
+  "slug": "usda-167837",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Sirloin (Koteletts oder Braten), mit Knochen, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-167838",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Sirloin (Koteletts), mit Knochen, nur Magerfleisch, gegart, geschmort"
+ },
+ {
+  "slug": "usda-167839",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Top Loin (Koteletts), ohne Knochen, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167840",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Top Loin (Koteletts), ohne Knochen, Magerfleisch und Fett, gegart, geschmort"
+ },
+ {
+  "slug": "usda-167841",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Top Loin (Koteletts), ohne Knochen, Magerfleisch und Fett, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-167842",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Rücken, Top Loin (Braten), ohne Knochen, Magerfleisch und Fett, gegart, geröstet"
+ },
+ {
+  "slug": "usda-167843",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Schulter, ganz, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167844",
+  "food_group": "U",
+  "name_de": "Schweinefleisch, frisch, Schulter, ganz, Magerfleisch und Fett, gegart, geröstet"
+ }
 ]
