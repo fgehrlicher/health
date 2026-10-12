@@ -43,11 +43,15 @@ test("the stats color each day by its calories and open the day", async ({
 
   await open(page, "/stats")
   await expect(page.getByRole("heading", { name: "Stats" })).toBeVisible()
-  // Today is selected at first, and its cell shows the kcal in its label.
+  // Nothing is selected at first, so there is no Today section; today's cell
+  // shows the kcal in its label, and tapping it opens the day's details.
   const todayCell = page.getByRole("button", {
     name: /^Today: .*kcal, within limit$/,
   })
   await expect(todayCell).toBeVisible()
+  await expect(todayCell).toHaveAttribute("aria-pressed", "false")
+  await expect(page.getByRole("heading", { name: "Today" })).toHaveCount(0)
+  await todayCell.click()
   await expect(todayCell).toHaveAttribute("aria-pressed", "true")
   await expect(page.getByText("1 meal", { exact: true })).toBeVisible()
 

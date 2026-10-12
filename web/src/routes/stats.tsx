@@ -19,7 +19,7 @@ import {
   statusWords,
 } from "@/lib/calendar"
 import type { CalendarCell } from "@/lib/calendar"
-import { dayLabel, formatNumber, today } from "@/lib/format"
+import { dayLabel, formatNumber } from "@/lib/format"
 import { calendarQuery } from "@/lib/queries"
 import {
   WEEKDAYS,
@@ -67,7 +67,8 @@ function StatsPage() {
     (day) => amountOf(day.energy_kcal) <= limit
   ).length
   const incompleteCount = days.filter((day) => day.incomplete).length
-  const [selected, setSelected] = useState(today)
+  // Nothing is selected at first: the day card only appears when a day is tapped.
+  const [selected, setSelected] = useState<string | null>(null)
   const scroller = useRef<HTMLDivElement>(null)
 
   // The latest weeks are the ones worth seeing, so start at the right edge.
@@ -80,13 +81,16 @@ function StatsPage() {
   const averageProtein = average(counted.map((day) => amountOf(day.protein_g)))
   const overall = energySplitOf(counted)
   const weekly = weeklyStats(weeks.slice(-CHART_WEEKS), days)
-  const selectedDay = byDate.get(selected)
+  const selectedDay = selected === null ? undefined : byDate.get(selected)
   const energyOf = (date: string): number | null => {
     const day = byDate.get(date)
     return day ? amountOf(day.energy_kcal) : null
   }
   const selectedKcal = selectedDay ? amountOf(selectedDay.energy_kcal) : null
-  const selectedStatus = statusFor(selectedKcal, limit)
+  // An incomplete day is not judged against the limit.
+  const selectedStatus = selectedDay?.incomplete
+    ? "none"
+    : statusFor(selectedKcal, limit)
 
   return (
     <div className="flex flex-col gap-6">
@@ -163,7 +167,11 @@ function StatsPage() {
                               byDate.get(cell.date)?.incomplete ?? false
                             }
                             active={cell.date === selected}
-                            onSelect={() => setSelected(cell.date)}
+                            onSelect={() =>
+                              setSelected((current) =>
+                                current === cell.date ? null : cell.date
+                              )
+                            }
                           />
                         )
                       )}
@@ -177,52 +185,55 @@ function StatsPage() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardContent className="flex flex-col gap-3">
-          <h2 className="font-heading font-semibold">{dayLabel(selected)}</h2>
-          {selectedDay && selectedKcal !== null ? (
-            <>
-              <div>
-                <span className="font-heading text-4xl font-semibold tabular-nums">
-                  {formatNumber(selectedKcal, 0)}
-                </span>
-                <span className="ml-1 text-muted-foreground">kcal</span>
-              </div>
-              {selectedStatus === "within" && (
+      {selected !== null && (
+        <Card>
+          <CardContent className="flex flex-col gap-3">
+            <h2 className="font-heading font-semibold">{dayTitle(selected)}</h2>
+            {selectedDay && selectedKcal !== null ? (
+              <>
+                <div>
+                  <span className="font-heading text-4xl font-semibold tabular-nums">
+                    {formatNumber(selectedKcal, 0)}
+                  </span>
+                  <span className="ml-1 text-muted-foreground">kcal</span>
+                </div>
+                {selectedStatus === "within" && (
+                  <p className="text-sm text-muted-foreground">
+                    Within your limit of {formatNumber(limit, 0)} kcal.
+                  </p>
+                )}
+                {selectedStatus === "above" && (
+                  <p className="text-sm text-muted-foreground">
+                    {formatNumber(selectedKcal - limit, 0)} kcal above your
+                    limit of {formatNumber(limit, 0)}.
+                  </p>
+                )}
                 <p className="text-sm text-muted-foreground">
-                  Within your limit of {formatNumber(limit, 0)} kcal.
+                  {selectedDay.meals}{" "}
+                  {selectedDay.meals === 1 ? "meal" : "meals"}
+                  {selectedDay.unknown_meals > 0 &&
+                    ` · ${selectedDay.unknown_meals} unknown, not counted`}
                 </p>
-              )}
-              {selectedStatus === "above" && (
-                <p className="text-sm text-muted-foreground">
-                  {formatNumber(selectedKcal - limit, 0)} kcal above your limit
-                  of {formatNumber(limit, 0)}.
-                </p>
-              )}
+              </>
+            ) : (
               <p className="text-sm text-muted-foreground">
-                {selectedDay.meals} {selectedDay.meals === 1 ? "meal" : "meals"}
-                {selectedDay.unknown_meals > 0 &&
-                  ` · ${selectedDay.unknown_meals} unknown, not counted`}
+                No meals logged this day.
               </p>
-            </>
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              No meals logged this day.
-            </p>
-          )}
-          <IncompleteSwitch
-            date={selected}
-            incomplete={selectedDay?.incomplete ?? false}
-          />
-          <Button
-            variant="outline"
-            nativeButton={false}
-            render={<Link to="/" search={{ date: selected }} />}
-          >
-            Open this day
-          </Button>
-        </CardContent>
-      </Card>
+            )}
+            <IncompleteSwitch
+              date={selected}
+              incomplete={selectedDay?.incomplete ?? false}
+            />
+            <Button
+              variant="outline"
+              nativeButton={false}
+              render={<Link to="/" search={{ date: selected }} />}
+            >
+              Open this day
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
       <ChartCard
         title="Energy split, by week"
@@ -283,6 +294,16 @@ function monthName(week: Array<CalendarCell>, index: number): string {
   return first ? MONTHS.format(new Date(`${first.date}T00:00:00Z`)) : ""
 }
 
+/** The full date of a day, e.g. "Monday 12 October". Never "Today": this is a log, not the day view. */
+function dayTitle(date: string): string {
+  return new Intl.DateTimeFormat("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T00:00:00Z`))
+}
+
 function weekLabel(start: string): string {
   return WEEK_LABEL.format(new Date(`${start}T00:00:00Z`))
 }
@@ -303,7 +324,8 @@ function DayCell({
   active: boolean
   onSelect: () => void
 }) {
-  const status = statusFor(energy, limit)
+  // An incomplete day is gray whatever it ate: it is not judged against the limit.
+  const status = incomplete ? "none" : statusFor(energy, limit)
   const details = [
     energy === null ? "no meals" : `${formatNumber(energy, 0)} kcal`,
     statusWords(status),
@@ -335,7 +357,11 @@ function Legend() {
       <LegendItem color={statusColor("within")} label="Within limit" />
       <LegendItem color={statusColor("above")} label="Above limit" />
       <LegendItem color={statusColor("none")} label="No meals" />
-      <LegendItem dashed label="Incomplete, left out of the stats" />
+      <LegendItem
+        dashed
+        color={statusColor("none")}
+        label="Incomplete, left out of the stats"
+      />
     </div>
   )
 }
