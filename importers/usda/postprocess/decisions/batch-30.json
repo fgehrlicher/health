@@ -1,0 +1,11 @@
+[
+ {"slug": "usda-2758998", "food_group": "E", "name_de": "Nudeln, trocken, angereichert, Spaghetti"},
+ {"slug": "usda-2759000", "food_group": "E", "name_de": "Nudeln, trocken, Vollkorn, Spaghetti"},
+ {"slug": "usda-2759001", "food_group": "W", "name_de": "Aufschnitt, Pute, im Ofen geröstet, in Scheiben"},
+ {"slug": "usda-2759002", "food_group": "W", "name_de": "Aufschnitt, Schinken, Schwarzwälder, in Scheiben"},
+ {"slug": "usda-2759003", "food_group": "W", "name_de": "Aufschnitt, Roastbeef, in Scheiben, abgepackt"},
+ {"slug": "usda-2759004", "food_group": "W", "name_de": "Aufschnitt, Hähnchenbrust, in Scheiben"},
+ {"slug": "usda-2759005", "food_group": "W", "name_de": "Salami, hart, in Scheiben"},
+ {"slug": "usda-2759006", "food_group": "W", "name_de": "Pepperoni, Rind und Schwein, in Scheiben"},
+ {"slug": "usda-2768188", "food_group": "T", "name_de": "Alaska-Seelachs, roh"}
+]

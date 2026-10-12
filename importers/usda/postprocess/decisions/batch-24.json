@@ -1,0 +1,1252 @@
+[
+ {
+  "slug": "usda-174193",
+  "food_group": "T",
+  "name_de": "Aal, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-174194",
+  "food_group": "T",
+  "name_de": "Aal, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174195",
+  "food_group": "T",
+  "name_de": "Fischstäbchen, tiefgefroren, zubereitet"
+ },
+ {
+  "slug": "usda-174196",
+  "food_group": "T",
+  "name_de": "Plattfisch (Flundern- und Seezungenarten), roh"
+ },
+ {
+  "slug": "usda-174197",
+  "food_group": "T",
+  "name_de": "Plattfisch (Flundern- und Seezungenarten), gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174198",
+  "food_group": "T",
+  "name_de": "Schellfisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174199",
+  "food_group": "T",
+  "name_de": "Schellfisch, geräuchert"
+ },
+ {
+  "slug": "usda-174200",
+  "food_group": "T",
+  "name_de": "Heilbutt, Atlantik und Pazifik, roh"
+ },
+ {
+  "slug": "usda-174201",
+  "food_group": "T",
+  "name_de": "Heilbutt, Atlantik und Pazifik, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174202",
+  "food_group": "T",
+  "name_de": "Alaska-Königskrabbe, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-174203",
+  "food_group": "T",
+  "name_de": "Alaska-Königskrabbe, Imitat, aus Surimi hergestellt"
+ },
+ {
+  "slug": "usda-174204",
+  "food_group": "T",
+  "name_de": "Blaukrabbe, roh"
+ },
+ {
+  "slug": "usda-174205",
+  "food_group": "T",
+  "name_de": "Blaukrabbe, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-174206",
+  "food_group": "T",
+  "name_de": "Flusskrebs, gemischte Arten, wild, roh"
+ },
+ {
+  "slug": "usda-174207",
+  "food_group": "T",
+  "name_de": "Flusskrebs, gemischte Arten, wild, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-174208",
+  "food_group": "T",
+  "name_de": "Hummer, nördlich, roh"
+ },
+ {
+  "slug": "usda-174209",
+  "food_group": "T",
+  "name_de": "Hummer, nördlich, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-174210",
+  "food_group": "T",
+  "name_de": "Garnelen, gemischte Arten, roh (kann Zusatzstoffe zur Feuchtigkeitsbindung enthalten)"
+ },
+ {
+  "slug": "usda-174211",
+  "food_group": "T",
+  "name_de": "Languste, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-174212",
+  "food_group": "T",
+  "name_de": "Abalone, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-174213",
+  "food_group": "T",
+  "name_de": "Abalone, gemischte Arten, gebraten"
+ },
+ {
+  "slug": "usda-174214",
+  "food_group": "T",
+  "name_de": "Venusmuschel, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-174215",
+  "food_group": "T",
+  "name_de": "Sepia, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-174216",
+  "food_group": "T",
+  "name_de": "Miesmuschel, roh"
+ },
+ {
+  "slug": "usda-174217",
+  "food_group": "T",
+  "name_de": "Miesmuschel, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-174218",
+  "food_group": "T",
+  "name_de": "Oktopus, gewöhnlich, roh"
+ },
+ {
+  "slug": "usda-174219",
+  "food_group": "T",
+  "name_de": "Auster, Pazifik, roh"
+ },
+ {
+  "slug": "usda-174220",
+  "food_group": "T",
+  "name_de": "Jakobsmuschel, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-174221",
+  "food_group": "T",
+  "name_de": "Jakobsmuschel, gemischte Arten, paniert und gebraten"
+ },
+ {
+  "slug": "usda-174222",
+  "food_group": "T",
+  "name_de": "Jakobsmuschel, gemischte Arten, Imitat, aus Surimi hergestellt"
+ },
+ {
+  "slug": "usda-174223",
+  "food_group": "T",
+  "name_de": "Kalmar, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-174224",
+  "food_group": "T",
+  "name_de": "Lachs, Keta, aus der Dose, ohne Salz, abgetropfte Festbestandteile mit Gräten"
+ },
+ {
+  "slug": "usda-174225",
+  "food_group": "T",
+  "name_de": "Lachs, Buckellachs, aus der Dose, ohne Salz, Festbestandteile mit Gräten und Flüssigkeit"
+ },
+ {
+  "slug": "usda-174226",
+  "food_group": "T",
+  "name_de": "Lachs, Rotlachs, aus der Dose, ohne Salz, abgetropfte Festbestandteile mit Gräten"
+ },
+ {
+  "slug": "usda-174227",
+  "food_group": "T",
+  "name_de": "Thunfisch, hell, in Öl aus der Dose, ohne Salz, abgetropfte Festbestandteile"
+ },
+ {
+  "slug": "usda-174228",
+  "food_group": "T",
+  "name_de": "Streifenbarsch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174229",
+  "food_group": "T",
+  "name_de": "Blaufisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174230",
+  "food_group": "T",
+  "name_de": "Quappe, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174231",
+  "food_group": "T",
+  "name_de": "Butterfisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174232",
+  "food_group": "T",
+  "name_de": "Heilbutt, Grönland, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174233",
+  "food_group": "T",
+  "name_de": "Hering, Pazifik, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174234",
+  "food_group": "T",
+  "name_de": "Leng, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174235",
+  "food_group": "T",
+  "name_de": "Lingcod, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174236",
+  "food_group": "T",
+  "name_de": "Königsmakrele, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174237",
+  "food_group": "T",
+  "name_de": "Pollack, Atlantik, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174238",
+  "food_group": "T",
+  "name_de": "Aalmutter, Ozean, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174239",
+  "food_group": "T",
+  "name_de": "Fischrogen, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174240",
+  "food_group": "T",
+  "name_de": "Kohlenfisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174241",
+  "food_group": "T",
+  "name_de": "Scup, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174242",
+  "food_group": "T",
+  "name_de": "Meerforelle, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174243",
+  "food_group": "T",
+  "name_de": "Alse, amerikanisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174244",
+  "food_group": "T",
+  "name_de": "Spot, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174245",
+  "food_group": "T",
+  "name_de": "Steinbutt, europäisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174246",
+  "food_group": "T",
+  "name_de": "Felchen, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174247",
+  "food_group": "T",
+  "name_de": "Seewolf, Atlantik, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174248",
+  "food_group": "T",
+  "name_de": "Gelbschwanz, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174249",
+  "food_group": "T",
+  "name_de": "Oktopus, gewöhnlich, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-174250",
+  "food_group": "T",
+  "name_de": "Auster, Pazifik, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-174251",
+  "food_group": "T",
+  "name_de": "Granatbarsch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-174252",
+  "food_group": "H",
+  "name_de": "Limabohnen, groß, reife Samen, roh"
+ },
+ {
+  "slug": "usda-174253",
+  "food_group": "H",
+  "name_de": "Limabohnen, groß, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-174254",
+  "food_group": "H",
+  "name_de": "Limabohnen, groß, reife Samen, aus der Dose"
+ },
+ {
+  "slug": "usda-174255",
+  "food_group": "H",
+  "name_de": "Limabohnen, kleinsamig (Baby), reife Samen, roh"
+ },
+ {
+  "slug": "usda-174256",
+  "food_group": "H",
+  "name_de": "Mungbohnen, reife Samen, roh"
+ },
+ {
+  "slug": "usda-174257",
+  "food_group": "H",
+  "name_de": "Mungbohnen, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-174258",
+  "food_group": "E",
+  "name_de": "Glasnudeln, chinesisch (Mungbohnen), getrocknet"
+ },
+ {
+  "slug": "usda-174259",
+  "food_group": "H",
+  "name_de": "Urdbohnen, reife Samen, roh"
+ },
+ {
+  "slug": "usda-174260",
+  "food_group": "H",
+  "name_de": "Erdnüsse, alle Sorten, gekocht, mit Salz"
+ },
+ {
+  "slug": "usda-174261",
+  "food_group": "H",
+  "name_de": "Erdnüsse, alle Sorten, in Öl geröstet, mit Salz"
+ },
+ {
+  "slug": "usda-174262",
+  "food_group": "H",
+  "name_de": "Erdnüsse, alle Sorten, trocken geröstet, mit Salz"
+ },
+ {
+  "slug": "usda-174263",
+  "food_group": "H",
+  "name_de": "Erdnüsse, Spanische, roh"
+ },
+ {
+  "slug": "usda-174264",
+  "food_group": "H",
+  "name_de": "Erdnüsse, Virginia, in Öl geröstet, mit Salz"
+ },
+ {
+  "slug": "usda-174265",
+  "food_group": "H",
+  "name_de": "Erdnussbutter, stückig, mit Salz"
+ },
+ {
+  "slug": "usda-174266",
+  "food_group": "H",
+  "name_de": "Erdnussbutter, cremig, mit Salz (einschließlich Lebensmittel für das USDA Food Distribution Program)"
+ },
+ {
+  "slug": "usda-174267",
+  "food_group": "H",
+  "name_de": "Erdnussmehl, entfettet"
+ },
+ {
+  "slug": "usda-174268",
+  "food_group": "H",
+  "name_de": "Fleischstreckmittel"
+ },
+ {
+  "slug": "usda-174269",
+  "food_group": "H",
+  "name_de": "Wurst, fleischlos"
+ },
+ {
+  "slug": "usda-174270",
+  "food_group": "H",
+  "name_de": "Sojabohnen, reife Samen, roh"
+ },
+ {
+  "slug": "usda-174271",
+  "food_group": "H",
+  "name_de": "Sojabohnen, reif, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-174272",
+  "food_group": "H",
+  "name_de": "Tempeh"
+ },
+ {
+  "slug": "usda-174273",
+  "food_group": "H",
+  "name_de": "Sojamehl, vollfett, roh"
+ },
+ {
+  "slug": "usda-174274",
+  "food_group": "H",
+  "name_de": "Sojamehl, vollfett, geröstet"
+ },
+ {
+  "slug": "usda-174275",
+  "food_group": "H",
+  "name_de": "Sojamehl, entfettet"
+ },
+ {
+  "slug": "usda-174276",
+  "food_group": "H",
+  "name_de": "Sojaproteinisolat"
+ },
+ {
+  "slug": "usda-174277",
+  "food_group": "R",
+  "name_de": "Sojasoße aus Soja und Weizen (Shoyu)"
+ },
+ {
+  "slug": "usda-174278",
+  "food_group": "R",
+  "name_de": "Sojasoße aus Soja (Tamari)"
+ },
+ {
+  "slug": "usda-174279",
+  "food_group": "R",
+  "name_de": "Sojasoße aus hydrolysiertem Pflanzenprotein"
+ },
+ {
+  "slug": "usda-174280",
+  "food_group": "H",
+  "name_de": "Tofu, gesalzen und fermentiert (Fuyu)"
+ },
+ {
+  "slug": "usda-174281",
+  "food_group": "H",
+  "name_de": "Spargelbohnen, reife Samen, roh"
+ },
+ {
+  "slug": "usda-174282",
+  "food_group": "H",
+  "name_de": "Spargelbohnen, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-174283",
+  "food_group": "H",
+  "name_de": "Flügelbohnen, reife Samen, roh"
+ },
+ {
+  "slug": "usda-174284",
+  "food_group": "H",
+  "name_de": "Linsen, rosa oder rot, roh"
+ },
+ {
+  "slug": "usda-174285",
+  "food_group": "H",
+  "name_de": "Kidneybohnen, rot, reife Samen, aus der Dose, abgetropfte Festbestandteile"
+ },
+ {
+  "slug": "usda-174286",
+  "food_group": "H",
+  "name_de": "Pintobohnen, aus der Dose, abgetropfte Festbestandteile"
+ },
+ {
+  "slug": "usda-174287",
+  "food_group": "H",
+  "name_de": "Veggie-Burger oder Soja-Burger, nicht zubereitet"
+ },
+ {
+  "slug": "usda-174288",
+  "food_group": "H",
+  "name_de": "Kichererbsenmehl (Besan)"
+ },
+ {
+  "slug": "usda-174289",
+  "food_group": "H",
+  "name_de": "Hummus, handelsüblich"
+ },
+ {
+  "slug": "usda-174290",
+  "food_group": "H",
+  "name_de": "Tofu, extra fest, mit Nigari hergestellt"
+ },
+ {
+  "slug": "usda-174291",
+  "food_group": "H",
+  "name_de": "Tofu, hart, mit Nigari hergestellt"
+ },
+ {
+  "slug": "usda-174292",
+  "food_group": "H",
+  "name_de": "MORI-NU, Seidentofu, weich"
+ },
+ {
+  "slug": "usda-174293",
+  "food_group": "N",
+  "name_de": "Sojadrink, Schokolade, nicht angereichert"
+ },
+ {
+  "slug": "usda-174294",
+  "food_group": "H",
+  "name_de": "Erdnussbutter, cremig (einschließlich Lebensmittel für das USDA Food Distribution Program)"
+ },
+ {
+  "slug": "usda-174295",
+  "food_group": "N",
+  "name_de": "Sojadrink, Schokolade, mit zugesetztem Calcium, Vitamin A und D"
+ },
+ {
+  "slug": "usda-174296",
+  "food_group": "X",
+  "name_de": "Refried Beans, aus der Dose, vegetarisch"
+ },
+ {
+  "slug": "usda-174297",
+  "food_group": "H",
+  "name_de": "Vitasoy USA, Organic Nasoya Tofu, extra fest, gewürfelt"
+ },
+ {
+  "slug": "usda-174298",
+  "food_group": "X",
+  "name_de": "Refried Beans, aus der Dose, traditionell, natriumreduziert"
+ },
+ {
+  "slug": "usda-174299",
+  "food_group": "H",
+  "name_de": "Sojabohnen, reife Samen, gekocht, mit Salz"
+ },
+ {
+  "slug": "usda-174300",
+  "food_group": "H",
+  "name_de": "Sojabohnen, reife Samen, geröstet, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-174301",
+  "food_group": "H",
+  "name_de": "Sojaproteinkonzentrat, durch Säurewäsche hergestellt"
+ },
+ {
+  "slug": "usda-174302",
+  "food_group": "H",
+  "name_de": "Sojaproteinisolat, Kaliumtyp"
+ },
+ {
+  "slug": "usda-174303",
+  "food_group": "H",
+  "name_de": "Tofu, getrocknet-gefroren (Koyadofu), mit Calciumsulfat hergestellt"
+ },
+ {
+  "slug": "usda-174304",
+  "food_group": "H",
+  "name_de": "Tofu, gebraten, mit Calciumsulfat hergestellt"
+ },
+ {
+  "slug": "usda-174305",
+  "food_group": "H",
+  "name_de": "Tofu, gesalzen und fermentiert (Fuyu), mit Calciumsulfat hergestellt"
+ },
+ {
+  "slug": "usda-174306",
+  "food_group": "H",
+  "name_de": "Spargelbohnen, reife Samen, gekocht, mit Salz"
+ },
+ {
+  "slug": "usda-174307",
+  "food_group": "U",
+  "name_de": "Lamm, Mischung zugeschnittener Teilstücke, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174308",
+  "food_group": "U",
+  "name_de": "Lamm, Mischung zugeschnittener Teilstücke, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart"
+ },
+ {
+  "slug": "usda-174309",
+  "food_group": "U",
+  "name_de": "Lamm, Mischung zugeschnittener Teilstücke, nur Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174310",
+  "food_group": "U",
+  "name_de": "Lamm, Mischung zugeschnittener Teilstücke, nur Fett, auf 1/4 Zoll Fett pariert, Choice, gegart"
+ },
+ {
+  "slug": "usda-174311",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, ganz (Hachse und Hüfte), Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174312",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, ganz (Hachse und Hüfte), Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174313",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, ganz (Hachse und Hüfte), nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174314",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, ganz (Hachse und Hüfte), nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174315",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, Hachsenhälfte, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174316",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, Hüfthälfte, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174317",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, Hüfthälfte, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174318",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, Hüfthälfte, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174319",
+  "food_group": "U",
+  "name_de": "Lamm, Lende, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174320",
+  "food_group": "U",
+  "name_de": "Lamm, Lende, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174321",
+  "food_group": "U",
+  "name_de": "Lamm, Rippe, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174322",
+  "food_group": "U",
+  "name_de": "Lamm, Rippe, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-174323",
+  "food_group": "U",
+  "name_de": "Lamm, Rippe, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174324",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, ganz (Arm und Blatt), Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-174325",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, ganz (Arm und Blatt), Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174326",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, ganz (Arm und Blatt), nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174327",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, ganz (Arm und Blatt), nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-174328",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-174329",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174330",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174331",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-174332",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Blatt, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-174333",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Blatt, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174334",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Blatt, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174335",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Blatt, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-174336",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Mischung zugeschnittener Teilstücke, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-174337",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Mischung zugeschnittener Teilstücke, Magerfleisch und Fett, gegart"
+ },
+ {
+  "slug": "usda-174338",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Mischung zugeschnittener Teilstücke, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174339",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Mischung zugeschnittener Teilstücke, nur Magerfleisch, gegart"
+ },
+ {
+  "slug": "usda-174340",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Vorderhachse, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174341",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Vorderhachse, nur Magerfleisch, geschmort"
+ },
+ {
+  "slug": "usda-174342",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Keulenkotelett/-steak, mit Knochen, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-174343",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Keule, ganz (Hachse und Hüfte), Magerfleisch und Fett, geröstet"
+ },
+ {
+  "slug": "usda-174344",
+  "food_group": "U",
+  "name_de": "Elch, roh"
+ },
+ {
+  "slug": "usda-174345",
+  "food_group": "U",
+  "name_de": "Elch, geröstet"
+ },
+ {
+  "slug": "usda-174346",
+  "food_group": "U",
+  "name_de": "Kaninchen, domestiziert, Mischung von Teilstücken, gedünstet"
+ },
+ {
+  "slug": "usda-174347",
+  "food_group": "U",
+  "name_de": "Kaninchen, wild, roh"
+ },
+ {
+  "slug": "usda-174348",
+  "food_group": "U",
+  "name_de": "Kaninchen, wild, gedünstet"
+ },
+ {
+  "slug": "usda-174349",
+  "food_group": "U",
+  "name_de": "Waschbär, geröstet"
+ },
+ {
+  "slug": "usda-174350",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien, Gehirn, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-174351",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Gehirn, roh"
+ },
+ {
+  "slug": "usda-174352",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Gehirn, geschmort"
+ },
+ {
+  "slug": "usda-174353",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Gehirn, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-174354",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien, Nieren, roh"
+ },
+ {
+  "slug": "usda-174355",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien, Nieren, geschmort"
+ },
+ {
+  "slug": "usda-174356",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Nieren, roh"
+ },
+ {
+  "slug": "usda-174357",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Nieren, geschmort"
+ },
+ {
+  "slug": "usda-174358",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Leber, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-174359",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien, Lunge, roh"
+ },
+ {
+  "slug": "usda-174360",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien, Lunge, geschmort"
+ },
+ {
+  "slug": "usda-174361",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Lunge, roh"
+ },
+ {
+  "slug": "usda-174362",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Bauchspeicheldrüse, roh"
+ },
+ {
+  "slug": "usda-174363",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Bauchspeicheldrüse, geschmort"
+ },
+ {
+  "slug": "usda-174364",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien, Milz, roh"
+ },
+ {
+  "slug": "usda-174365",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien, Milz, geschmort"
+ },
+ {
+  "slug": "usda-174366",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien, Zunge, roh"
+ },
+ {
+  "slug": "usda-174367",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien, Zunge, geschmort"
+ },
+ {
+  "slug": "usda-174368",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Zunge, roh"
+ },
+ {
+  "slug": "usda-174369",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien, Zunge, geschmort"
+ },
+ {
+  "slug": "usda-174370",
+  "food_group": "U",
+  "name_de": "Lamm, Hackfleisch, roh"
+ },
+ {
+  "slug": "usda-174371",
+  "food_group": "U",
+  "name_de": "Lamm, Vorderhachse, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, geschmort"
+ },
+ {
+  "slug": "usda-174372",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, ganz (Hachse und Hüfte), Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174373",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, ganz (Hachse und Hüfte), Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174374",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, Hachsenhälfte, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174375",
+  "food_group": "U",
+  "name_de": "Lamm, Lende, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-174376",
+  "food_group": "U",
+  "name_de": "Lamm, Lende, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174377",
+  "food_group": "U",
+  "name_de": "Lamm, Rippe, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174378",
+  "food_group": "U",
+  "name_de": "Lamm, Rippe, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-174379",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, ganz (Arm und Blatt), Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174380",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174381",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-174382",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, gegrillt"
+ },
+ {
+  "slug": "usda-174383",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-174384",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Mischung zugeschnittener Teilstücke, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174385",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Mischung zugeschnittener Teilstücke, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, gegart"
+ },
+ {
+  "slug": "usda-174386",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Vorderhachse, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174387",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Vorderhachse, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, geschmort"
+ },
+ {
+  "slug": "usda-174388",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Rippe, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174389",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Rippe, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, geröstet"
+ },
+ {
+  "slug": "usda-174390",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Schulter, ganz (Arm und Blatt), Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174391",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Schulter, ganz (Arm und Blatt), Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, geschmort"
+ },
+ {
+  "slug": "usda-174392",
+  "food_group": "U",
+  "name_de": "Kalb, Brust, ganz, ohne Knochen, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-174393",
+  "food_group": "U",
+  "name_de": "Kalb, Brust, ganz, ohne Knochen, Magerfleisch und Fett, geschmort"
+ },
+ {
+  "slug": "usda-174394",
+  "food_group": "U",
+  "name_de": "Kalb, Brust, Plate-Hälfte, ohne Knochen, Magerfleisch und Fett, geschmort"
+ },
+ {
+  "slug": "usda-174395",
+  "food_group": "U",
+  "name_de": "Kalb, Brust, Point-Hälfte, ohne Knochen, Magerfleisch und Fett, geschmort"
+ },
+ {
+  "slug": "usda-174396",
+  "food_group": "U",
+  "name_de": "Kalb, Brust, ganz, ohne Knochen, nur Magerfleisch, geschmort"
+ },
+ {
+  "slug": "usda-174397",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Mischung zugeschnittener Teilstücke, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174398",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Mischung zugeschnittener Teilstücke, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, gegart"
+ },
+ {
+  "slug": "usda-174399",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Mischung zugeschnittener Teilstücke, nur Magerfleisch, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174400",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Mischung zugeschnittener Teilstücke, nur Magerfleisch, auf 1/8 Zoll Fett pariert, gegart"
+ },
+ {
+  "slug": "usda-174401",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Vorderhachse, nur Magerfleisch, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174402",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Vorderhachse, nur Magerfleisch, auf 1/8 Zoll Fett pariert, geschmort"
+ },
+ {
+  "slug": "usda-174403",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Keule, ganz (Hachse und Hüfte), Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174404",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Keule, ganz (Hachse und Hüfte), Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, geröstet"
+ },
+ {
+  "slug": "usda-174405",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Keule, Hachsenhälfte, nur Magerfleisch, auf 1/8 Zoll Fett pariert, geröstet"
+ },
+ {
+  "slug": "usda-174406",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Keule, Hüfthälfte, ohne Knochen, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174407",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Keule, Hüfthälfte, ohne Knochen, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, geröstet"
+ },
+ {
+  "slug": "usda-174408",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Keule, Hüfthälfte, ohne Knochen, nur Magerfleisch, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174409",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Keule, Hüftkoteletts, ohne Knochen, nur Magerfleisch, auf 1/8 Zoll Fett pariert, gegrillt"
+ },
+ {
+  "slug": "usda-174410",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Keule, Mittelscheibe, mit Knochen, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174411",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Keule, Mittelscheibe, mit Knochen, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, gegrillt"
+ },
+ {
+  "slug": "usda-174412",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Keule, Mittelscheibe, mit Knochen, nur Magerfleisch, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174413",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Lende, nur Magerfleisch, auf 1/8 Zoll Fett pariert, gegrillt"
+ },
+ {
+  "slug": "usda-174414",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Rippenkotelett/Karree, frenched, mit Knochen, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174415",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Rippenkotelett, frenched, mit Knochen, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, gegrillt"
+ },
+ {
+  "slug": "usda-174416",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Rippenkotelett/Karree, frenched, mit Knochen, nur Magerfleisch, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174417",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Schulter, Arm, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174418",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Schulter, Arm, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, geschmort"
+ },
+ {
+  "slug": "usda-174419",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Schulter, Arm, nur Magerfleisch, auf 1/8 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-174420",
+  "food_group": "U",
+  "name_de": "Lamm, australisch, importiert, frisch, Schulter, Arm, nur Magerfleisch, auf 1/8 Zoll Fett pariert, geschmort"
+ },
+ {
+  "slug": "usda-174421",
+  "food_group": "U",
+  "name_de": "Bison, Hackfleisch, roh"
+ },
+ {
+  "slug": "usda-174422",
+  "food_group": "U",
+  "name_de": "Bison, Hackfleisch, in der Pfanne gegart"
+ },
+ {
+  "slug": "usda-174423",
+  "food_group": "U",
+  "name_de": "Bison, Top Sirloin, nur Magerfleisch, Steak 1 Zoll, gegrillt"
+ },
+ {
+  "slug": "usda-174424",
+  "food_group": "U",
+  "name_de": "Bison, Chuck, Schulterstück (Clod), nur Magerfleisch, geschmort"
+ },
+ {
+  "slug": "usda-174425",
+  "food_group": "U",
+  "name_de": "Wapiti (Elk), Hackfleisch, roh"
+ },
+ {
+  "slug": "usda-174426",
+  "food_group": "U",
+  "name_de": "Wapiti (Elk), Hackfleisch, in der Pfanne gegart"
+ },
+ {
+  "slug": "usda-174427",
+  "food_group": "U",
+  "name_de": "Wapiti (Elk), Lende, nur Magerfleisch, gegrillt"
+ },
+ {
+  "slug": "usda-174428",
+  "food_group": "U",
+  "name_de": "Wapiti (Elk), Keule, nur Magerfleisch, gegrillt"
+ },
+ {
+  "slug": "usda-174429",
+  "food_group": "U",
+  "name_de": "Wapiti (Elk), Filet, nur Magerfleisch, gegrillt"
+ },
+ {
+  "slug": "usda-174430",
+  "food_group": "U",
+  "name_de": "Hirsch, Filet, nur Magerfleisch, gegrillt"
+ },
+ {
+  "slug": "usda-174431",
+  "food_group": "U",
+  "name_de": "Hirsch, Oberschale, nur Magerfleisch, Steak 1 Zoll, gegrillt"
+ },
+ {
+  "slug": "usda-174432",
+  "food_group": "U",
+  "name_de": "Kalb, australisch, Vorderhachse, mit Knochen, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174433",
+  "food_group": "U",
+  "name_de": "Kalb, australisch, Vorderhachse, mit Knochen, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-174434",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Zwischenmuskelfett, roh"
+ },
+ {
+  "slug": "usda-174435",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Unterhautfett, roh"
+ },
+ {
+  "slug": "usda-174436",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Gehirn, eingeweicht und gebraten"
+ },
+ {
+  "slug": "usda-174437",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Gehirn, roh"
+ },
+ {
+  "slug": "usda-174438",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Chump, ohne Knochen, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174439",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Niere, eingeweicht und gebraten"
+ },
+ {
+  "slug": "usda-174440",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Bauchlappen, ohne Knochen, nur Magerfleisch, geschmort"
+ },
+ {
+  "slug": "usda-174441",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Bauchlappen, ohne Knochen, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174442",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Niere, roh"
+ }
+]

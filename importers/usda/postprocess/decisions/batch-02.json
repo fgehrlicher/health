@@ -1,0 +1,1252 @@
+[
+ {
+  "slug": "usda-167845",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Schulter, ganz, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-167846",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Schulter, ganz, nur Magerfleisch, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167847",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Schulter, Arm Picnic, nur Magerfleisch, geschmort"
+ },
+ {
+  "slug": "usda-167848",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Schulter, Arm Picnic, nur Magerfleisch, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167849",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Schulter, (Boston Butt), Blade (Steaks), Fleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167850",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Schulter, (Boston Butt), Blade (Steaks), Fleisch und Fett, geschmort"
+ },
+ {
+  "slug": "usda-167851",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Schulter, Blade, Boston (Steaks), Fleisch und Fett, gegrillt"
+ },
+ {
+  "slug": "usda-167852",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Schulter, Blade, Boston (Braten), nur Magerfleisch, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167853",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Spareribs, Fleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167854",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Spareribs, Fleisch und Fett, geschmort"
+ },
+ {
+  "slug": "usda-167855",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Mischung zugeschnittener Handelsstücke (Keule, Karree und Schulter), nur Magerfleisch, gekocht"
+ },
+ {
+  "slug": "usda-167856",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Kaldaunen (Chitterlings), gekocht"
+ },
+ {
+  "slug": "usda-167857",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Ohren, tiefgefroren, roh"
+ },
+ {
+  "slug": "usda-167858",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Ohren, tiefgefroren, gekocht"
+ },
+ {
+  "slug": "usda-167859",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Füße, roh"
+ },
+ {
+  "slug": "usda-167860",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Nieren, geschmort"
+ },
+ {
+  "slug": "usda-167861",
+  "food_group": "Q",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Flomen (Bauchfett), roh"
+ },
+ {
+  "slug": "usda-167862",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Leber, roh"
+ },
+ {
+  "slug": "usda-167863",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Leber, geschmort"
+ },
+ {
+  "slug": "usda-167864",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Lunge, roh"
+ },
+ {
+  "slug": "usda-167865",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Milz, roh"
+ },
+ {
+  "slug": "usda-167866",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Milz, geschmort"
+ },
+ {
+  "slug": "usda-167867",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Magen, roh"
+ },
+ {
+  "slug": "usda-167868",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Blade (Koteletts), mit Knochen, nur Magerfleisch, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-167869",
+  "food_group": "W",
+  "name_de": "Canadian Bacon, nicht zubereitet"
+ },
+ {
+  "slug": "usda-167870",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Füße, eingelegt"
+ },
+ {
+  "slug": "usda-167871",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, ohne Knochen, extra mager (ca. 5 % Fett), im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167872",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, ohne Knochen, normal (ca. 11 % Fett), im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167873",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, Patties, nicht erhitzt"
+ },
+ {
+  "slug": "usda-167874",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, Steak, ohne Knochen, extra mager, nicht erhitzt"
+ },
+ {
+  "slug": "usda-167875",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, ganz, Fleisch und Fett, nicht erhitzt"
+ },
+ {
+  "slug": "usda-167876",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, ganz, nur Magerfleisch, nicht erhitzt"
+ },
+ {
+  "slug": "usda-167877",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, abtrennbares Fett (von Schinken und Arm Picnic), nicht erhitzt"
+ },
+ {
+  "slug": "usda-167878",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, abtrennbares Fett (von Schinken und Arm Picnic), im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167879",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schulter, Arm Picnic, Fleisch und Fett, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167880",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schulter, Arm Picnic, nur Magerfleisch, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167881",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Innereien und Nebenprodukte, Schwanz, gekocht"
+ },
+ {
+  "slug": "usda-167882",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, mittleres Karree (Koteletts), mit Knochen, nur Magerfleisch, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-167883",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, mittleres Rippenstück (Koteletts), mit Knochen, nur Magerfleisch, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-167884",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Blade (Koteletts), mit Knochen, Fleisch und Fett, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-167885",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, extra mager und normal, aus der Dose, nicht erhitzt"
+ },
+ {
+  "slug": "usda-167886",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, extra mager und normal, aus der Dose, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167887",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Top Loin (Koteletts), ohne Knochen, Fleisch und Fett, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-167888",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Mischung zugeschnittener Handelsstücke (Keule, Karree, Schulter und Spareribs), Fleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167889",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, mittleres Rippenstück (Koteletts oder Braten), ohne Knochen, Fleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167890",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, mittleres Rippenstück (Koteletts), ohne Knochen, Fleisch und Fett, geschmort"
+ },
+ {
+  "slug": "usda-167891",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, mittleres Rippenstück (Koteletts), ohne Knochen, Fleisch und Fett, gegrillt"
+ },
+ {
+  "slug": "usda-167892",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, mittleres Rippenstück (Koteletts), ohne Knochen, Fleisch und Fett, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-167893",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, mittleres Rippenstück (Koteletts), ohne Knochen, nur Magerfleisch, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-167894",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, mittleres Rippenstück (Braten), ohne Knochen, nur Magerfleisch, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167895",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Country-Style-Rippchen, Fleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-167896",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Country-Style-Rippchen, Fleisch und Fett, geschmort"
+ },
+ {
+  "slug": "usda-167897",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Country-Style-Rippchen, Fleisch und Fett, mit Knochen, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167898",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Sirloin (Koteletts), ohne Knochen, Fleisch und Fett, geschmort"
+ },
+ {
+  "slug": "usda-167899",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Sirloin (Koteletts), ohne Knochen, Fleisch und Fett, gegrillt"
+ },
+ {
+  "slug": "usda-167900",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Sirloin (Braten), ohne Knochen, Fleisch und Fett, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167901",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Sirloin (Koteletts oder Braten), ohne Knochen, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-167902",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Hackfleisch, roh"
+ },
+ {
+  "slug": "usda-167903",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Hackfleisch, gekocht"
+ },
+ {
+  "slug": "usda-167904",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Filet, Fleisch und Fett, gegrillt"
+ },
+ {
+  "slug": "usda-167905",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Filet, Fleisch und Fett, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167906",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Mischung zugeschnittener Handelsstücke (Karree und Schulter Blade), Fleisch und Fett, gekocht"
+ },
+ {
+  "slug": "usda-167907",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Mischung zugeschnittener Handelsstücke (Karree und Schulter Blade), nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-167908",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Mischung zugeschnittener Handelsstücke (Karree und Schulter Blade), nur Magerfleisch, gekocht"
+ },
+ {
+  "slug": "usda-167909",
+  "food_group": "W",
+  "name_de": "HORMEL, Cure 81 Schinken"
+ },
+ {
+  "slug": "usda-167910",
+  "food_group": "U",
+  "name_de": "HORMEL ALWAYS TENDER, Schweinefilet, mit Teriyaki-Geschmack"
+ },
+ {
+  "slug": "usda-167911",
+  "food_group": "W",
+  "name_de": "HORMEL Canadian Style Bacon"
+ },
+ {
+  "slug": "usda-167912",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Top Loin (Koteletts), ohne Knochen, nur Magerfleisch, mit zugesetzter Lösung, in der Pfanne gegrillt"
+ },
+ {
+  "slug": "usda-167913",
+  "food_group": "U",
+  "name_de": "Schwein, frisch, Karree, Top Loin (Koteletts), ohne Knochen, Fleisch und Fett, mit zugesetzter Lösung, in der Pfanne gegrillt"
+ },
+ {
+  "slug": "usda-167914",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Bacon, gebacken"
+ },
+ {
+  "slug": "usda-167915",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, mit Wasserzusatz, Rump, mit Knochen, nur Magerfleisch, erhitzt, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167916",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, mit Wasserzusatz, Rump, mit Knochen, nur Magerfleisch, nicht erhitzt"
+ },
+ {
+  "slug": "usda-167917",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, mit Wasserzusatz, Haxe, mit Knochen, nur Magerfleisch, erhitzt, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167918",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, mit Wasserzusatz, Scheibe, mit Knochen, nur Magerfleisch, erhitzt, in der Pfanne gegrillt"
+ },
+ {
+  "slug": "usda-167919",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, mit natürlichem Saft, Rump, mit Knochen, nur Magerfleisch, erhitzt, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167920",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, mit natürlichem Saft, Haxe, mit Knochen, nur Magerfleisch, erhitzt, im Ofen gebraten"
+ },
+ {
+  "slug": "usda-167921",
+  "food_group": "D",
+  "name_de": "Pillsbury Grands, Buttermilch-Biscuits, gekühlter Teig"
+ },
+ {
+  "slug": "usda-167922",
+  "food_group": "D",
+  "name_de": "Heinz, Weight Watcher, Schokoladen-Eclair, tiefgefroren"
+ },
+ {
+  "slug": "usda-167923",
+  "food_group": "B",
+  "name_de": "Interstate Brands Corp, Wonder Hamburger-Brötchen"
+ },
+ {
+  "slug": "usda-167924",
+  "food_group": "D",
+  "name_de": "Nabisco, Nabisco Snackwell's fettfreie Devil's Food Cookie Cakes"
+ },
+ {
+  "slug": "usda-167925",
+  "food_group": "D",
+  "name_de": "Cracker, Käse, Sandwich-Typ mit Käsefüllung"
+ },
+ {
+  "slug": "usda-167926",
+  "food_group": "D",
+  "name_de": "Pfannkuchen, natur, tiefgefroren, fertig zum Erhitzen, Mikrowelle (einschl. Buttermilch)"
+ },
+ {
+  "slug": "usda-167927",
+  "food_group": "D",
+  "name_de": "Toaster Pastries, Frucht, glasiert (einschl. Apfel, Blaubeere, Kirsche, Erdbeere)"
+ },
+ {
+  "slug": "usda-167928",
+  "food_group": "D",
+  "name_de": "Toaster Pastries, Frucht, getoastet (einschl. Apfel, Blaubeere, Kirsche, Erdbeere)"
+ },
+ {
+  "slug": "usda-167929",
+  "food_group": "D",
+  "name_de": "Muffin, Blaubeere, industriell hergestellt, fettarm"
+ },
+ {
+  "slug": "usda-167930",
+  "food_group": "D",
+  "name_de": "Pie-Teig, gekühlt, normal, gebacken"
+ },
+ {
+  "slug": "usda-167931",
+  "food_group": "D",
+  "name_de": "Pie-Teig, tiefe Form, tiefgefroren, gebacken, mit angereichertem Mehl"
+ },
+ {
+  "slug": "usda-167932",
+  "food_group": "D",
+  "name_de": "Pie-Teig, gekühlt, normal, ungebacken"
+ },
+ {
+  "slug": "usda-167933",
+  "food_group": "D",
+  "name_de": "Cracker, Vollkorn, fettreduziert"
+ },
+ {
+  "slug": "usda-167934",
+  "food_group": "D",
+  "name_de": "Cracker, Weizen, fettreduziert"
+ },
+ {
+  "slug": "usda-167935",
+  "food_group": "B",
+  "name_de": "Brot, Pan Dulce, süßes Hefebrot"
+ },
+ {
+  "slug": "usda-167936",
+  "food_group": "D",
+  "name_de": "Keikitos (Muffins), lateinamerikanisches Backwerk"
+ },
+ {
+  "slug": "usda-167937",
+  "food_group": "D",
+  "name_de": "Kuchen, Rührkuchen, Bimbo Bakeries USA, Panque Casero, nach Hausbackart"
+ },
+ {
+  "slug": "usda-167938",
+  "food_group": "D",
+  "name_de": "Pan Dulce, La Ricura, Salpora de Arroz con Azucar, keksartig, enthält Weizenmehl und Reismehl"
+ },
+ {
+  "slug": "usda-167939",
+  "food_group": "B",
+  "name_de": "Knoblauchbrot, tiefgefroren"
+ },
+ {
+  "slug": "usda-167940",
+  "food_group": "D",
+  "name_de": "Zimtschnecken, glasiert (einschl. Honigschnecken)"
+ },
+ {
+  "slug": "usda-167941",
+  "food_group": "D",
+  "name_de": "Cracker, Käse, fettreduziert"
+ },
+ {
+  "slug": "usda-167942",
+  "food_group": "D",
+  "name_de": "Cracker, Saltines, Vollkorn (einschl. Mehrkorn)"
+ },
+ {
+  "slug": "usda-167943",
+  "food_group": "B",
+  "name_de": "Brot, Kartoffel"
+ },
+ {
+  "slug": "usda-167944",
+  "food_group": "B",
+  "name_de": "Brot, Käse"
+ },
+ {
+  "slug": "usda-167945",
+  "food_group": "B",
+  "name_de": "Focaccia, italienisches Fladenbrot, natur"
+ },
+ {
+  "slug": "usda-167946",
+  "food_group": "S",
+  "name_de": "SCHIFF, TIGER'S MILK BAR"
+ },
+ {
+  "slug": "usda-167947",
+  "food_group": "S",
+  "name_de": "Toblerone, Milchschokolade mit Honig-Mandel-Nougat"
+ },
+ {
+  "slug": "usda-167948",
+  "food_group": "C",
+  "name_de": "Mais-Snack, extrudiert, Zwiebelgeschmack"
+ },
+ {
+  "slug": "usda-167949",
+  "food_group": "C",
+  "name_de": "Mais-Snack, extrudiert, Puffs oder Twists, Käsegeschmack"
+ },
+ {
+  "slug": "usda-167950",
+  "food_group": "C",
+  "name_de": "KRAFT, CORNNUTS, natur"
+ },
+ {
+  "slug": "usda-167951",
+  "food_group": "S",
+  "name_de": "Puffreisriegel, Schokostückchen"
+ },
+ {
+  "slug": "usda-167952",
+  "food_group": "S",
+  "name_de": "Müsliriegel, hart, Schokostückchen"
+ },
+ {
+  "slug": "usda-167953",
+  "food_group": "S",
+  "name_de": "Fruchtsirup"
+ },
+ {
+  "slug": "usda-167954",
+  "food_group": "S",
+  "name_de": "Müsliriegel, weich, ohne Überzug, natur"
+ },
+ {
+  "slug": "usda-167955",
+  "food_group": "S",
+  "name_de": "Müsliriegel, weich, ohne Überzug, Erdnussbutter"
+ },
+ {
+  "slug": "usda-167956",
+  "food_group": "S",
+  "name_de": "Topping, SMUCKER'S MAGIC SHELL"
+ },
+ {
+  "slug": "usda-167957",
+  "food_group": "S",
+  "name_de": "Sirup, Fruchtgeschmack"
+ },
+ {
+  "slug": "usda-167958",
+  "food_group": "C",
+  "name_de": "Oriental Mix, auf Reisbasis"
+ },
+ {
+  "slug": "usda-167959",
+  "food_group": "C",
+  "name_de": "Popcorn, mit Heißluft gepoppt"
+ },
+ {
+  "slug": "usda-167960",
+  "food_group": "C",
+  "name_de": "Popcorn, Käsegeschmack"
+ },
+ {
+  "slug": "usda-167961",
+  "food_group": "W",
+  "name_de": "Schweineschwarten, natur"
+ },
+ {
+  "slug": "usda-167962",
+  "food_group": "K",
+  "name_de": "Kartoffelchips, Barbecue-Geschmack"
+ },
+ {
+  "slug": "usda-167963",
+  "food_group": "K",
+  "name_de": "Kartoffelchips, Sauerrahm-Zwiebel-Geschmack"
+ },
+ {
+  "slug": "usda-167964",
+  "food_group": "D",
+  "name_de": "M&M MARS, COMBOS Snacks Cheddar-Käse-Brezel"
+ },
+ {
+  "slug": "usda-167965",
+  "food_group": "D",
+  "name_de": "Brezeln, hart, Vollkorn (gesalzen und ungesalzen)"
+ },
+ {
+  "slug": "usda-167966",
+  "food_group": "D",
+  "name_de": "Reiscracker, Vollkornreis, natur"
+ },
+ {
+  "slug": "usda-167967",
+  "food_group": "C",
+  "name_de": "Reiswaffeln, Vollkornreis, Buchweizen"
+ },
+ {
+  "slug": "usda-167968",
+  "food_group": "H",
+  "name_de": "Studentenfutter, tropisch"
+ },
+ {
+  "slug": "usda-167969",
+  "food_group": "H",
+  "name_de": "Studentenfutter, normal, mit Schokostückchen, gesalzenen Nüssen und Samen"
+ },
+ {
+  "slug": "usda-167970",
+  "food_group": "C",
+  "name_de": "Tortilla-Chips, Taco-Geschmack"
+ },
+ {
+  "slug": "usda-167971",
+  "food_group": "S",
+  "name_de": "TOOTSIE ROLL, Rolle mit Schokoladengeschmack"
+ },
+ {
+  "slug": "usda-167972",
+  "food_group": "S",
+  "name_de": "Butterscotch-Bonbons"
+ },
+ {
+  "slug": "usda-167973",
+  "food_group": "S",
+  "name_de": "Carob (Johannisbrot), ungesüßt"
+ },
+ {
+  "slug": "usda-167974",
+  "food_group": "S",
+  "name_de": "Karamellbonbons"
+ },
+ {
+  "slug": "usda-167975",
+  "food_group": "S",
+  "name_de": "CARAMELLO Riegel"
+ },
+ {
+  "slug": "usda-167976",
+  "food_group": "S",
+  "name_de": "Schokolade, halbbitter"
+ },
+ {
+  "slug": "usda-167977",
+  "food_group": "S",
+  "name_de": "Schokolade, süß"
+ },
+ {
+  "slug": "usda-167978",
+  "food_group": "S",
+  "name_de": "Fondant, mit süßer Schokolade überzogen"
+ },
+ {
+  "slug": "usda-167979",
+  "food_group": "S",
+  "name_de": "HERSHEY'S GOLDEN ALMOND SOLITAIRES"
+ },
+ {
+  "slug": "usda-167980",
+  "food_group": "S",
+  "name_de": "Überzugsmasse, Butterscotch"
+ },
+ {
+  "slug": "usda-167981",
+  "food_group": "S",
+  "name_de": "Eiscreme, French Vanilla, Softeis"
+ },
+ {
+  "slug": "usda-167982",
+  "food_group": "S",
+  "name_de": "YORK Peppermint Pattie"
+ },
+ {
+  "slug": "usda-167983",
+  "food_group": "S",
+  "name_de": "TWIZZLERS NIBS CHERRY BITS"
+ },
+ {
+  "slug": "usda-167984",
+  "food_group": "S",
+  "name_de": "SYMPHONY Milchschokolade-Riegel"
+ },
+ {
+  "slug": "usda-167985",
+  "food_group": "S",
+  "name_de": "5TH AVENUE Riegel"
+ },
+ {
+  "slug": "usda-167986",
+  "food_group": "S",
+  "name_de": "Fondant, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-167987",
+  "food_group": "S",
+  "name_de": "Fudge, Schokolade, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-167988",
+  "food_group": "S",
+  "name_de": "Fudge, Schokolade, mit Nüssen, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-167989",
+  "food_group": "S",
+  "name_de": "Gumdrops, Gelee-Stücke aus Stärke"
+ },
+ {
+  "slug": "usda-167990",
+  "food_group": "S",
+  "name_de": "Hartbonbons"
+ },
+ {
+  "slug": "usda-167991",
+  "food_group": "S",
+  "name_de": "Jellybeans"
+ },
+ {
+  "slug": "usda-167992",
+  "food_group": "S",
+  "name_de": "KIT KAT Waffelriegel"
+ },
+ {
+  "slug": "usda-167993",
+  "food_group": "S",
+  "name_de": "KRACKEL Schokoriegel"
+ },
+ {
+  "slug": "usda-167994",
+  "food_group": "S",
+  "name_de": "MARS SNACKFOOD US, MARS Mandelriegel"
+ },
+ {
+  "slug": "usda-167995",
+  "food_group": "S",
+  "name_de": "Marshmallows"
+ },
+ {
+  "slug": "usda-167996",
+  "food_group": "S",
+  "name_de": "Halva, natur"
+ },
+ {
+  "slug": "usda-167997",
+  "food_group": "S",
+  "name_de": "NESTLE, OH HENRY! Riegel"
+ },
+ {
+  "slug": "usda-167998",
+  "food_group": "S",
+  "name_de": "Pudding, Schokolade, Trockenmischung, Instant, zubereitet mit Milch (2 %)"
+ },
+ {
+  "slug": "usda-167999",
+  "food_group": "S",
+  "name_de": "Backschokolade, mexikanisch, Quadrate"
+ },
+ {
+  "slug": "usda-168000",
+  "food_group": "S",
+  "name_de": "Haselnussaufstrich, Schokoladengeschmack"
+ },
+ {
+  "slug": "usda-168001",
+  "food_group": "S",
+  "name_de": "Erdnüsse, mit Milchschokolade überzogen"
+ },
+ {
+  "slug": "usda-168002",
+  "food_group": "D",
+  "name_de": "Glutino, glutenfreie Waffeln, Zitronengeschmack"
+ },
+ {
+  "slug": "usda-168003",
+  "food_group": "D",
+  "name_de": "Glutino, glutenfreie Waffeln, Milchschokolade"
+ },
+ {
+  "slug": "usda-168004",
+  "food_group": "D",
+  "name_de": "Mary's Gone Crackers, Original Cracker, Bio, glutenfrei"
+ },
+ {
+  "slug": "usda-168005",
+  "food_group": "D",
+  "name_de": "Pepperidge Farm, Goldfish, gebackene Snack-Cracker, Cheddar"
+ },
+ {
+  "slug": "usda-168006",
+  "food_group": "D",
+  "name_de": "Pepperidge Farm, Goldfish, gebackene Snack-Cracker, Explosive Pizza"
+ },
+ {
+  "slug": "usda-168007",
+  "food_group": "D",
+  "name_de": "Sage Valley, glutenfreie Vanille-Sandwichkekse"
+ },
+ {
+  "slug": "usda-168008",
+  "food_group": "B",
+  "name_de": "Schar, glutenfrei, klassische weiße Brötchen"
+ },
+ {
+  "slug": "usda-168009",
+  "food_group": "B",
+  "name_de": "Schar, glutenfrei, weizenfrei, klassisches Weißbrot"
+ },
+ {
+  "slug": "usda-168010",
+  "food_group": "B",
+  "name_de": "Udi's, glutenfrei, klassische französische Dinner-Brötchen"
+ },
+ {
+  "slug": "usda-168011",
+  "food_group": "D",
+  "name_de": "Van's, glutenfrei, Totally Original Waffeln"
+ },
+ {
+  "slug": "usda-168012",
+  "food_group": "D",
+  "name_de": "Van's, The Perfect 10, knusprige gebackene Cracker mit sechs Vollkorngetreiden und vier Samen, glutenfrei"
+ },
+ {
+  "slug": "usda-168013",
+  "food_group": "B",
+  "name_de": "Brot, Mehrkorn (einschl. Vollkorn)"
+ },
+ {
+  "slug": "usda-168014",
+  "food_group": "D",
+  "name_de": "Kekse, Animal Crackers (einschl. Arrowroot, Teegebäck)"
+ },
+ {
+  "slug": "usda-168015",
+  "food_group": "K",
+  "name_de": "Süßkartoffeln, Pommes frites, quer geschnitten, tiefgefroren, nicht zubereitet"
+ },
+ {
+  "slug": "usda-168016",
+  "food_group": "K",
+  "name_de": "Süßkartoffel-Puffs, tiefgefroren, nicht zubereitet"
+ },
+ {
+  "slug": "usda-168088",
+  "food_group": "S",
+  "name_de": "Sirup, Grenadine"
+ },
+ {
+  "slug": "usda-168089",
+  "food_group": "M",
+  "name_de": "Käseimitat, American oder Cheddar, cholesterinarm"
+ },
+ {
+  "slug": "usda-168092",
+  "food_group": "W",
+  "name_de": "Putenschinken, in Scheiben, extra mager, abgepackt oder Feinkost"
+ },
+ {
+  "slug": "usda-168093",
+  "food_group": "Q",
+  "name_de": "Salatdressing, Pfefferkorn-Dressing, handelsüblich, normal"
+ },
+ {
+  "slug": "usda-168094",
+  "food_group": "Q",
+  "name_de": "Mayonnaise, kalorienreduziert oder Diät, cholesterinfrei"
+ },
+ {
+  "slug": "usda-168095",
+  "food_group": "S",
+  "name_de": "Müsliriegel, weich, mit Milchschokolade überzogen, Erdnussbutter"
+ },
+ {
+  "slug": "usda-168096",
+  "food_group": "Q",
+  "name_de": "Salatdressing, Italian Dressing, kalorienreduziert"
+ },
+ {
+  "slug": "usda-168097",
+  "food_group": "M",
+  "name_de": "Sahneersatz, flüssig, light"
+ },
+ {
+  "slug": "usda-168098",
+  "food_group": "M",
+  "name_de": "Käse, Monterey, fettarm"
+ },
+ {
+  "slug": "usda-168099",
+  "food_group": "R",
+  "name_de": "Cremedressing, mit saurer Sahne und/oder Buttermilch und Öl, kalorienreduziert, fettfrei"
+ },
+ {
+  "slug": "usda-168100",
+  "food_group": "Q",
+  "name_de": "Cremedressing, mit saurer Sahne und/oder Buttermilch und Öl, kalorienreduziert, cholesterinfrei"
+ },
+ {
+  "slug": "usda-168101",
+  "food_group": "W",
+  "name_de": "Bologna, Rind, fettarm"
+ },
+ {
+  "slug": "usda-168102",
+  "food_group": "S",
+  "name_de": "MARS SNACKFOOD US, TWIX Schokoladen-Fudge-Keksriegel"
+ },
+ {
+  "slug": "usda-168103",
+  "food_group": "S",
+  "name_de": "Frozen Yogurt, Schokolade, fettfreie Milch, ohne Zucker gesüßt"
+ },
+ {
+  "slug": "usda-168104",
+  "food_group": "S",
+  "name_de": "Frozen Yogurt, Schokolade"
+ },
+ {
+  "slug": "usda-168105",
+  "food_group": "S",
+  "name_de": "Frozen Yogurt, andere Geschmacksrichtungen als Schokolade"
+ },
+ {
+  "slug": "usda-168106",
+  "food_group": "H",
+  "name_de": "Papad"
+ },
+ {
+  "slug": "usda-168107",
+  "food_group": "C",
+  "name_de": "Reiswaffeln, Cracker (einschl. Hain Mini-Reiswaffeln)"
+ },
+ {
+  "slug": "usda-168108",
+  "food_group": "S",
+  "name_de": "MARS SNACKFOOD US, M&M's Mandel-Schokolinsen"
+ },
+ {
+  "slug": "usda-168109",
+  "food_group": "Q",
+  "name_de": "Salatdressing, Krautsalat (Coleslaw), fettreduziert"
+ },
+ {
+  "slug": "usda-168110",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, natriumarm, Fleisch und Fett, gekocht"
+ },
+ {
+  "slug": "usda-168111",
+  "food_group": "W",
+  "name_de": "Schwein, gepökelt, Schinken, ohne Knochen, natriumarm, extra mager (ca. 5 % Fett), im Ofen gebraten"
+ },
+ {
+  "slug": "usda-168112",
+  "food_group": "Q",
+  "name_de": "Salatdressing, Mayonnaise und mayonnaiseartig, kalorienarm"
+ },
+ {
+  "slug": "usda-168113",
+  "food_group": "S",
+  "name_de": "Eisspezialitäten, Fruchtsafteis, Orange"
+ },
+ {
+  "slug": "usda-168114",
+  "food_group": "M",
+  "name_de": "Hüttenkäse, fettarm, 1 % Milchfett, ohne Natriumzusatz"
+ },
+ {
+  "slug": "usda-168115",
+  "food_group": "Q",
+  "name_de": "Mayonnaise, natriumarm, kalorienarm oder Diät"
+ },
+ {
+  "slug": "usda-168116",
+  "food_group": "C",
+  "name_de": "Tortilla-Chips, ungesalzen, weißer Mais"
+ },
+ {
+  "slug": "usda-168117",
+  "food_group": "F",
+  "name_de": "Cranberrysaft, ungesüßt"
+ },
+ {
+  "slug": "usda-168118",
+  "food_group": "W",
+  "name_de": "Rind, Bologna, natriumreduziert"
+ },
+ {
+  "slug": "usda-168119",
+  "food_group": "G",
+  "name_de": "Rübenblätter, aus der Dose, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-168120",
+  "food_group": "V",
+  "name_de": "Pute, helles oder dunkles Fleisch, geräuchert, gekocht, mit Haut, ohne Knochen"
+ },
+ {
+  "slug": "usda-168121",
+  "food_group": "M",
+  "name_de": "Schmelzkäse, pasteurisiert, Cheddar oder American, natriumarm"
+ },
+ {
+  "slug": "usda-168122",
+  "food_group": "N",
+  "name_de": "Kaffee, Instant, mit Kaffeeweißer, kalorienreduziert"
+ },
+ {
+  "slug": "usda-168123",
+  "food_group": "N",
+  "name_de": "Cranberry-Apfel-Saftgetränk, kalorienarm, mit Vitamin-C-Zusatz"
+ },
+ {
+  "slug": "usda-168124",
+  "food_group": "M",
+  "name_de": "Käse, Swiss, natriumarm"
+ },
+ {
+  "slug": "usda-168126",
+  "food_group": "B",
+  "name_de": "Brötchen, Pumpernickel"
+ },
+ {
+  "slug": "usda-168127",
+  "food_group": "C",
+  "name_de": "Mais-Snack, extrudiert, Chips, ungesalzen"
+ },
+ {
+  "slug": "usda-168128",
+  "food_group": "X",
+  "name_de": "Baked Beans, aus der Dose, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-168129",
+  "food_group": "T",
+  "name_de": "Qualle, getrocknet, gesalzen"
+ },
+ {
+  "slug": "usda-168130",
+  "food_group": "S",
+  "name_de": "Eisspezialitäten, Eiscreme-Typ, mit Schokolade oder Karamell überzogen, mit Nüssen"
+ },
+ {
+  "slug": "usda-168131",
+  "food_group": "W",
+  "name_de": "Frankfurter Würstchen, natriumarm"
+ },
+ {
+  "slug": "usda-168132",
+  "food_group": "S",
+  "name_de": "Eisspezialitäten, Wassereis-Typ, am Stiel, mit kalorienarmem Süßstoff"
+ },
+ {
+  "slug": "usda-168136",
+  "food_group": "S",
+  "name_de": "Eiscreme, Schokolade, reichhaltig"
+ },
+ {
+  "slug": "usda-168137",
+  "food_group": "C",
+  "name_de": "Tortilla-Chips, leicht (gebacken mit weniger Öl)"
+ },
+ {
+  "slug": "usda-168138",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, POST, HONEY BUNCHES OF OATS, honiggeröstet"
+ },
+ {
+  "slug": "usda-168139",
+  "food_group": "C",
+  "name_de": "Popcorn, Mikrowelle, fett- und natriumarm"
+ },
+ {
+  "slug": "usda-168141",
+  "food_group": "M",
+  "name_de": "Käse, Swiss, fettarm"
+ },
+ {
+  "slug": "usda-168142",
+  "food_group": "S",
+  "name_de": "Süßungsmittel, Tafelsüße, Fructose, flüssig"
+ },
+ {
+  "slug": "usda-168143",
+  "food_group": "S",
+  "name_de": "Pudding, Schokoladengeschmack, kalorienarm, Instant, Trockenmischung"
+ },
+ {
+  "slug": "usda-168145",
+  "food_group": "S",
+  "name_de": "Gelee, zuckerreduziert, selbst eingekocht"
+ },
+ {
+  "slug": "usda-168146",
+  "food_group": "S",
+  "name_de": "Pudding, alle Geschmacksrichtungen außer Schokolade, kalorienarm, Instant, Trockenmischung"
+ },
+ {
+  "slug": "usda-168147",
+  "food_group": "C",
+  "name_de": "Weizengluten, vital"
+ },
+ {
+  "slug": "usda-168148",
+  "food_group": "T",
+  "name_de": "Froschschenkel, roh"
+ },
+ {
+  "slug": "usda-168149",
+  "food_group": "T",
+  "name_de": "Makrele, gesalzen"
+ },
+ {
+  "slug": "usda-168150",
+  "food_group": "F",
+  "name_de": "Java-Pflaume (Jambolan), roh"
+ },
+ {
+  "slug": "usda-168151",
+  "food_group": "F",
+  "name_de": "Jujube, roh"
+ },
+ {
+  "slug": "usda-168152",
+  "food_group": "F",
+  "name_de": "Jujube, chinesisch, frisch, getrocknet"
+ },
+ {
+  "slug": "usda-168153",
+  "food_group": "F",
+  "name_de": "Kiwi, grün, roh"
+ },
+ {
+  "slug": "usda-168154",
+  "food_group": "F",
+  "name_de": "Kumquats, roh"
+ },
+ {
+  "slug": "usda-168155",
+  "food_group": "F",
+  "name_de": "Limetten, roh"
+ },
+ {
+  "slug": "usda-168156",
+  "food_group": "F",
+  "name_de": "Limettensaft, roh"
+ },
+ {
+  "slug": "usda-168157",
+  "food_group": "F",
+  "name_de": "Limettensaft, aus der Dose oder Flasche, ungesüßt"
+ },
+ {
+  "slug": "usda-168158",
+  "food_group": "F",
+  "name_de": "Blaubeeren, getrocknet, gesüßt"
+ },
+ {
+  "slug": "usda-168159",
+  "food_group": "F",
+  "name_de": "Backpflaumen, aus der Dose, in dickem Sirup, Früchte und Flüssigkeit"
+ },
+ {
+  "slug": "usda-168160",
+  "food_group": "F",
+  "name_de": "Backpflaumen, entwässert (feuchtigkeitsarm), ungekocht"
+ },
+ {
+  "slug": "usda-168161",
+  "food_group": "F",
+  "name_de": "Backpflaumen, entwässert (feuchtigkeitsarm), gedünstet"
+ },
+ {
+  "slug": "usda-168162",
+  "food_group": "F",
+  "name_de": "Pflaumen, getrocknet (Backpflaumen), ungekocht"
+ },
+ {
+  "slug": "usda-168163",
+  "food_group": "F",
+  "name_de": "Quitten, roh"
+ },
+ {
+  "slug": "usda-168164",
+  "food_group": "F",
+  "name_de": "Rosinen, golden, kernlos"
+ },
+ {
+  "slug": "usda-168165",
+  "food_group": "F",
+  "name_de": "Rosinen, dunkel, kernlos (einschl. Produkte des USDA-Verteilungsprogramms)"
+ },
+ {
+  "slug": "usda-168166",
+  "food_group": "F",
+  "name_de": "Rosinen, mit Kernen"
+ },
+ {
+  "slug": "usda-168167",
+  "food_group": "F",
+  "name_de": "Rambutan, aus der Dose, in Sirup"
+ },
+ {
+  "slug": "usda-168168",
+  "food_group": "G",
+  "name_de": "Rhabarber, tiefgefroren, ungekocht"
+ },
+ {
+  "slug": "usda-168169",
+  "food_group": "G",
+  "name_de": "Rhabarber, tiefgefroren, gekocht, mit Zucker"
+ },
+ {
+  "slug": "usda-168170",
+  "food_group": "F",
+  "name_de": "Roselle, roh"
+ },
+ {
+  "slug": "usda-168171",
+  "food_group": "F",
+  "name_de": "Rosenäpfel, roh"
+ },
+ {
+  "slug": "usda-168172",
+  "food_group": "F",
+  "name_de": "Erdbeeren, aus der Dose, in dickem Sirup, Früchte und Flüssigkeit"
+ },
+ {
+  "slug": "usda-168173",
+  "food_group": "F",
+  "name_de": "Erdbeeren, tiefgefroren, ungesüßt (einschl. Produkte des USDA-Verteilungsprogramms)"
+ }
+]

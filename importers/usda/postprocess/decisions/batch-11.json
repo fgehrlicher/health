@@ -1,0 +1,1252 @@
+[
+ {
+  "slug": "usda-170418",
+  "food_group": "G",
+  "name_de": "Erbsen, mit essbarer Hülse, tiefgefroren, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170419",
+  "food_group": "G",
+  "name_de": "Erbsen, grün, roh"
+ },
+ {
+  "slug": "usda-170420",
+  "food_group": "G",
+  "name_de": "Erbsen, grün, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170421",
+  "food_group": "G",
+  "name_de": "Erbsen, grün, aus der Dose, normale Packung, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-170422",
+  "food_group": "H",
+  "name_de": "Erbsen, reife Samen, gekeimt, roh"
+ },
+ {
+  "slug": "usda-170423",
+  "food_group": "H",
+  "name_de": "Erbsen, reife Samen, gekeimt, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170424",
+  "food_group": "G",
+  "name_de": "Erbsen und Möhren, aus der Dose, normale Packung, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-170425",
+  "food_group": "G",
+  "name_de": "Erbsen und Möhren, tiefgefroren, unzubereitet"
+ },
+ {
+  "slug": "usda-170426",
+  "food_group": "G",
+  "name_de": "Chilischoten, scharf, grün, aus der Dose, Schoten ohne Kerne, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-170427",
+  "food_group": "G",
+  "name_de": "Paprika, süß, grün, roh"
+ },
+ {
+  "slug": "usda-170428",
+  "food_group": "G",
+  "name_de": "Paprika, süß, grün, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170429",
+  "food_group": "G",
+  "name_de": "Paprika, süß, grün, aus der Dose, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-170430",
+  "food_group": "H",
+  "name_de": "Straucherbsen, unreife Samen, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170431",
+  "food_group": "K",
+  "name_de": "Poi"
+ },
+ {
+  "slug": "usda-170432",
+  "food_group": "G",
+  "name_de": "Kermesbeeren-Triebe (Poke), roh"
+ },
+ {
+  "slug": "usda-170433",
+  "food_group": "G",
+  "name_de": "Kermesbeeren-Triebe (Poke), gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170434",
+  "food_group": "K",
+  "name_de": "Kartoffeln, weiß, mit Schale und Fruchtfleisch, gebacken"
+ },
+ {
+  "slug": "usda-170435",
+  "food_group": "K",
+  "name_de": "Kartoffeln, rot, mit Schale und Fruchtfleisch, gebacken"
+ },
+ {
+  "slug": "usda-170436",
+  "food_group": "K",
+  "name_de": "Pommes frites, gewellt oder glatt geschnitten, bei der Herstellung gesalzen, tiefgefroren, wie gekauft"
+ },
+ {
+  "slug": "usda-170437",
+  "food_group": "K",
+  "name_de": "Pommes frites, gewellt oder glatt geschnitten, bei der Herstellung gesalzen, tiefgefroren, im Ofen erhitzt"
+ },
+ {
+  "slug": "usda-170438",
+  "food_group": "K",
+  "name_de": "Kartoffeln, gekocht, mit Schale gegart, Fruchtfleisch, ohne Salz"
+ },
+ {
+  "slug": "usda-170439",
+  "food_group": "K",
+  "name_de": "Kartoffeln, gekocht, mit Schale gegart, Schale, ohne Salz"
+ },
+ {
+  "slug": "usda-170440",
+  "food_group": "K",
+  "name_de": "Kartoffeln, gekocht, ohne Schale gegart, Fruchtfleisch, ohne Salz"
+ },
+ {
+  "slug": "usda-170441",
+  "food_group": "K",
+  "name_de": "Kartoffeln, Mikrowelle, mit Schale gegart, Fruchtfleisch, ohne Salz"
+ },
+ {
+  "slug": "usda-170442",
+  "food_group": "X",
+  "name_de": "Kartoffelgratin, hausgemacht nach Rezept mit Butter"
+ },
+ {
+  "slug": "usda-170443",
+  "food_group": "K",
+  "name_de": "Kartoffeln, aus der Dose, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-170444",
+  "food_group": "K",
+  "name_de": "Kartoffeln, aus der Dose, abgetropft"
+ },
+ {
+  "slug": "usda-170445",
+  "food_group": "K",
+  "name_de": "Kartoffelpüree, dehydriert, Flocken ohne Milch, trocken"
+ },
+ {
+  "slug": "usda-170446",
+  "food_group": "K",
+  "name_de": "Kartoffelpüree, dehydriert, aus Flocken ohne Milch zubereitet, mit Vollmilch und Butter"
+ },
+ {
+  "slug": "usda-170447",
+  "food_group": "X",
+  "name_de": "Kartoffelgratin, Trockenmischung, unzubereitet"
+ },
+ {
+  "slug": "usda-170448",
+  "food_group": "X",
+  "name_de": "Kartoffelgratin, Trockenmischung, zubereitet mit Wasser, Vollmilch und Butter"
+ },
+ {
+  "slug": "usda-170449",
+  "food_group": "X",
+  "name_de": "Kartoffeln, überbacken (Scalloped), Trockenmischung, unzubereitet"
+ },
+ {
+  "slug": "usda-170450",
+  "food_group": "X",
+  "name_de": "Kartoffeln, überbacken (Scalloped), Trockenmischung, zubereitet mit Wasser, Vollmilch und Butter"
+ },
+ {
+  "slug": "usda-170451",
+  "food_group": "K",
+  "name_de": "Pommes frites, dünn (Shoestring), bei der Herstellung gesalzen, tiefgefroren, wie gekauft"
+ },
+ {
+  "slug": "usda-170452",
+  "food_group": "K",
+  "name_de": "Pommes frites, dünn (Shoestring), bei der Herstellung gesalzen, tiefgefroren, im Ofen erhitzt"
+ },
+ {
+  "slug": "usda-170453",
+  "food_group": "K",
+  "name_de": "Kartoffeln O'Brien, tiefgefroren, unzubereitet"
+ },
+ {
+  "slug": "usda-170454",
+  "food_group": "K",
+  "name_de": "Kartoffeln O'Brien, tiefgefroren, zubereitet"
+ },
+ {
+  "slug": "usda-170455",
+  "food_group": "K",
+  "name_de": "Taro, tahitianisch, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-170456",
+  "food_group": "G",
+  "name_de": "Tomaten, grün, roh"
+ },
+ {
+  "slug": "usda-170457",
+  "food_group": "G",
+  "name_de": "Tomaten, rot, reif, roh, Jahresdurchschnitt"
+ },
+ {
+  "slug": "usda-170458",
+  "food_group": "G",
+  "name_de": "Tomatensaft, aus der Dose, mit Salzzusatz"
+ },
+ {
+  "slug": "usda-170459",
+  "food_group": "G",
+  "name_de": "Tomatenmark, aus der Dose, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-170460",
+  "food_group": "G",
+  "name_de": "Tomatenpüree, aus der Dose, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-170461",
+  "food_group": "G",
+  "name_de": "Tomatenpulver"
+ },
+ {
+  "slug": "usda-170462",
+  "food_group": "R",
+  "name_de": "Tomatensauce, aus der Dose, mit Zwiebeln, grüner Paprika und Sellerie"
+ },
+ {
+  "slug": "usda-170463",
+  "food_group": "R",
+  "name_de": "Tomatensauce, aus der Dose, mit Tomatenstückchen"
+ },
+ {
+  "slug": "usda-170464",
+  "food_group": "G",
+  "name_de": "Baumfarn, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-170465",
+  "food_group": "G",
+  "name_de": "Speiserüben, roh"
+ },
+ {
+  "slug": "usda-170466",
+  "food_group": "G",
+  "name_de": "Rübenblätter, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170467",
+  "food_group": "G",
+  "name_de": "Rübenblätter, aus der Dose, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-170468",
+  "food_group": "G",
+  "name_de": "Rübenblätter, tiefgefroren, unzubereitet"
+ },
+ {
+  "slug": "usda-170469",
+  "food_group": "G",
+  "name_de": "Rübenblätter, tiefgefroren, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170470",
+  "food_group": "G",
+  "name_de": "Rübenblätter und Speiserüben, tiefgefroren, unzubereitet"
+ },
+ {
+  "slug": "usda-170471",
+  "food_group": "G",
+  "name_de": "Gemüse, gemischt, tiefgefroren, unzubereitet"
+ },
+ {
+  "slug": "usda-170472",
+  "food_group": "G",
+  "name_de": "Gemüse, gemischt, tiefgefroren, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170473",
+  "food_group": "G",
+  "name_de": "Gemüsesaftcocktail, natriumarm, aus der Dose"
+ },
+ {
+  "slug": "usda-170474",
+  "food_group": "G",
+  "name_de": "Malabarspinat (Basella), roh"
+ },
+ {
+  "slug": "usda-170475",
+  "food_group": "G",
+  "name_de": "Wachskürbis (chinesische Wachsmelone), gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170476",
+  "food_group": "G",
+  "name_de": "Flügelbohnen, unreife Samen, roh"
+ },
+ {
+  "slug": "usda-170477",
+  "food_group": "G",
+  "name_de": "Flügelbohnen, unreife Samen, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170478",
+  "food_group": "G",
+  "name_de": "Flügelbohnenblätter, roh"
+ },
+ {
+  "slug": "usda-170479",
+  "food_group": "G",
+  "name_de": "Rote Bete, Harvard, aus der Dose, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-170480",
+  "food_group": "G",
+  "name_de": "Rote Bete, eingelegt, aus der Dose, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-170481",
+  "food_group": "G",
+  "name_de": "Borretsch, roh"
+ },
+ {
+  "slug": "usda-170482",
+  "food_group": "G",
+  "name_de": "Borretsch, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170483",
+  "food_group": "G",
+  "name_de": "Drumstick-Schoten, roh"
+ },
+ {
+  "slug": "usda-170484",
+  "food_group": "G",
+  "name_de": "Drumstick-Schoten, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170485",
+  "food_group": "G",
+  "name_de": "Lauch (Zwiebel und unterer Blattteil), gefriergetrocknet"
+ },
+ {
+  "slug": "usda-170486",
+  "food_group": "R",
+  "name_de": "Petersilie, gefriergetrocknet"
+ },
+ {
+  "slug": "usda-170487",
+  "food_group": "G",
+  "name_de": "Sommerkürbis, alle Sorten, roh"
+ },
+ {
+  "slug": "usda-170488",
+  "food_group": "G",
+  "name_de": "Sommerkürbis, alle Sorten, gekocht, abgetropft, ohne Salz"
+ },
+ {
+  "slug": "usda-170489",
+  "food_group": "G",
+  "name_de": "Winterkürbis, alle Sorten, roh"
+ },
+ {
+  "slug": "usda-170490",
+  "food_group": "G",
+  "name_de": "Winterkürbis, alle Sorten, gekocht, gebacken, ohne Salz"
+ },
+ {
+  "slug": "usda-170491",
+  "food_group": "G",
+  "name_de": "Möhrensaft, aus der Dose"
+ },
+ {
+  "slug": "usda-170492",
+  "food_group": "X",
+  "name_de": "Maispudding, hausgemacht"
+ },
+ {
+  "slug": "usda-170493",
+  "food_group": "K",
+  "name_de": "Kartoffelpüree, hausgemacht, mit Vollmilch"
+ },
+ {
+  "slug": "usda-170494",
+  "food_group": "E",
+  "name_de": "Spinatsoufflé"
+ },
+ {
+  "slug": "usda-170495",
+  "food_group": "G",
+  "name_de": "Algen, Spirulina, getrocknet"
+ },
+ {
+  "slug": "usda-170496",
+  "food_group": "G",
+  "name_de": "Algen, Wakame, roh"
+ },
+ {
+  "slug": "usda-170497",
+  "food_group": "G",
+  "name_de": "Chilischoten, scharf, grün, roh"
+ },
+ {
+  "slug": "usda-170498",
+  "food_group": "K",
+  "name_de": "Kartoffeln O'Brien, hausgemacht"
+ },
+ {
+  "slug": "usda-170499",
+  "food_group": "G",
+  "name_de": "Schalotten, roh"
+ },
+ {
+  "slug": "usda-170500",
+  "food_group": "G",
+  "name_de": "Möhre, dehydriert"
+ },
+ {
+  "slug": "usda-170501",
+  "food_group": "G",
+  "name_de": "Tomaten, zerkleinert, aus der Dose"
+ },
+ {
+  "slug": "usda-170502",
+  "food_group": "G",
+  "name_de": "Tomaten, orange, roh"
+ },
+ {
+  "slug": "usda-170503",
+  "food_group": "G",
+  "name_de": "Senfblätter, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170504",
+  "food_group": "G",
+  "name_de": "Senfblätter, tiefgefroren, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170505",
+  "food_group": "G",
+  "name_de": "Senfspinat (Tendergreen), gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170506",
+  "food_group": "G",
+  "name_de": "Neuseeländer Spinat, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170507",
+  "food_group": "G",
+  "name_de": "Zwiebeln, tiefgefroren, ganz, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170508",
+  "food_group": "G",
+  "name_de": "Pastinaken, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170509",
+  "food_group": "G",
+  "name_de": "Erbsen, mit essbarer Hülse, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170510",
+  "food_group": "G",
+  "name_de": "Erbsen, mit essbarer Hülse, tiefgefroren, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170511",
+  "food_group": "H",
+  "name_de": "Erbsen, reife Samen, gekeimt, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170512",
+  "food_group": "G",
+  "name_de": "Erbsen und Möhren, aus der Dose, ohne Salzzusatz, mit Flüssigkeit"
+ },
+ {
+  "slug": "usda-170513",
+  "food_group": "G",
+  "name_de": "Erbsen und Möhren, tiefgefroren, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170514",
+  "food_group": "G",
+  "name_de": "Erbsen und Zwiebeln, tiefgefroren, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170515",
+  "food_group": "G",
+  "name_de": "Paprika, süß, rot, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170516",
+  "food_group": "G",
+  "name_de": "Paprika, süß, grün, tiefgefroren, gehackt, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170517",
+  "food_group": "H",
+  "name_de": "Straucherbsen, unreife Samen, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170518",
+  "food_group": "G",
+  "name_de": "Kermesbeeren-Triebe (Poke), gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170519",
+  "food_group": "K",
+  "name_de": "Kartoffeln, gekocht, mit Schale gegart, Schale, mit Salz"
+ },
+ {
+  "slug": "usda-170520",
+  "food_group": "K",
+  "name_de": "Kartoffeln, gekocht, ohne Schale gegart, Fruchtfleisch, mit Salz"
+ },
+ {
+  "slug": "usda-170521",
+  "food_group": "K",
+  "name_de": "Kartoffeln, Mikrowelle, mit Schale gegart, Fruchtfleisch und Schale, mit Salz"
+ },
+ {
+  "slug": "usda-170522",
+  "food_group": "K",
+  "name_de": "Kartoffeln, Mikrowelle, mit Schale gegart, Fruchtfleisch, mit Salz"
+ },
+ {
+  "slug": "usda-170523",
+  "food_group": "K",
+  "name_de": "Pommes frites, alle Sorten, bei der Herstellung nicht gesalzen, tiefgefroren, wie gekauft"
+ },
+ {
+  "slug": "usda-170524",
+  "food_group": "X",
+  "name_de": "Kartoffelgratin, hausgemacht nach Rezept mit Margarine"
+ },
+ {
+  "slug": "usda-170525",
+  "food_group": "X",
+  "name_de": "Kartoffeln, überbacken (Scalloped), hausgemacht mit Margarine"
+ },
+ {
+  "slug": "usda-170526",
+  "food_group": "G",
+  "name_de": "Kürbis, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170527",
+  "food_group": "G",
+  "name_de": "Kürbis, aus der Dose, mit Salz"
+ },
+ {
+  "slug": "usda-170528",
+  "food_group": "G",
+  "name_de": "Steckrüben, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170529",
+  "food_group": "G",
+  "name_de": "Schwarzwurzeln, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170530",
+  "food_group": "H",
+  "name_de": "Sojabohnen, grün, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170531",
+  "food_group": "G",
+  "name_de": "Spinat, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170532",
+  "food_group": "G",
+  "name_de": "Sommerkürbis, Crookneck und Straightneck, tiefgefroren, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170533",
+  "food_group": "G",
+  "name_de": "Sommerkürbis, Patisson, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170534",
+  "food_group": "G",
+  "name_de": "Sommerkürbis, Zucchini, mit Schale, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170535",
+  "food_group": "G",
+  "name_de": "Sommerkürbis, Zucchini, mit Schale, tiefgefroren, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170536",
+  "food_group": "G",
+  "name_de": "Winterkürbis, Butternut, tiefgefroren, gekocht, mit Salz"
+ },
+ {
+  "slug": "usda-170537",
+  "food_group": "G",
+  "name_de": "Winterkürbis, Hubbard, gebacken, mit Salz"
+ },
+ {
+  "slug": "usda-170538",
+  "food_group": "G",
+  "name_de": "Winterkürbis, Hubbard, gekocht, püriert, mit Salz"
+ },
+ {
+  "slug": "usda-170539",
+  "food_group": "G",
+  "name_de": "Winterkürbis, Spaghettikürbis, gekocht, abgetropft, oder gebacken, mit Salz"
+ },
+ {
+  "slug": "usda-170540",
+  "food_group": "X",
+  "name_de": "Succotash (Mais und Limabohnen), gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170541",
+  "food_group": "K",
+  "name_de": "Süßkartoffel, gekocht, ohne Schale, mit Salz"
+ },
+ {
+  "slug": "usda-170542",
+  "food_group": "K",
+  "name_de": "Süßkartoffel, tiefgefroren, gekocht, gebacken, mit Salz"
+ },
+ {
+  "slug": "usda-170543",
+  "food_group": "K",
+  "name_de": "Taro, gekocht, mit Salz"
+ },
+ {
+  "slug": "usda-170544",
+  "food_group": "G",
+  "name_de": "Taro, Blätter, gekocht, gedämpft, mit Salz"
+ },
+ {
+  "slug": "usda-170545",
+  "food_group": "G",
+  "name_de": "Tomatensaft, aus der Dose, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-170546",
+  "food_group": "G",
+  "name_de": "Tomatenpüree, aus der Dose, mit Salzzusatz"
+ },
+ {
+  "slug": "usda-170547",
+  "food_group": "G",
+  "name_de": "Speiserüben, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170548",
+  "food_group": "G",
+  "name_de": "Speiserüben, tiefgefroren, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170549",
+  "food_group": "G",
+  "name_de": "Wachskürbis (chinesische Wachsmelone), gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170550",
+  "food_group": "G",
+  "name_de": "Flügelbohnen, unreife Samen, gekocht, abgetropft, mit Salz"
+ },
+ {
+  "slug": "usda-170551",
+  "food_group": "K",
+  "name_de": "Yamswurzel, gekocht, abgetropft, oder gebacken, mit Salz"
+ },
+ {
+  "slug": "usda-170552",
+  "food_group": "H",
+  "name_de": "Brotnusssamen, roh"
+ },
+ {
+  "slug": "usda-170553",
+  "food_group": "H",
+  "name_de": "Brotnusssamen, getrocknet"
+ },
+ {
+  "slug": "usda-170554",
+  "food_group": "H",
+  "name_de": "Chiasamen, getrocknet"
+ },
+ {
+  "slug": "usda-170555",
+  "food_group": "H",
+  "name_de": "Baumwollsamenmehl, teilentfettet (drüsenlos)"
+ },
+ {
+  "slug": "usda-170556",
+  "food_group": "H",
+  "name_de": "Kürbis- und Squashkerne, getrocknet"
+ },
+ {
+  "slug": "usda-170557",
+  "food_group": "H",
+  "name_de": "Kürbis- und Squashkerne, geröstet, ohne Salz"
+ },
+ {
+  "slug": "usda-170558",
+  "food_group": "H",
+  "name_de": "Saflorsamenkerne, getrocknet"
+ },
+ {
+  "slug": "usda-170559",
+  "food_group": "H",
+  "name_de": "Saflorsamenschrot, teilentfettet"
+ },
+ {
+  "slug": "usda-170560",
+  "food_group": "H",
+  "name_de": "Sesammehl, fettarm"
+ },
+ {
+  "slug": "usda-170561",
+  "food_group": "H",
+  "name_de": "Sesamschrot, teilentfettet"
+ },
+ {
+  "slug": "usda-170562",
+  "food_group": "H",
+  "name_de": "Sonnenblumenkerne, getrocknet"
+ },
+ {
+  "slug": "usda-170563",
+  "food_group": "H",
+  "name_de": "Sonnenblumenkerne, trocken geröstet, ohne Salz"
+ },
+ {
+  "slug": "usda-170564",
+  "food_group": "H",
+  "name_de": "Sonnenblumenkerne, in Öl geröstet, ohne Salz"
+ },
+ {
+  "slug": "usda-170565",
+  "food_group": "H",
+  "name_de": "Eicheln, getrocknet"
+ },
+ {
+  "slug": "usda-170566",
+  "food_group": "H",
+  "name_de": "Eichelmehl, vollfett"
+ },
+ {
+  "slug": "usda-170567",
+  "food_group": "H",
+  "name_de": "Mandeln"
+ },
+ {
+  "slug": "usda-170568",
+  "food_group": "H",
+  "name_de": "Mandeln, blanchiert"
+ },
+ {
+  "slug": "usda-170569",
+  "food_group": "H",
+  "name_de": "Paranüsse, getrocknet, nicht blanchiert"
+ },
+ {
+  "slug": "usda-170570",
+  "food_group": "H",
+  "name_de": "Butternüsse, getrocknet"
+ },
+ {
+  "slug": "usda-170571",
+  "food_group": "H",
+  "name_de": "Cashewkerne, trocken geröstet, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-170572",
+  "food_group": "H",
+  "name_de": "Cashewkerne, in Öl geröstet, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-170573",
+  "food_group": "H",
+  "name_de": "Esskastanien, chinesisch, geröstet"
+ },
+ {
+  "slug": "usda-170574",
+  "food_group": "H",
+  "name_de": "Esskastanien, europäisch, roh, ungeschält"
+ },
+ {
+  "slug": "usda-170575",
+  "food_group": "H",
+  "name_de": "Esskastanien, europäisch, roh, geschält"
+ },
+ {
+  "slug": "usda-170576",
+  "food_group": "H",
+  "name_de": "Esskastanien, europäisch, getrocknet, ungeschält"
+ },
+ {
+  "slug": "usda-170577",
+  "food_group": "H",
+  "name_de": "Kokosnussfleisch, getrocknet (Kokosraspel), gesüßt, Flocken, abgepackt"
+ },
+ {
+  "slug": "usda-170578",
+  "food_group": "H",
+  "name_de": "Kokosnussfleisch, getrocknet (Kokosraspel), gesüßt, Flocken, aus der Dose"
+ },
+ {
+  "slug": "usda-170579",
+  "food_group": "H",
+  "name_de": "Kokosnussfleisch, getrocknet (Kokosraspel), geröstet"
+ },
+ {
+  "slug": "usda-170580",
+  "food_group": "H",
+  "name_de": "Kokoscreme, roh (aus geriebenem Fruchtfleisch ausgepresste Flüssigkeit)"
+ },
+ {
+  "slug": "usda-170581",
+  "food_group": "H",
+  "name_de": "Haselnüsse"
+ },
+ {
+  "slug": "usda-170582",
+  "food_group": "H",
+  "name_de": "Haselnüsse, blanchiert"
+ },
+ {
+  "slug": "usda-170583",
+  "food_group": "H",
+  "name_de": "Haselnüsse, trocken geröstet, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-170584",
+  "food_group": "H",
+  "name_de": "Ginkgonüsse, roh"
+ },
+ {
+  "slug": "usda-170585",
+  "food_group": "H",
+  "name_de": "Nussmischung, trocken geröstet, mit Erdnüssen, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-170586",
+  "food_group": "H",
+  "name_de": "Nussmischung, trocken geröstet, mit Erdnüssen, mit Salzzusatz, PLANTERS Pistazienmischung"
+ },
+ {
+  "slug": "usda-170587",
+  "food_group": "H",
+  "name_de": "Nussmischung, in Öl geröstet, mit Erdnüssen, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-170588",
+  "food_group": "H",
+  "name_de": "Nussmischung, in Öl geröstet, ohne Erdnüsse, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-170589",
+  "food_group": "H",
+  "name_de": "Pekannüsse, in Öl geröstet, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-170590",
+  "food_group": "H",
+  "name_de": "Pilinüsse, getrocknet"
+ },
+ {
+  "slug": "usda-170591",
+  "food_group": "H",
+  "name_de": "Pinienkerne, getrocknet"
+ },
+ {
+  "slug": "usda-170592",
+  "food_group": "H",
+  "name_de": "Pinienkerne, Pinyon, getrocknet"
+ },
+ {
+  "slug": "usda-170593",
+  "food_group": "H",
+  "name_de": "Walnüsse, glasiert"
+ },
+ {
+  "slug": "usda-170594",
+  "food_group": "H",
+  "name_de": "Walnüsse, trocken geröstet, mit Salzzusatz"
+ },
+ {
+  "slug": "usda-170595",
+  "food_group": "H",
+  "name_de": "Brotfruchtsamen, geröstet"
+ },
+ {
+  "slug": "usda-170596",
+  "food_group": "H",
+  "name_de": "Baumwollsamenkerne, geröstet (drüsenlos)"
+ },
+ {
+  "slug": "usda-170597",
+  "food_group": "U",
+  "name_de": "Rind, Innereien und Nebenprodukte, Milz, gegart, geschmort"
+ },
+ {
+  "slug": "usda-170598",
+  "food_group": "U",
+  "name_de": "Rind, Innereien und Nebenprodukte, Zunge, gegart, geköchelt"
+ },
+ {
+  "slug": "usda-170599",
+  "food_group": "U",
+  "name_de": "Rind, Innereien und Nebenprodukte, Pansen, roh"
+ },
+ {
+  "slug": "usda-170600",
+  "food_group": "U",
+  "name_de": "Rind, Sandwich-Steaks, geflockt, zerkleinert, geformt und dünn geschnitten, roh"
+ },
+ {
+  "slug": "usda-170601",
+  "food_group": "U",
+  "name_de": "Rind, Brust, flache Hälfte, nur Magerfleisch, auf 0\" Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-170602",
+  "food_group": "W",
+  "name_de": "Rind, gepökelt, Corned Beef, aus der Dose"
+ },
+ {
+  "slug": "usda-170603",
+  "food_group": "U",
+  "name_de": "Rind, Schulter, Unterblatt-Schmorbraten oder -Steak, ohne Knochen, nur Magerfleisch, auf 0\" Fett pariert, Select, roh"
+ },
+ {
+  "slug": "usda-170604",
+  "food_group": "W",
+  "name_de": "Rind, gepökelt, getrocknet"
+ },
+ {
+  "slug": "usda-170605",
+  "food_group": "U",
+  "name_de": "Rind, Schulter, Unterblatt-Mittelsteak, ohne Knochen, Denver Cut, nur Magerfleisch, auf 0\" Fett pariert, alle Güteklassen, gegrillt"
+ },
+ {
+  "slug": "usda-170606",
+  "food_group": "W",
+  "name_de": "Wurst, Rind, gepökelt, gegart, geräuchert"
+ },
+ {
+  "slug": "usda-170607",
+  "food_group": "W",
+  "name_de": "Rind, zerkleinert, gepökelt, geräuchert"
+ },
+ {
+  "slug": "usda-170608",
+  "food_group": "U",
+  "name_de": "Rind, Schulter, Unterblatt-Mittelsteak, ohne Knochen, Denver Cut, nur Magerfleisch, auf 0\" Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-170609",
+  "food_group": "U",
+  "name_de": "Rind, Mix pariert zugeschnittener Handelsstücke, Magerfleisch und Fett, auf 0\" Fett pariert, alle Güteklassen, gegart"
+ },
+ {
+  "slug": "usda-170610",
+  "food_group": "U",
+  "name_de": "Rind, Mix pariert zugeschnittener Handelsstücke, nur Magerfleisch, auf 0\" Fett pariert, Select, gegart"
+ },
+ {
+  "slug": "usda-170611",
+  "food_group": "U",
+  "name_de": "Rind, Brust, ganz, Magerfleisch und Fett, auf 0\" Fett pariert, alle Güteklassen, geschmort"
+ },
+ {
+  "slug": "usda-170612",
+  "food_group": "U",
+  "name_de": "Rind, Brust, ganz, nur Magerfleisch, auf 0\" Fett pariert, alle Güteklassen, geschmort"
+ },
+ {
+  "slug": "usda-170613",
+  "food_group": "U",
+  "name_de": "Rind, Brust, flache Hälfte, Magerfleisch und Fett, auf 0\" Fett pariert, alle Güteklassen, geschmort"
+ },
+ {
+  "slug": "usda-170614",
+  "food_group": "U",
+  "name_de": "Rind, Schulter, Armstück-Schmorbraten, Magerfleisch und Fett, auf 0\" Fett pariert, Select, geschmort"
+ },
+ {
+  "slug": "usda-170615",
+  "food_group": "U",
+  "name_de": "Rind, Schulter, Armstück-Schmorbraten, nur Magerfleisch, auf 0\" Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-170616",
+  "food_group": "U",
+  "name_de": "Rind, Schulter, Armstück-Schmorbraten, nur Magerfleisch, auf 0\" Fett pariert, Select, geschmort"
+ },
+ {
+  "slug": "usda-170617",
+  "food_group": "U",
+  "name_de": "Rind, Schulter, Schulterblattbraten, Magerfleisch und Fett, auf 0\" Fett pariert, alle Güteklassen, geschmort"
+ },
+ {
+  "slug": "usda-170618",
+  "food_group": "U",
+  "name_de": "Rind, Schulter, Unterblatt-Schmorbraten, ohne Knochen, Magerfleisch und Fett, auf 0\" Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-170619",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, großes Ende (Rippen 6-9), Magerfleisch und Fett, auf 0\" Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-170620",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, großes Ende (Rippen 6-9), Magerfleisch und Fett, auf 0\" Fett pariert, Select, geröstet"
+ },
+ {
+  "slug": "usda-170621",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, großes Ende (Rippen 6-9), nur Magerfleisch, auf 0\" Fett pariert, alle Güteklassen, geröstet"
+ },
+ {
+  "slug": "usda-170622",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, großes Ende (Rippen 6-9), nur Magerfleisch, auf 0\" Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-170623",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, kleines Ende (Rippen 10-12), nur Magerfleisch, auf 0\" Fett pariert, alle Güteklassen, gegrillt"
+ },
+ {
+  "slug": "usda-170624",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, kleines Ende (Rippen 10-12), nur Magerfleisch, auf 0\" Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-170625",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, kleines Ende (Rippen 10-12), nur Magerfleisch, auf 0\" Fett pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-170626",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Unterschale, Steak, Magerfleisch und Fett, auf 0\" Fett pariert, alle Güteklassen, geschmort"
+ },
+ {
+  "slug": "usda-170627",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Unterschale, Braten, Magerfleisch und Fett, auf 0\" Fett pariert, Select, geröstet"
+ },
+ {
+  "slug": "usda-170628",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Unterschale, Steak, nur Magerfleisch, auf 0\" Fett pariert, alle Güteklassen, geschmort"
+ },
+ {
+  "slug": "usda-170629",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Unterschale, Braten, nur Magerfleisch, auf 0\" Fett pariert, alle Güteklassen, geröstet"
+ },
+ {
+  "slug": "usda-170630",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Unterschale, Steak, nur Magerfleisch, auf 0\" Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-170631",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Unterschale, Braten, nur Magerfleisch, auf 0\" Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-170632",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Eye of Round, Braten, ohne Knochen, Magerfleisch und Fett, auf 0\" Fett pariert, Select, geröstet"
+ },
+ {
+  "slug": "usda-170633",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Eye of Round, Braten, ohne Knochen, nur Magerfleisch, auf 0\" Fett pariert, alle Güteklassen, geröstet"
+ },
+ {
+  "slug": "usda-170634",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Eye of Round, Braten, ohne Knochen, nur Magerfleisch, auf 0\" Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-170635",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Eye of Round, Braten, ohne Knochen, nur Magerfleisch, auf 0\" Fett pariert, Select, geröstet"
+ },
+ {
+  "slug": "usda-170636",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Tip Round, Braten, nur Magerfleisch, auf 0\" Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-170637",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Tip Round, Braten, nur Magerfleisch, auf 0\" Fett pariert, Select, geröstet"
+ },
+ {
+  "slug": "usda-170638",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Oberschale, Magerfleisch und Fett, auf 0\" Fett pariert, alle Güteklassen, geschmort"
+ },
+ {
+  "slug": "usda-170639",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Oberschale, Magerfleisch und Fett, auf 0\" Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-170640",
+  "food_group": "U",
+  "name_de": "Rind, Lende, Filetsteak, ohne Knochen, Magerfleisch und Fett, auf 0\" Fett pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-170641",
+  "food_group": "U",
+  "name_de": "Rind, Lende, Filetsteak, ohne Knochen, nur Magerfleisch, auf 0\" Fett pariert, alle Güteklassen, gegrillt"
+ },
+ {
+  "slug": "usda-170642",
+  "food_group": "U",
+  "name_de": "Rind, Lende, Filetsteak, ohne Knochen, nur Magerfleisch, auf 0\" Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-170643",
+  "food_group": "U",
+  "name_de": "Rind, Lende, Filetsteak, ohne Knochen, nur Magerfleisch, auf 0\" Fett pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-170644",
+  "food_group": "S",
+  "name_de": "Pudding, Vanille, Trockenmischung, normal, mit Ölzusatz"
+ },
+ {
+  "slug": "usda-170645",
+  "food_group": "S",
+  "name_de": "Konfitüre, Aprikose"
+ },
+ {
+  "slug": "usda-170646",
+  "food_group": "S",
+  "name_de": "Sirup, Tischmischung, für Pfannkuchen, mit 2 % Ahorn, mit Kaliumzusatz"
+ },
+ {
+  "slug": "usda-170647",
+  "food_group": "C",
+  "name_de": "Maiswaffeln, sehr natriumarm"
+ },
+ {
+  "slug": "usda-170648",
+  "food_group": "K",
+  "name_de": "Kartoffelchips, natur, mit teilweise gehärtetem Sojaöl, ungesalzen"
+ },
+ {
+  "slug": "usda-170649",
+  "food_group": "K",
+  "name_de": "Kartoffelchips, natur, ungesalzen"
+ },
+ {
+  "slug": "usda-170650",
+  "food_group": "D",
+  "name_de": "Salzbrezeln, hart, natur, aus nicht angereichertem Mehl, gesalzen"
+ },
+ {
+  "slug": "usda-170651",
+  "food_group": "D",
+  "name_de": "Salzbrezeln, hart, natur, aus nicht angereichertem Mehl, ungesalzen"
+ },
+ {
+  "slug": "usda-170652",
+  "food_group": "C",
+  "name_de": "Reiswaffeln, Naturreis, Sesam, ungesalzen"
+ },
+ {
+  "slug": "usda-170653",
+  "food_group": "D",
+  "name_de": "Sesamstangen, auf Weizenbasis, ungesalzen"
+ },
+ {
+  "slug": "usda-170654",
+  "food_group": "H",
+  "name_de": "Studentenfutter, normal, ungesalzen"
+ },
+ {
+  "slug": "usda-170655",
+  "food_group": "H",
+  "name_de": "Studentenfutter, normal, mit Schokoladenstückchen, ungesalzene Nüsse und Samen"
+ },
+ {
+  "slug": "usda-170656",
+  "food_group": "S",
+  "name_de": "Süßwaren, zuckerüberzogene Mandeln"
+ },
+ {
+  "slug": "usda-170657",
+  "food_group": "S",
+  "name_de": "Kakaopulver, trocken, fettreich oder Frühstückskakao, mit Alkali behandelt"
+ },
+ {
+  "slug": "usda-170658",
+  "food_group": "S",
+  "name_de": "Süßwaren, weiche Frucht-Nuss-Würfel"
+ },
+ {
+  "slug": "usda-170659",
+  "food_group": "S",
+  "name_de": "Speiseeis, Vanille, fettfrei"
+ },
+ {
+  "slug": "usda-170660",
+  "food_group": "S",
+  "name_de": "Speiseeis, BREYERS, All Natural Light French Vanilla"
+ },
+ {
+  "slug": "usda-170661",
+  "food_group": "S",
+  "name_de": "Speiseeis, BREYERS, 98% Fat Free Vanilla"
+ },
+ {
+  "slug": "usda-170662",
+  "food_group": "S",
+  "name_de": "Speiseeis, BREYERS, All Natural Light Vanilla Chocolate Strawberry"
+ },
+ {
+  "slug": "usda-170663",
+  "food_group": "S",
+  "name_de": "Speiseeis, BREYERS, All Natural Light Mint Chocolate Chip"
+ },
+ {
+  "slug": "usda-170664",
+  "food_group": "S",
+  "name_de": "Speiseeis, BREYERS, No Sugar Added, Vanilla Chocolate Strawberry"
+ },
+ {
+  "slug": "usda-170665",
+  "food_group": "S",
+  "name_de": "Eisspezialitäten, KLONDIKE, SLIM-A-BEAR Schokoladen-Cone"
+ },
+ {
+  "slug": "usda-170666",
+  "food_group": "S",
+  "name_de": "Eisspezialitäten, KLONDIKE, SLIM-A-BEAR Vanille-Sandwich"
+ },
+ {
+  "slug": "usda-170667",
+  "food_group": "S",
+  "name_de": "Eisspezialitäten, KLONDIKE, SLIM-A-BEAR, ohne Zuckerzusatz, Riegel ohne Stiel"
+ }
+]

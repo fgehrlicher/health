@@ -1,0 +1,1252 @@
+[
+ {
+  "slug": "usda-174443",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Herz, gekocht, eingeweicht und geköchelt"
+ },
+ {
+  "slug": "usda-174444",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Herz, roh"
+ },
+ {
+  "slug": "usda-174445",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Bries, gekocht, eingeweicht und geköchelt"
+ },
+ {
+  "slug": "usda-174446",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Bries, roh"
+ },
+ {
+  "slug": "usda-174447",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Keule (tunnelentbeint), ohne Hüftende, ohne Hachse, nur Magerfleisch, langsam geröstet"
+ },
+ {
+  "slug": "usda-174448",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Keule (tunnelentbeint), ohne Hüftende, ohne Hachse, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174449",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Schulterkoteletts (Square-Cut), nur Magerfleisch, geschmort"
+ },
+ {
+  "slug": "usda-174450",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Schulterkoteletts (Square-Cut), nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174451",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Lende, ohne Knochen, nur Magerfleisch, schnell geröstet"
+ },
+ {
+  "slug": "usda-174452",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Lende, ohne Knochen, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174453",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Hinterhachse, nur Magerfleisch, geschmort"
+ },
+ {
+  "slug": "usda-174454",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Hinterhachse, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174455",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Halskoteletts, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174456",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Karree (Rack, vollständig frenched), nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-174457",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Lendenkotelett, nur Magerfleisch, schnell gebraten"
+ },
+ {
+  "slug": "usda-174458",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Schulter (Square-Cut), nur Magerfleisch, langsam geröstet"
+ },
+ {
+  "slug": "usda-174459",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Keulenkotelett/-steak, mit Knochen, nur Magerfleisch, schnell gebraten"
+ },
+ {
+  "slug": "usda-174460",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Keulenkotelett/-steak, mit Knochen, Magerfleisch und Fett, schnell gebraten"
+ },
+ {
+  "slug": "usda-174461",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Lendenkotelett, Magerfleisch und Fett, schnell gebraten"
+ },
+ {
+  "slug": "usda-174462",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Lendensattel, Magerfleisch und Fett, schnell geröstet"
+ },
+ {
+  "slug": "usda-174463",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Lendensattel, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-174464",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Schulter (genetzt, gerollt), ohne Knochen, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-174465",
+  "food_group": "V",
+  "name_de": "Huhn, Kapaun, Innereien, roh"
+ },
+ {
+  "slug": "usda-174466",
+  "food_group": "V",
+  "name_de": "Huhn, Kapaun, Innereien, geköchelt"
+ },
+ {
+  "slug": "usda-174467",
+  "food_group": "V",
+  "name_de": "Ente, Hausente, Leber, roh"
+ },
+ {
+  "slug": "usda-174468",
+  "food_group": "V",
+  "name_de": "Ente, wild, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-174469",
+  "food_group": "V",
+  "name_de": "Ente, wild, Brust, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-174470",
+  "food_group": "V",
+  "name_de": "Gans, Hausgans, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-174471",
+  "food_group": "V",
+  "name_de": "Perlhuhn, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-174472",
+  "food_group": "V",
+  "name_de": "Fasan, roh, Fleisch mit Haut"
+ },
+ {
+  "slug": "usda-174473",
+  "food_group": "V",
+  "name_de": "Fasan, roh, nur Fleisch"
+ },
+ {
+  "slug": "usda-174474",
+  "food_group": "V",
+  "name_de": "Fasan, Brust, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-174475",
+  "food_group": "V",
+  "name_de": "Taube (Squab), Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-174476",
+  "food_group": "V",
+  "name_de": "Emu, Fan-Filet, roh"
+ },
+ {
+  "slug": "usda-174477",
+  "food_group": "V",
+  "name_de": "Emu, Fan-Filet, gegrillt"
+ },
+ {
+  "slug": "usda-174478",
+  "food_group": "V",
+  "name_de": "Emu, Flat-Filet, roh"
+ },
+ {
+  "slug": "usda-174479",
+  "food_group": "V",
+  "name_de": "Emu, Full Rump, roh"
+ },
+ {
+  "slug": "usda-174480",
+  "food_group": "V",
+  "name_de": "Emu, Lende (Top Loin), gegrillt"
+ },
+ {
+  "slug": "usda-174481",
+  "food_group": "V",
+  "name_de": "Strauß, Hackfleisch, roh"
+ },
+ {
+  "slug": "usda-174482",
+  "food_group": "V",
+  "name_de": "Strauß, Hackfleisch, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-174483",
+  "food_group": "V",
+  "name_de": "Strauß, Fan, roh"
+ },
+ {
+  "slug": "usda-174484",
+  "food_group": "V",
+  "name_de": "Strauß, Außenkeule, roh"
+ },
+ {
+  "slug": "usda-174485",
+  "food_group": "V",
+  "name_de": "Strauß, Außenstreifen, roh"
+ },
+ {
+  "slug": "usda-174486",
+  "food_group": "V",
+  "name_de": "Strauß, Außenstreifen, gekocht"
+ },
+ {
+  "slug": "usda-174487",
+  "food_group": "V",
+  "name_de": "Strauß, Oyster, roh"
+ },
+ {
+  "slug": "usda-174488",
+  "food_group": "V",
+  "name_de": "Strauß, Tip (pariert), gekocht"
+ },
+ {
+  "slug": "usda-174489",
+  "food_group": "V",
+  "name_de": "Strauß, Lende (Top Loin), roh"
+ },
+ {
+  "slug": "usda-174490",
+  "food_group": "V",
+  "name_de": "Strauß, Lende (Top Loin), gekocht"
+ },
+ {
+  "slug": "usda-174491",
+  "food_group": "V",
+  "name_de": "Huhn, Leber, alle Klassen, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-174492",
+  "food_group": "V",
+  "name_de": "Pute, Hackfleisch, 93 % mager, 7 % Fett, Patties, gegrillt"
+ },
+ {
+  "slug": "usda-174493",
+  "food_group": "V",
+  "name_de": "Pute, Hackfleisch, 85 % mager, 15 % Fett, roh"
+ },
+ {
+  "slug": "usda-174494",
+  "food_group": "V",
+  "name_de": "Pute, Hackfleisch, 85 % mager, 15 % Fett, Krümel, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-174495",
+  "food_group": "V",
+  "name_de": "Pute, Hackfleisch, 85 % mager, 15 % Fett, Patties, gegrillt"
+ },
+ {
+  "slug": "usda-174496",
+  "food_group": "V",
+  "name_de": "Huhn, Haut (Unterschenkel und Oberschenkel), geröstet"
+ },
+ {
+  "slug": "usda-174497",
+  "food_group": "V",
+  "name_de": "Huhn, Broiler oder Fryer, dunkles Fleisch, Unterschenkel, Fleisch mit Haut, geschmort"
+ },
+ {
+  "slug": "usda-174498",
+  "food_group": "V",
+  "name_de": "Huhn, Broiler oder Fryer, dunkles Fleisch, Oberschenkel, Fleisch mit Haut, geschmort"
+ },
+ {
+  "slug": "usda-174499",
+  "food_group": "V",
+  "name_de": "Huhn, dunkles Fleisch, Unterschenkel, nur Fleisch, mit zugesetzter Lösung, roh"
+ },
+ {
+  "slug": "usda-174500",
+  "food_group": "V",
+  "name_de": "Huhn, dunkles Fleisch, Oberschenkel, nur Fleisch, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-174501",
+  "food_group": "V",
+  "name_de": "Huhn, Haut (Unterschenkel und Oberschenkel), mit zugesetzter Lösung, geschmort"
+ },
+ {
+  "slug": "usda-174502",
+  "food_group": "V",
+  "name_de": "Huhn, Haut (Unterschenkel und Oberschenkel), mit zugesetzter Lösung, roh"
+ },
+ {
+  "slug": "usda-174503",
+  "food_group": "V",
+  "name_de": "Huhn, Haut (Unterschenkel und Oberschenkel), mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-174504",
+  "food_group": "V",
+  "name_de": "Huhn, dunkles Fleisch, Unterschenkel, Fleisch mit Haut, mit zugesetzter Lösung, geschmort"
+ },
+ {
+  "slug": "usda-174505",
+  "food_group": "V",
+  "name_de": "Huhn, dunkles Fleisch, Oberschenkel, Fleisch mit Haut, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-174506",
+  "food_group": "V",
+  "name_de": "Huhn, Broiler, Rotisserie, BBQ, nur Rückenfleisch"
+ },
+ {
+  "slug": "usda-174507",
+  "food_group": "V",
+  "name_de": "Pute, dunkles Fleisch vom ganzen Tier, nur Fleisch, mit zugesetzter Lösung, roh"
+ },
+ {
+  "slug": "usda-174508",
+  "food_group": "V",
+  "name_de": "Pute, dunkles Fleisch, nur Fleisch, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-174509",
+  "food_group": "V",
+  "name_de": "Pute, dunkles Fleisch vom ganzen Tier, Fleisch mit Haut, mit zugesetzter Lösung, roh"
+ },
+ {
+  "slug": "usda-174510",
+  "food_group": "V",
+  "name_de": "Pute, dunkles Fleisch vom ganzen Tier, Fleisch mit Haut, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-174511",
+  "food_group": "V",
+  "name_de": "Pute vom ganzen Tier, helles Fleisch, Fleisch mit Haut, mit zugesetzter Lösung, roh"
+ },
+ {
+  "slug": "usda-174512",
+  "food_group": "V",
+  "name_de": "Pute vom ganzen Tier, helles Fleisch, Fleisch mit Haut, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-174513",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke (Handel), Brust, nur Fleisch, mit zugesetzter Lösung, roh"
+ },
+ {
+  "slug": "usda-174514",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke (Handel), Brust, nur Fleisch, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-174515",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke (Handel), Brust, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-174516",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke (Handel), Brust, nur Fleisch, geröstet"
+ },
+ {
+  "slug": "usda-174517",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke (Handel), Flügel, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-174518",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke (Handel), Oberschenkel, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-174519",
+  "food_group": "V",
+  "name_de": "Pute, Brust, vom ganzen Tier, nur Fleisch, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-174520",
+  "food_group": "V",
+  "name_de": "Pute, Rücken, vom ganzen Tier, nur Fleisch, mit zugesetzter Lösung, roh"
+ },
+ {
+  "slug": "usda-174521",
+  "food_group": "V",
+  "name_de": "Pute, Rücken, vom ganzen Tier, nur Fleisch, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-174522",
+  "food_group": "Y",
+  "name_de": "Suppe, Huhn-Pilz, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-174523",
+  "food_group": "R",
+  "name_de": "Soße, Barbecue"
+ },
+ {
+  "slug": "usda-174524",
+  "food_group": "R",
+  "name_de": "Soße, Salsa, verzehrfertig"
+ },
+ {
+  "slug": "usda-174525",
+  "food_group": "R",
+  "name_de": "Soße, selbstgemacht, weiß, mittel"
+ },
+ {
+  "slug": "usda-174526",
+  "food_group": "R",
+  "name_de": "Soße, selbstgemacht, weiß, dick"
+ },
+ {
+  "slug": "usda-174527",
+  "food_group": "R",
+  "name_de": "Soße, verzehrfertig, Pfeffer oder scharf"
+ },
+ {
+  "slug": "usda-174528",
+  "food_group": "R",
+  "name_de": "Soße, verzehrfertig, Pfeffer, TABASCO"
+ },
+ {
+  "slug": "usda-174529",
+  "food_group": "R",
+  "name_de": "Soße, Auster, verzehrfertig"
+ },
+ {
+  "slug": "usda-174530",
+  "food_group": "X",
+  "name_de": "Suppe, Minestrone, aus der Dose, natriumreduziert, verzehrfertig"
+ },
+ {
+  "slug": "usda-174531",
+  "food_group": "R",
+  "name_de": "Soße, Fisch, verzehrfertig"
+ },
+ {
+  "slug": "usda-174532",
+  "food_group": "Y",
+  "name_de": "Suppe, Haifischflosse, im Restaurant zubereitet"
+ },
+ {
+  "slug": "usda-174533",
+  "food_group": "X",
+  "name_de": "Suppe, Bohnen und Schinken, aus der Dose, natriumreduziert, mit Wasser zubereitet oder verzehrfertig"
+ },
+ {
+  "slug": "usda-174534",
+  "food_group": "X",
+  "name_de": "Erbsensuppe (Schälerbsen), aus der Dose, natriumreduziert, mit Wasser zubereitet oder verzehrfertig"
+ },
+ {
+  "slug": "usda-174535",
+  "food_group": "X",
+  "name_de": "Erbsensuppe (Schälerbsen) mit Schinken, aus der Dose, natriumreduziert, mit Wasser zubereitet oder verzehrfertig"
+ },
+ {
+  "slug": "usda-174536",
+  "food_group": "Y",
+  "name_de": "Suppe, Hühnerbrühe, verzehrfertig"
+ },
+ {
+  "slug": "usda-174537",
+  "food_group": "Y",
+  "name_de": "Suppe, Creme von Huhn, aus der Dose, mit gleicher Menge Milch zubereitet"
+ },
+ {
+  "slug": "usda-174538",
+  "food_group": "X",
+  "name_de": "Suppe, Gemüse, aus der Dose, natriumarm, kondensiert"
+ },
+ {
+  "slug": "usda-174539",
+  "food_group": "Y",
+  "name_de": "Suppe, Clam Chowder, New England, aus der Dose, mit gleicher Menge fettarmer Milch (2 %) zubereitet"
+ },
+ {
+  "slug": "usda-174540",
+  "food_group": "X",
+  "name_de": "Suppe, Creme von Pilzen, aus der Dose, mit gleicher Menge fettarmer Milch (2 %) zubereitet"
+ },
+ {
+  "slug": "usda-174541",
+  "food_group": "X",
+  "name_de": "Suppe, Creme von Zwiebeln, aus der Dose, mit gleicher Menge Milch zubereitet"
+ },
+ {
+  "slug": "usda-174542",
+  "food_group": "R",
+  "name_de": "Soße, weiß, dünn, nach Rezept zubereitet, mit Butter"
+ },
+ {
+  "slug": "usda-174543",
+  "food_group": "R",
+  "name_de": "Soße, süß-sauer, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-174544",
+  "food_group": "R",
+  "name_de": "Soße, Barbecue, KRAFT, Original"
+ },
+ {
+  "slug": "usda-174545",
+  "food_group": "Y",
+  "name_de": "Suppe, HEALTHY CHOICE Hühnernudelsuppe, aus der Dose"
+ },
+ {
+  "slug": "usda-174546",
+  "food_group": "X",
+  "name_de": "Suppe, Tomate, aus der Dose, mit gleicher Menge fettarmer Milch (2 %) zubereitet"
+ },
+ {
+  "slug": "usda-174547",
+  "food_group": "X",
+  "name_de": "CAMPBELL'S, Tomatensuppe, kondensiert"
+ },
+ {
+  "slug": "usda-174548",
+  "food_group": "Y",
+  "name_de": "CAMPBELL'S CHUNKY, Klassische Hühnernudelsuppe"
+ },
+ {
+  "slug": "usda-174549",
+  "food_group": "X",
+  "name_de": "Suppe, Creme von Spargel, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174550",
+  "food_group": "Y",
+  "name_de": "Suppe, Käse, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174551",
+  "food_group": "Y",
+  "name_de": "Suppe, Hühnerbrühe, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174552",
+  "food_group": "Y",
+  "name_de": "CAMPBELL'S CHUNKY, Herzhafte Rindfleisch-Gerstensuppe"
+ },
+ {
+  "slug": "usda-174553",
+  "food_group": "Y",
+  "name_de": "Suppe, Creme von Huhn, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174554",
+  "food_group": "Y",
+  "name_de": "Suppe, Clam Chowder, Manhattan, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174555",
+  "food_group": "Y",
+  "name_de": "Suppe, Clam Chowder, New England, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174556",
+  "food_group": "Y",
+  "name_de": "CAMPBELL'S CHUNKY, New England Clam Chowder"
+ },
+ {
+  "slug": "usda-174557",
+  "food_group": "Y",
+  "name_de": "Suppe, Rinderbrühe, Bouillon, Consommé, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174558",
+  "food_group": "X",
+  "name_de": "Suppe, Pilze mit Rinderbrühe, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174559",
+  "food_group": "X",
+  "name_de": "Suppe, Creme von Zwiebeln, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174560",
+  "food_group": "Y",
+  "name_de": "Suppe, Austerneintopf, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174561",
+  "food_group": "X",
+  "name_de": "Suppe, Erbsen, grün, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174562",
+  "food_group": "Y",
+  "name_de": "Suppe, Puten-Nudel, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174563",
+  "food_group": "Y",
+  "name_de": "Suppe, Puten-Gemüse, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174564",
+  "food_group": "X",
+  "name_de": "Suppe, Gemüse, vegetarisch, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174565",
+  "food_group": "Y",
+  "name_de": "Suppe, Gemüse mit Rindfleisch, aus der Dose, mit gleicher Menge Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174566",
+  "food_group": "R",
+  "name_de": "Suppe, Hühnerbrühe-Würfel, trocken, mit Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174567",
+  "food_group": "Y",
+  "name_de": "Suppe, Creme von Huhn, trocken, Mix, mit Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174568",
+  "food_group": "X",
+  "name_de": "Suppe, Zwiebel, trocken, Mix, mit Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174569",
+  "food_group": "X",
+  "name_de": "Suppe, Tomate, trocken, Mix, mit Wasser zubereitet"
+ },
+ {
+  "slug": "usda-174570",
+  "food_group": "W",
+  "name_de": "Roastbeef, Feinkost-Art, abgepackt, in Scheiben"
+ },
+ {
+  "slug": "usda-174571",
+  "food_group": "W",
+  "name_de": "Frühstücksfleisch, Schwein, aus der Dose"
+ },
+ {
+  "slug": "usda-174572",
+  "food_group": "W",
+  "name_de": "Putenbrust, salzarm, abgepackt oder Feinkost, Aufschnitt"
+ },
+ {
+  "slug": "usda-174573",
+  "food_group": "W",
+  "name_de": "Mortadella, Rind, Schwein"
+ },
+ {
+  "slug": "usda-174574",
+  "food_group": "W",
+  "name_de": "Pfeffer-Loaf, Schwein, Rind"
+ },
+ {
+  "slug": "usda-174575",
+  "food_group": "W",
+  "name_de": "Pepperoni, Rind und Schwein, in Scheiben"
+ },
+ {
+  "slug": "usda-174576",
+  "food_group": "W",
+  "name_de": "Gewürzgurken-Pimiento-Loaf, Schwein"
+ },
+ {
+  "slug": "usda-174577",
+  "food_group": "W",
+  "name_de": "Polnische Wurst, Schwein"
+ },
+ {
+  "slug": "usda-174578",
+  "food_group": "W",
+  "name_de": "Schweinewurst, Link/Patty, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-174579",
+  "food_group": "W",
+  "name_de": "Wurst, Schwein und Rind, frisch, gekocht"
+ },
+ {
+  "slug": "usda-174580",
+  "food_group": "W",
+  "name_de": "Wurst, Pute, fettreduziert, Brown-and-Serve, gekocht"
+ },
+ {
+  "slug": "usda-174581",
+  "food_group": "W",
+  "name_de": "Geflügelsalat, Sandwich-Aufstrich"
+ },
+ {
+  "slug": "usda-174582",
+  "food_group": "W",
+  "name_de": "Salami, trocken oder hart, Schwein, Rind"
+ },
+ {
+  "slug": "usda-174583",
+  "food_group": "W",
+  "name_de": "Sandwich-Aufstrich, Schwein, Rind"
+ },
+ {
+  "slug": "usda-174584",
+  "food_group": "W",
+  "name_de": "Wurst, geräucherte Würstchen (Links), Schwein"
+ },
+ {
+  "slug": "usda-174585",
+  "food_group": "W",
+  "name_de": "Wurst, geräucherte Würstchen (Links), Schwein und Rind"
+ },
+ {
+  "slug": "usda-174586",
+  "food_group": "W",
+  "name_de": "Wurst, italienisch, Schwein, mild, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-174587",
+  "food_group": "W",
+  "name_de": "Aufschnittwurst, Schwein und Rind"
+ },
+ {
+  "slug": "usda-174588",
+  "food_group": "W",
+  "name_de": "Wurst, New-England-Art, Schwein, Rind"
+ },
+ {
+  "slug": "usda-174589",
+  "food_group": "W",
+  "name_de": "Oscar Mayer, Bologna (Rind)"
+ },
+ {
+  "slug": "usda-174590",
+  "food_group": "W",
+  "name_de": "Oscar Mayer, Smokies Sausage Little Cheese (Schwein, Pute)"
+ },
+ {
+  "slug": "usda-174591",
+  "food_group": "W",
+  "name_de": "Oscar Mayer, Wieners (Rindfrankfurter)"
+ },
+ {
+  "slug": "usda-174592",
+  "food_group": "W",
+  "name_de": "Bacon, Pute, unzubereitet"
+ },
+ {
+  "slug": "usda-174593",
+  "food_group": "W",
+  "name_de": "Hormel Pillow Pak, Pepperoni aus Pute, in Scheiben"
+ },
+ {
+  "slug": "usda-174594",
+  "food_group": "W",
+  "name_de": "Frühstücksfleisch, Schwein und Huhn, gehackt, aus der Dose, enthält Spam Lite"
+ },
+ {
+  "slug": "usda-174595",
+  "food_group": "W",
+  "name_de": "Bratwurst, Kalb, gekocht"
+ },
+ {
+  "slug": "usda-174596",
+  "food_group": "W",
+  "name_de": "Leberwurst, Aufstrich"
+ },
+ {
+  "slug": "usda-174597",
+  "food_group": "W",
+  "name_de": "Roastbeef, Aufstrich"
+ },
+ {
+  "slug": "usda-174598",
+  "food_group": "W",
+  "name_de": "Salami, Schwein, Rind, weniger Natrium"
+ },
+ {
+  "slug": "usda-174599",
+  "food_group": "W",
+  "name_de": "Wurst, Sommerwurst, Schwein und Rind, Sticks, mit Cheddarkäse"
+ },
+ {
+  "slug": "usda-174600",
+  "food_group": "W",
+  "name_de": "Wurst, Pute, Frühstücks-Würstchen, mild, roh"
+ },
+ {
+  "slug": "usda-174601",
+  "food_group": "W",
+  "name_de": "Swisswurst, Schwein und Rind, mit Schweizer Käse, geräuchert"
+ },
+ {
+  "slug": "usda-174602",
+  "food_group": "W",
+  "name_de": "Bacon- und Rindfleisch-Sticks"
+ },
+ {
+  "slug": "usda-174603",
+  "food_group": "W",
+  "name_de": "Salami, italienisch, Schwein"
+ },
+ {
+  "slug": "usda-174604",
+  "food_group": "W",
+  "name_de": "Wurst, italienisch, Pute, geräuchert"
+ },
+ {
+  "slug": "usda-174605",
+  "food_group": "W",
+  "name_de": "Wurst, Huhn, Rind, Schwein, ohne Pelle, geräuchert"
+ },
+ {
+  "slug": "usda-174606",
+  "food_group": "W",
+  "name_de": "Wurst, Pute, scharf, geräuchert"
+ },
+ {
+  "slug": "usda-174607",
+  "food_group": "W",
+  "name_de": "Kielbasa, polnisch, Pute und Rind, geräuchert"
+ },
+ {
+  "slug": "usda-174608",
+  "food_group": "W",
+  "name_de": "Hühnerbrust, Rolle, im Ofen geröstet"
+ },
+ {
+  "slug": "usda-174609",
+  "food_group": "W",
+  "name_de": "Bologna, Schwein und Pute, light"
+ },
+ {
+  "slug": "usda-174610",
+  "food_group": "W",
+  "name_de": "Bologna, Schwein, Pute und Rind"
+ },
+ {
+  "slug": "usda-174611",
+  "food_group": "W",
+  "name_de": "Schinken, Honig, geräuchert, gekocht"
+ },
+ {
+  "slug": "usda-174612",
+  "food_group": "W",
+  "name_de": "Pute, Brust, geräuchert, Zitronenpfeffer-Geschmack, 97 % fettfrei"
+ },
+ {
+  "slug": "usda-174613",
+  "food_group": "W",
+  "name_de": "Pute, weiß, Rotisserie, Deli-Schnitt"
+ },
+ {
+  "slug": "usda-174614",
+  "food_group": "W",
+  "name_de": "Frankfurter, Rind, erhitzt"
+ },
+ {
+  "slug": "usda-174615",
+  "food_group": "W",
+  "name_de": "Frankfurter, Fleisch, erhitzt"
+ },
+ {
+  "slug": "usda-174616",
+  "food_group": "W",
+  "name_de": "Wurst, Frühstückswurst, Rind, vorgegart, unzubereitet"
+ },
+ {
+  "slug": "usda-174617",
+  "food_group": "W",
+  "name_de": "Wurst, Pute, frisch, roh"
+ },
+ {
+  "slug": "usda-174618",
+  "food_group": "W",
+  "name_de": "Wurst, Rind, frisch, gekocht"
+ },
+ {
+  "slug": "usda-174619",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, MALT-O-MEAL, COCO-ROOS"
+ },
+ {
+  "slug": "usda-174620",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, QUAKER OAT CINNAMON LIFE"
+ },
+ {
+  "slug": "usda-174621",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, HONEY GRAHAM OH!S"
+ },
+ {
+  "slug": "usda-174622",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, Oatmeal Squares"
+ },
+ {
+  "slug": "usda-174623",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, Oatmeal Squares, Zimt"
+ },
+ {
+  "slug": "usda-174624",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Instant Oatmeal, Sorte Frucht und Sahne, trocken"
+ },
+ {
+  "slug": "usda-174625",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Instant Oatmeal, Rosinen, Datteln und Walnüsse, trocken"
+ },
+ {
+  "slug": "usda-174626",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Haferkleie, QUAKER/MOTHER'S Oat Bran, trocken"
+ },
+ {
+  "slug": "usda-174627",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Haferkleie, QUAKER/MOTHER'S Oat Bran, mit Wasser zubereitet, ohne Salz"
+ },
+ {
+  "slug": "usda-174628",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, Post, Waffle Crisp"
+ },
+ {
+  "slug": "usda-174629",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Hominy Grits (Maisgrütze), weiß, schnellkochend, trocken"
+ },
+ {
+  "slug": "usda-174630",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Hominy Grits (Maisgrütze), weiß, normal, trocken"
+ },
+ {
+  "slug": "usda-174631",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, MALT-O-MEAL, COLOSSAL CRUNCH"
+ },
+ {
+  "slug": "usda-174632",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, MOTHER'S Cinnamon Oat Crunch"
+ },
+ {
+  "slug": "usda-174633",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, MOTHER'S GRAHAM BUMPERS"
+ },
+ {
+  "slug": "usda-174634",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, MOTHER'S COCOA BUMPERS"
+ },
+ {
+  "slug": "usda-174635",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, SUN COUNTRY, KRETSCHMER Toasted Wheat Bran (geröstete Weizenkleie)"
+ },
+ {
+  "slug": "usda-174636",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Instant Oatmeal, Zimt-Gewürz, trocken"
+ },
+ {
+  "slug": "usda-174637",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Instant Oatmeal, DINOSAUR EGGS, brauner Zucker, trocken"
+ },
+ {
+  "slug": "usda-174638",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Instant Oatmeal, Bananenbrot, trocken"
+ },
+ {
+  "slug": "usda-174639",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, UNCLE SAM CEREAL"
+ },
+ {
+  "slug": "usda-174640",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Quick Oats mit Eisen, trocken"
+ },
+ {
+  "slug": "usda-174641",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Whole Wheat Natural Cereal (Vollkornweizen), trocken"
+ },
+ {
+  "slug": "usda-174642",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, MALT-O-MEAL, Honey BUZZERS"
+ },
+ {
+  "slug": "usda-174643",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, MALT-O-MEAL, GOLDEN PUFFS"
+ },
+ {
+  "slug": "usda-174644",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, MOM'S BEST, Honey Nut TOASTY O'S"
+ },
+ {
+  "slug": "usda-174645",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, MALT-O-MEAL, Apple ZINGS"
+ },
+ {
+  "slug": "usda-174646",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, MALT-O-MEAL, CINNAMON TOASTERS"
+ },
+ {
+  "slug": "usda-174647",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, MALT-O-MEAL, Cocoa DYNO-BITES"
+ },
+ {
+  "slug": "usda-174648",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, RALSTON Corn Flakes"
+ },
+ {
+  "slug": "usda-174649",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, RALSTON Crispy Hexagons"
+ },
+ {
+  "slug": "usda-174650",
+  "food_group": "C",
+  "name_de": "Milch- und Getreideriegel"
+ },
+ {
+  "slug": "usda-174651",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, MALT-O-MEAL, Original, natur, mit Wasser zubereitet, ohne Salz"
+ },
+ {
+  "slug": "usda-174652",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, Christmas Crunch"
+ },
+ {
+  "slug": "usda-174653",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, POST SELECTS Maple Pecan Crunch"
+ },
+ {
+  "slug": "usda-174654",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, NATURE'S PATH, Bio FLAX PLUS, Kürbis-Granola"
+ },
+ {
+  "slug": "usda-174655",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, CREAM OF WHEAT, 2 1/2 Minuten Kochzeit, trocken"
+ },
+ {
+  "slug": "usda-174656",
+  "food_group": "C",
+  "name_de": "Incaparina, Trockenmischung (Mais- und Sojamehl), unzubereitet"
+ },
+ {
+  "slug": "usda-174657",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, CAP'N CRUNCH'S Halloween Crunch"
+ },
+ {
+  "slug": "usda-174658",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, Natur-Granola Apfel, Cranberry, Mandel"
+ },
+ {
+  "slug": "usda-174659",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, QUAKER, Maple Brown Sugar LIFE Cereal"
+ },
+ {
+  "slug": "usda-174660",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Instant Oatmeal Bio, normal"
+ },
+ {
+  "slug": "usda-174661",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Instant Oatmeal, Frucht und Sahne, verschiedene Sorten, zuckerreduziert"
+ },
+ {
+  "slug": "usda-174662",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, QUAKER, Instant Oatmeal, Apfel und Zimt, zuckerreduziert"
+ },
+ {
+  "slug": "usda-174663",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, POST, HONEY BUNCHES OF OATS, Pekannuss-Bunches"
+ },
+ {
+  "slug": "usda-174664",
+  "food_group": "C",
+  "name_de": "Frühstückscerealien, verzehrfertig, MALT-O-MEAL, CHOCOLATE MARSHMALLOW MATEYS"
+ },
+ {
+  "slug": "usda-174665",
+  "food_group": "F",
+  "name_de": "Feigen, getrocknet, ungekocht"
+ },
+ {
+  "slug": "usda-174666",
+  "food_group": "F",
+  "name_de": "Feigen, getrocknet, gedünstet"
+ },
+ {
+  "slug": "usda-174667",
+  "food_group": "F",
+  "name_de": "Fruchtcocktail (Pfirsich, Ananas, Birne, Weintraube, Kirsche), aus der Dose, in Wasser, Feststoffe und Flüssigkeit"
+ },
+ {
+  "slug": "usda-174668",
+  "food_group": "F",
+  "name_de": "Fruchtcocktail (Pfirsich, Ananas, Birne, Weintraube, Kirsche), aus der Dose, in Saft, Feststoffe und Flüssigkeit"
+ },
+ {
+  "slug": "usda-174669",
+  "food_group": "F",
+  "name_de": "Obstsalat (Pfirsich, Birne, Aprikose, Ananas, Kirsche), aus der Dose, in Wasser, Feststoffe und Flüssigkeit"
+ },
+ {
+  "slug": "usda-174670",
+  "food_group": "F",
+  "name_de": "Obstsalat (Pfirsich, Birne, Aprikose, Ananas, Kirsche), aus der Dose, in Saft, Feststoffe und Flüssigkeit"
+ },
+ {
+  "slug": "usda-174671",
+  "food_group": "F",
+  "name_de": "Obstsalat (Pfirsich, Birne, Aprikose, Ananas, Kirsche), aus der Dose, in leichtem Sirup, Feststoffe und Flüssigkeit"
+ },
+ {
+  "slug": "usda-174672",
+  "food_group": "F",
+  "name_de": "Obstsalat (Pfirsich, Birne, Aprikose, Ananas, Kirsche), aus der Dose, in extra dickem Sirup, Feststoffe und Flüssigkeit"
+ },
+ {
+  "slug": "usda-174673",
+  "food_group": "F",
+  "name_de": "Grapefruit, roh, rosa und rot, alle Regionen"
+ },
+ {
+  "slug": "usda-174674",
+  "food_group": "F",
+  "name_de": "Grapefruit, roh, rosa und rot, Kalifornien und Arizona"
+ },
+ {
+  "slug": "usda-174675",
+  "food_group": "F",
+  "name_de": "Grapefruit, roh, rosa und rot, Florida"
+ },
+ {
+  "slug": "usda-174676",
+  "food_group": "F",
+  "name_de": "Grapefruit, roh, weiß, alle Regionen"
+ },
+ {
+  "slug": "usda-174677",
+  "food_group": "F",
+  "name_de": "Grapefruit, roh, weiß, Kalifornien"
+ },
+ {
+  "slug": "usda-174678",
+  "food_group": "F",
+  "name_de": "Grapefruitsaft, weiß, aus der Dose oder Flasche, ungesüßt"
+ },
+ {
+  "slug": "usda-174679",
+  "food_group": "F",
+  "name_de": "Grapefruitsaft, weiß, aus der Dose, gesüßt"
+ },
+ {
+  "slug": "usda-174680",
+  "food_group": "F",
+  "name_de": "Grapefruitsaft, weiß, tiefgefrorenes Konzentrat, ungesüßt, unverdünnt"
+ },
+ {
+  "slug": "usda-174681",
+  "food_group": "F",
+  "name_de": "Grapefruitsaft, weiß, tiefgefrorenes Konzentrat, ungesüßt, mit 3 Volumenteilen Wasser verdünnt"
+ },
+ {
+  "slug": "usda-174682",
+  "food_group": "F",
+  "name_de": "Weintrauben, amerikanischer Typ (Slip-Skin), roh"
+ },
+ {
+  "slug": "usda-174683",
+  "food_group": "F",
+  "name_de": "Weintrauben, rot oder grün (europäischer Typ, z. B. Thompson Seedless), roh"
+ },
+ {
+  "slug": "usda-174684",
+  "food_group": "F",
+  "name_de": "Weintrauben, aus der Dose, Thompson Seedless, in Wasser, Feststoffe und Flüssigkeit"
+ },
+ {
+  "slug": "usda-174685",
+  "food_group": "F",
+  "name_de": "Weintrauben, aus der Dose, Thompson Seedless, in dickem Sirup, Feststoffe und Flüssigkeit"
+ },
+ {
+  "slug": "usda-174686",
+  "food_group": "F",
+  "name_de": "Guavensoße, gekocht"
+ },
+ {
+  "slug": "usda-174687",
+  "food_group": "F",
+  "name_de": "Jackfrucht, roh"
+ },
+ {
+  "slug": "usda-174688",
+  "food_group": "U",
+  "name_de": "Rind, Top-Loin-Filet, ohne Knochen, nur Magerfleisch, auf 1/8 Zoll Fett pariert, alle Qualitätsstufen, gegrillt"
+ },
+ {
+  "slug": "usda-174689",
+  "food_group": "U",
+  "name_de": "Rind, Top-Loin-Filet, ohne Knochen, nur Magerfleisch, auf 1/8 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-174690",
+  "food_group": "U",
+  "name_de": "Rind, Top-Loin-Filet, ohne Knochen, nur Magerfleisch, auf 1/8 Zoll Fett pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-174691",
+  "food_group": "U",
+  "name_de": "Rind, Top-Loin-Petite-Roast/-Filet, ohne Knochen, nur Magerfleisch, auf 1/8 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-174692",
+  "food_group": "U",
+  "name_de": "Rind, Top-Loin-Petite-Roast/-Filet, ohne Knochen, nur Magerfleisch, auf 1/8 Zoll Fett pariert, Select, roh"
+ }
+]

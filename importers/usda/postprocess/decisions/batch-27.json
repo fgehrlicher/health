@@ -1,0 +1,1252 @@
+[
+ {
+  "slug": "usda-174943",
+  "food_group": "D",
+  "name_de": "Kuchen, Snack-Kuchen, mit Cremefüllung, Biskuit"
+ },
+ {
+  "slug": "usda-174944",
+  "food_group": "D",
+  "name_de": "Kuchen, gelb, industriell hergestellt, mit Schokoladenglasur, Ladenbäckerei"
+ },
+ {
+  "slug": "usda-174945",
+  "food_group": "D",
+  "name_de": "Kuchen, gelb, industriell hergestellt, mit Vanilleglasur"
+ },
+ {
+  "slug": "usda-174946",
+  "food_group": "D",
+  "name_de": "Kuchen, Puddingtyp, gelb, Backmischung"
+ },
+ {
+  "slug": "usda-174947",
+  "food_group": "D",
+  "name_de": "Kuchen, gelb, angereichert, Backmischung"
+ },
+ {
+  "slug": "usda-174948",
+  "food_group": "D",
+  "name_de": "Kekse, Brownies, Backmischung, normal"
+ },
+ {
+  "slug": "usda-174949",
+  "food_group": "D",
+  "name_de": "Kekse, Brownies, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-174950",
+  "food_group": "D",
+  "name_de": "Kekse, Butter, industriell hergestellt, angereichert"
+ },
+ {
+  "slug": "usda-174951",
+  "food_group": "D",
+  "name_de": "Kekse, Fudge, kuchenartig (einschließlich Trolley Cakes)"
+ },
+ {
+  "slug": "usda-174952",
+  "food_group": "D",
+  "name_de": "Kekse, Schokoladenstückchen, Backmischung"
+ },
+ {
+  "slug": "usda-174953",
+  "food_group": "D",
+  "name_de": "Kekse, Schokoladenstückchen, Teig aus dem Kühlregal"
+ },
+ {
+  "slug": "usda-174954",
+  "food_group": "D",
+  "name_de": "Kekse, Schokoladenstückchen, Teig aus dem Kühlregal, gebacken"
+ },
+ {
+  "slug": "usda-174955",
+  "food_group": "D",
+  "name_de": "Kekse, Schokoladenstückchen, nach Rezept zubereitet, mit Margarine"
+ },
+ {
+  "slug": "usda-174956",
+  "food_group": "D",
+  "name_de": "Kekse, Ingwerkekse"
+ },
+ {
+  "slug": "usda-174957",
+  "food_group": "D",
+  "name_de": "Kekse, Graham Crackers, natur oder Honig (einschließlich Zimt)"
+ },
+ {
+  "slug": "usda-174958",
+  "food_group": "D",
+  "name_de": "Kekse, Graham Crackers, schokoladenüberzogen"
+ },
+ {
+  "slug": "usda-174959",
+  "food_group": "D",
+  "name_de": "Kekse, Löffelbiskuit, mit Zitronensaft und -schale"
+ },
+ {
+  "slug": "usda-174960",
+  "food_group": "D",
+  "name_de": "Kekse, Haferflocken, Backmischung"
+ },
+ {
+  "slug": "usda-174961",
+  "food_group": "D",
+  "name_de": "Kekse, Haferflocken, Teig aus dem Kühlregal"
+ },
+ {
+  "slug": "usda-174962",
+  "food_group": "D",
+  "name_de": "Kekse, Haferflocken, Teig aus dem Kühlregal, gebacken"
+ },
+ {
+  "slug": "usda-174963",
+  "food_group": "D",
+  "name_de": "Kekse, Haferflocken, mit Rosinen"
+ },
+ {
+  "slug": "usda-174964",
+  "food_group": "D",
+  "name_de": "Kekse, Erdnussbutter, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-174965",
+  "food_group": "D",
+  "name_de": "Kekse, Erdnussbutter-Sandwich, normal"
+ },
+ {
+  "slug": "usda-174966",
+  "food_group": "D",
+  "name_de": "Kekse, Rosinen, weich"
+ },
+ {
+  "slug": "usda-174967",
+  "food_group": "D",
+  "name_de": "Kekse, Shortbread, industriell hergestellt, natur"
+ },
+ {
+  "slug": "usda-174968",
+  "food_group": "D",
+  "name_de": "Kekse, Shortbread, industriell hergestellt, Pekannuss"
+ },
+ {
+  "slug": "usda-174969",
+  "food_group": "D",
+  "name_de": "Kekse, Erdnussbutter-Sandwich, diätetisch"
+ },
+ {
+  "slug": "usda-174970",
+  "food_group": "D",
+  "name_de": "Kekse, Zuckerwaffel, mit Cremefüllung, zuckerfrei"
+ },
+ {
+  "slug": "usda-174971",
+  "food_group": "D",
+  "name_de": "Kekse, Zucker, industriell hergestellt, normal (einschließlich Vanille)"
+ },
+ {
+  "slug": "usda-174972",
+  "food_group": "D",
+  "name_de": "Kekse, Zucker, Teig aus dem Kühlregal"
+ },
+ {
+  "slug": "usda-174973",
+  "food_group": "D",
+  "name_de": "Kekse, Vanillewaffeln, fettärmer"
+ },
+ {
+  "slug": "usda-174974",
+  "food_group": "D",
+  "name_de": "Kekse, Vanillewaffeln, fettreicher"
+ },
+ {
+  "slug": "usda-174975",
+  "food_group": "D",
+  "name_de": "Cracker, Käse, normal"
+ },
+ {
+  "slug": "usda-174976",
+  "food_group": "D",
+  "name_de": "Cracker, Käse, Sandwichtyp mit Erdnussbutterfüllung"
+ },
+ {
+  "slug": "usda-174977",
+  "food_group": "B",
+  "name_de": "Cracker, Melba-Toast, natur"
+ },
+ {
+  "slug": "usda-174978",
+  "food_group": "B",
+  "name_de": "Cracker, Melba-Toast, Roggen (einschließlich Pumpernickel)"
+ },
+ {
+  "slug": "usda-174979",
+  "food_group": "B",
+  "name_de": "Cracker, Melba-Toast, Weizen"
+ },
+ {
+  "slug": "usda-174980",
+  "food_group": "D",
+  "name_de": "Cracker, Milch"
+ },
+ {
+  "slug": "usda-174981",
+  "food_group": "B",
+  "name_de": "Cracker, Zwieback"
+ },
+ {
+  "slug": "usda-174982",
+  "food_group": "D",
+  "name_de": "Cracker, Standard-Snacktyp, normal"
+ },
+ {
+  "slug": "usda-174983",
+  "food_group": "D",
+  "name_de": "Cracker, Standard-Snacktyp, Sandwich, mit Käsefüllung"
+ },
+ {
+  "slug": "usda-174984",
+  "food_group": "D",
+  "name_de": "Cracker, Standard-Snacktyp, Sandwich, mit Erdnussbutterfüllung"
+ },
+ {
+  "slug": "usda-174985",
+  "food_group": "D",
+  "name_de": "Cracker, Weizen, normal"
+ },
+ {
+  "slug": "usda-174986",
+  "food_group": "D",
+  "name_de": "Windbeutel, Hülle, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-174987",
+  "food_group": "D",
+  "name_de": "Croissants, Butter"
+ },
+ {
+  "slug": "usda-174988",
+  "food_group": "D",
+  "name_de": "Croissants, Apfel"
+ },
+ {
+  "slug": "usda-174989",
+  "food_group": "D",
+  "name_de": "Croissants, Käse"
+ },
+ {
+  "slug": "usda-174990",
+  "food_group": "D",
+  "name_de": "Doughnuts, kuchenartig, natur (einschließlich ungezuckert, nach alter Art)"
+ },
+ {
+  "slug": "usda-174991",
+  "food_group": "D",
+  "name_de": "Doughnuts, kuchenartig, natur, mit Schokoladenüberzug oder Glasur"
+ },
+ {
+  "slug": "usda-174992",
+  "food_group": "D",
+  "name_de": "Doughnuts, kuchenartig, natur, gezuckert oder glasiert"
+ },
+ {
+  "slug": "usda-174993",
+  "food_group": "D",
+  "name_de": "Doughnuts, kuchenartig, Schokolade, gezuckert oder glasiert"
+ },
+ {
+  "slug": "usda-174994",
+  "food_group": "B",
+  "name_de": "English Muffins, natur, angereichert, mit Calciumpropionat (einschließlich Sauerteig)"
+ },
+ {
+  "slug": "usda-174995",
+  "food_group": "B",
+  "name_de": "English Muffins, natur, getoastet, angereichert, mit Calciumpropionat (einschließlich Sauerteig)"
+ },
+ {
+  "slug": "usda-174996",
+  "food_group": "B",
+  "name_de": "English Muffins, Mehrkorn (einschließlich Granola)"
+ },
+ {
+  "slug": "usda-174997",
+  "food_group": "B",
+  "name_de": "English Muffins, Rosinen-Zimt (einschließlich Apfel-Zimt)"
+ },
+ {
+  "slug": "usda-174998",
+  "food_group": "D",
+  "name_de": "Arme Ritter, nach Rezept zubereitet, mit fettarmer Milch (2 %)"
+ },
+ {
+  "slug": "usda-174999",
+  "food_group": "D",
+  "name_de": "Hush Puppies, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-175000",
+  "food_group": "D",
+  "name_de": "Eiswaffeln, Kuchen- oder Waffelart"
+ },
+ {
+  "slug": "usda-175001",
+  "food_group": "D",
+  "name_de": "Eiswaffeln, Zucker, gerollt"
+ },
+ {
+  "slug": "usda-175002",
+  "food_group": "D",
+  "name_de": "Muffins, Mais, industriell hergestellt"
+ },
+ {
+  "slug": "usda-175003",
+  "food_group": "D",
+  "name_de": "Muffins, Mais, Backmischung, zubereitet"
+ },
+ {
+  "slug": "usda-175004",
+  "food_group": "D",
+  "name_de": "Muffins, Mais, Toaster-Typ"
+ },
+ {
+  "slug": "usda-175005",
+  "food_group": "D",
+  "name_de": "Muffins, Mais, nach Rezept zubereitet, mit fettarmer Milch (2 %)"
+ },
+ {
+  "slug": "usda-175006",
+  "food_group": "D",
+  "name_de": "Pfannkuchen, natur, Backmischung, komplett, zubereitet"
+ },
+ {
+  "slug": "usda-175007",
+  "food_group": "D",
+  "name_de": "Pfannkuchen, natur, Backmischung, unvollständig (einschließlich Buttermilch)"
+ },
+ {
+  "slug": "usda-175008",
+  "food_group": "D",
+  "name_de": "Pfannkuchen, natur, Backmischung, unvollständig, zubereitet"
+ },
+ {
+  "slug": "usda-175009",
+  "food_group": "D",
+  "name_de": "Pfannkuchen, natur, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-175010",
+  "food_group": "D",
+  "name_de": "Pfannkuchen, Vollkorn, Backmischung, unvollständig, zubereitet"
+ },
+ {
+  "slug": "usda-175011",
+  "food_group": "D",
+  "name_de": "Pie, Apfel, industriell hergestellt, mit angereichertem Mehl"
+ },
+ {
+  "slug": "usda-175012",
+  "food_group": "D",
+  "name_de": "Pie, Apfel, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-175013",
+  "food_group": "D",
+  "name_de": "Pie, Bananencreme, aus Fertigmischung, ohne Backen"
+ },
+ {
+  "slug": "usda-175014",
+  "food_group": "D",
+  "name_de": "Pie, Schokoladencreme, industriell hergestellt"
+ },
+ {
+  "slug": "usda-175015",
+  "food_group": "D",
+  "name_de": "Pie, Schokoladenmousse, aus Fertigmischung, ohne Backen"
+ },
+ {
+  "slug": "usda-175016",
+  "food_group": "D",
+  "name_de": "Pie, Kokoscreme, industriell hergestellt"
+ },
+ {
+  "slug": "usda-175017",
+  "food_group": "D",
+  "name_de": "Pie, Kokoscreme, aus Fertigmischung, ohne Backen"
+ },
+ {
+  "slug": "usda-175018",
+  "food_group": "D",
+  "name_de": "Pie, Zitronenbaiser, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-175019",
+  "food_group": "D",
+  "name_de": "Pie, Mince, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-175020",
+  "food_group": "D",
+  "name_de": "Pie, Pfirsich"
+ },
+ {
+  "slug": "usda-175021",
+  "food_group": "D",
+  "name_de": "Pie, Pekannuss, industriell hergestellt"
+ },
+ {
+  "slug": "usda-175022",
+  "food_group": "D",
+  "name_de": "Pie-Boden, Standardtyp, Backmischung"
+ },
+ {
+  "slug": "usda-175023",
+  "food_group": "D",
+  "name_de": "Pie-Boden, Standardtyp, Backmischung, zubereitet, gebacken"
+ },
+ {
+  "slug": "usda-175024",
+  "food_group": "D",
+  "name_de": "Pie-Boden, Standardtyp, tiefgefroren, backfertig, angereichert"
+ },
+ {
+  "slug": "usda-175025",
+  "food_group": "D",
+  "name_de": "Pie-Boden, Standardtyp, tiefgefroren, backfertig, angereichert, gebacken"
+ },
+ {
+  "slug": "usda-175026",
+  "food_group": "D",
+  "name_de": "Pie-Boden, Standardtyp, nach Rezept zubereitet, gebacken"
+ },
+ {
+  "slug": "usda-175027",
+  "food_group": "B",
+  "name_de": "Brötchen, Dinner, Ei"
+ },
+ {
+  "slug": "usda-175028",
+  "food_group": "B",
+  "name_de": "Brötchen, Dinner, Haferkleie"
+ },
+ {
+  "slug": "usda-175029",
+  "food_group": "B",
+  "name_de": "Brötchen, Dinner, Roggen"
+ },
+ {
+  "slug": "usda-175030",
+  "food_group": "B",
+  "name_de": "Brötchen, Dinner, Weizen"
+ },
+ {
+  "slug": "usda-175031",
+  "food_group": "B",
+  "name_de": "Brötchen, hart (einschließlich Kaiser)"
+ },
+ {
+  "slug": "usda-175032",
+  "food_group": "D",
+  "name_de": "Apfelstrudel"
+ },
+ {
+  "slug": "usda-175033",
+  "food_group": "D",
+  "name_de": "Süße Brötchen, Käse"
+ },
+ {
+  "slug": "usda-175034",
+  "food_group": "D",
+  "name_de": "Süße Brötchen, Zimt, industriell hergestellt, mit Rosinen"
+ },
+ {
+  "slug": "usda-175035",
+  "food_group": "D",
+  "name_de": "Toastergebäck, Frucht (einschließlich Apfel, Heidelbeere, Kirsche, Erdbeere)"
+ },
+ {
+  "slug": "usda-175036",
+  "food_group": "B",
+  "name_de": "Tortillas, zum Backen oder Braten fertig, Mais"
+ },
+ {
+  "slug": "usda-175037",
+  "food_group": "B",
+  "name_de": "Tortillas, zum Backen oder Braten fertig, Weizenmehl, gekühlt"
+ },
+ {
+  "slug": "usda-175038",
+  "food_group": "D",
+  "name_de": "Waffeln, natur, tiefgefroren, aufwärmfertig"
+ },
+ {
+  "slug": "usda-175039",
+  "food_group": "D",
+  "name_de": "Waffeln, natur, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-175040",
+  "food_group": "R",
+  "name_de": "Backtriebmittel, Natron"
+ },
+ {
+  "slug": "usda-175041",
+  "food_group": "R",
+  "name_de": "Backtriebmittel, Weinstein"
+ },
+ {
+  "slug": "usda-175042",
+  "food_group": "R",
+  "name_de": "Backtriebmittel, Backhefe, gepresst"
+ },
+ {
+  "slug": "usda-175043",
+  "food_group": "R",
+  "name_de": "Backtriebmittel, Backhefe, aktiv getrocknet"
+ },
+ {
+  "slug": "usda-175044",
+  "food_group": "B",
+  "name_de": "Brot, Reiskleie, getoastet"
+ },
+ {
+  "slug": "usda-175045",
+  "food_group": "D",
+  "name_de": "Muffins, Heidelbeere, Toaster-Typ, getoastet"
+ },
+ {
+  "slug": "usda-175046",
+  "food_group": "D",
+  "name_de": "Muffins, Weizenkleie, Toaster-Typ, mit Rosinen, getoastet"
+ },
+ {
+  "slug": "usda-175047",
+  "food_group": "D",
+  "name_de": "Pfannkuchen, Buttermilch, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-175048",
+  "food_group": "D",
+  "name_de": "Waffeln, natur, tiefgefroren, aufwärmfertig, getoastet"
+ },
+ {
+  "slug": "usda-175049",
+  "food_group": "B",
+  "name_de": "Bagels, natur, angereichert, ohne Calciumpropionat (einschließlich Zwiebel, Mohn, Sesam)"
+ },
+ {
+  "slug": "usda-175050",
+  "food_group": "B",
+  "name_de": "Bagels, natur, nicht angereichert, mit Calciumpropionat (einschließlich Zwiebel, Mohn, Sesam)"
+ },
+ {
+  "slug": "usda-175051",
+  "food_group": "B",
+  "name_de": "Bagels, natur, nicht angereichert, ohne Calciumpropionat (einschließlich Zwiebel, Mohn, Sesam)"
+ },
+ {
+  "slug": "usda-175052",
+  "food_group": "D",
+  "name_de": "Kuchen, Kaffeekuchen, Zimt, mit Streuseln, industriell hergestellt, nicht angereichert"
+ },
+ {
+  "slug": "usda-175053",
+  "food_group": "D",
+  "name_de": "Kuchen, Sandkuchen, industriell hergestellt, nicht ausschließlich mit Butter, nicht angereichert"
+ },
+ {
+  "slug": "usda-175054",
+  "food_group": "D",
+  "name_de": "Kuchen, Puddingtyp, weiß, nicht angereichert, Backmischung"
+ },
+ {
+  "slug": "usda-175055",
+  "food_group": "D",
+  "name_de": "Kuchen, gelb, nicht angereichert, Backmischung"
+ },
+ {
+  "slug": "usda-175056",
+  "food_group": "D",
+  "name_de": "Cracker, Salzcracker, salzarm (einschließlich Austern-, Soda-, Suppencracker)"
+ },
+ {
+  "slug": "usda-175057",
+  "food_group": "D",
+  "name_de": "Cracker, Salzcracker, ohne Salz auf der Oberseite (einschließlich Austern-, Soda-, Suppencracker)"
+ },
+ {
+  "slug": "usda-175058",
+  "food_group": "D",
+  "name_de": "Cracker, Standard-Snacktyp, normal, salzarm"
+ },
+ {
+  "slug": "usda-175059",
+  "food_group": "D",
+  "name_de": "Cracker, Weizen, salzarm"
+ },
+ {
+  "slug": "usda-175060",
+  "food_group": "D",
+  "name_de": "Cracker, Käse, natriumarm"
+ },
+ {
+  "slug": "usda-175061",
+  "food_group": "D",
+  "name_de": "Plundergebäck, Himbeere, nicht angereichert"
+ },
+ {
+  "slug": "usda-175062",
+  "food_group": "D",
+  "name_de": "Doughnuts, Hefeteig, glasiert, nicht angereichert (einschließlich Honigbrötchen)"
+ },
+ {
+  "slug": "usda-175063",
+  "food_group": "B",
+  "name_de": "English Muffins, natur, angereichert, ohne Calciumpropionat (einschließlich Sauerteig)"
+ },
+ {
+  "slug": "usda-175064",
+  "food_group": "D",
+  "name_de": "Pie, gebraten, Zitrone"
+ },
+ {
+  "slug": "usda-175065",
+  "food_group": "D",
+  "name_de": "Pie-Boden, Standardtyp, tiefgefroren, backfertig, nicht angereichert"
+ },
+ {
+  "slug": "usda-175066",
+  "food_group": "D",
+  "name_de": "Popovers, Backmischung, nicht angereichert"
+ },
+ {
+  "slug": "usda-175067",
+  "food_group": "B",
+  "name_de": "Taco-Schalen, gebacken, ohne Salzzusatz"
+ },
+ {
+  "slug": "usda-175068",
+  "food_group": "D",
+  "name_de": "Cracker, Salzcracker, fettfrei, natriumarm"
+ },
+ {
+  "slug": "usda-175069",
+  "food_group": "D",
+  "name_de": "Törtchen, Frühstück, fettarm"
+ },
+ {
+  "slug": "usda-175070",
+  "food_group": "D",
+  "name_de": "Archway Home Style Cookies, Haferflocken, zuckerfrei"
+ },
+ {
+  "slug": "usda-175071",
+  "food_group": "D",
+  "name_de": "Archway Home Style Cookies, Schokoladenstückchen, Ice Box"
+ },
+ {
+  "slug": "usda-175072",
+  "food_group": "D",
+  "name_de": "Archway Home Style Cookies, Haferflocken, glasiert"
+ },
+ {
+  "slug": "usda-175073",
+  "food_group": "D",
+  "name_de": "Archway Home Style Cookies, Melasse"
+ },
+ {
+  "slug": "usda-175074",
+  "food_group": "D",
+  "name_de": "Archway Home Style Cookies, Haferflocken"
+ },
+ {
+  "slug": "usda-175075",
+  "food_group": "D",
+  "name_de": "Archway Home Style Cookies, Haferflocken-Rosinen"
+ },
+ {
+  "slug": "usda-175076",
+  "food_group": "D",
+  "name_de": "Archway Home Style Cookies, mit Erdbeerfüllung"
+ },
+ {
+  "slug": "usda-175077",
+  "food_group": "D",
+  "name_de": "Archway Home Style Cookies, Ginger Snaps, fettreduziert"
+ },
+ {
+  "slug": "usda-175078",
+  "food_group": "D",
+  "name_de": "Muffin-Backmischung, Heidelbeere, künstlich, trocken"
+ },
+ {
+  "slug": "usda-175079",
+  "food_group": "B",
+  "name_de": "Kraft, Stove Top Stuffing Mix, Hähnchengeschmack"
+ },
+ {
+  "slug": "usda-175080",
+  "food_group": "D",
+  "name_de": "Martha White Foods, Martha White's Chewy Fudge Brownie Mix, trocken"
+ },
+ {
+  "slug": "usda-175081",
+  "food_group": "D",
+  "name_de": "Martha White Foods, Martha White's Buttermilk Biscuit Mix, trocken"
+ },
+ {
+  "slug": "usda-175082",
+  "food_group": "B",
+  "name_de": "Mission Foods, Mission Flour Tortillas, Soft Taco, 8 Zoll"
+ },
+ {
+  "slug": "usda-175083",
+  "food_group": "D",
+  "name_de": "Nabisco, Nabisco Grahams Crackers"
+ },
+ {
+  "slug": "usda-175084",
+  "food_group": "D",
+  "name_de": "Nabisco, Nabisco Oreo Crunchies, Kekskrümel-Topping"
+ },
+ {
+  "slug": "usda-175085",
+  "food_group": "U",
+  "name_de": "Wildfleisch, Hirsch, gegart, geröstet"
+ },
+ {
+  "slug": "usda-175086",
+  "food_group": "U",
+  "name_de": "Wildfleisch, Pferd, roh"
+ },
+ {
+  "slug": "usda-175087",
+  "food_group": "U",
+  "name_de": "Wildfleisch, Pferd, gegart, geröstet"
+ },
+ {
+  "slug": "usda-175088",
+  "food_group": "N",
+  "name_de": "Tee, Instant, Zitrone, ungesüßt"
+ },
+ {
+  "slug": "usda-175089",
+  "food_group": "N",
+  "name_de": "Tee, Instant, Zitrone, gesüßt, Pulver"
+ },
+ {
+  "slug": "usda-175090",
+  "food_group": "N",
+  "name_de": "Tee, Instant, Zitrone, gesüßt, mit Wasser zubereitet"
+ },
+ {
+  "slug": "usda-175091",
+  "food_group": "N",
+  "name_de": "Tee, Instant, mit Natriumsaccharin gesüßt, Zitronengeschmack, Pulver"
+ },
+ {
+  "slug": "usda-175092",
+  "food_group": "N",
+  "name_de": "Kakaomischung, mit Aspartam, Pulver, mit Wasser zubereitet"
+ },
+ {
+  "slug": "usda-175093",
+  "food_group": "N",
+  "name_de": "Erfrischungsgetränk, kohlensäurehaltig, Cola, Fast-Food-Cola"
+ },
+ {
+  "slug": "usda-175094",
+  "food_group": "N",
+  "name_de": "Fruchtpunsch-Saftgetränk, tiefgefrorenes Konzentrat"
+ },
+ {
+  "slug": "usda-175095",
+  "food_group": "N",
+  "name_de": "Fruchtpunsch-Saftgetränk, tiefgefrorenes Konzentrat, mit Wasser zubereitet"
+ },
+ {
+  "slug": "usda-175096",
+  "food_group": "N",
+  "name_de": "Wasser, Leitungswasser, Brunnen"
+ },
+ {
+  "slug": "usda-175097",
+  "food_group": "P",
+  "name_de": "Likör, Kaffee, 53 Proof"
+ },
+ {
+  "slug": "usda-175098",
+  "food_group": "P",
+  "name_de": "Likör, Kaffee mit Sahne, 34 Proof"
+ },
+ {
+  "slug": "usda-175099",
+  "food_group": "N",
+  "name_de": "Erfrischungsgetränk, kohlensäurehaltig, kalorienarm, Cola- oder Pepper-Typ, mit Aspartam, koffeinhaltig"
+ },
+ {
+  "slug": "usda-175100",
+  "food_group": "N",
+  "name_de": "Orangengetränk, Frühstückstyp, mit Saft und Fruchtfleisch, tiefgefrorenes Konzentrat"
+ },
+ {
+  "slug": "usda-175101",
+  "food_group": "N",
+  "name_de": "Orangengetränk, Frühstückstyp, mit Saft und Fruchtfleisch, tiefgefrorenes Konzentrat, mit Wasser zubereitet"
+ },
+ {
+  "slug": "usda-175102",
+  "food_group": "N",
+  "name_de": "Shake, Fast Food, Erdbeere"
+ },
+ {
+  "slug": "usda-175103",
+  "food_group": "N",
+  "name_de": "Wasser, Leitungswasser, kommunal"
+ },
+ {
+  "slug": "usda-175104",
+  "food_group": "N",
+  "name_de": "The COCA-COLA company, DASANI, Wasser, in Flaschen, ohne Kohlensäure"
+ },
+ {
+  "slug": "usda-175105",
+  "food_group": "N",
+  "name_de": "Orangen-Frühstücksgetränk, trinkfertig, mit zugesetzten Nährstoffen"
+ },
+ {
+  "slug": "usda-175106",
+  "food_group": "N",
+  "name_de": "Wasser, in Flaschen, ohne Kohlensäure, CALISTOGA"
+ },
+ {
+  "slug": "usda-175107",
+  "food_group": "N",
+  "name_de": "Wasser, in Flaschen, ohne Kohlensäure, CRYSTAL GEYSER"
+ },
+ {
+  "slug": "usda-175108",
+  "food_group": "N",
+  "name_de": "COCA-COLA, POWERADE, Zitrone-Limette-Geschmack, trinkfertig"
+ },
+ {
+  "slug": "usda-175109",
+  "food_group": "N",
+  "name_de": "Propel Zero, Fruchtgeschmack, ohne Kohlensäure"
+ },
+ {
+  "slug": "usda-175110",
+  "food_group": "N",
+  "name_de": "ARIZONA, Tee, trinkfertig, Zitrone"
+ },
+ {
+  "slug": "usda-175111",
+  "food_group": "N",
+  "name_de": "LIPTON BRISK, Tee, schwarz, trinkfertig, Zitrone"
+ },
+ {
+  "slug": "usda-175112",
+  "food_group": "P",
+  "name_de": "Wein, Dessertwein, trocken"
+ },
+ {
+  "slug": "usda-175113",
+  "food_group": "N",
+  "name_de": "Erfrischungsgetränk, kohlensäurehaltig, kalorienarm, weder Cola- noch Pepper-Typ, mit Natriumsaccharin, ohne Koffein"
+ },
+ {
+  "slug": "usda-175114",
+  "food_group": "N",
+  "name_de": "Kakaomischung, kalorienarm, Pulver, mit zugesetztem Calcium, Phosphor, Aspartam, ohne zugesetztes Natrium oder Vitamin A"
+ },
+ {
+  "slug": "usda-175115",
+  "food_group": "N",
+  "name_de": "Getränk mit Fruchtpunsch-Geschmack, Pulver, ohne Natriumzusatz, mit Wasser zubereitet"
+ },
+ {
+  "slug": "usda-175116",
+  "food_group": "T",
+  "name_de": "Hering, atlantisch, roh"
+ },
+ {
+  "slug": "usda-175117",
+  "food_group": "T",
+  "name_de": "Hering, atlantisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175118",
+  "food_group": "T",
+  "name_de": "Hering, atlantisch, eingelegt"
+ },
+ {
+  "slug": "usda-175119",
+  "food_group": "T",
+  "name_de": "Makrele, atlantisch, roh"
+ },
+ {
+  "slug": "usda-175120",
+  "food_group": "T",
+  "name_de": "Makrele, atlantisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175121",
+  "food_group": "T",
+  "name_de": "Makrele, Jack, aus der Dose, abgetropft"
+ },
+ {
+  "slug": "usda-175122",
+  "food_group": "T",
+  "name_de": "Königsmakrele, roh"
+ },
+ {
+  "slug": "usda-175123",
+  "food_group": "T",
+  "name_de": "Meeräsche, gestreift, roh"
+ },
+ {
+  "slug": "usda-175124",
+  "food_group": "T",
+  "name_de": "Meeräsche, gestreift, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175125",
+  "food_group": "T",
+  "name_de": "Rotbarsch, atlantisch, roh"
+ },
+ {
+  "slug": "usda-175126",
+  "food_group": "T",
+  "name_de": "Rotbarsch, atlantisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175127",
+  "food_group": "T",
+  "name_de": "Hecht, nördlich, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175128",
+  "food_group": "T",
+  "name_de": "Zander, Walleye, roh"
+ },
+ {
+  "slug": "usda-175129",
+  "food_group": "T",
+  "name_de": "Seelachs, atlantisch, roh"
+ },
+ {
+  "slug": "usda-175130",
+  "food_group": "T",
+  "name_de": "Alaska-Seelachs, roh (kann Zusatzstoffe zum Feuchtigkeitserhalt enthalten)"
+ },
+ {
+  "slug": "usda-175131",
+  "food_group": "T",
+  "name_de": "Rockfish, pazifisch, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175132",
+  "food_group": "T",
+  "name_de": "Rogen, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-175133",
+  "food_group": "T",
+  "name_de": "Granatbarsch, roh"
+ },
+ {
+  "slug": "usda-175134",
+  "food_group": "T",
+  "name_de": "Kohlenfisch, roh"
+ },
+ {
+  "slug": "usda-175135",
+  "food_group": "T",
+  "name_de": "Lachs, Keta, aus der Dose, abgetropft, mit Gräten"
+ },
+ {
+  "slug": "usda-175136",
+  "food_group": "T",
+  "name_de": "Lachs, Coho, wild, roh"
+ },
+ {
+  "slug": "usda-175137",
+  "food_group": "T",
+  "name_de": "Lachs, Coho, wild, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-175138",
+  "food_group": "T",
+  "name_de": "Lachs, Buckellachs, roh"
+ },
+ {
+  "slug": "usda-175139",
+  "food_group": "T",
+  "name_de": "Sardine, atlantisch, in Öl, aus der Dose, abgetropft, mit Gräten"
+ },
+ {
+  "slug": "usda-175140",
+  "food_group": "T",
+  "name_de": "Sardine, pazifisch, in Tomatensauce, aus der Dose, abgetropft, mit Gräten"
+ },
+ {
+  "slug": "usda-175141",
+  "food_group": "T",
+  "name_de": "Scup, roh"
+ },
+ {
+  "slug": "usda-175142",
+  "food_group": "T",
+  "name_de": "Seebarsch, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-175143",
+  "food_group": "T",
+  "name_de": "Hai, gemischte Arten, gegart, in Backteig getaucht und gebraten"
+ },
+ {
+  "slug": "usda-175144",
+  "food_group": "T",
+  "name_de": "Schafskopf (Sheepshead), roh"
+ },
+ {
+  "slug": "usda-175145",
+  "food_group": "T",
+  "name_de": "Schafskopf (Sheepshead), gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175146",
+  "food_group": "T",
+  "name_de": "Regenbogenstint, roh"
+ },
+ {
+  "slug": "usda-175147",
+  "food_group": "T",
+  "name_de": "Regenbogenstint, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175148",
+  "food_group": "T",
+  "name_de": "Stör, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175149",
+  "food_group": "T",
+  "name_de": "Stör, gemischte Arten, geräuchert"
+ },
+ {
+  "slug": "usda-175150",
+  "food_group": "T",
+  "name_de": "Saugkarpfen, weiß, roh"
+ },
+ {
+  "slug": "usda-175151",
+  "food_group": "T",
+  "name_de": "Sonnenbarsch, Pumpkinseed, roh"
+ },
+ {
+  "slug": "usda-175152",
+  "food_group": "T",
+  "name_de": "Ziegelfisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175153",
+  "food_group": "T",
+  "name_de": "Forelle, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-175154",
+  "food_group": "T",
+  "name_de": "Regenbogenforelle, wild, roh"
+ },
+ {
+  "slug": "usda-175155",
+  "food_group": "T",
+  "name_de": "Regenbogenforelle, wild, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175156",
+  "food_group": "T",
+  "name_de": "Thunfisch, frisch, Skipjack, roh"
+ },
+ {
+  "slug": "usda-175157",
+  "food_group": "T",
+  "name_de": "Thunfisch, weiß, in Öl, aus der Dose, abgetropft"
+ },
+ {
+  "slug": "usda-175158",
+  "food_group": "T",
+  "name_de": "Thunfisch, weiß, in Wasser, aus der Dose, abgetropft"
+ },
+ {
+  "slug": "usda-175159",
+  "food_group": "T",
+  "name_de": "Thunfisch, frisch, Gelbflosse, roh"
+ },
+ {
+  "slug": "usda-175160",
+  "food_group": "Y",
+  "name_de": "Thunfischsalat"
+ },
+ {
+  "slug": "usda-175161",
+  "food_group": "T",
+  "name_de": "Wittling, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175162",
+  "food_group": "T",
+  "name_de": "Seewolf, atlantisch, roh"
+ },
+ {
+  "slug": "usda-175163",
+  "food_group": "T",
+  "name_de": "Gelbschwanz, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-175164",
+  "food_group": "T",
+  "name_de": "Alaska-Königskrabbe, roh"
+ },
+ {
+  "slug": "usda-175165",
+  "food_group": "T",
+  "name_de": "Katzenwels, Channel, aus Aquakultur, roh"
+ },
+ {
+  "slug": "usda-175166",
+  "food_group": "T",
+  "name_de": "Katzenwels, Channel, aus Aquakultur, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175167",
+  "food_group": "T",
+  "name_de": "Lachs, atlantisch, aus Aquakultur, roh"
+ },
+ {
+  "slug": "usda-175168",
+  "food_group": "T",
+  "name_de": "Lachs, atlantisch, aus Aquakultur, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175169",
+  "food_group": "T",
+  "name_de": "Flusskrebs, gemischte Arten, aus Aquakultur, roh"
+ },
+ {
+  "slug": "usda-175170",
+  "food_group": "T",
+  "name_de": "Flusskrebs, gemischte Arten, aus Aquakultur, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-175171",
+  "food_group": "T",
+  "name_de": "Auster, östlich, wild, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175172",
+  "food_group": "T",
+  "name_de": "Auster, östlich, aus Aquakultur, roh"
+ },
+ {
+  "slug": "usda-175173",
+  "food_group": "T",
+  "name_de": "Auster, östlich, aus Aquakultur, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175174",
+  "food_group": "T",
+  "name_de": "Lachs, Rotlachs, aus der Dose, gesamter Doseninhalt"
+ },
+ {
+  "slug": "usda-175175",
+  "food_group": "T",
+  "name_de": "Lachs, Buckellachs, aus der Dose, abgetropft"
+ },
+ {
+  "slug": "usda-175176",
+  "food_group": "T",
+  "name_de": "Tilapia, roh"
+ },
+ {
+  "slug": "usda-175177",
+  "food_group": "T",
+  "name_de": "Tilapia, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-175178",
+  "food_group": "T",
+  "name_de": "Kabeljau, pazifisch, gekocht"
+ },
+ {
+  "slug": "usda-175179",
+  "food_group": "T",
+  "name_de": "Garnelen, roh"
+ },
+ {
+  "slug": "usda-175180",
+  "food_group": "T",
+  "name_de": "Garnelen, gekocht"
+ },
+ {
+  "slug": "usda-175181",
+  "food_group": "T",
+  "name_de": "Bachsaibling, roh, Bundesstaat New York"
+ },
+ {
+  "slug": "usda-175182",
+  "food_group": "X",
+  "name_de": "Baked Beans, aus der Dose, natur oder vegetarisch"
+ },
+ {
+  "slug": "usda-175183",
+  "food_group": "X",
+  "name_de": "Baked Beans, aus der Dose, mit Rindfleisch"
+ },
+ {
+  "slug": "usda-175184",
+  "food_group": "X",
+  "name_de": "Baked Beans, aus der Dose, mit Würstchen"
+ },
+ {
+  "slug": "usda-175185",
+  "food_group": "X",
+  "name_de": "Baked Beans, aus der Dose, mit Schweinefleisch"
+ },
+ {
+  "slug": "usda-175186",
+  "food_group": "H",
+  "name_de": "Bohnen, Black Turtle, reife Samen, roh"
+ },
+ {
+  "slug": "usda-175187",
+  "food_group": "H",
+  "name_de": "Bohnen, Black Turtle, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-175188",
+  "food_group": "H",
+  "name_de": "Bohnen, Black Turtle, reife Samen, aus der Dose"
+ },
+ {
+  "slug": "usda-175189",
+  "food_group": "H",
+  "name_de": "Bohnen, Cranberry (Roman), reife Samen, roh"
+ },
+ {
+  "slug": "usda-175190",
+  "food_group": "H",
+  "name_de": "Bohnen, Great Northern, reife Samen, roh (einschließlich Lebensmittel für das Food Distribution Program des USDA)"
+ },
+ {
+  "slug": "usda-175191",
+  "food_group": "H",
+  "name_de": "Bohnen, Great Northern, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-175192",
+  "food_group": "H",
+  "name_de": "Bohnen, Great Northern, reife Samen, aus der Dose"
+ }
+]

@@ -1,0 +1,1252 @@
+[
+ {
+  "slug": "usda-171087",
+  "food_group": "V",
+  "name_de": "Pute, ganz, Hals, nur Fleisch, gekocht"
+ },
+ {
+  "slug": "usda-171088",
+  "food_group": "V",
+  "name_de": "Pute, ganz, helles Fleisch, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-171089",
+  "food_group": "V",
+  "name_de": "Pute, ganz, helles Fleisch, Fleisch mit Haut, geröstet"
+ },
+ {
+  "slug": "usda-171090",
+  "food_group": "V",
+  "name_de": "Pute, ganz, dunkles Fleisch, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-171091",
+  "food_group": "V",
+  "name_de": "Pute, ganz, dunkles Fleisch, geröstet"
+ },
+ {
+  "slug": "usda-171092",
+  "food_group": "V",
+  "name_de": "Pute, alle Klassen, Rücken, Fleisch mit Haut, geröstet"
+ },
+ {
+  "slug": "usda-171093",
+  "food_group": "V",
+  "name_de": "Pute, alle Klassen, Brust, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-171094",
+  "food_group": "V",
+  "name_de": "Pute, alle Klassen, Flügel, Fleisch mit Haut, geröstet"
+ },
+ {
+  "slug": "usda-171095",
+  "food_group": "V",
+  "name_de": "Pute, Fryer-Roaster, Fleisch mit Haut, geröstet"
+ },
+ {
+  "slug": "usda-171096",
+  "food_group": "V",
+  "name_de": "Pute, ganz, Rücken, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-171097",
+  "food_group": "V",
+  "name_de": "Pute, ganz, Rücken, nur Fleisch, geröstet"
+ },
+ {
+  "slug": "usda-171098",
+  "food_group": "V",
+  "name_de": "Pute, ganz, Brust, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-171099",
+  "food_group": "W",
+  "name_de": "Hähnchen, aus der Dose, nur Fleisch, mit Brühe"
+ },
+ {
+  "slug": "usda-171100",
+  "food_group": "W",
+  "name_de": "Pâté de foie gras, aus der Dose (Gänseleberpastete), geräuchert"
+ },
+ {
+  "slug": "usda-171101",
+  "food_group": "W",
+  "name_de": "Pute, aus der Dose, nur Fleisch, mit Brühe"
+ },
+ {
+  "slug": "usda-171102",
+  "food_group": "V",
+  "name_de": "Pute, gewürfelt, helles und dunkles Fleisch, gewürzt"
+ },
+ {
+  "slug": "usda-171103",
+  "food_group": "V",
+  "name_de": "Putensticks, paniert, im Backteig, gebraten"
+ },
+ {
+  "slug": "usda-171104",
+  "food_group": "V",
+  "name_de": "Geflügel, maschinell entbeint, von Rücken und Hälsen mit Haut, roh"
+ },
+ {
+  "slug": "usda-171105",
+  "food_group": "V",
+  "name_de": "Geflügel, maschinell entbeint, von Rücken und Hälsen ohne Haut, roh"
+ },
+ {
+  "slug": "usda-171106",
+  "food_group": "V",
+  "name_de": "Geflügel, maschinell entbeint, von ausgewachsenen Hennen, roh"
+ },
+ {
+  "slug": "usda-171107",
+  "food_group": "V",
+  "name_de": "Hähnchen, Cornish Game Hen, Fleisch mit Haut, geröstet"
+ },
+ {
+  "slug": "usda-171108",
+  "food_group": "V",
+  "name_de": "Hähnchen, Cornish Game Hen, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-171109",
+  "food_group": "V",
+  "name_de": "Hähnchen, Cornish Game Hen, nur Fleisch, geröstet"
+ },
+ {
+  "slug": "usda-171110",
+  "food_group": "W",
+  "name_de": "Hähnchen, aus der Dose, ohne Brühe"
+ },
+ {
+  "slug": "usda-171111",
+  "food_group": "V",
+  "name_de": "Hähnchen, Flügel, tiefgefroren, glasiert, mit Barbecue-Geschmack"
+ },
+ {
+  "slug": "usda-171112",
+  "food_group": "V",
+  "name_de": "Ente, Jungente, domestiziert, White Pekin, Keule, Fleisch mit Haut, mit Knochen, geröstet"
+ },
+ {
+  "slug": "usda-171113",
+  "food_group": "V",
+  "name_de": "Ente, Jungente, domestiziert, White Pekin, Keule, nur Fleisch, mit Knochen, ohne Haut gegart, geschmort"
+ },
+ {
+  "slug": "usda-171114",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Rotisserie, BBQ, Unterschenkel, nur Fleisch"
+ },
+ {
+  "slug": "usda-171115",
+  "food_group": "V",
+  "name_de": "Hähnchen, Flügel, tiefgefroren, glasiert, mit Barbecue-Geschmack, erhitzt (herkömmlicher Backofen)"
+ },
+ {
+  "slug": "usda-171116",
+  "food_group": "V",
+  "name_de": "Hähnchen, Hackfleisch, roh"
+ },
+ {
+  "slug": "usda-171117",
+  "food_group": "V",
+  "name_de": "Hähnchen, Hackfleisch, Krümel, gegart, in der Pfanne angebraten"
+ },
+ {
+  "slug": "usda-171118",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Rotisserie, BBQ, Oberschenkel, nur Fleisch"
+ },
+ {
+  "slug": "usda-171119",
+  "food_group": "V",
+  "name_de": "Hähnchen, Füße, gekocht"
+ },
+ {
+  "slug": "usda-171120",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler oder Fryer, Rotisserie, Originalgewürz, Oberschenkel, nur Fleisch, gegart"
+ },
+ {
+  "slug": "usda-171121",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler oder Fryer, Rotisserie, Originalgewürz, Flügel, nur Fleisch, gegart"
+ },
+ {
+  "slug": "usda-171122",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler oder Fryer, Rotisserie, Originalgewürz, Rücken, Fleisch mit Haut, gegart"
+ },
+ {
+  "slug": "usda-171123",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler oder Fryer, Rotisserie, Originalgewürz, Brust, Fleisch mit Haut, gegart"
+ },
+ {
+  "slug": "usda-171124",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Rotisserie, BBQ, Rücken, Fleisch mit Haut"
+ },
+ {
+  "slug": "usda-171125",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Rotisserie, BBQ, Brust, Fleisch mit Haut"
+ },
+ {
+  "slug": "usda-171126",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Rotisserie, BBQ, Unterschenkel, Fleisch mit Haut"
+ },
+ {
+  "slug": "usda-171127",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Rotisserie, BBQ, Oberschenkel, Fleisch mit Haut"
+ },
+ {
+  "slug": "usda-171128",
+  "food_group": "V",
+  "name_de": "Pute, Unterschenkel, vom ganzen Tier, nur Fleisch, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-171129",
+  "food_group": "V",
+  "name_de": "Pute, Oberschenkel, vom ganzen Tier, nur Fleisch, mit zugesetzter Lösung, roh"
+ },
+ {
+  "slug": "usda-171130",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke im Einzelhandel, Brust, Fleisch mit Haut, mit zugesetzter Lösung, roh"
+ },
+ {
+  "slug": "usda-171131",
+  "food_group": "V",
+  "name_de": "Pute, Oberschenkel, vom ganzen Tier, nur Fleisch, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-171132",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke im Einzelhandel, Flügel, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-171133",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke im Einzelhandel, Flügel, Fleisch mit Haut, geröstet"
+ },
+ {
+  "slug": "usda-171134",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke im Einzelhandel, Unterschenkel, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-171135",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke im Einzelhandel, Unterschenkel, Fleisch mit Haut, geröstet"
+ },
+ {
+  "slug": "usda-171136",
+  "food_group": "V",
+  "name_de": "Pute, Unterschenkel, vom ganzen Tier, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-171137",
+  "food_group": "V",
+  "name_de": "Pute, Teilstücke im Einzelhandel, Oberschenkel, Fleisch mit Haut, geröstet"
+ },
+ {
+  "slug": "usda-171138",
+  "food_group": "V",
+  "name_de": "Pute, Rücken, vom ganzen Tier, Fleisch mit Haut, mit zugesetzter Lösung, roh"
+ },
+ {
+  "slug": "usda-171139",
+  "food_group": "V",
+  "name_de": "Pute, Rücken, vom ganzen Tier, Fleisch mit Haut, mit zugesetzter Lösung, geröstet"
+ },
+ {
+  "slug": "usda-171140",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler oder Fryer, Brust, ohne Haut, ohne Knochen, nur Fleisch, geschmort"
+ },
+ {
+  "slug": "usda-171141",
+  "food_group": "X",
+  "name_de": "Suppe, schwarze Bohnen, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171142",
+  "food_group": "X",
+  "name_de": "Suppe, Bohnen mit Schweinefleisch, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171143",
+  "food_group": "X",
+  "name_de": "Suppe, Bohnen mit Frankfurter Würstchen, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171144",
+  "food_group": "X",
+  "name_de": "Suppe, Bohnen mit Schinken, aus der Dose, stückig, verzehrfertig"
+ },
+ {
+  "slug": "usda-171145",
+  "food_group": "Y",
+  "name_de": "Suppe, Hähnchen, aus der Dose, stückig, verzehrfertig"
+ },
+ {
+  "slug": "usda-171146",
+  "food_group": "Y",
+  "name_de": "Suppe, Creme von Hähnchen, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171147",
+  "food_group": "Y",
+  "name_de": "Suppe, Hähnchen-Gumbo, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171148",
+  "food_group": "Y",
+  "name_de": "Suppe, Hähnchen mit Nudeln, stückig, aus der Dose, verzehrfertig"
+ },
+ {
+  "slug": "usda-171149",
+  "food_group": "Y",
+  "name_de": "Suppe, Hähnchen mit Gemüse, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171150",
+  "food_group": "Y",
+  "name_de": "Suppe, Chili mit Rindfleisch, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171151",
+  "food_group": "Y",
+  "name_de": "Suppe, Clam Chowder nach Manhattan-Art, aus der Dose, stückig, verzehrfertig"
+ },
+ {
+  "slug": "usda-171152",
+  "food_group": "Y",
+  "name_de": "Suppe, Clam Chowder nach Manhattan-Art, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171153",
+  "food_group": "X",
+  "name_de": "Suppe, Minestrone, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171154",
+  "food_group": "X",
+  "name_de": "Suppe, Pilze mit Gerste, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171155",
+  "food_group": "X",
+  "name_de": "Suppe, Creme von Pilzen, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171156",
+  "food_group": "X",
+  "name_de": "Suppe, Pilze mit Rinderbrühe, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171157",
+  "food_group": "X",
+  "name_de": "Suppe, Spalterbsen mit Schinken, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171158",
+  "food_group": "X",
+  "name_de": "Suppe, Creme von Kartoffeln, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171159",
+  "food_group": "Y",
+  "name_de": "Suppe, Creme von Garnelen, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171160",
+  "food_group": "Y",
+  "name_de": "Suppe, Tomate mit Rindfleisch und Nudeln, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171161",
+  "food_group": "X",
+  "name_de": "Suppe, Gemüse, vegetarisch, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171162",
+  "food_group": "Y",
+  "name_de": "Suppe, Rindfleisch, stückig, aus der Dose, verzehrfertig"
+ },
+ {
+  "slug": "usda-171163",
+  "food_group": "Y",
+  "name_de": "Suppe, Gemüse mit Rindfleisch, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171164",
+  "food_group": "X",
+  "name_de": "Suppe, Gemüse mit Rinderbrühe, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171165",
+  "food_group": "X",
+  "name_de": "Suppe, Zwiebel, trocken, Mischung"
+ },
+ {
+  "slug": "usda-171166",
+  "food_group": "X",
+  "name_de": "Suppe, Creme von Gemüse, trocken, Pulver"
+ },
+ {
+  "slug": "usda-171167",
+  "food_group": "R",
+  "name_de": "Soße, Teriyaki, verzehrfertig"
+ },
+ {
+  "slug": "usda-171168",
+  "food_group": "R",
+  "name_de": "Bratensoße, Au jus, aus der Dose"
+ },
+ {
+  "slug": "usda-171169",
+  "food_group": "R",
+  "name_de": "Bratensoße, Au jus, trocken"
+ },
+ {
+  "slug": "usda-171170",
+  "food_group": "R",
+  "name_de": "Bratensoße, Pilze, aus der Dose"
+ },
+ {
+  "slug": "usda-171171",
+  "food_group": "R",
+  "name_de": "Bratensoße, Pilze, trocken, Pulver"
+ },
+ {
+  "slug": "usda-171172",
+  "food_group": "R",
+  "name_de": "Bratensoße, Zwiebel, trocken, Mischung"
+ },
+ {
+  "slug": "usda-171173",
+  "food_group": "R",
+  "name_de": "Bratensoße, Schweinefleisch, trocken, Pulver"
+ },
+ {
+  "slug": "usda-171174",
+  "food_group": "R",
+  "name_de": "Soße, Sofrito, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-171175",
+  "food_group": "Y",
+  "name_de": "Suppe, Rindfleisch mit Pilzen, aus der Dose, kondensiert"
+ },
+ {
+  "slug": "usda-171176",
+  "food_group": "X",
+  "name_de": "Suppe, Tomate, aus der Dose, mit gleicher Menge Wasser zubereitet, handelsüblich"
+ },
+ {
+  "slug": "usda-171177",
+  "food_group": "E",
+  "name_de": "Suppe, Ramen-Nudeln, beliebiger Geschmack, trocken"
+ },
+ {
+  "slug": "usda-171178",
+  "food_group": "X",
+  "name_de": "Suppe, Brokkoli mit Käse, aus der Dose, kondensiert, handelsüblich"
+ },
+ {
+  "slug": "usda-171179",
+  "food_group": "Y",
+  "name_de": "Suppe, SWANSON, Rinderbrühe, natriumreduziert"
+ },
+ {
+  "slug": "usda-171180",
+  "food_group": "X",
+  "name_de": "Suppe, SWANSON, Gemüsebrühe"
+ },
+ {
+  "slug": "usda-171181",
+  "food_group": "X",
+  "name_de": "SMART SOUP, Indische Bohnen-Masala"
+ },
+ {
+  "slug": "usda-171182",
+  "food_group": "X",
+  "name_de": "SMART SOUP, Marokkanische Kichererbsen"
+ },
+ {
+  "slug": "usda-171183",
+  "food_group": "X",
+  "name_de": "SMART SOUP, Thailändisches Kokos-Curry"
+ },
+ {
+  "slug": "usda-171184",
+  "food_group": "X",
+  "name_de": "SMART SOUP, Vietnamesische Karotten-Zitronengras"
+ },
+ {
+  "slug": "usda-171185",
+  "food_group": "R",
+  "name_de": "Soße, Pesto, MEZZETTA, NAPA VALLEY BISTRO, Basilikum-Pesto, verzehrfertig"
+ },
+ {
+  "slug": "usda-171186",
+  "food_group": "R",
+  "name_de": "Chilisoße, scharf, Sriracha"
+ },
+ {
+  "slug": "usda-171187",
+  "food_group": "R",
+  "name_de": "Chilisoße, scharf, Sriracha, CHA! BY TEXAS PETE"
+ },
+ {
+  "slug": "usda-171188",
+  "food_group": "R",
+  "name_de": "Chilisoße, scharf, Sriracha, TUONG OT SRIRACHA"
+ },
+ {
+  "slug": "usda-171189",
+  "food_group": "Y",
+  "name_de": "Suppe, Gemüse mit Rindfleisch, mikrowellengeeignet, verzehrfertig, einzelne Marke"
+ },
+ {
+  "slug": "usda-171190",
+  "food_group": "Y",
+  "name_de": "Suppe, Rindfleisch und Gemüse, aus der Dose, verzehrfertig"
+ },
+ {
+  "slug": "usda-171191",
+  "food_group": "R",
+  "name_de": "Käsesoße, verzehrfertig"
+ },
+ {
+  "slug": "usda-171192",
+  "food_group": "R",
+  "name_de": "Pastasoße, Spaghetti/Marinara, verzehrfertig"
+ },
+ {
+  "slug": "usda-171193",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Short Ribs, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, Select, roh"
+ },
+ {
+  "slug": "usda-171194",
+  "food_group": "U",
+  "name_de": "Rind, Chuck Eye Country-Style Ribs, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, Select, roh"
+ },
+ {
+  "slug": "usda-171195",
+  "food_group": "U",
+  "name_de": "Rind, Chuck Eye Country-Style Ribs, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-171196",
+  "food_group": "U",
+  "name_de": "Rind, Chuck-Eye-Steak, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-171197",
+  "food_group": "U",
+  "name_de": "Rind, Chuck-Eye-Steak, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-171198",
+  "food_group": "U",
+  "name_de": "Rind, Schulter Pot Roast, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-171199",
+  "food_group": "U",
+  "name_de": "Rind, Schulter Pot Roast, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, Select, geschmort"
+ },
+ {
+  "slug": "usda-171200",
+  "food_group": "U",
+  "name_de": "Rind, Schulter Pot Roast, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, alle Handelsklassen, geschmort"
+ },
+ {
+  "slug": "usda-171201",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Mock-Tender-Steak, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-171202",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Mock-Tender-Steak, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-171203",
+  "food_group": "U",
+  "name_de": "Rind, Chuck für Eintopf, Magerfleisch und Fett, alle Handelsklassen, geschmort"
+ },
+ {
+  "slug": "usda-171204",
+  "food_group": "U",
+  "name_de": "Rind, Chuck für Eintopf, Magerfleisch und Fett, Select, geschmort"
+ },
+ {
+  "slug": "usda-171205",
+  "food_group": "U",
+  "name_de": "Rind, Chuck für Eintopf, Magerfleisch und Fett, Choice, geschmort"
+ },
+ {
+  "slug": "usda-171206",
+  "food_group": "U",
+  "name_de": "Rind, Chuck für Eintopf, Magerfleisch und Fett, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-171207",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Under-Blade-Steak, ohne Knochen, nur Magerfleisch, auf 0 Zoll Fett pariert, alle Handelsklassen, geschmort"
+ },
+ {
+  "slug": "usda-171208",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Under-Blade Pot Roast, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, alle Handelsklassen, geschmort"
+ },
+ {
+  "slug": "usda-171209",
+  "food_group": "U",
+  "name_de": "Rind, Ribeye-Steak, ohne Knochen, Lip-on, nur Magerfleisch, auf 1/8 Zoll Fett pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-171210",
+  "food_group": "U",
+  "name_de": "Rind, Ribeye Roast, mit Knochen, Lip-on, nur Magerfleisch, auf 1/8 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-171211",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Under-Blade-Center-Steak, ohne Knochen, Denver Cut, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-171212",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Under-Blade-Center-Steak, ohne Knochen, Denver Cut, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-171213",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Under-Blade-Center-Steak, ohne Knochen, Denver Cut, Magerfleisch und Fett, auf 0 Zoll Fett pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-171214",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Under-Blade-Center-Steak, ohne Knochen, Denver Cut, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-171215",
+  "food_group": "U",
+  "name_de": "Rind, Chuck-Eye-Roast, ohne Knochen, America's Beef Roast, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-171216",
+  "food_group": "U",
+  "name_de": "Rind, Chuck-Eye-Roast, ohne Knochen, America's Beef Roast, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Select, geröstet"
+ },
+ {
+  "slug": "usda-171217",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Under-Blade-Steak, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, alle Handelsklassen, geschmort"
+ },
+ {
+  "slug": "usda-171218",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Under-Blade-Steak, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-171219",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Under-Blade-Steak, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Select, geschmort"
+ },
+ {
+  "slug": "usda-171220",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Mock-Tender-Steak, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-171221",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Mock-Tender-Steak, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Select, roh"
+ },
+ {
+  "slug": "usda-171222",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Short Ribs, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, alle Handelsklassen, geschmort"
+ },
+ {
+  "slug": "usda-171223",
+  "food_group": "U",
+  "name_de": "Rind, Chuck, Short Ribs, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-171224",
+  "food_group": "U",
+  "name_de": "Rind, Schulter Pot Roast, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, alle Handelsklassen, geschmort"
+ },
+ {
+  "slug": "usda-171225",
+  "food_group": "U",
+  "name_de": "Rind, Schulter Pot Roast, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-171226",
+  "food_group": "U",
+  "name_de": "Rind, Schulter Pot Roast, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Select, geschmort"
+ },
+ {
+  "slug": "usda-171227",
+  "food_group": "U",
+  "name_de": "Rind, Chuck Eye Country-Style Ribs, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, alle Handelsklassen, geschmort"
+ },
+ {
+  "slug": "usda-171228",
+  "food_group": "U",
+  "name_de": "Rind, Chuck-Eye-Steak, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-171229",
+  "food_group": "U",
+  "name_de": "Rind, Chuck-Eye-Steak, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-171230",
+  "food_group": "U",
+  "name_de": "Rind, Chuck-Eye-Steak, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-171231",
+  "food_group": "U",
+  "name_de": "Rind, Chuck-Eye-Steak, ohne Knochen, Magerfleisch und Fett, auf 0 Zoll Fett pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-171232",
+  "food_group": "U",
+  "name_de": "Rind, Ribeye-Steak, ohne Knochen, Lip-on, nur Magerfleisch, auf 1/8 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-171233",
+  "food_group": "U",
+  "name_de": "Rind, Ribeye-Steak, ohne Knochen, Lip-on, nur Magerfleisch, auf 1/8 Zoll Fett pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-171234",
+  "food_group": "U",
+  "name_de": "Rind, Ribeye Steak/Roast, mit Knochen, Lip-on, nur Magerfleisch, auf 1/8 Zoll Fett pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-171235",
+  "food_group": "U",
+  "name_de": "Rind, Ribeye Steak/Roast, mit Knochen, Lip-on, nur Magerfleisch, auf 1/8 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-171236",
+  "food_group": "U",
+  "name_de": "Rind, Ribeye-Steak, mit Knochen, Lip-on, nur Magerfleisch, auf 1/8 Zoll Fett pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-171237",
+  "food_group": "U",
+  "name_de": "Rind, Ribeye-Steak, mit Knochen, Lip-on, nur Magerfleisch, auf 1/8 Zoll Fett pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-171238",
+  "food_group": "U",
+  "name_de": "Rind, Ribeye-Steak, mit Knochen, Lip-on, nur Magerfleisch, auf 1/8 Zoll Fett pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-171239",
+  "food_group": "U",
+  "name_de": "Rind, Ribeye Roast, ohne Knochen, Lip-on, nur Magerfleisch, auf 1/8 Zoll Fett pariert, alle Handelsklassen, geröstet"
+ },
+ {
+  "slug": "usda-171240",
+  "food_group": "M",
+  "name_de": "Käse, Gjetost"
+ },
+ {
+  "slug": "usda-171241",
+  "food_group": "M",
+  "name_de": "Käse, Gouda"
+ },
+ {
+  "slug": "usda-171242",
+  "food_group": "M",
+  "name_de": "Käse, Gruyère"
+ },
+ {
+  "slug": "usda-171243",
+  "food_group": "M",
+  "name_de": "Käse, Limburger"
+ },
+ {
+  "slug": "usda-171244",
+  "food_group": "M",
+  "name_de": "Käse, Mozzarella, wasserarm, teilentrahmt"
+ },
+ {
+  "slug": "usda-171245",
+  "food_group": "M",
+  "name_de": "Käse, Muenster"
+ },
+ {
+  "slug": "usda-171246",
+  "food_group": "M",
+  "name_de": "Käse, Neufchâtel"
+ },
+ {
+  "slug": "usda-171247",
+  "food_group": "M",
+  "name_de": "Käse, Parmesan, gerieben"
+ },
+ {
+  "slug": "usda-171248",
+  "food_group": "M",
+  "name_de": "Käse, Ricotta, aus teilentrahmter Milch"
+ },
+ {
+  "slug": "usda-171249",
+  "food_group": "M",
+  "name_de": "Käse, Romano"
+ },
+ {
+  "slug": "usda-171250",
+  "food_group": "M",
+  "name_de": "Käse, Roquefort"
+ },
+ {
+  "slug": "usda-171251",
+  "food_group": "M",
+  "name_de": "Käse, Schweizer"
+ },
+ {
+  "slug": "usda-171252",
+  "food_group": "M",
+  "name_de": "Schmelzkäsezubereitung, pasteurisiert, American, mit Vitamin D angereichert"
+ },
+ {
+  "slug": "usda-171253",
+  "food_group": "M",
+  "name_de": "Schmelzkäsezubereitung, pasteurisiert, Schweizer"
+ },
+ {
+  "slug": "usda-171254",
+  "food_group": "M",
+  "name_de": "Käseaufstrich, Schmelzkäse, pasteurisiert, American"
+ },
+ {
+  "slug": "usda-171255",
+  "food_group": "M",
+  "name_de": "Sahne, flüssig, Half and Half"
+ },
+ {
+  "slug": "usda-171256",
+  "food_group": "M",
+  "name_de": "Saure Sahne, fettreduziert, gesäuert"
+ },
+ {
+  "slug": "usda-171257",
+  "food_group": "M",
+  "name_de": "Saure Sahne, gesäuert"
+ },
+ {
+  "slug": "usda-171258",
+  "food_group": "N",
+  "name_de": "Eierpunsch"
+ },
+ {
+  "slug": "usda-171259",
+  "food_group": "M",
+  "name_de": "Saures Dressing, ohne Milchfett, gesäuert, gefüllt (Sahne-Typ)"
+ },
+ {
+  "slug": "usda-171260",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, 2 % Fett, Kokos-Mischung, CHOBANI"
+ },
+ {
+  "slug": "usda-171261",
+  "food_group": "M",
+  "name_de": "Sahneersatz, flüssig, mit gehärtetem Pflanzenöl und Sojaprotein"
+ },
+ {
+  "slug": "usda-171262",
+  "food_group": "M",
+  "name_de": "Sahneersatz, flüssig, mit Laurinsäure-Öl und Natriumcaseinat"
+ },
+ {
+  "slug": "usda-171263",
+  "food_group": "M",
+  "name_de": "Sahneersatz, Pulver"
+ },
+ {
+  "slug": "usda-171264",
+  "food_group": "N",
+  "name_de": "Milchersatz, flüssig, mit Laurinsäure-Öl"
+ },
+ {
+  "slug": "usda-171265",
+  "food_group": "M",
+  "name_de": "Milch, Vollmilch, 3,25 % Milchfett, mit zugesetztem Vitamin D"
+ },
+ {
+  "slug": "usda-171266",
+  "food_group": "M",
+  "name_de": "Milch, Erzeugermilch, flüssig, 3,7 % Milchfett"
+ },
+ {
+  "slug": "usda-171267",
+  "food_group": "M",
+  "name_de": "Milch, fettreduziert, flüssig, 2 % Milchfett, mit zugesetztem Vitamin A und Vitamin D"
+ },
+ {
+  "slug": "usda-171268",
+  "food_group": "M",
+  "name_de": "Milch, fettarm, flüssig, 1 % Milchfett, proteinangereichert, mit zugesetztem Vitamin A und Vitamin D"
+ },
+ {
+  "slug": "usda-171269",
+  "food_group": "M",
+  "name_de": "Milch, fettfrei, flüssig, mit zugesetztem Vitamin A und Vitamin D (fettfrei oder entrahmt)"
+ },
+ {
+  "slug": "usda-171270",
+  "food_group": "M",
+  "name_de": "Milch, fettfrei, flüssig, mit zugesetzten fettfreien Milchfeststoffen, Vitamin A und Vitamin D (fettfrei oder entrahmt)"
+ },
+ {
+  "slug": "usda-171271",
+  "food_group": "M",
+  "name_de": "Milch, fettfrei, flüssig, proteinangereichert, mit zugesetztem Vitamin A und Vitamin D (fettfrei und entrahmt)"
+ },
+ {
+  "slug": "usda-171272",
+  "food_group": "M",
+  "name_de": "Milch, getrocknet, fettfrei, instant, mit zugesetztem Vitamin A und Vitamin D"
+ },
+ {
+  "slug": "usda-171273",
+  "food_group": "M",
+  "name_de": "Milch, getrocknet, fettfrei, calciumreduziert"
+ },
+ {
+  "slug": "usda-171274",
+  "food_group": "M",
+  "name_de": "Milch, Buttermilch, getrocknet"
+ },
+ {
+  "slug": "usda-171275",
+  "food_group": "M",
+  "name_de": "Milch, aus der Dose, kondensiert, gezuckert"
+ },
+ {
+  "slug": "usda-171276",
+  "food_group": "M",
+  "name_de": "Milch, aus der Dose, eingedampft, mit zugesetztem Vitamin D und ohne zugesetztes Vitamin A"
+ },
+ {
+  "slug": "usda-171277",
+  "food_group": "N",
+  "name_de": "Milch, Schokoladengetränk, heißer Kakao, hausgemacht"
+ },
+ {
+  "slug": "usda-171278",
+  "food_group": "M",
+  "name_de": "Ziegenmilch, flüssig, mit zugesetztem Vitamin D"
+ },
+ {
+  "slug": "usda-171279",
+  "food_group": "M",
+  "name_de": "Muttermilch, reif, flüssig"
+ },
+ {
+  "slug": "usda-171280",
+  "food_group": "M",
+  "name_de": "Büffelmilch, indischer Büffel, flüssig"
+ },
+ {
+  "slug": "usda-171281",
+  "food_group": "M",
+  "name_de": "Molke, sauer, getrocknet"
+ },
+ {
+  "slug": "usda-171282",
+  "food_group": "M",
+  "name_de": "Molke, süß, flüssig"
+ },
+ {
+  "slug": "usda-171283",
+  "food_group": "M",
+  "name_de": "Molke, süß, getrocknet"
+ },
+ {
+  "slug": "usda-171284",
+  "food_group": "M",
+  "name_de": "Joghurt, natur, Vollmilch"
+ },
+ {
+  "slug": "usda-171285",
+  "food_group": "M",
+  "name_de": "Joghurt, Frucht, fettarm, 10 g Eiweiß pro 8 Unzen"
+ },
+ {
+  "slug": "usda-171286",
+  "food_group": "M",
+  "name_de": "Joghurt, Frucht, fettarm, 11 g Eiweiß pro 8 Unzen"
+ },
+ {
+  "slug": "usda-171287",
+  "food_group": "E",
+  "name_de": "Ei, ganz, roh, frisch"
+ },
+ {
+  "slug": "usda-171288",
+  "food_group": "M",
+  "name_de": "Käse, mexikanische Mischung"
+ },
+ {
+  "slug": "usda-171289",
+  "food_group": "M",
+  "name_de": "Schmelzkäseprodukt, pasteurisiert, American, mit Vitamin D angereichert"
+ },
+ {
+  "slug": "usda-171290",
+  "food_group": "M",
+  "name_de": "Schmelzkäse, pasteurisiert, American, ohne zugesetztes Vitamin D"
+ },
+ {
+  "slug": "usda-171291",
+  "food_group": "M",
+  "name_de": "Schmelzkäsezubereitung, pasteurisiert, American, ohne zugesetztes Vitamin D"
+ },
+ {
+  "slug": "usda-171292",
+  "food_group": "M",
+  "name_de": "Käse, Cheddar, fettreduziert (einschließlich Lebensmittel für das Food Distribution Program des USDA)"
+ },
+ {
+  "slug": "usda-171293",
+  "food_group": "M",
+  "name_de": "Eiscreme, light, Softeis, Schokolade"
+ },
+ {
+  "slug": "usda-171294",
+  "food_group": "M",
+  "name_de": "Eiscreme-Riegel, am Stiel oder Nugget, mit Knusperüberzug"
+ },
+ {
+  "slug": "usda-171295",
+  "food_group": "M",
+  "name_de": "Käse, Cheddar, fettfrei"
+ },
+ {
+  "slug": "usda-171296",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, fettfrei, Vanille, CHOBANI"
+ },
+ {
+  "slug": "usda-171297",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, Erdbeere, DANNON OIKOS"
+ },
+ {
+  "slug": "usda-171298",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, fettfrei, Vanille, DANNON OIKOS"
+ },
+ {
+  "slug": "usda-171299",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, fettfrei, Erdbeere, DANNON OIKOS"
+ },
+ {
+  "slug": "usda-171300",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, Erdbeere, fettarm"
+ },
+ {
+  "slug": "usda-171301",
+  "food_group": "M",
+  "name_de": "Kefir, fettarm, Erdbeere, LIFEWAY"
+ },
+ {
+  "slug": "usda-171302",
+  "food_group": "M",
+  "name_de": "Milch, eingedampft, 2 % Fett, mit zugesetztem Vitamin A und Vitamin D"
+ },
+ {
+  "slug": "usda-171303",
+  "food_group": "M",
+  "name_de": "Milch, Schokolade, fettfrei, mit zugesetztem Vitamin A und Vitamin D"
+ },
+ {
+  "slug": "usda-171304",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, natur, Vollmilch"
+ },
+ {
+  "slug": "usda-171305",
+  "food_group": "M",
+  "name_de": "Eiscreme-Riegel, mit Schokolade und Nüssen überzogen"
+ },
+ {
+  "slug": "usda-171306",
+  "food_group": "M",
+  "name_de": "Eiscreme-Sundae-Hörnchen"
+ },
+ {
+  "slug": "usda-171307",
+  "food_group": "M",
+  "name_de": "Eiscreme, light, Creamsicle"
+ },
+ {
+  "slug": "usda-171308",
+  "food_group": "M",
+  "name_de": "Sahne, Half and Half, fettarm"
+ },
+ {
+  "slug": "usda-171309",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, vollfett, natur, CHOBANI"
+ },
+ {
+  "slug": "usda-171310",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, fettfrei, Zitronen-Mischung, CHOBANI"
+ },
+ {
+  "slug": "usda-171311",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, fettfrei, Pfirsich, CHOBANI"
+ },
+ {
+  "slug": "usda-171312",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, fettfrei, natur, CHOBANI"
+ },
+ {
+  "slug": "usda-171313",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, fettfrei, Himbeere, CHOBANI"
+ },
+ {
+  "slug": "usda-171314",
+  "food_group": "Q",
+  "name_de": "Butterschmalz (Ghee)"
+ },
+ {
+  "slug": "usda-171315",
+  "food_group": "R",
+  "name_de": "Piment, gemahlen"
+ },
+ {
+  "slug": "usda-171316",
+  "food_group": "R",
+  "name_de": "Anis, Samen"
+ },
+ {
+  "slug": "usda-171317",
+  "food_group": "R",
+  "name_de": "Basilikum, getrocknet"
+ },
+ {
+  "slug": "usda-171318",
+  "food_group": "R",
+  "name_de": "Kerbel, getrocknet"
+ },
+ {
+  "slug": "usda-171319",
+  "food_group": "R",
+  "name_de": "Chilipulver"
+ },
+ {
+  "slug": "usda-171320",
+  "food_group": "R",
+  "name_de": "Zimt, gemahlen"
+ },
+ {
+  "slug": "usda-171321",
+  "food_group": "R",
+  "name_de": "Nelken, gemahlen"
+ },
+ {
+  "slug": "usda-171322",
+  "food_group": "R",
+  "name_de": "Dillkraut, getrocknet"
+ },
+ {
+  "slug": "usda-171323",
+  "food_group": "R",
+  "name_de": "Fenchel, Samen"
+ },
+ {
+  "slug": "usda-171324",
+  "food_group": "R",
+  "name_de": "Bockshornklee, Samen"
+ },
+ {
+  "slug": "usda-171325",
+  "food_group": "R",
+  "name_de": "Knoblauchpulver"
+ },
+ {
+  "slug": "usda-171326",
+  "food_group": "R",
+  "name_de": "Muskatnuss, gemahlen"
+ },
+ {
+  "slug": "usda-171327",
+  "food_group": "R",
+  "name_de": "Zwiebelpulver"
+ },
+ {
+  "slug": "usda-171328",
+  "food_group": "R",
+  "name_de": "Oregano, getrocknet"
+ },
+ {
+  "slug": "usda-171329",
+  "food_group": "R",
+  "name_de": "Paprikapulver"
+ },
+ {
+  "slug": "usda-171330",
+  "food_group": "R",
+  "name_de": "Mohn, Samen"
+ },
+ {
+  "slug": "usda-171331",
+  "food_group": "R",
+  "name_de": "Geflügelgewürz"
+ },
+ {
+  "slug": "usda-171332",
+  "food_group": "R",
+  "name_de": "Kürbiskuchen-Gewürz"
+ },
+ {
+  "slug": "usda-171333",
+  "food_group": "R",
+  "name_de": "Rosmarin, getrocknet"
+ },
+ {
+  "slug": "usda-171400",
+  "food_group": "Q",
+  "name_de": "Rindertalg"
+ },
+ {
+  "slug": "usda-171401",
+  "food_group": "Q",
+  "name_de": "Schweineschmalz"
+ },
+ {
+  "slug": "usda-171402",
+  "food_group": "Q",
+  "name_de": "Salatdressing, Thousand Island, handelsüblich, normal"
+ }
+]

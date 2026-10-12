@@ -1,0 +1,1252 @@
+[
+ {
+  "slug": "usda-168674",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Nacken, Chuck Eye Roast, ohne Knochen, America's Beef Roast, nur Magerfleisch, Fett auf 0 Zoll gekürzt, alle Güteklassen, geröstet"
+ },
+ {
+  "slug": "usda-168675",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, ganz (Rippen 6-12), mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, roh"
+ },
+ {
+  "slug": "usda-168676",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, ganz (Rippen 6-12), mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168677",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, ganz (Rippen 6-12), mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, geröstet"
+ },
+ {
+  "slug": "usda-168678",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, ganz (Rippen 6-12), mit Fett, Fett auf 1/8 Zoll gekürzt, Select, roh"
+ },
+ {
+  "slug": "usda-168679",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, ganz (Rippen 6-12), mit Fett, Fett auf 1/8 Zoll gekürzt, Prime, geröstet"
+ },
+ {
+  "slug": "usda-168680",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, großes Ende (Rippen 6-9), mit Fett, Fett auf 1/8 Zoll gekürzt, alle Güteklassen, roh"
+ },
+ {
+  "slug": "usda-168681",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, großes Ende (Rippen 6-9), mit Fett, Fett auf 1/8 Zoll gekürzt, alle Güteklassen, gegrillt"
+ },
+ {
+  "slug": "usda-168682",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, großes Ende (Rippen 6-9), mit Fett, Fett auf 1/8 Zoll gekürzt, alle Güteklassen, geröstet"
+ },
+ {
+  "slug": "usda-168683",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, großes Ende (Rippen 6-9), mit Fett, Fett auf 1/8 Zoll gekürzt, Select, gegrillt"
+ },
+ {
+  "slug": "usda-168684",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, großes Ende (Rippen 6-9), mit Fett, Fett auf 1/8 Zoll gekürzt, Select, geröstet"
+ },
+ {
+  "slug": "usda-168685",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, großes Ende (Rippen 6-9), mit Fett, Fett auf 1/8 Zoll gekürzt, Prime, roh"
+ },
+ {
+  "slug": "usda-168686",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, großes Ende (Rippen 6-9), mit Fett, Fett auf 1/8 Zoll gekürzt, Prime, gegrillt"
+ },
+ {
+  "slug": "usda-168687",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, großes Ende (Rippen 6-9), mit Fett, Fett auf 1/8 Zoll gekürzt, Prime, geröstet"
+ },
+ {
+  "slug": "usda-168688",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, kleines Ende (Rippen 10-12), mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168689",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, kleines Ende (Rippen 10-12), mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, geröstet"
+ },
+ {
+  "slug": "usda-168690",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, kleines Ende (Rippen 10-12), mit Fett, Fett auf 1/8 Zoll gekürzt, Select, roh"
+ },
+ {
+  "slug": "usda-168691",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hochrippe, kleines Ende (Rippen 10-12), mit Fett, Fett auf 1/8 Zoll gekürzt, Select, gegrillt"
+ },
+ {
+  "slug": "usda-168692",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Schulter, Top-Blade-Steak, ohne Knochen, mit Fett, Fett auf 0 Zoll gekürzt, Select, gegrillt"
+ },
+ {
+  "slug": "usda-168693",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Schulter, Top-Blade-Steak, ohne Knochen, mit Fett, Fett auf 0 Zoll gekürzt, alle Güteklassen, roh"
+ },
+ {
+  "slug": "usda-168694",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, ganzer Schnitt, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, roh"
+ },
+ {
+  "slug": "usda-168695",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, ganzer Schnitt, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168696",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Unterschale, Braten, mit Fett, Fett auf 1/8 Zoll gekürzt, alle Güteklassen, geröstet"
+ },
+ {
+  "slug": "usda-168697",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Unterschale, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, roh"
+ },
+ {
+  "slug": "usda-168698",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Unterschale, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, geschmort"
+ },
+ {
+  "slug": "usda-168699",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Unterschale, Braten, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, geröstet"
+ },
+ {
+  "slug": "usda-168700",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Unterschale, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, roh"
+ },
+ {
+  "slug": "usda-168701",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Eye of Round, Braten, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, roh"
+ },
+ {
+  "slug": "usda-168702",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Eye of Round, Braten, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, geröstet"
+ },
+ {
+  "slug": "usda-168703",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Eye of Round, Braten, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, roh"
+ },
+ {
+  "slug": "usda-168704",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Eye of Round, Braten, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, geröstet"
+ },
+ {
+  "slug": "usda-168705",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Tip Round, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, roh"
+ },
+ {
+  "slug": "usda-168706",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Tip Round, Braten, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, geröstet"
+ },
+ {
+  "slug": "usda-168707",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Schulter, Top-Blade-Steak, ohne Knochen, mit Fett, Fett auf 0 Zoll gekürzt, Choice, roh"
+ },
+ {
+  "slug": "usda-168708",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Oberschale, nur Magerfleisch, Fett auf 1/8 Zoll gekürzt, Choice, gebraten"
+ },
+ {
+  "slug": "usda-168709",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Oberschale, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, geschmort"
+ },
+ {
+  "slug": "usda-168710",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Oberschale, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168711",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Oberschale, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, gebraten"
+ },
+ {
+  "slug": "usda-168712",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Oberschale, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, roh"
+ },
+ {
+  "slug": "usda-168713",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Oberschale, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, geschmort"
+ },
+ {
+  "slug": "usda-168714",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Brust, flache Hälfte, ohne Knochen, mit Fett, Fett auf 0 Zoll gekürzt, alle Güteklassen, roh"
+ },
+ {
+  "slug": "usda-168715",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Short Loin, Porterhouse-Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, roh"
+ },
+ {
+  "slug": "usda-168716",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Short Loin, Porterhouse-Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168717",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Short Loin, T-Bone-Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, roh"
+ },
+ {
+  "slug": "usda-168718",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Short Loin, Top Loin, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168719",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Lende, Top Loin, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, roh"
+ },
+ {
+  "slug": "usda-168720",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Lende, Top Loin, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, gegrillt"
+ },
+ {
+  "slug": "usda-168721",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Short Loin, Top Loin, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Prime, roh"
+ },
+ {
+  "slug": "usda-168722",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Filet, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168723",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Filet, Braten, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, geröstet"
+ },
+ {
+  "slug": "usda-168724",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Filet, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, roh"
+ },
+ {
+  "slug": "usda-168725",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Filet, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Select, gegrillt"
+ },
+ {
+  "slug": "usda-168726",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hüfte, Top Sirloin, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, alle Güteklassen, roh"
+ },
+ {
+  "slug": "usda-168727",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hüfte, Top Sirloin, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, alle Güteklassen, gegrillt"
+ },
+ {
+  "slug": "usda-168728",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hüfte, Top Sirloin, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, roh"
+ },
+ {
+  "slug": "usda-168729",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hüfte, Top Sirloin, Steak, mit Fett, Fett auf 1/8 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168730",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Nacken, Clod Roast, nur Magerfleisch, Fett auf 0 Zoll gekürzt, Select, geröstet"
+ },
+ {
+  "slug": "usda-168731",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Schulter, Steak, ohne Knochen, nur Magerfleisch, Fett auf 0 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168732",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Schulter, Steak, ohne Knochen, nur Magerfleisch, Fett auf 0 Zoll gekürzt, Select, gegrillt"
+ },
+ {
+  "slug": "usda-168733",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Flanke, Steak, mit Fett, Fett auf 0 Zoll gekürzt, alle Güteklassen, gegrillt"
+ },
+ {
+  "slug": "usda-168734",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hüfte, Bottom Sirloin, Tri-Tip-Braten, mit Fett, Fett auf 0 Zoll gekürzt, alle Güteklassen, roh"
+ },
+ {
+  "slug": "usda-168735",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hüfte, Bottom Sirloin, Tri-Tip-Braten, mit Fett, Fett auf 0 Zoll gekürzt, Choice, geröstet"
+ },
+ {
+  "slug": "usda-168736",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hüfte, Bottom Sirloin, Tri-Tip-Braten, mit Fett, Fett auf 0 Zoll gekürzt, Choice, roh"
+ },
+ {
+  "slug": "usda-168737",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Hüfte, Bottom Sirloin, Tri-Tip-Braten, mit Fett, Fett auf 0 Zoll gekürzt, Select, geröstet"
+ },
+ {
+  "slug": "usda-168738",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Nacken, Top Blade, nur Magerfleisch, Fett auf 0 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168739",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Nacken, Top Blade, nur Magerfleisch, Fett auf 0 Zoll gekürzt, Select, gegrillt"
+ },
+ {
+  "slug": "usda-168740",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Oberschale-Steak, ohne Knochen, mit Fett, Fett auf 0 Zoll gekürzt, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-168741",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Keule, Oberschale-Steak, ohne Knochen, mit Fett, Fett auf 0 Zoll gekürzt, Select, gegrillt"
+ },
+ {
+  "slug": "usda-168742",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Nacken, Chuck Eye Roast, ohne Knochen, America's Beef Roast, nur Magerfleisch, Fett auf 0 Zoll gekürzt, Select, roh"
+ },
+ {
+  "slug": "usda-168743",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Brust, flache Hälfte, ohne Knochen, mit Fett, Fett auf 0 Zoll gekürzt, Choice, roh"
+ },
+ {
+  "slug": "usda-168744",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Fehlrippe, Inside-Skirt-Steak, nur Magerfleisch, Fett auf 0 Zoll gekürzt, alle Güteklassen, gegrillt"
+ },
+ {
+  "slug": "usda-168745",
+  "food_group": "U",
+  "name_de": "Rindfleisch, Fehlrippe, Outside-Skirt-Steak, nur Magerfleisch, Fett auf 0 Zoll gekürzt, alle Güteklassen, gegrillt"
+ },
+ {
+  "slug": "usda-168746",
+  "food_group": "P",
+  "name_de": "Bier, normal, alle"
+ },
+ {
+  "slug": "usda-168747",
+  "food_group": "P",
+  "name_de": "Bier, normal, BUDWEISER"
+ },
+ {
+  "slug": "usda-168748",
+  "food_group": "P",
+  "name_de": "Bier, light, BUDWEISER SELECT"
+ },
+ {
+  "slug": "usda-168749",
+  "food_group": "P",
+  "name_de": "Bier, light"
+ },
+ {
+  "slug": "usda-168750",
+  "food_group": "P",
+  "name_de": "Piña Colada, aus der Dose"
+ },
+ {
+  "slug": "usda-168751",
+  "food_group": "N",
+  "name_de": "Mandelmilch, gesüßt, Vanillegeschmack, trinkfertig"
+ },
+ {
+  "slug": "usda-168752",
+  "food_group": "P",
+  "name_de": "Piña Colada, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-168753",
+  "food_group": "P",
+  "name_de": "Tequila Sunrise, aus der Dose"
+ },
+ {
+  "slug": "usda-168754",
+  "food_group": "S",
+  "name_de": "Milchschokolade, mit Mandeln"
+ },
+ {
+  "slug": "usda-168755",
+  "food_group": "S",
+  "name_de": "Milchschokolade, mit Reis-Cerealien"
+ },
+ {
+  "slug": "usda-168756",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, MILKY WAY Riegel"
+ },
+ {
+  "slug": "usda-168757",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, HERSHEY'S SKOR Toffee-Riegel"
+ },
+ {
+  "slug": "usda-168758",
+  "food_group": "S",
+  "name_de": "Topping, Erdbeere"
+ },
+ {
+  "slug": "usda-168759",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MOUNDS Riegel"
+ },
+ {
+  "slug": "usda-168760",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MR. GOODBAR Schokoriegel"
+ },
+ {
+  "slug": "usda-168761",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, NESTLE, 100 GRAND Riegel"
+ },
+ {
+  "slug": "usda-168762",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, NESTLE, CRUNCH Riegel und Dessert-Topping"
+ },
+ {
+  "slug": "usda-168763",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, REESE'S Erdnussbutter-Cups"
+ },
+ {
+  "slug": "usda-168764",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, REESE'S PIECES"
+ },
+ {
+  "slug": "usda-168765",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, ROLO Karamell in Milchschokolade"
+ },
+ {
+  "slug": "usda-168766",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, NESTLE, AFTER EIGHT Mints"
+ },
+ {
+  "slug": "usda-168767",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, 3 MUSKETEERS Riegel"
+ },
+ {
+  "slug": "usda-168768",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, TWIX Karamell-Keksriegel"
+ },
+ {
+  "slug": "usda-168769",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, TWIX Erdnussbutter-Keksriegel"
+ },
+ {
+  "slug": "usda-168770",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, WHATCHAMACALLIT Riegel"
+ },
+ {
+  "slug": "usda-168771",
+  "food_group": "S",
+  "name_de": "Kaugummi"
+ },
+ {
+  "slug": "usda-168772",
+  "food_group": "S",
+  "name_de": "Eiercreme, Trockenmischung"
+ },
+ {
+  "slug": "usda-168773",
+  "food_group": "S",
+  "name_de": "Eiercreme, Trockenmischung, mit Vollmilch zubereitet"
+ },
+ {
+  "slug": "usda-168774",
+  "food_group": "S",
+  "name_de": "Kakaopulver, ungesüßt, HERSHEY'S European Style Cocoa"
+ },
+ {
+  "slug": "usda-168775",
+  "food_group": "S",
+  "name_de": "Gelatinedessert, Trockenmischung"
+ },
+ {
+  "slug": "usda-168776",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, YORK BITES"
+ },
+ {
+  "slug": "usda-168777",
+  "food_group": "S",
+  "name_de": "Dessert, Mousse au Chocolat, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-168778",
+  "food_group": "S",
+  "name_de": "Pudding, Schokolade, verzehrfertig"
+ },
+ {
+  "slug": "usda-168779",
+  "food_group": "S",
+  "name_de": "Pudding, Schokolade, Trockenmischung, Instant"
+ },
+ {
+  "slug": "usda-168780",
+  "food_group": "S",
+  "name_de": "Pudding, Schokolade, Trockenmischung, normal, mit Milch (2 %) zubereitet"
+ },
+ {
+  "slug": "usda-168781",
+  "food_group": "S",
+  "name_de": "Pudding, Kokoscreme, Trockenmischung, Instant, mit Milch (2 %) zubereitet"
+ },
+ {
+  "slug": "usda-168782",
+  "food_group": "S",
+  "name_de": "Reispudding, verzehrfertig"
+ },
+ {
+  "slug": "usda-168783",
+  "food_group": "S",
+  "name_de": "Reispudding, Trockenmischung"
+ },
+ {
+  "slug": "usda-168784",
+  "food_group": "S",
+  "name_de": "Pudding, Vanille, Trockenmischung, Instant"
+ },
+ {
+  "slug": "usda-168785",
+  "food_group": "S",
+  "name_de": "Pudding, Vanille, Trockenmischung, Instant, mit Vollmilch zubereitet"
+ },
+ {
+  "slug": "usda-168786",
+  "food_group": "S",
+  "name_de": "Pudding, Zitrone, Trockenmischung, Instant, mit Milch (2 %) zubereitet"
+ },
+ {
+  "slug": "usda-168787",
+  "food_group": "S",
+  "name_de": "Eiercreme, Trockenmischung, mit Milch (2 %) zubereitet"
+ },
+ {
+  "slug": "usda-168788",
+  "food_group": "S",
+  "name_de": "Pudding, Vanille, Trockenmischung, normal, mit Milch (2 %) zubereitet"
+ },
+ {
+  "slug": "usda-168789",
+  "food_group": "S",
+  "name_de": "Rennin (Lab), Schokolade, Trockenmischung, mit Milch (2 %) zubereitet"
+ },
+ {
+  "slug": "usda-168790",
+  "food_group": "S",
+  "name_de": "Rennin (Lab), Vanille, Trockenmischung, mit Milch (2 %) zubereitet"
+ },
+ {
+  "slug": "usda-168791",
+  "food_group": "S",
+  "name_de": "Praline, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-168792",
+  "food_group": "S",
+  "name_de": "Dessert, Rennin (Lab), Vanille, Trockenmischung"
+ },
+ {
+  "slug": "usda-168793",
+  "food_group": "S",
+  "name_de": "Rennin (Lab), Vanille, Trockenmischung, mit Vollmilch zubereitet"
+ },
+ {
+  "slug": "usda-168794",
+  "food_group": "S",
+  "name_de": "Dessert, Rennin (Lab), Tabletten, ungesüßt"
+ },
+ {
+  "slug": "usda-168795",
+  "food_group": "S",
+  "name_de": "Frosting, Schokolade, cremig, verzehrfertig"
+ },
+ {
+  "slug": "usda-168796",
+  "food_group": "S",
+  "name_de": "Flan, Karamellcreme, Trockenmischung, mit Vollmilch zubereitet"
+ },
+ {
+  "slug": "usda-168797",
+  "food_group": "S",
+  "name_de": "Pudding, Vanille, verzehrfertig, fettfrei"
+ },
+ {
+  "slug": "usda-168798",
+  "food_group": "S",
+  "name_de": "Pudding, Tapioka, verzehrfertig, fettfrei"
+ },
+ {
+  "slug": "usda-168799",
+  "food_group": "S",
+  "name_de": "Pudding, Schokolade, verzehrfertig, fettfrei"
+ },
+ {
+  "slug": "usda-168800",
+  "food_group": "S",
+  "name_de": "Frosting, Schokolade, cremig, Trockenmischung, mit Butter zubereitet"
+ },
+ {
+  "slug": "usda-168801",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, HEATH BITES"
+ },
+ {
+  "slug": "usda-168802",
+  "food_group": "S",
+  "name_de": "Frosting, Vanille, cremig, Trockenmischung"
+ },
+ {
+  "slug": "usda-168803",
+  "food_group": "S",
+  "name_de": "Frosting, weiß, fluffig, Trockenmischung"
+ },
+ {
+  "slug": "usda-168804",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, DOVE Milchschokolade"
+ },
+ {
+  "slug": "usda-168805",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, DOVE dunkle Schokolade"
+ },
+ {
+  "slug": "usda-168806",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, MILKY WAY Caramels, mit Milchschokolade überzogen"
+ },
+ {
+  "slug": "usda-168807",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, MILKY WAY Caramels, mit dunkler Schokolade überzogen"
+ },
+ {
+  "slug": "usda-168808",
+  "food_group": "S",
+  "name_de": "Snacks, GENERAL MILLS, BETTY CROCKER Fruit Roll Ups, Beerengeschmack, mit Vitamin C"
+ },
+ {
+  "slug": "usda-168809",
+  "food_group": "S",
+  "name_de": "Eiscreme, Schokolade"
+ },
+ {
+  "slug": "usda-168810",
+  "food_group": "S",
+  "name_de": "Eiscreme, Erdbeere"
+ },
+ {
+  "slug": "usda-168811",
+  "food_group": "S",
+  "name_de": "Snacks, FARLEY CANDY, FARLEY Fruit Snacks, mit Vitaminen A, C und E"
+ },
+ {
+  "slug": "usda-168812",
+  "food_group": "S",
+  "name_de": "Eisspezialität, Wassereis, italienisch, im Restaurant zubereitet"
+ },
+ {
+  "slug": "usda-168813",
+  "food_group": "S",
+  "name_de": "Eisspezialität, Wassereis, Pop"
+ },
+ {
+  "slug": "usda-168814",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, M&M's Crispy Schokodragees"
+ },
+ {
+  "slug": "usda-168815",
+  "food_group": "S",
+  "name_de": "Frozen Yogurt, Vanille, Softeis"
+ },
+ {
+  "slug": "usda-168816",
+  "food_group": "S",
+  "name_de": "Fruchtbutter, Apfel"
+ },
+ {
+  "slug": "usda-168817",
+  "food_group": "S",
+  "name_de": "Fudge, Schokolade-Marshmallow, mit Nüssen, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-168818",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, SNICKERS Almond Riegel"
+ },
+ {
+  "slug": "usda-168819",
+  "food_group": "S",
+  "name_de": "Marmelade, Orange"
+ },
+ {
+  "slug": "usda-168820",
+  "food_group": "S",
+  "name_de": "Melasse"
+ },
+ {
+  "slug": "usda-168821",
+  "food_group": "R",
+  "name_de": "Pektin, ungesüßt, Trockenmischung"
+ },
+ {
+  "slug": "usda-168822",
+  "food_group": "S",
+  "name_de": "Tortenfüllung, Apfel, aus der Dose"
+ },
+ {
+  "slug": "usda-168823",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, STARBURST Fruchtkaubonbons, tropische Früchte"
+ },
+ {
+  "slug": "usda-168824",
+  "food_group": "S",
+  "name_de": "Tortenfüllung, aus der Dose, Kirsche"
+ },
+ {
+  "slug": "usda-168825",
+  "food_group": "S",
+  "name_de": "Pudding, Banane, Trockenmischung, normal, mit Vollmilch zubereitet"
+ },
+ {
+  "slug": "usda-168826",
+  "food_group": "S",
+  "name_de": "Pudding, Kokoscreme, Trockenmischung, Instant"
+ },
+ {
+  "slug": "usda-168827",
+  "food_group": "S",
+  "name_de": "Pudding, Kokoscreme, Trockenmischung, Instant, mit Vollmilch zubereitet"
+ },
+ {
+  "slug": "usda-168828",
+  "food_group": "S",
+  "name_de": "Pudding, Kokoscreme, Trockenmischung, normal"
+ },
+ {
+  "slug": "usda-168829",
+  "food_group": "S",
+  "name_de": "Pudding, Kokoscreme, Trockenmischung, normal, mit Vollmilch zubereitet"
+ },
+ {
+  "slug": "usda-168830",
+  "food_group": "S",
+  "name_de": "Pudding, Zitrone, Trockenmischung, Instant, mit Vollmilch zubereitet"
+ },
+ {
+  "slug": "usda-168831",
+  "food_group": "S",
+  "name_de": "Pudding, Zitrone, Trockenmischung, normal"
+ },
+ {
+  "slug": "usda-168832",
+  "food_group": "S",
+  "name_de": "Pudding, Zitrone, Trockenmischung, normal, mit Zucker, Eigelb und Wasser zubereitet"
+ },
+ {
+  "slug": "usda-168833",
+  "food_group": "S",
+  "name_de": "Zucker, braun"
+ },
+ {
+  "slug": "usda-168834",
+  "food_group": "S",
+  "name_de": "Sirup, Schokolade, HERSHEY'S Genuine Chocolate Flavored Lite Syrup"
+ },
+ {
+  "slug": "usda-168835",
+  "food_group": "S",
+  "name_de": "Sirup, Schokolade, Fudge-Art"
+ },
+ {
+  "slug": "usda-168836",
+  "food_group": "S",
+  "name_de": "Maissirup, dunkel"
+ },
+ {
+  "slug": "usda-168837",
+  "food_group": "S",
+  "name_de": "Maissirup, hell"
+ },
+ {
+  "slug": "usda-168838",
+  "food_group": "S",
+  "name_de": "Sirup, Tischmischung, Pfannkuchen, mit 2 % Ahorn"
+ },
+ {
+  "slug": "usda-168839",
+  "food_group": "S",
+  "name_de": "Sirup, Tischmischung, Mais, Refiner und Zucker"
+ },
+ {
+  "slug": "usda-168840",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, SKITTLES Wild Berry, Bite Size"
+ },
+ {
+  "slug": "usda-168841",
+  "food_group": "S",
+  "name_de": "Topping, Butterscotch oder Karamell"
+ },
+ {
+  "slug": "usda-168842",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, SKITTLES Sours Original"
+ },
+ {
+  "slug": "usda-168843",
+  "food_group": "S",
+  "name_de": "Süßigkeiten, MARS SNACKFOOD US, SKITTLES Original, Bite Size"
+ },
+ {
+  "slug": "usda-168844",
+  "food_group": "S",
+  "name_de": "Frosting, Vanille, cremig, Trockenmischung, mit Margarine zubereitet"
+ },
+ {
+  "slug": "usda-168845",
+  "food_group": "S",
+  "name_de": "Frosting, Schokolade, cremig, Trockenmischung, mit Margarine zubereitet"
+ },
+ {
+  "slug": "usda-168846",
+  "food_group": "S",
+  "name_de": "Divinity, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-168847",
+  "food_group": "S",
+  "name_de": "Eisspezialität, Wassereis, Ananas-Kokos"
+ },
+ {
+  "slug": "usda-168848",
+  "food_group": "S",
+  "name_de": "Frozen Yogurt, Schokolade, Softeis"
+ },
+ {
+  "slug": "usda-168849",
+  "food_group": "F",
+  "name_de": "Snacks, Bananenchips"
+ },
+ {
+  "slug": "usda-168850",
+  "food_group": "W",
+  "name_de": "Snacks, Rindfleischsticks, geräuchert"
+ },
+ {
+  "slug": "usda-168851",
+  "food_group": "W",
+  "name_de": "Snacks, Schweineschwarten, Barbecue-Geschmack"
+ },
+ {
+  "slug": "usda-168852",
+  "food_group": "S",
+  "name_de": "Frosting, Glasur, Schokolade, nach Rezept zubereitet, mit Butter, NFSMI-Rezept Nr. C-32"
+ },
+ {
+  "slug": "usda-168853",
+  "food_group": "K",
+  "name_de": "Snacks, Kartoffelchips, aus getrockneten Kartoffeln, natur"
+ },
+ {
+  "slug": "usda-168854",
+  "food_group": "K",
+  "name_de": "Snacks, Kartoffelsticks"
+ },
+ {
+  "slug": "usda-168855",
+  "food_group": "C",
+  "name_de": "Snacks, Reiswaffeln, Naturreis, Roggen"
+ },
+ {
+  "slug": "usda-168856",
+  "food_group": "D",
+  "name_de": "Snacks, Sesamsticks, auf Weizenbasis, gesalzen"
+ },
+ {
+  "slug": "usda-168857",
+  "food_group": "C",
+  "name_de": "Snacks, Maiswaffeln"
+ },
+ {
+  "slug": "usda-168858",
+  "food_group": "D",
+  "name_de": "Snacks, Tortilla-Chips, Nacho-Geschmack, fettreduziert"
+ },
+ {
+  "slug": "usda-168859",
+  "food_group": "D",
+  "name_de": "Tortilla-Chips, fettarm, ohne Fett gebacken"
+ },
+ {
+  "slug": "usda-168860",
+  "food_group": "D",
+  "name_de": "Käse-Puffs und -Twists, auf Maisbasis, gebacken, fettarm"
+ },
+ {
+  "slug": "usda-168861",
+  "food_group": "D",
+  "name_de": "Snacks, Müsliriegel, mit Fruchtfüllung, fettfrei"
+ },
+ {
+  "slug": "usda-168862",
+  "food_group": "D",
+  "name_de": "Snacks, KELLOGG, KELLOGG'S, NUTRI-GRAIN Getreideriegel, Frucht"
+ },
+ {
+  "slug": "usda-168863",
+  "food_group": "D",
+  "name_de": "Snacks, Tortilla-Chips, fettarm, mit Olestra, Nacho-Käse"
+ },
+ {
+  "slug": "usda-168864",
+  "food_group": "K",
+  "name_de": "Snacks, Kartoffelchips, aus getrockneten Kartoffeln, fettfrei, mit Olestra"
+ },
+ {
+  "slug": "usda-168865",
+  "food_group": "K",
+  "name_de": "Snacks, Taro-Chips"
+ },
+ {
+  "slug": "usda-168866",
+  "food_group": "S",
+  "name_de": "Pudding, Banane, Trockenmischung, Instant, mit Öl-Zusatz"
+ },
+ {
+  "slug": "usda-168867",
+  "food_group": "C",
+  "name_de": "Maisgrieß, entkeimt, angereichert, gelb"
+ },
+ {
+  "slug": "usda-168868",
+  "food_group": "C",
+  "name_de": "Maisgrieß, gelb, selbstaufgehend, gesiebt, natur, angereichert"
+ },
+ {
+  "slug": "usda-168869",
+  "food_group": "C",
+  "name_de": "Maisgrieß, gelb, selbstaufgehend, gesiebt, mit Weizenmehl, angereichert"
+ },
+ {
+  "slug": "usda-168870",
+  "food_group": "C",
+  "name_de": "Maisgrieß, gelb, selbstaufgehend, entkeimt, angereichert"
+ },
+ {
+  "slug": "usda-168871",
+  "food_group": "C",
+  "name_de": "Hirse, gekocht"
+ },
+ {
+  "slug": "usda-168872",
+  "food_group": "C",
+  "name_de": "Haferkleie, roh"
+ },
+ {
+  "slug": "usda-168873",
+  "food_group": "C",
+  "name_de": "Haferkleie, gekocht"
+ },
+ {
+  "slug": "usda-168874",
+  "food_group": "C",
+  "name_de": "Quinoa, ungekocht"
+ },
+ {
+  "slug": "usda-168875",
+  "food_group": "C",
+  "name_de": "Naturreis, mittelkörnig, gekocht (inkl. Produkte des USDA Food Distribution Program)"
+ },
+ {
+  "slug": "usda-168876",
+  "food_group": "C",
+  "name_de": "Naturreis, parboiled, trocken, UNCLE BEN'S"
+ },
+ {
+  "slug": "usda-168877",
+  "food_group": "C",
+  "name_de": "Reis, weiß, langkörnig, normal, roh, angereichert"
+ },
+ {
+  "slug": "usda-168878",
+  "food_group": "C",
+  "name_de": "Reis, weiß, langkörnig, normal, angereichert, gekocht"
+ },
+ {
+  "slug": "usda-168879",
+  "food_group": "C",
+  "name_de": "Reis, weiß, mittelkörnig, roh, angereichert"
+ },
+ {
+  "slug": "usda-168880",
+  "food_group": "C",
+  "name_de": "Reis, weiß, mittelkörnig, angereichert, gekocht"
+ },
+ {
+  "slug": "usda-168881",
+  "food_group": "C",
+  "name_de": "Reis, weiß, rundkörnig, angereichert, ungekocht"
+ },
+ {
+  "slug": "usda-168882",
+  "food_group": "C",
+  "name_de": "Reis, weiß, rundkörnig, angereichert, gekocht"
+ },
+ {
+  "slug": "usda-168883",
+  "food_group": "C",
+  "name_de": "Klebreis, weiß, nicht angereichert, ungekocht"
+ },
+ {
+  "slug": "usda-168884",
+  "food_group": "C",
+  "name_de": "Roggen, Korn"
+ },
+ {
+  "slug": "usda-168885",
+  "food_group": "C",
+  "name_de": "Roggenmehl, dunkel"
+ },
+ {
+  "slug": "usda-168886",
+  "food_group": "C",
+  "name_de": "Roggenmehl, mittel"
+ },
+ {
+  "slug": "usda-168887",
+  "food_group": "C",
+  "name_de": "Roggenmehl, hell"
+ },
+ {
+  "slug": "usda-168888",
+  "food_group": "C",
+  "name_de": "Triticalemehl, Vollkorn"
+ },
+ {
+  "slug": "usda-168889",
+  "food_group": "C",
+  "name_de": "Weizen, Hard Red Spring"
+ },
+ {
+  "slug": "usda-168890",
+  "food_group": "C",
+  "name_de": "Weizen, Hard Red Winter"
+ },
+ {
+  "slug": "usda-168891",
+  "food_group": "C",
+  "name_de": "Weizen, Soft Red Winter"
+ },
+ {
+  "slug": "usda-168892",
+  "food_group": "C",
+  "name_de": "Weizenkeime, roh"
+ },
+ {
+  "slug": "usda-168893",
+  "food_group": "C",
+  "name_de": "Weizenmehl, Vollkorn (inkl. Produkte des USDA Food Distribution Program)"
+ },
+ {
+  "slug": "usda-168894",
+  "food_group": "C",
+  "name_de": "Weizenmehl, weiß, Allzweck, angereichert, gebleicht"
+ },
+ {
+  "slug": "usda-168895",
+  "food_group": "C",
+  "name_de": "Weizenmehl, weiß, Allzweck, selbstaufgehend, angereichert"
+ },
+ {
+  "slug": "usda-168896",
+  "food_group": "C",
+  "name_de": "Weizenmehl, weiß, Brot, angereichert"
+ },
+ {
+  "slug": "usda-168897",
+  "food_group": "C",
+  "name_de": "Wildreis, gekocht"
+ },
+ {
+  "slug": "usda-168898",
+  "food_group": "C",
+  "name_de": "Reismehl, braun"
+ },
+ {
+  "slug": "usda-168899",
+  "food_group": "E",
+  "name_de": "Pasta, glutenfrei, Mais, trocken"
+ },
+ {
+  "slug": "usda-168900",
+  "food_group": "E",
+  "name_de": "Pasta, glutenfrei, Mais, gekocht"
+ },
+ {
+  "slug": "usda-168901",
+  "food_group": "E",
+  "name_de": "Pasta, hausgemacht, mit Ei, gekocht"
+ },
+ {
+  "slug": "usda-168902",
+  "food_group": "E",
+  "name_de": "Pasta, hausgemacht, ohne Ei, gekocht"
+ },
+ {
+  "slug": "usda-168903",
+  "food_group": "E",
+  "name_de": "Makkaroni, Gemüse, angereichert, trocken"
+ },
+ {
+  "slug": "usda-168904",
+  "food_group": "E",
+  "name_de": "Makkaroni, Gemüse, angereichert, gekocht"
+ },
+ {
+  "slug": "usda-168905",
+  "food_group": "E",
+  "name_de": "Nudeln, chinesisch, Chow Mein"
+ },
+ {
+  "slug": "usda-168906",
+  "food_group": "E",
+  "name_de": "Nudeln, japanisch, Soba, trocken"
+ },
+ {
+  "slug": "usda-168907",
+  "food_group": "E",
+  "name_de": "Nudeln, japanisch, Soba, gekocht"
+ },
+ {
+  "slug": "usda-168908",
+  "food_group": "E",
+  "name_de": "Nudeln, japanisch, Somen, trocken"
+ },
+ {
+  "slug": "usda-168909",
+  "food_group": "E",
+  "name_de": "Nudeln, japanisch, Somen, gekocht"
+ },
+ {
+  "slug": "usda-168910",
+  "food_group": "E",
+  "name_de": "Pasta, Vollkornweizen, gekocht (inkl. Produkte des USDA Food Distribution Program)"
+ },
+ {
+  "slug": "usda-168911",
+  "food_group": "E",
+  "name_de": "Spaghetti, Spinat, trocken"
+ },
+ {
+  "slug": "usda-168912",
+  "food_group": "E",
+  "name_de": "Spaghetti, Spinat, gekocht"
+ },
+ {
+  "slug": "usda-168913",
+  "food_group": "C",
+  "name_de": "Weizenmehl, Brot, nicht angereichert"
+ },
+ {
+  "slug": "usda-168914",
+  "food_group": "E",
+  "name_de": "Reisnudeln, gekocht"
+ },
+ {
+  "slug": "usda-168915",
+  "food_group": "E",
+  "name_de": "Pasta, Vollkorn, 51 % Vollkornweizen, Rest nicht angereicherter Grieß, trocken"
+ },
+ {
+  "slug": "usda-168916",
+  "food_group": "E",
+  "name_de": "Pasta, Vollkorn, 51 % Vollkornweizen, Rest nicht angereicherter Grieß, gekocht"
+ },
+ {
+  "slug": "usda-168917",
+  "food_group": "C",
+  "name_de": "Quinoa, gekocht"
+ },
+ {
+  "slug": "usda-168918",
+  "food_group": "C",
+  "name_de": "Teff, gekocht"
+ },
+ {
+  "slug": "usda-168919",
+  "food_group": "E",
+  "name_de": "Eiernudeln, gekocht, angereichert, mit Salzzusatz"
+ },
+ {
+  "slug": "usda-168920",
+  "food_group": "C",
+  "name_de": "Mais, Korn, weiß"
+ },
+ {
+  "slug": "usda-168921",
+  "food_group": "C",
+  "name_de": "Maismehl, Vollkorn, blau (Harina de maíz morado)"
+ },
+ {
+  "slug": "usda-168922",
+  "food_group": "C",
+  "name_de": "Maisgrieß, entkeimt, angereichert, weiß"
+ },
+ {
+  "slug": "usda-168923",
+  "food_group": "C",
+  "name_de": "Maisgrieß, weiß, selbstaufgehend, gesiebt, natur, angereichert"
+ }
+]

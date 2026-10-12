@@ -1,0 +1,1252 @@
+[
+ {
+  "slug": "usda-171903",
+  "food_group": "F",
+  "name_de": "Cranberry-Saftcocktail, in Flaschen"
+ },
+ {
+  "slug": "usda-171904",
+  "food_group": "F",
+  "name_de": "Cranberry-Saftcocktail, in Flaschen, kalorienarm, mit Calcium, Saccharin und Maissirup"
+ },
+ {
+  "slug": "usda-171905",
+  "food_group": "N",
+  "name_de": "Eierpunsch-Getränkepulver, mit Vollmilch zubereitet"
+ },
+ {
+  "slug": "usda-171906",
+  "food_group": "P",
+  "name_de": "Bier, höherer Alkoholgehalt"
+ },
+ {
+  "slug": "usda-171907",
+  "food_group": "P",
+  "name_de": "Malt-Liquor-Getränk"
+ },
+ {
+  "slug": "usda-171908",
+  "food_group": "P",
+  "name_de": "Wein, Rosé"
+ },
+ {
+  "slug": "usda-171909",
+  "food_group": "N",
+  "name_de": "OCEAN SPRAY, Cran-Granatapfel"
+ },
+ {
+  "slug": "usda-171910",
+  "food_group": "N",
+  "name_de": "Tee, grün, aufgebrüht, entkoffeiniert"
+ },
+ {
+  "slug": "usda-171911",
+  "food_group": "N",
+  "name_de": "Tee, grün, trinkfertig, ungesüßt"
+ },
+ {
+  "slug": "usda-171912",
+  "food_group": "N",
+  "name_de": "Zitrusfruchtsaftgetränk, tiefgefrorenes Konzentrat"
+ },
+ {
+  "slug": "usda-171913",
+  "food_group": "N",
+  "name_de": "Zitrusfruchtsaftgetränk, tiefgefrorenes Konzentrat, mit Wasser zubereitet"
+ },
+ {
+  "slug": "usda-171914",
+  "food_group": "N",
+  "name_de": "Fruchtpunsch-Getränk, ohne Nährstoffzusatz, aus der Dose"
+ },
+ {
+  "slug": "usda-171915",
+  "food_group": "N",
+  "name_de": "Tropical Punch, trinkfertig"
+ },
+ {
+  "slug": "usda-171916",
+  "food_group": "N",
+  "name_de": "Traubengetränk, aus der Dose"
+ },
+ {
+  "slug": "usda-171917",
+  "food_group": "N",
+  "name_de": "Tee, grün, aufgebrüht, regulär"
+ },
+ {
+  "slug": "usda-171918",
+  "food_group": "N",
+  "name_de": "Tee, Instant, Zitrone, mit Zusatz von Ascorbinsäure"
+ },
+ {
+  "slug": "usda-171919",
+  "food_group": "P",
+  "name_de": "Spirituosen, destilliert, alle (Gin, Rum, Wodka, Whisky), 86 Proof"
+ },
+ {
+  "slug": "usda-171920",
+  "food_group": "P",
+  "name_de": "Spirituosen, destilliert, alle (Gin, Rum, Wodka, Whisky), 90 Proof"
+ },
+ {
+  "slug": "usda-171921",
+  "food_group": "N",
+  "name_de": "Kohlensäurehaltiges Getränk, Limonade mit Schokoladengeschmack"
+ },
+ {
+  "slug": "usda-171922",
+  "food_group": "N",
+  "name_de": "Wasser, in Flaschen, ohne Kohlensäure, EVIAN"
+ },
+ {
+  "slug": "usda-171923",
+  "food_group": "N",
+  "name_de": "Powerade Zero Ion4, kalorienfrei, verschiedene Geschmacksrichtungen"
+ },
+ {
+  "slug": "usda-171924",
+  "food_group": "N",
+  "name_de": "WENDY'S, Tee, trinkfertig, ungesüßt"
+ },
+ {
+  "slug": "usda-171925",
+  "food_group": "P",
+  "name_de": "Wein, Tafelwein, rot, Merlot"
+ },
+ {
+  "slug": "usda-171926",
+  "food_group": "N",
+  "name_de": "Wasser, ohne Kohlensäure, in Flaschen, natürliche Fruchtaromen, mit kalorienarmem Süßstoff gesüßt"
+ },
+ {
+  "slug": "usda-171927",
+  "food_group": "N",
+  "name_de": "V8 SPLASH Fruchtsaftgetränke, Diet Tropische Mischung"
+ },
+ {
+  "slug": "usda-171928",
+  "food_group": "N",
+  "name_de": "V8 SPLASH Fruchtsaftgetränke, Beerenmischung"
+ },
+ {
+  "slug": "usda-171929",
+  "food_group": "N",
+  "name_de": "V8 SPLASH Fruchtsaftgetränke, Fruchtmischung"
+ },
+ {
+  "slug": "usda-171930",
+  "food_group": "N",
+  "name_de": "V8 SPLASH Fruchtsaftgetränke, Guave-Passionsfrucht"
+ },
+ {
+  "slug": "usda-171931",
+  "food_group": "N",
+  "name_de": "V8 SPLASH Fruchtsaftgetränke, Erdbeer-Kiwi"
+ },
+ {
+  "slug": "usda-171932",
+  "food_group": "N",
+  "name_de": "V8 SPLASH Fruchtsaftgetränke, Tropische Mischung"
+ },
+ {
+  "slug": "usda-171933",
+  "food_group": "F",
+  "name_de": "V8 V-FUSION Säfte, Pfirsich-Mango"
+ },
+ {
+  "slug": "usda-171934",
+  "food_group": "F",
+  "name_de": "V8 V-FUSION Säfte, Erdbeer-Banane"
+ },
+ {
+  "slug": "usda-171935",
+  "food_group": "N",
+  "name_de": "Energydrink, Monster, mit Vitamin C, B2, B3, B6, B12 angereichert"
+ },
+ {
+  "slug": "usda-171936",
+  "food_group": "N",
+  "name_de": "Energydrink, AMP, zuckerfrei"
+ },
+ {
+  "slug": "usda-171937",
+  "food_group": "N",
+  "name_de": "Energydrink, ROCKSTAR"
+ },
+ {
+  "slug": "usda-171938",
+  "food_group": "N",
+  "name_de": "Energydrink, ROCKSTAR, zuckerfrei"
+ },
+ {
+  "slug": "usda-171939",
+  "food_group": "N",
+  "name_de": "Mahlzeitenersatz-Getränk, aus der Dose, Erdnussgeschmack"
+ },
+ {
+  "slug": "usda-171940",
+  "food_group": "N",
+  "name_de": "Wasser, mit Maissirup und/oder Zucker und kalorienarmem Süßstoff, fruchtaromatisiert"
+ },
+ {
+  "slug": "usda-171941",
+  "food_group": "N",
+  "name_de": "Horchata, wie im Restaurant serviert"
+ },
+ {
+  "slug": "usda-171942",
+  "food_group": "N",
+  "name_de": "Reismilch, ungesüßt"
+ },
+ {
+  "slug": "usda-171943",
+  "food_group": "N",
+  "name_de": "Energydrink, VAULT, Zitrusgeschmack"
+ },
+ {
+  "slug": "usda-171944",
+  "food_group": "N",
+  "name_de": "Fruchtgetränk, zuckerreduziert, mit mehr als 3 % Fruchtsaft, hoher Vitamin-C-Gehalt, mit Calciumzusatz"
+ },
+ {
+  "slug": "usda-171945",
+  "food_group": "N",
+  "name_de": "Fruchtsaftgetränk, mit mehr als 3 % Fruchtsaft, hoher Vitamin-C-Gehalt und Thiaminzusatz"
+ },
+ {
+  "slug": "usda-171946",
+  "food_group": "N",
+  "name_de": "Tee, Hibiskus, aufgebrüht"
+ },
+ {
+  "slug": "usda-171947",
+  "food_group": "N",
+  "name_de": "Fruchtsaftgetränk, mit mehr als 3 % Saft, hoher Vitamin-C-Gehalt"
+ },
+ {
+  "slug": "usda-171948",
+  "food_group": "T",
+  "name_de": "Streifenbarsch, roh"
+ },
+ {
+  "slug": "usda-171949",
+  "food_group": "T",
+  "name_de": "Blaufisch, roh"
+ },
+ {
+  "slug": "usda-171950",
+  "food_group": "T",
+  "name_de": "Quappe, roh"
+ },
+ {
+  "slug": "usda-171951",
+  "food_group": "T",
+  "name_de": "Butterfisch, roh"
+ },
+ {
+  "slug": "usda-171952",
+  "food_group": "T",
+  "name_de": "Karpfen, roh"
+ },
+ {
+  "slug": "usda-171953",
+  "food_group": "T",
+  "name_de": "Cisco, roh"
+ },
+ {
+  "slug": "usda-171954",
+  "food_group": "T",
+  "name_de": "Cisco, geräuchert"
+ },
+ {
+  "slug": "usda-171955",
+  "food_group": "T",
+  "name_de": "Kabeljau, Atlantik, roh"
+ },
+ {
+  "slug": "usda-171956",
+  "food_group": "T",
+  "name_de": "Kabeljau, Atlantik, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171957",
+  "food_group": "T",
+  "name_de": "Umberfisch, Atlantik, gegart, paniert und gebraten"
+ },
+ {
+  "slug": "usda-171958",
+  "food_group": "T",
+  "name_de": "Lumb, roh"
+ },
+ {
+  "slug": "usda-171959",
+  "food_group": "T",
+  "name_de": "Mahi-Mahi, roh"
+ },
+ {
+  "slug": "usda-171960",
+  "food_group": "T",
+  "name_de": "Trommelfisch, Süßwasser, roh"
+ },
+ {
+  "slug": "usda-171961",
+  "food_group": "T",
+  "name_de": "Gefilte Fisch, handelsüblich, süße Rezeptur"
+ },
+ {
+  "slug": "usda-171962",
+  "food_group": "T",
+  "name_de": "Zackenbarsch, gemischte Arten, roh"
+ },
+ {
+  "slug": "usda-171963",
+  "food_group": "T",
+  "name_de": "Zackenbarsch, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171964",
+  "food_group": "T",
+  "name_de": "Schellfisch, roh"
+ },
+ {
+  "slug": "usda-171965",
+  "food_group": "T",
+  "name_de": "Heilbutt, Grönland, roh"
+ },
+ {
+  "slug": "usda-171966",
+  "food_group": "T",
+  "name_de": "Blaukrabbe, aus der Dose"
+ },
+ {
+  "slug": "usda-171967",
+  "food_group": "T",
+  "name_de": "Crab Cakes, Blaukrabbe, Hausrezept"
+ },
+ {
+  "slug": "usda-171968",
+  "food_group": "T",
+  "name_de": "Dungeness-Krabbe, roh"
+ },
+ {
+  "slug": "usda-171969",
+  "food_group": "T",
+  "name_de": "Queen-Krabbe, roh"
+ },
+ {
+  "slug": "usda-171970",
+  "food_group": "T",
+  "name_de": "Garnelen, gemischte Arten, gegart, paniert und gebraten"
+ },
+ {
+  "slug": "usda-171971",
+  "food_group": "T",
+  "name_de": "Garnelen, gemischte Arten, gegart, feuchte Hitze (kann Zusatzstoffe zur Feuchtigkeitsbindung enthalten)"
+ },
+ {
+  "slug": "usda-171972",
+  "food_group": "T",
+  "name_de": "Garnelen, gemischte Arten, aus der Dose"
+ },
+ {
+  "slug": "usda-171973",
+  "food_group": "T",
+  "name_de": "Garnelen, gemischte Arten, Imitat aus Surimi"
+ },
+ {
+  "slug": "usda-171974",
+  "food_group": "T",
+  "name_de": "Clams, gemischte Arten, gegart, paniert und gebraten"
+ },
+ {
+  "slug": "usda-171975",
+  "food_group": "T",
+  "name_de": "Clams, gemischte Arten, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-171976",
+  "food_group": "T",
+  "name_de": "Clams, gemischte Arten, aus der Dose, abgetropfte Feststoffe"
+ },
+ {
+  "slug": "usda-171977",
+  "food_group": "T",
+  "name_de": "Clams, gemischte Arten, aus der Dose, Flüssigkeit"
+ },
+ {
+  "slug": "usda-171978",
+  "food_group": "T",
+  "name_de": "Auster, östlich, wild, roh"
+ },
+ {
+  "slug": "usda-171979",
+  "food_group": "T",
+  "name_de": "Auster, östlich, gegart, paniert und gebraten"
+ },
+ {
+  "slug": "usda-171980",
+  "food_group": "T",
+  "name_de": "Auster, östlich, wild, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-171981",
+  "food_group": "T",
+  "name_de": "Auster, östlich, aus der Dose"
+ },
+ {
+  "slug": "usda-171982",
+  "food_group": "T",
+  "name_de": "Kalmar, gemischte Arten, gegart, gebraten"
+ },
+ {
+  "slug": "usda-171983",
+  "food_group": "T",
+  "name_de": "Wellhornschnecke, unbestimmt, roh"
+ },
+ {
+  "slug": "usda-171984",
+  "food_group": "T",
+  "name_de": "Wellhornschnecke, unbestimmt, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-171985",
+  "food_group": "T",
+  "name_de": "Lachs, Chinook, geräuchert (Lox), regulär"
+ },
+ {
+  "slug": "usda-171986",
+  "food_group": "T",
+  "name_de": "Thunfisch, hell, in Wasser, aus der Dose, ohne Salz, abgetropfte Feststoffe"
+ },
+ {
+  "slug": "usda-171987",
+  "food_group": "T",
+  "name_de": "Thunfisch, weiß, in Öl, aus der Dose, ohne Salz, abgetropfte Feststoffe"
+ },
+ {
+  "slug": "usda-171988",
+  "food_group": "T",
+  "name_de": "Thunfisch, weiß, in Wasser, aus der Dose, ohne Salz, abgetropfte Feststoffe"
+ },
+ {
+  "slug": "usda-171989",
+  "food_group": "T",
+  "name_de": "Barsch, Süßwasser, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171990",
+  "food_group": "T",
+  "name_de": "Kabeljau, Pazifik, gegart, trockene Hitze (kann Zusatzstoffe zur Feuchtigkeitsbindung enthalten)"
+ },
+ {
+  "slug": "usda-171991",
+  "food_group": "T",
+  "name_de": "Lumb, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171992",
+  "food_group": "T",
+  "name_de": "Mahi-Mahi, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171993",
+  "food_group": "T",
+  "name_de": "Trommelfisch, Süßwasser, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171994",
+  "food_group": "T",
+  "name_de": "Makrele, Pazifik und Jack, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171995",
+  "food_group": "T",
+  "name_de": "Milchfisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171996",
+  "food_group": "T",
+  "name_de": "Seeteufel, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171997",
+  "food_group": "T",
+  "name_de": "Hecht, Walleye, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171998",
+  "food_group": "T",
+  "name_de": "Lachs, Atlantik, wild, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-171999",
+  "food_group": "T",
+  "name_de": "Lachs, Chinook, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-172000",
+  "food_group": "T",
+  "name_de": "Lachs, Chum, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-172001",
+  "food_group": "T",
+  "name_de": "Lachs, Pink, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-172002",
+  "food_group": "T",
+  "name_de": "Saugkarpfen, weiß, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-172003",
+  "food_group": "T",
+  "name_de": "Sonnenbarsch, Pumpkinseed, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-172004",
+  "food_group": "T",
+  "name_de": "Forelle, gemischte Arten, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-172005",
+  "food_group": "T",
+  "name_de": "Thunfisch, Skipjack, frisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-172006",
+  "food_group": "T",
+  "name_de": "Thunfisch, Gelbflossen-, frisch, gegart, trockene Hitze"
+ },
+ {
+  "slug": "usda-172007",
+  "food_group": "T",
+  "name_de": "Dungeness-Krabbe, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-172008",
+  "food_group": "T",
+  "name_de": "Queen-Krabbe, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-172009",
+  "food_group": "T",
+  "name_de": "Languste, gemischte Arten, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-172010",
+  "food_group": "T",
+  "name_de": "Sepia, gemischte Arten, gegart, feuchte Hitze"
+ },
+ {
+  "slug": "usda-172011",
+  "food_group": "W",
+  "name_de": "Bierwurst, Biersalami, Schweine- und Rindfleisch"
+ },
+ {
+  "slug": "usda-172012",
+  "food_group": "W",
+  "name_de": "Bologna, Rind"
+ },
+ {
+  "slug": "usda-172013",
+  "food_group": "W",
+  "name_de": "Bologna, Rind und Schwein"
+ },
+ {
+  "slug": "usda-172014",
+  "food_group": "E",
+  "name_de": "Nudeln, gekocht, nicht angereichert, mit Salzzusatz"
+ },
+ {
+  "slug": "usda-172015",
+  "food_group": "C",
+  "name_de": "Maismehl, entkeimt, nicht angereichert, weiß"
+ },
+ {
+  "slug": "usda-172016",
+  "food_group": "C",
+  "name_de": "Weizenmehl, weiß (industriell), 9 % Eiweiß, gebleicht, angereichert"
+ },
+ {
+  "slug": "usda-172017",
+  "food_group": "C",
+  "name_de": "Weizenmehl, weiß (industriell), 9 % Eiweiß, gebleicht, nicht angereichert"
+ },
+ {
+  "slug": "usda-172018",
+  "food_group": "C",
+  "name_de": "Weizenmehl, weiß (industriell), 10 % Eiweiß, gebleicht, angereichert"
+ },
+ {
+  "slug": "usda-172019",
+  "food_group": "C",
+  "name_de": "Weizenmehl, weiß (industriell), 10 % Eiweiß, gebleicht, nicht angereichert"
+ },
+ {
+  "slug": "usda-172020",
+  "food_group": "C",
+  "name_de": "Weizenmehl, weiß (industriell), 13 % Eiweiß, gebleicht, nicht angereichert"
+ },
+ {
+  "slug": "usda-172021",
+  "food_group": "C",
+  "name_de": "Weizenmehl, weiß (industriell), 15 % Eiweiß, gebleicht, angereichert"
+ },
+ {
+  "slug": "usda-172022",
+  "food_group": "C",
+  "name_de": "Weizenmehl, weiß (industriell), 15 % Eiweiß, gebleicht, nicht angereichert"
+ },
+ {
+  "slug": "usda-172023",
+  "food_group": "C",
+  "name_de": "Hirsemehl"
+ },
+ {
+  "slug": "usda-172024",
+  "food_group": "E",
+  "name_de": "Nudeln, Vollkorn, 51 % Vollkornweizen, Rest angereicherter Grieß, gekocht (umfasst Lebensmittel des USDA Food Distribution Program)"
+ },
+ {
+  "slug": "usda-172025",
+  "food_group": "E",
+  "name_de": "Nudeln, Vollkorn, 51 % Vollkornweizen, Rest angereicherter Grieß, trocken (umfasst Lebensmittel des USDA Food Distribution Program)"
+ },
+ {
+  "slug": "usda-172026",
+  "food_group": "E",
+  "name_de": "Nudeln, glutenfrei, Braunreismehl, gekocht, TINKYADA"
+ },
+ {
+  "slug": "usda-172027",
+  "food_group": "E",
+  "name_de": "Nudeln, glutenfrei, Maismehl und Quinoamehl, gekocht, ANCIENT HARVEST"
+ },
+ {
+  "slug": "usda-172089",
+  "food_group": "Y",
+  "name_de": "Spaghetti mit Fleischsoße, Fertiggericht, tiefgefroren"
+ },
+ {
+  "slug": "usda-172090",
+  "food_group": "Y",
+  "name_de": "Rindfleisch-Makkaroni mit Tomatensoße, Fertiggericht, tiefgefroren, fettreduziert"
+ },
+ {
+  "slug": "usda-172091",
+  "food_group": "Y",
+  "name_de": "Nudeln mit Würstchenscheiben in Tomatensoße, Fertiggericht, aus der Dose"
+ },
+ {
+  "slug": "usda-172092",
+  "food_group": "Y",
+  "name_de": "Pute-Pot-Pie, Fertiggericht, tiefgefroren"
+ },
+ {
+  "slug": "usda-172093",
+  "food_group": "Y",
+  "name_de": "Rindfleisch-Pot-Pie, Fertiggericht, tiefgefroren, zubereitet"
+ },
+ {
+  "slug": "usda-172094",
+  "food_group": "E",
+  "name_de": "Tortellini, Nudeln mit Käsefüllung, frisch (gekühlt), wie gekauft"
+ },
+ {
+  "slug": "usda-172097",
+  "food_group": "Y",
+  "name_de": "Chili con Carne mit Bohnen, Fertiggericht, aus der Dose"
+ },
+ {
+  "slug": "usda-172098",
+  "food_group": "Y",
+  "name_de": "Chili ohne Bohnen, Fertiggericht, aus der Dose"
+ },
+ {
+  "slug": "usda-172099",
+  "food_group": "Y",
+  "name_de": "Spaghetti mit Fleischbällchen in Tomatensoße, aus der Dose"
+ },
+ {
+  "slug": "usda-172100",
+  "food_group": "X",
+  "name_de": "Nudeln mit Tomatensoße, ohne Fleisch, aus der Dose"
+ },
+ {
+  "slug": "usda-172101",
+  "food_group": "Y",
+  "name_de": "Lasagne mit Fleisch und Soße, fettarm, Fertiggericht, tiefgefroren"
+ },
+ {
+  "slug": "usda-172102",
+  "food_group": "Y",
+  "name_de": "Burrito, Rind und Bohnen, in der Mikrowelle erhitzt"
+ },
+ {
+  "slug": "usda-172103",
+  "food_group": "Y",
+  "name_de": "Frühlingsrollen, Schwein, gekühlt, erhitzt"
+ },
+ {
+  "slug": "usda-172104",
+  "food_group": "Y",
+  "name_de": "Frühlingsrollen, Hähnchen, gekühlt, erhitzt"
+ },
+ {
+  "slug": "usda-172105",
+  "food_group": "X",
+  "name_de": "Frühlingsrollen, Gemüse, tiefgefroren, zubereitet"
+ },
+ {
+  "slug": "usda-172106",
+  "food_group": "X",
+  "name_de": "Lasagne, Gemüse, tiefgefroren, gebacken"
+ },
+ {
+  "slug": "usda-172107",
+  "food_group": "Y",
+  "name_de": "HOT POCKETS, gefülltes Sandwich mit Fleischbällchen und Mozzarella, tiefgefroren"
+ },
+ {
+  "slug": "usda-172108",
+  "food_group": "Y",
+  "name_de": "LEAN POCKETS, Schinken & Cheddar"
+ },
+ {
+  "slug": "usda-172109",
+  "food_group": "Y",
+  "name_de": "Lean Pockets, Fleischbällchen & Mozzarella"
+ },
+ {
+  "slug": "usda-172110",
+  "food_group": "Y",
+  "name_de": "Chili mit Bohnen, in mikrowellengeeigneten Schalen"
+ },
+ {
+  "slug": "usda-172111",
+  "food_group": "V",
+  "name_de": "Hähnchen-Nuggets, dunkles und helles Fleisch, vorgegart, tiefgefroren, nicht erhitzt"
+ },
+ {
+  "slug": "usda-172112",
+  "food_group": "V",
+  "name_de": "Hähnchen-Nuggets, helles Fleisch, vorgegart, tiefgefroren, nicht erhitzt"
+ },
+ {
+  "slug": "usda-172113",
+  "food_group": "E",
+  "name_de": "Ravioli, Käse, mit Tomatensoße, tiefgefroren, nicht zubereitet, einschließlich regulärer und leichter Gerichte"
+ },
+ {
+  "slug": "usda-172114",
+  "food_group": "Y",
+  "name_de": "Lasagne mit Fleischsoße, tiefgefroren, zubereitet"
+ },
+ {
+  "slug": "usda-172115",
+  "food_group": "U",
+  "name_de": "Rind, Short Loin, Porterhouse-Steak, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-172116",
+  "food_group": "U",
+  "name_de": "Rind, Short Loin, Porterhouse-Steak, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, Select, roh"
+ },
+ {
+  "slug": "usda-172117",
+  "food_group": "U",
+  "name_de": "Rind, Short Loin, Porterhouse-Steak, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-172118",
+  "food_group": "U",
+  "name_de": "Rind, Short Loin, T-Bone-Steak, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-172119",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Knuckle, Tip Side, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-172120",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Knuckle, Tip Side, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, roh"
+ },
+ {
+  "slug": "usda-172121",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Knuckle, Tip Side, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-172122",
+  "food_group": "U",
+  "name_de": "Rind, Schulter (Chuck), Shoulder Clod, Shoulder Tender, Medaillon, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172123",
+  "food_group": "U",
+  "name_de": "Rind, Schulter (Chuck), Shoulder Clod, Shoulder Top und Center Steaks, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, roh"
+ },
+ {
+  "slug": "usda-172124",
+  "food_group": "U",
+  "name_de": "Rind, Schulter (Chuck), Shoulder Clod, Shoulder Top und Center Steaks, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-172125",
+  "food_group": "U",
+  "name_de": "Rind, Schulter (Chuck), Shoulder Clod, Top Blade, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172126",
+  "food_group": "U",
+  "name_de": "Rind, Schulter (Chuck), Shoulder Clod, Top Blade, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-172127",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Knuckle, Tip Center, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-172128",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Outside Round, Bottom Round, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172129",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Outside Round, Bottom Round, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-172130",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Outside Round, Bottom Round, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, roh"
+ },
+ {
+  "slug": "usda-172131",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Knuckle, Tip Side, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-172132",
+  "food_group": "U",
+  "name_de": "Rind, Schulter (Chuck), Shoulder Clod, Shoulder Top und Center Steaks, Magerfleisch und Fett, Fett auf 0 Zoll pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-172133",
+  "food_group": "U",
+  "name_de": "Rind, Schulter (Chuck), Shoulder Clod, Shoulder Top und Center Steaks, Magerfleisch und Fett, Fett auf 0 Zoll pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-172134",
+  "food_group": "U",
+  "name_de": "Rind, Schulter (Chuck), Shoulder Clod, Top Blade, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-172135",
+  "food_group": "U",
+  "name_de": "Rind, Keule, Outside Round, Bottom Round, Steak, Magerfleisch und Fett, Fett auf 0 Zoll pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-172136",
+  "food_group": "U",
+  "name_de": "Rind, Schulter (Chuck), Shoulder Clod, Shoulder Tender, Medaillon, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-172137",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Inside Skirt, nur Magerfleisch, Fett auf 0 Zoll pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172138",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Inside Skirt, nur Magerfleisch, Fett auf 0 Zoll pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-172139",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Inside Skirt, nur Magerfleisch, Fett auf 0 Zoll pariert, Select, roh"
+ },
+ {
+  "slug": "usda-172140",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Outside Skirt, nur Magerfleisch, Fett auf 0 Zoll pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-172141",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Outside Skirt, nur Magerfleisch, Fett auf 0 Zoll pariert, Select, roh"
+ },
+ {
+  "slug": "usda-172142",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Steak, ohne Knochen, Lip off, nur Magerfleisch, Fett auf 0 Zoll pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-172143",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Steak, ohne Knochen, Lip off, nur Magerfleisch, Fett auf 0 Zoll pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-172144",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Steak, ohne Knochen, Lip off, nur Magerfleisch, Fett auf 0 Zoll pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-172145",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, Back Ribs, mit Knochen, nur Magerfleisch, Fett auf 0 Zoll pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-172146",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, Back Ribs, mit Knochen, nur Magerfleisch, Fett auf 0 Zoll pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-172147",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, Back Ribs, mit Knochen, nur Magerfleisch, Fett auf 0 Zoll pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172148",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, Back Ribs, mit Knochen, nur Magerfleisch, Fett auf 0 Zoll pariert, Select, geschmort"
+ },
+ {
+  "slug": "usda-172149",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Braten, mit Knochen, Lip on, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, Select, geröstet"
+ },
+ {
+  "slug": "usda-172150",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Braten, mit Knochen, Lip on, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, alle Handelsklassen, geröstet"
+ },
+ {
+  "slug": "usda-172151",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Steak/Braten, mit Knochen, Lip on, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-172152",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Steak/Braten, mit Knochen, Lip on, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172153",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Braten, ohne Knochen, Lip on, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, alle Handelsklassen, geröstet"
+ },
+ {
+  "slug": "usda-172154",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Braten, ohne Knochen, Lip on, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, Choice, geröstet"
+ },
+ {
+  "slug": "usda-172155",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Braten, ohne Knochen, Lip on, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, Select, geröstet"
+ },
+ {
+  "slug": "usda-172156",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Steak/Braten, ohne Knochen, Lip on, Magerfleisch und Fett, Fett auf 1/8 Zoll pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-172157",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Inside Skirt, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-172158",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Inside Skirt, Magerfleisch und Fett, Fett auf 0 Zoll pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-172159",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Inside Skirt, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172160",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Inside Skirt, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, roh"
+ },
+ {
+  "slug": "usda-172161",
+  "food_group": "U",
+  "name_de": "Rinderhackfleisch, Fettgehalt o. n. A., gekocht"
+ },
+ {
+  "slug": "usda-172162",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Outside Skirt, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172163",
+  "food_group": "U",
+  "name_de": "Rind, Plate Steak, ohne Knochen, Outside Skirt, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, roh"
+ },
+ {
+  "slug": "usda-172164",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Steak, ohne Knochen, Lip off, Magerfleisch und Fett, Fett auf 0 Zoll pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-172165",
+  "food_group": "U",
+  "name_de": "Rind, Rib-Eye-Steak, ohne Knochen, Lip off, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-172166",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, Back Ribs, mit Knochen, Magerfleisch und Fett, Fett auf 0 Zoll pariert, alle Handelsklassen, geschmort"
+ },
+ {
+  "slug": "usda-172167",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, Back Ribs, mit Knochen, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Choice, geschmort"
+ },
+ {
+  "slug": "usda-172168",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, Back Ribs, mit Knochen, Magerfleisch und Fett, Fett auf 0 Zoll pariert, Select, geschmort"
+ },
+ {
+  "slug": "usda-172169",
+  "food_group": "U",
+  "name_de": "Rind, Rippe, Back Ribs, mit Knochen, Magerfleisch und Fett, Fett auf 0 Zoll pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-172170",
+  "food_group": "U",
+  "name_de": "Rind, Lende, Top Sirloin Cap Steak, ohne Knochen, nur Magerfleisch, Fett auf 1/8 Zoll pariert, alle Handelsklassen, gegrillt"
+ },
+ {
+  "slug": "usda-172171",
+  "food_group": "U",
+  "name_de": "Rind, Lende, Top Sirloin Cap Steak, ohne Knochen, nur Magerfleisch, Fett auf 1/8 Zoll pariert, Choice, gegrillt"
+ },
+ {
+  "slug": "usda-172172",
+  "food_group": "U",
+  "name_de": "Rind, Lende, Top Sirloin Cap Steak, ohne Knochen, nur Magerfleisch, Fett auf 1/8 Zoll pariert, Select, gegrillt"
+ },
+ {
+  "slug": "usda-172173",
+  "food_group": "U",
+  "name_de": "Rind, Lende, Top Sirloin Cap Steak, ohne Knochen, nur Magerfleisch, Fett auf 1/8 Zoll pariert, alle Handelsklassen, roh"
+ },
+ {
+  "slug": "usda-172174",
+  "food_group": "U",
+  "name_de": "Rind, Lende, Top Sirloin Cap Steak, ohne Knochen, nur Magerfleisch, Fett auf 1/8 Zoll pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172175",
+  "food_group": "M",
+  "name_de": "Käse, Blauschimmelkäse"
+ },
+ {
+  "slug": "usda-172176",
+  "food_group": "M",
+  "name_de": "Käse, Brick"
+ },
+ {
+  "slug": "usda-172177",
+  "food_group": "M",
+  "name_de": "Käse, Brie"
+ },
+ {
+  "slug": "usda-172178",
+  "food_group": "M",
+  "name_de": "Käse, Camembert"
+ },
+ {
+  "slug": "usda-172179",
+  "food_group": "M",
+  "name_de": "Hüttenkäse, gerahmt, grobe oder feine Körnung"
+ },
+ {
+  "slug": "usda-172180",
+  "food_group": "M",
+  "name_de": "Hüttenkäse, gerahmt, mit Früchten"
+ },
+ {
+  "slug": "usda-172181",
+  "food_group": "M",
+  "name_de": "Hüttenkäse, fettfrei, ungerahmt, trocken, grobe oder feine Körnung"
+ },
+ {
+  "slug": "usda-172182",
+  "food_group": "M",
+  "name_de": "Hüttenkäse, fettarm, 2 % Milchfett"
+ },
+ {
+  "slug": "usda-172183",
+  "food_group": "E",
+  "name_de": "Ei, Eiweiß, roh, frisch"
+ },
+ {
+  "slug": "usda-172184",
+  "food_group": "E",
+  "name_de": "Ei, Eigelb, roh, frisch"
+ },
+ {
+  "slug": "usda-172185",
+  "food_group": "E",
+  "name_de": "Ei, ganz, gegart, Omelett"
+ },
+ {
+  "slug": "usda-172186",
+  "food_group": "E",
+  "name_de": "Ei, ganz, gegart, pochiert"
+ },
+ {
+  "slug": "usda-172187",
+  "food_group": "E",
+  "name_de": "Ei, ganz, gegart, Rührei"
+ },
+ {
+  "slug": "usda-172188",
+  "food_group": "E",
+  "name_de": "Ei, ganz, getrocknet"
+ },
+ {
+  "slug": "usda-172189",
+  "food_group": "E",
+  "name_de": "Ei, Ente, ganz, frisch, roh"
+ },
+ {
+  "slug": "usda-172190",
+  "food_group": "E",
+  "name_de": "Ei, Gans, ganz, frisch, roh"
+ },
+ {
+  "slug": "usda-172191",
+  "food_group": "E",
+  "name_de": "Ei, Wachtel, ganz, frisch, roh"
+ },
+ {
+  "slug": "usda-172192",
+  "food_group": "E",
+  "name_de": "Ei, Pute, ganz, frisch, roh"
+ },
+ {
+  "slug": "usda-172193",
+  "food_group": "M",
+  "name_de": "Milch, fettreduziert, flüssig, 2 % Milchfett, mit zugesetzter fettfreier Milchtrockenmasse, ohne Vitamin-A-Zusatz"
+ },
+ {
+  "slug": "usda-172194",
+  "food_group": "M",
+  "name_de": "Kondensmilch, aus der Dose, mit Vitamin-A-Zusatz"
+ },
+ {
+  "slug": "usda-172195",
+  "food_group": "M",
+  "name_de": "Magermilchpulver, regulär, mit Vitamin-A- und Vitamin-D-Zusatz"
+ },
+ {
+  "slug": "usda-172196",
+  "food_group": "M",
+  "name_de": "Magermilchpulver, instant, ohne Vitamin-A- und Vitamin-D-Zusatz"
+ },
+ {
+  "slug": "usda-172197",
+  "food_group": "M",
+  "name_de": "Käse, Ziege, Hartkäse"
+ },
+ {
+  "slug": "usda-172198",
+  "food_group": "M",
+  "name_de": "Käseersatz, Mozzarella"
+ },
+ {
+  "slug": "usda-172199",
+  "food_group": "M",
+  "name_de": "Joghurt, griechisch, 2 % Fett, Mango, CHOBANI"
+ },
+ {
+  "slug": "usda-172200",
+  "food_group": "R",
+  "name_de": "Käsesoße, nach Rezept zubereitet"
+ },
+ {
+  "slug": "usda-172201",
+  "food_group": "M",
+  "name_de": "Käse, mexikanisch, Queso Añejo"
+ },
+ {
+  "slug": "usda-172202",
+  "food_group": "E",
+  "name_de": "Ei, ganz, roh, tiefgefroren, pasteurisiert (umfasst Lebensmittel des USDA Food Distribution Program)"
+ },
+ {
+  "slug": "usda-172203",
+  "food_group": "E",
+  "name_de": "Ei, Eiweiß, roh, tiefgefroren, pasteurisiert"
+ },
+ {
+  "slug": "usda-172204",
+  "food_group": "E",
+  "name_de": "Ei, Eiweiß, getrocknet"
+ },
+ {
+  "slug": "usda-172205",
+  "food_group": "M",
+  "name_de": "Milch, fettreduziert, flüssig, 2 % Milchfett, ohne Vitamin-A- und Vitamin-D-Zusatz"
+ },
+ {
+  "slug": "usda-172206",
+  "food_group": "M",
+  "name_de": "Parmesan-Topping, fettfrei"
+ },
+ {
+  "slug": "usda-172207",
+  "food_group": "M",
+  "name_de": "Frischkäse, fettfrei"
+ },
+ {
+  "slug": "usda-172208",
+  "food_group": "M",
+  "name_de": "Joghurt, Schokolade, aus fettfreier Milch"
+ },
+ {
+  "slug": "usda-172209",
+  "food_group": "R",
+  "name_de": "KRAFT CHEEZ WHIZ, pasteurisierte Schmelzkäsesoße"
+ },
+ {
+  "slug": "usda-172210",
+  "food_group": "M",
+  "name_de": "KRAFT BREAKSTONE'S Saure Sahne, fettreduziert"
+ },
+ {
+  "slug": "usda-172211",
+  "food_group": "M",
+  "name_de": "KRAFT BREAKSTONE'S FREE Saure Sahne, fettfrei"
+ },
+ {
+  "slug": "usda-172212",
+  "food_group": "M",
+  "name_de": "Sahne, Half and Half, fettfrei"
+ },
+ {
+  "slug": "usda-172213",
+  "food_group": "M",
+  "name_de": "Reddi Wip, Schlagtopping, fettfrei"
+ },
+ {
+  "slug": "usda-172214",
+  "food_group": "M",
+  "name_de": "Sahneersatz, aromatisiert, Pulver"
+ },
+ {
+  "slug": "usda-172215",
+  "food_group": "M",
+  "name_de": "Käse, Provolone, fettreduziert"
+ }
+]

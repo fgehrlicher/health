@@ -1,0 +1,1252 @@
+[
+ {
+  "slug": "usda-172216",
+  "food_group": "M",
+  "name_de": "Käse, mexikanische Mischung, fettreduziert"
+ },
+ {
+  "slug": "usda-172217",
+  "food_group": "M",
+  "name_de": "Milch, Vollmilch, 3,25 % Milchfett, ohne Zusatz von Vitamin A und Vitamin D"
+ },
+ {
+  "slug": "usda-172218",
+  "food_group": "M",
+  "name_de": "Joghurt, Frucht, fettarm, mit kalorienarmem Süßstoff, mit Vitamin D angereichert"
+ },
+ {
+  "slug": "usda-172219",
+  "food_group": "M",
+  "name_de": "Joghurt, Vanille, fettarm, mit Vitamin D angereichert"
+ },
+ {
+  "slug": "usda-172220",
+  "food_group": "M",
+  "name_de": "Joghurt, Vanille- oder Zitronengeschmack, Magermilch, mit kalorienarmem Süßstoff gesüßt, mit Vitamin D angereichert"
+ },
+ {
+  "slug": "usda-172221",
+  "food_group": "M",
+  "name_de": "Joghurt, Schokolade, Magermilch, mit Vitamin D angereichert"
+ },
+ {
+  "slug": "usda-172222",
+  "food_group": "M",
+  "name_de": "Käse, trocken, weiß (Queso seco)"
+ },
+ {
+  "slug": "usda-172223",
+  "food_group": "M",
+  "name_de": "Käse, frisch (Queso fresco)"
+ },
+ {
+  "slug": "usda-172224",
+  "food_group": "M",
+  "name_de": "Käse, weiß (Queso blanco)"
+ },
+ {
+  "slug": "usda-172225",
+  "food_group": "M",
+  "name_de": "Buttermilch, flüssig, vollfett"
+ },
+ {
+  "slug": "usda-172226",
+  "food_group": "M",
+  "name_de": "Eiscreme-Sandwich"
+ },
+ {
+  "slug": "usda-172227",
+  "food_group": "M",
+  "name_de": "Eiscreme-Keks-Sandwich"
+ },
+ {
+  "slug": "usda-172228",
+  "food_group": "M",
+  "name_de": "Eiswaffel, mit Schokolade überzogen, mit Nüssen, andere Geschmacksrichtungen als Schokolade"
+ },
+ {
+  "slug": "usda-172229",
+  "food_group": "M",
+  "name_de": "Eiscreme-Sandwich, aus Light-Eiscreme, Vanille"
+ },
+ {
+  "slug": "usda-172230",
+  "food_group": "M",
+  "name_de": "Eiscreme-Sandwich, Vanille, light, ohne Zuckerzusatz"
+ },
+ {
+  "slug": "usda-172231",
+  "food_group": "R",
+  "name_de": "Kurkuma, gemahlen"
+ },
+ {
+  "slug": "usda-172232",
+  "food_group": "G",
+  "name_de": "Basilikum, frisch"
+ },
+ {
+  "slug": "usda-172233",
+  "food_group": "G",
+  "name_de": "Dill, frisch"
+ },
+ {
+  "slug": "usda-172234",
+  "food_group": "R",
+  "name_de": "Senf, zubereitet, gelb"
+ },
+ {
+  "slug": "usda-172235",
+  "food_group": "R",
+  "name_de": "Vanilleextrakt, Imitat, mit Alkohol"
+ },
+ {
+  "slug": "usda-172236",
+  "food_group": "R",
+  "name_de": "Vanilleextrakt, Imitat, ohne Alkohol"
+ },
+ {
+  "slug": "usda-172237",
+  "food_group": "R",
+  "name_de": "Essig, destilliert"
+ },
+ {
+  "slug": "usda-172238",
+  "food_group": "R",
+  "name_de": "Kapern, aus der Dose"
+ },
+ {
+  "slug": "usda-172239",
+  "food_group": "R",
+  "name_de": "Grüne Minze, getrocknet"
+ },
+ {
+  "slug": "usda-172240",
+  "food_group": "R",
+  "name_de": "Essig, Rotwein"
+ },
+ {
+  "slug": "usda-172241",
+  "food_group": "R",
+  "name_de": "Essig, Balsamico"
+ },
+ {
+  "slug": "usda-172242",
+  "food_group": "R",
+  "name_de": "Gewürzmischung, trocken, Sazón, Koriander und Annatto"
+ },
+ {
+  "slug": "usda-172243",
+  "food_group": "R",
+  "name_de": "Gewürzmischung, trocken, Taco, Original"
+ },
+ {
+  "slug": "usda-172327",
+  "food_group": "Q",
+  "name_de": "Backfett, Haushalt, Schmalz und Pflanzenöl"
+ },
+ {
+  "slug": "usda-172328",
+  "food_group": "Q",
+  "name_de": "Sonnenblumenöl, linolsäurereich (teilweise gehärtet)"
+ },
+ {
+  "slug": "usda-172329",
+  "food_group": "Q",
+  "name_de": "Backfett für Brot, Soja (gehärtet) und Baumwollsaat"
+ },
+ {
+  "slug": "usda-172330",
+  "food_group": "Q",
+  "name_de": "Backfett für Kuchenmischung, Soja (gehärtet) und Baumwollsaat (gehärtet)"
+ },
+ {
+  "slug": "usda-172331",
+  "food_group": "Q",
+  "name_de": "Frittierfett, hochbelastbar, Palm (gehärtet)"
+ },
+ {
+  "slug": "usda-172332",
+  "food_group": "Q",
+  "name_de": "Backfett, Haushalt, Soja (gehärtet) und Palm"
+ },
+ {
+  "slug": "usda-172333",
+  "food_group": "Q",
+  "name_de": "Frittierfett, hochbelastbar, Soja (gehärtet), Linolsäure (weniger als 1 %)"
+ },
+ {
+  "slug": "usda-172334",
+  "food_group": "Q",
+  "name_de": "Backfett, Konditorei, fraktioniertes Palmöl"
+ },
+ {
+  "slug": "usda-172335",
+  "food_group": "Q",
+  "name_de": "Muskatbutteröl"
+ },
+ {
+  "slug": "usda-172336",
+  "food_group": "Q",
+  "name_de": "Rapsöl"
+ },
+ {
+  "slug": "usda-172337",
+  "food_group": "Q",
+  "name_de": "Senföl"
+ },
+ {
+  "slug": "usda-172338",
+  "food_group": "Q",
+  "name_de": "Sonnenblumenöl, ölsäurereich (70 % und mehr)"
+ },
+ {
+  "slug": "usda-172339",
+  "food_group": "Q",
+  "name_de": "Margarine-Butter-Mischung, Sojaöl und Butter"
+ },
+ {
+  "slug": "usda-172340",
+  "food_group": "Q",
+  "name_de": "Fischöl, Hering"
+ },
+ {
+  "slug": "usda-172341",
+  "food_group": "Q",
+  "name_de": "Fischöl, Menhaden"
+ },
+ {
+  "slug": "usda-172342",
+  "food_group": "Q",
+  "name_de": "Fischöl, Menhaden, vollständig gehärtet"
+ },
+ {
+  "slug": "usda-172343",
+  "food_group": "Q",
+  "name_de": "Fischöl, Lachs"
+ },
+ {
+  "slug": "usda-172344",
+  "food_group": "Q",
+  "name_de": "Butter, light, Stange, ohne Salz"
+ },
+ {
+  "slug": "usda-172345",
+  "food_group": "Q",
+  "name_de": "Tierfett, Speckfett"
+ },
+ {
+  "slug": "usda-172346",
+  "food_group": "Q",
+  "name_de": "Margarine, normal, 80 % Fett, Mischung, Stange, mit Salz"
+ },
+ {
+  "slug": "usda-172347",
+  "food_group": "Q",
+  "name_de": "Margarine, normal, 80 % Fett, Mischung, Becher, mit Salz"
+ },
+ {
+  "slug": "usda-172348",
+  "food_group": "Q",
+  "name_de": "Pflanzenölaufstrich, margarineartig, 60 % Fett, Stange, mit Salz"
+ },
+ {
+  "slug": "usda-172349",
+  "food_group": "Q",
+  "name_de": "Margarine, normal, 80 % Fett, Mischung, Becher, ohne Salz"
+ },
+ {
+  "slug": "usda-172350",
+  "food_group": "Q",
+  "name_de": "Pflanzenölaufstrich, margarineartig, 60 % Fett, Stange/Becher/Flasche, ohne Salz"
+ },
+ {
+  "slug": "usda-172351",
+  "food_group": "Q",
+  "name_de": "Pflanzenölaufstrich, margarineartig, fettfrei, flüssig, mit Salz"
+ },
+ {
+  "slug": "usda-172352",
+  "food_group": "Q",
+  "name_de": "Aufstrich, margarineartig, mit Joghurt, 70 % Fett, Stange, mit Salz"
+ },
+ {
+  "slug": "usda-172353",
+  "food_group": "Q",
+  "name_de": "Pflanzenölaufstrich, margarineartig, fettfrei, Becher"
+ },
+ {
+  "slug": "usda-172354",
+  "food_group": "Q",
+  "name_de": "Pflanzenölaufstrich, margarineartig, 20 % Fett, mit Salz"
+ },
+ {
+  "slug": "usda-172355",
+  "food_group": "Q",
+  "name_de": "Pflanzenölaufstrich, margarineartig, 20 % Fett, ohne Salz"
+ },
+ {
+  "slug": "usda-172356",
+  "food_group": "R",
+  "name_de": "Salatdressing, Thousand-Island-Dressing, fettfrei"
+ },
+ {
+  "slug": "usda-172357",
+  "food_group": "Q",
+  "name_de": "Sonnenblumenöl, industriell, Mid-Oleic"
+ },
+ {
+  "slug": "usda-172358",
+  "food_group": "Q",
+  "name_de": "Rapsöl, industriell, mit Entschäumer, Hauptverwendung Salate, Woks und leichtes Braten"
+ },
+ {
+  "slug": "usda-172359",
+  "food_group": "Q",
+  "name_de": "Rapsöl, industriell, für Salate, Woks und leichtes Braten"
+ },
+ {
+  "slug": "usda-172360",
+  "food_group": "Q",
+  "name_de": "Rapsöl, industriell (teilweise gehärtet), zum Frittieren"
+ },
+ {
+  "slug": "usda-172361",
+  "food_group": "Q",
+  "name_de": "Sojaöl, industriell (teilweise gehärtet), Mehrzweck für milchfreien Buttergeschmack"
+ },
+ {
+  "slug": "usda-172362",
+  "food_group": "Q",
+  "name_de": "Sojaöl, industriell (teilweise gehärtet), Allzweck"
+ },
+ {
+  "slug": "usda-172363",
+  "food_group": "Q",
+  "name_de": "Sojaöl, industriell (teilweise gehärtet) und Sojaöl (winterisiert), gießbar, klar zum Frittieren"
+ },
+ {
+  "slug": "usda-172364",
+  "food_group": "Q",
+  "name_de": "Sojaöl, industriell (teilweise gehärtet) und Baumwollsaatöl, Hauptverwendung als Tortilla-Backfett"
+ },
+ {
+  "slug": "usda-172365",
+  "food_group": "Q",
+  "name_de": "Kokosöl, industriell, Konfektfett, typische Grundlage für Eiscremeüberzüge"
+ },
+ {
+  "slug": "usda-172366",
+  "food_group": "Q",
+  "name_de": "Palmkernöl, industriell (gehärtet), verwendet für Whipped Toppings, milchfrei"
+ },
+ {
+  "slug": "usda-172367",
+  "food_group": "Q",
+  "name_de": "Kokosöl, industriell (gehärtet), verwendet für Whipped Toppings und Kaffeeweißer"
+ },
+ {
+  "slug": "usda-172368",
+  "food_group": "Q",
+  "name_de": "Palm- und Palmkernöl, industriell, Füllfett (nicht gehärtet)"
+ },
+ {
+  "slug": "usda-172369",
+  "food_group": "Q",
+  "name_de": "Margarine, industriell, Soja und teilweise gehärtetes Sojaöl, zum Backen, für Soßen und Süßwaren"
+ },
+ {
+  "slug": "usda-172370",
+  "food_group": "Q",
+  "name_de": "Sojaöl, Pflanzenöl, raffiniert"
+ },
+ {
+  "slug": "usda-172371",
+  "food_group": "Q",
+  "name_de": "Aufstrich, margarineartig, SMART BALANCE Regular Buttery Spread mit Leinöl"
+ },
+ {
+  "slug": "usda-172372",
+  "food_group": "Q",
+  "name_de": "Aufstrich, margarineartig, SMART BALANCE Light Buttery Spread"
+ },
+ {
+  "slug": "usda-172373",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Unterschenkel, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-172374",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Unterschenkel, Fleisch mit Haut, gegart, gebraten, im Backteig"
+ },
+ {
+  "slug": "usda-172375",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Unterschenkel, nur Fleisch, gegart, gebraten"
+ },
+ {
+  "slug": "usda-172376",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, dunkles Fleisch, Unterschenkel, nur Fleisch, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172377",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Unterschenkel, nur Fleisch, gegart, gedünstet"
+ },
+ {
+  "slug": "usda-172378",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Keule, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-172379",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Keule, nur Fleisch, gegart, gebraten"
+ },
+ {
+  "slug": "usda-172380",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Keule, nur Fleisch, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172381",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Keule, nur Fleisch, gegart, gedünstet"
+ },
+ {
+  "slug": "usda-172382",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Hals, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-172383",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Hals, nur Fleisch, gegart, gebraten"
+ },
+ {
+  "slug": "usda-172384",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Hals, nur Fleisch, gegart, geköchelt"
+ },
+ {
+  "slug": "usda-172385",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Oberschenkel, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-172386",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Oberschenkel, Fleisch mit Haut, gegart, gebraten, im Backteig"
+ },
+ {
+  "slug": "usda-172387",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Oberschenkel, nur Fleisch, gegart, gebraten"
+ },
+ {
+  "slug": "usda-172388",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Oberschenkel, nur Fleisch, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172389",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Oberschenkel, nur Fleisch, gegart, gedünstet"
+ },
+ {
+  "slug": "usda-172390",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Flügel, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-172391",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Flügel, nur Fleisch, gegart, gebraten"
+ },
+ {
+  "slug": "usda-172392",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Flügel, nur Fleisch, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172393",
+  "food_group": "V",
+  "name_de": "Hähnchen, Broiler, Flügel, nur Fleisch, gegart, gedünstet"
+ },
+ {
+  "slug": "usda-172394",
+  "food_group": "V",
+  "name_de": "Huhn, Brathuhn, Fleisch mit Haut, Innereien und Hals, roh"
+ },
+ {
+  "slug": "usda-172395",
+  "food_group": "V",
+  "name_de": "Huhn, Brathuhn, nur Fleisch, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172396",
+  "food_group": "V",
+  "name_de": "Huhn, Brathuhn, Innereien, roh"
+ },
+ {
+  "slug": "usda-172397",
+  "food_group": "V",
+  "name_de": "Huhn, Brathuhn, Innereien, gegart, geköchelt"
+ },
+ {
+  "slug": "usda-172398",
+  "food_group": "V",
+  "name_de": "Huhn, Brathuhn, helles Fleisch, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-172399",
+  "food_group": "V",
+  "name_de": "Huhn, Suppenhuhn, Fleisch mit Haut, Innereien und Hals, gegart, gedünstet"
+ },
+ {
+  "slug": "usda-172400",
+  "food_group": "V",
+  "name_de": "Huhn, Suppenhuhn, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-172401",
+  "food_group": "V",
+  "name_de": "Huhn, Suppenhuhn, Fleisch mit Haut, gegart, gedünstet"
+ },
+ {
+  "slug": "usda-172402",
+  "food_group": "V",
+  "name_de": "Huhn, Suppenhuhn, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-172403",
+  "food_group": "V",
+  "name_de": "Huhn, Suppenhuhn, nur Fleisch, gegart, gedünstet"
+ },
+ {
+  "slug": "usda-172404",
+  "food_group": "V",
+  "name_de": "Huhn, Suppenhuhn, dunkles Fleisch, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-172405",
+  "food_group": "V",
+  "name_de": "Huhn, Suppenhuhn, dunkles Fleisch, nur Fleisch, gegart, gedünstet"
+ },
+ {
+  "slug": "usda-172406",
+  "food_group": "V",
+  "name_de": "Huhn, Kapaun, Fleisch mit Haut, Innereien und Hals, roh"
+ },
+ {
+  "slug": "usda-172407",
+  "food_group": "V",
+  "name_de": "Huhn, Kapaun, Fleisch mit Haut, Innereien und Hals, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172408",
+  "food_group": "V",
+  "name_de": "Ente, Hausente, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-172409",
+  "food_group": "V",
+  "name_de": "Ente, Hausente, Fleisch mit Haut, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172410",
+  "food_group": "V",
+  "name_de": "Ente, Hausente, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-172411",
+  "food_group": "V",
+  "name_de": "Ente, Hausente, nur Fleisch, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172412",
+  "food_group": "V",
+  "name_de": "Gans, Hausgans, Fleisch mit Haut, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172413",
+  "food_group": "V",
+  "name_de": "Gans, Hausgans, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-172414",
+  "food_group": "V",
+  "name_de": "Gans, Hausgans, nur Fleisch, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172415",
+  "food_group": "V",
+  "name_de": "Gans, Leber, roh"
+ },
+ {
+  "slug": "usda-172416",
+  "food_group": "V",
+  "name_de": "Perlhuhn, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-172417",
+  "food_group": "V",
+  "name_de": "Fasan, Keule, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-172418",
+  "food_group": "V",
+  "name_de": "Wachtel, Fleisch mit Haut, roh"
+ },
+ {
+  "slug": "usda-172419",
+  "food_group": "V",
+  "name_de": "Wachtel, nur Fleisch, roh"
+ },
+ {
+  "slug": "usda-172420",
+  "food_group": "H",
+  "name_de": "Linsen, roh"
+ },
+ {
+  "slug": "usda-172421",
+  "food_group": "H",
+  "name_de": "Linsen, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-172422",
+  "food_group": "H",
+  "name_de": "Limabohnen, dünnsamig (Baby), reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-172423",
+  "food_group": "H",
+  "name_de": "Lupinen, reife Samen, roh"
+ },
+ {
+  "slug": "usda-172424",
+  "food_group": "H",
+  "name_de": "Lupinen, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-172425",
+  "food_group": "H",
+  "name_de": "Mattenbohnen, reife Samen, roh"
+ },
+ {
+  "slug": "usda-172426",
+  "food_group": "H",
+  "name_de": "Mattenbohnen, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-172427",
+  "food_group": "H",
+  "name_de": "Mungbohnen, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-172428",
+  "food_group": "H",
+  "name_de": "Erbsen, grün, gespalten, reife Samen, roh"
+ },
+ {
+  "slug": "usda-172429",
+  "food_group": "H",
+  "name_de": "Erbsen, gespalten, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-172430",
+  "food_group": "H",
+  "name_de": "Erdnüsse, alle Sorten, roh"
+ },
+ {
+  "slug": "usda-172431",
+  "food_group": "H",
+  "name_de": "Erdnüsse, Spanish, in Öl geröstet, mit Salz"
+ },
+ {
+  "slug": "usda-172432",
+  "food_group": "H",
+  "name_de": "Erdnüsse, Valencia, roh"
+ },
+ {
+  "slug": "usda-172433",
+  "food_group": "H",
+  "name_de": "Erdnüsse, Valencia, in Öl geröstet, mit Salz"
+ },
+ {
+  "slug": "usda-172434",
+  "food_group": "H",
+  "name_de": "Erdnüsse, Virginia, roh"
+ },
+ {
+  "slug": "usda-172435",
+  "food_group": "H",
+  "name_de": "Erdnussmehl, fettarm"
+ },
+ {
+  "slug": "usda-172436",
+  "food_group": "H",
+  "name_de": "Straucherbsen (Red Gram), reife Samen, roh"
+ },
+ {
+  "slug": "usda-172437",
+  "food_group": "H",
+  "name_de": "Straucherbsen (Red Gram), reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-172438",
+  "food_group": "X",
+  "name_de": "Refried Beans, aus der Dose, traditionelle Art"
+ },
+ {
+  "slug": "usda-172439",
+  "food_group": "H",
+  "name_de": "Bacon, fleischlos"
+ },
+ {
+  "slug": "usda-172440",
+  "food_group": "H",
+  "name_de": "Sojabohnen, reife Samen, geröstet, gesalzen"
+ },
+ {
+  "slug": "usda-172441",
+  "food_group": "H",
+  "name_de": "Sojabohnen, reife Samen, trocken geröstet"
+ },
+ {
+  "slug": "usda-172442",
+  "food_group": "H",
+  "name_de": "Miso"
+ },
+ {
+  "slug": "usda-172443",
+  "food_group": "H",
+  "name_de": "Natto"
+ },
+ {
+  "slug": "usda-172444",
+  "food_group": "H",
+  "name_de": "Sojamehl, fettarm"
+ },
+ {
+  "slug": "usda-172445",
+  "food_group": "H",
+  "name_de": "Sojaschrot, entfettet, roh"
+ },
+ {
+  "slug": "usda-172446",
+  "food_group": "N",
+  "name_de": "Sojadrink, Original und Vanille, nicht angereichert"
+ },
+ {
+  "slug": "usda-172447",
+  "food_group": "H",
+  "name_de": "Sojaproteinkonzentrat, durch Alkoholextraktion hergestellt"
+ },
+ {
+  "slug": "usda-172448",
+  "food_group": "H",
+  "name_de": "Tofu, fest, hergestellt mit Calciumsulfat und Magnesiumchlorid (Nigari)"
+ },
+ {
+  "slug": "usda-172449",
+  "food_group": "H",
+  "name_de": "Tofu, weich, hergestellt mit Calciumsulfat und Magnesiumchlorid (Nigari)"
+ },
+ {
+  "slug": "usda-172450",
+  "food_group": "H",
+  "name_de": "Tofu, getrocknet und gefroren (Koyadofu)"
+ },
+ {
+  "slug": "usda-172451",
+  "food_group": "H",
+  "name_de": "Tofu, gebraten"
+ },
+ {
+  "slug": "usda-172452",
+  "food_group": "H",
+  "name_de": "Okara"
+ },
+ {
+  "slug": "usda-172453",
+  "food_group": "H",
+  "name_de": "Flügelbohnen, reife Samen, gekocht, ohne Salz"
+ },
+ {
+  "slug": "usda-172454",
+  "food_group": "H",
+  "name_de": "Hummus, hausgemacht"
+ },
+ {
+  "slug": "usda-172455",
+  "food_group": "X",
+  "name_de": "Falafel, hausgemacht"
+ },
+ {
+  "slug": "usda-172456",
+  "food_group": "N",
+  "name_de": "Sojadrink, Original und Vanille, mit zugesetztem Calcium, Vitamin A und D"
+ },
+ {
+  "slug": "usda-172457",
+  "food_group": "H",
+  "name_de": "Erdnussaufstrich, zuckerreduziert"
+ },
+ {
+  "slug": "usda-172458",
+  "food_group": "H",
+  "name_de": "Erdnussbutter, cremig, fettreduziert"
+ },
+ {
+  "slug": "usda-172459",
+  "food_group": "H",
+  "name_de": "Erdnussbutter, cremig, mit Vitaminen und Mineralstoffen angereichert"
+ },
+ {
+  "slug": "usda-172460",
+  "food_group": "H",
+  "name_de": "Erdnussbutter, stückig, mit Vitaminen und Mineralstoffen angereichert"
+ },
+ {
+  "slug": "usda-172461",
+  "food_group": "H",
+  "name_de": "MORI-NU, Tofu, Seidentofu, fest"
+ },
+ {
+  "slug": "usda-172462",
+  "food_group": "H",
+  "name_de": "MORI-NU, Tofu, Seidentofu, extra fest"
+ },
+ {
+  "slug": "usda-172463",
+  "food_group": "H",
+  "name_de": "MORI-NU, Tofu, Seidentofu, Lite, fest"
+ },
+ {
+  "slug": "usda-172464",
+  "food_group": "H",
+  "name_de": "MORI-NU, Tofu, Seidentofu, Lite, extra fest"
+ },
+ {
+  "slug": "usda-172465",
+  "food_group": "X",
+  "name_de": "Refried Beans, aus der Dose, fettfrei"
+ },
+ {
+  "slug": "usda-172466",
+  "food_group": "X",
+  "name_de": "Frijoles rojos volteados (Refried Beans, rot, aus der Dose)"
+ },
+ {
+  "slug": "usda-172467",
+  "food_group": "H",
+  "name_de": "Tempeh, gekocht"
+ },
+ {
+  "slug": "usda-172468",
+  "food_group": "H",
+  "name_de": "Vitasoy USA, Nasoya Lite Firm Tofu"
+ },
+ {
+  "slug": "usda-172469",
+  "food_group": "H",
+  "name_de": "Erdnussbutter, stückig, ohne Salz"
+ },
+ {
+  "slug": "usda-172470",
+  "food_group": "H",
+  "name_de": "Erdnussbutter, cremig, ohne Salz"
+ },
+ {
+  "slug": "usda-172471",
+  "food_group": "H",
+  "name_de": "Erdnussbutter mit Omega-3, cremig"
+ },
+ {
+  "slug": "usda-172472",
+  "food_group": "H",
+  "name_de": "Straucherbsen (Red Gram), reife Samen, gekocht, mit Salz"
+ },
+ {
+  "slug": "usda-172473",
+  "food_group": "R",
+  "name_de": "Sojasoße aus Soja und Weizen (Shoyu), natriumarm"
+ },
+ {
+  "slug": "usda-172474",
+  "food_group": "R",
+  "name_de": "Sojasoße, natriumreduziert, aus hydrolysiertem Pflanzenprotein"
+ },
+ {
+  "slug": "usda-172475",
+  "food_group": "H",
+  "name_de": "Tofu, roh, fest, hergestellt mit Calciumsulfat"
+ },
+ {
+  "slug": "usda-172476",
+  "food_group": "H",
+  "name_de": "Tofu, roh, normal, hergestellt mit Calciumsulfat"
+ },
+ {
+  "slug": "usda-172477",
+  "food_group": "H",
+  "name_de": "Flügelbohnen, reife Samen, gekocht, mit Salz"
+ },
+ {
+  "slug": "usda-172478",
+  "food_group": "U",
+  "name_de": "Kalb, australisch, Rippe, Rippenbraten, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-172479",
+  "food_group": "U",
+  "name_de": "Lamm, Mischung aus parierten Einzelhandelszuschnitten, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172480",
+  "food_group": "U",
+  "name_de": "Lamm, Mischung aus parierten Einzelhandelszuschnitten, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegart"
+ },
+ {
+  "slug": "usda-172481",
+  "food_group": "U",
+  "name_de": "Lamm, Vorderhaxe, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172482",
+  "food_group": "U",
+  "name_de": "Lamm, Vorderhaxe, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172483",
+  "food_group": "U",
+  "name_de": "Lamm, Vorderhaxe, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172484",
+  "food_group": "U",
+  "name_de": "Lamm, Vorderhaxe, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172485",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, Haxenhälfte, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172486",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, Haxenhälfte, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172487",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, Haxenhälfte, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172488",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, Hüfthälfte, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172489",
+  "food_group": "U",
+  "name_de": "Lamm, Lende, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-172490",
+  "food_group": "U",
+  "name_de": "Lamm, Lende, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172491",
+  "food_group": "U",
+  "name_de": "Lamm, Lende, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172492",
+  "food_group": "U",
+  "name_de": "Lamm, Lende, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-172493",
+  "food_group": "U",
+  "name_de": "Lamm, Rippe, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172494",
+  "food_group": "U",
+  "name_de": "Lamm, Rippe, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-172495",
+  "food_group": "U",
+  "name_de": "Lamm, Rippe, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172496",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, ganz (Arm und Blatt), Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172497",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, ganz (Arm und Blatt), Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172498",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, ganz (Arm und Blatt), nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-172499",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, ganz (Arm und Blatt), nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172500",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172501",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172502",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-172503",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Arm, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172504",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Blatt, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172505",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Blatt, Magerfleisch und Fett, auf 1/4 Zoll Fett pariert, Choice, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172506",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Blatt, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-172507",
+  "food_group": "U",
+  "name_de": "Lamm, Schulter, Blatt, nur Magerfleisch, auf 1/4 Zoll Fett pariert, Choice, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172508",
+  "food_group": "U",
+  "name_de": "Lamm, gewürfelt für Eintopf oder Spieße (Keule und Schulter), nur Magerfleisch, auf 1/4 Zoll Fett pariert, roh"
+ },
+ {
+  "slug": "usda-172509",
+  "food_group": "U",
+  "name_de": "Lamm, gewürfelt für Eintopf oder Spieße (Keule und Schulter), nur Magerfleisch, auf 1/4 Zoll Fett pariert, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172510",
+  "food_group": "U",
+  "name_de": "Lamm, gewürfelt für Eintopf oder Spieße (Keule und Schulter), nur Magerfleisch, auf 1/4 Zoll Fett pariert, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-172511",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Mischung aus parierten Einzelhandelszuschnitten, nur Fett, roh"
+ },
+ {
+  "slug": "usda-172512",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Mischung aus parierten Einzelhandelszuschnitten, nur Fett, gegart"
+ },
+ {
+  "slug": "usda-172513",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Vorderhaxe, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-172514",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Vorderhaxe, Magerfleisch und Fett, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172515",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Keulenkotelett/-steak, mit Knochen, nur Magerfleisch, roh"
+ },
+ {
+  "slug": "usda-172516",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, tiefgefroren, Keule, ganz (Haxe und Hüfte), nur Magerfleisch, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172517",
+  "food_group": "U",
+  "name_de": "Lamm, Neuseeland, importiert, Lendenkotelett, Magerfleisch und Fett, roh"
+ },
+ {
+  "slug": "usda-172518",
+  "food_group": "U",
+  "name_de": "Wildfleisch, Bisamratte, roh"
+ },
+ {
+  "slug": "usda-172519",
+  "food_group": "U",
+  "name_de": "Wildfleisch, Bisamratte, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172520",
+  "food_group": "U",
+  "name_de": "Wildfleisch, Opossum, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172521",
+  "food_group": "U",
+  "name_de": "Wildfleisch, Kaninchen, Hauskaninchen, Mischung aller Teilstücke, roh"
+ },
+ {
+  "slug": "usda-172522",
+  "food_group": "U",
+  "name_de": "Wildfleisch, Kaninchen, Hauskaninchen, Mischung aller Teilstücke, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172523",
+  "food_group": "U",
+  "name_de": "Wildfleisch, Eichhörnchen, roh"
+ },
+ {
+  "slug": "usda-172524",
+  "food_group": "U",
+  "name_de": "Wildfleisch, Eichhörnchen, gegart, geröstet"
+ },
+ {
+  "slug": "usda-172525",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien und Nebenprodukte, Gehirn, roh"
+ },
+ {
+  "slug": "usda-172526",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien und Nebenprodukte, Gehirn, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172527",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien und Nebenprodukte, Herz, roh"
+ },
+ {
+  "slug": "usda-172528",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien und Nebenprodukte, Herz, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172529",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien und Nebenprodukte, Herz, roh"
+ },
+ {
+  "slug": "usda-172530",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien und Nebenprodukte, Herz, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172531",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien und Nebenprodukte, Leber, roh"
+ },
+ {
+  "slug": "usda-172532",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien und Nebenprodukte, Leber, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172533",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien und Nebenprodukte, Leber, gegart, in der Pfanne gebraten"
+ },
+ {
+  "slug": "usda-172534",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien und Nebenprodukte, Leber, roh"
+ },
+ {
+  "slug": "usda-172535",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien und Nebenprodukte, Leber, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172536",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien und Nebenprodukte, Lunge, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172537",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien und Nebenprodukte, maschinell separiert, roh"
+ },
+ {
+  "slug": "usda-172538",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien und Nebenprodukte, Bauchspeicheldrüse, roh"
+ },
+ {
+  "slug": "usda-172539",
+  "food_group": "U",
+  "name_de": "Lamm, Innereien und Nebenprodukte, Bauchspeicheldrüse, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172540",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien und Nebenprodukte, Milz, roh"
+ },
+ {
+  "slug": "usda-172541",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien und Nebenprodukte, Milz, gegart, geschmort"
+ },
+ {
+  "slug": "usda-172542",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien und Nebenprodukte, Thymus (Bries), roh"
+ },
+ {
+  "slug": "usda-172543",
+  "food_group": "U",
+  "name_de": "Kalb, Innereien und Nebenprodukte, Thymus (Bries), gegart, geschmort"
+ },
+ {
+  "slug": "usda-172544",
+  "food_group": "U",
+  "name_de": "Lamm, Hackfleisch, gegart, gegrillt"
+ },
+ {
+  "slug": "usda-172545",
+  "food_group": "U",
+  "name_de": "Lamm, Mischung aus parierten Einzelhandelszuschnitten, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172546",
+  "food_group": "U",
+  "name_de": "Lamm, Mischung aus parierten Einzelhandelszuschnitten, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, gegart"
+ },
+ {
+  "slug": "usda-172547",
+  "food_group": "U",
+  "name_de": "Lamm, Vorderhaxe, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, roh"
+ },
+ {
+  "slug": "usda-172548",
+  "food_group": "U",
+  "name_de": "Lamm, Keule, Haxenhälfte, Magerfleisch und Fett, auf 1/8 Zoll Fett pariert, Choice, gegart, geröstet"
+ }
+]
