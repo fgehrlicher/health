@@ -170,8 +170,8 @@ BASE_SQL = (
     + """
 SELECT
     f.id, f.slug, f.name, f.aliases, f.kind, f.preparation_state, f.food_group,
-    g.name AS food_group_name, f.brand, f.barcode,
-    bls.food_name AS name_de,
+    coalesce(g.name_de, g.name) AS food_group_name, f.brand, f.barcode,
+    coalesce(bls.food_name, f.name_de) AS name_de,
     (SELECT count(*) FROM catalog.food_sources s WHERE s.food_id = f.id) AS source_count,
     chosen.id AS source_id, chosen.source_name, chosen.external_id,
     chosen.food_name, chosen.reference_quantity, chosen.reference_unit,
@@ -347,8 +347,8 @@ def list_foods(connection: Connection, filters: FoodFilters) -> dict:
 def get_food(connection: Connection, slug: str) -> dict | None:
     row = connection.execute(
         """SELECT f.id, f.slug, f.name, f.aliases, f.kind, f.preparation_state,
-                  (SELECT b.food_name FROM catalog.food_sources b WHERE b.food_id = f.id AND b.source_name = 'BLS 4.0' ORDER BY b.id LIMIT 1) AS name_de,
-                  f.food_group, g.name AS food_group_name, f.brand, f.barcode
+                  coalesce((SELECT b.food_name FROM catalog.food_sources b WHERE b.food_id = f.id AND b.source_name = 'BLS 4.0' ORDER BY b.id LIMIT 1), f.name_de) AS name_de,
+                  f.food_group, coalesce(g.name_de, g.name) AS food_group_name, f.brand, f.barcode
            FROM catalog.foods f
            LEFT JOIN catalog.food_groups g ON g.code = f.food_group
            WHERE f.slug = %s""",
@@ -481,7 +481,9 @@ def get_facets(connection: Connection, filters: FoodFilters | None = None) -> di
     filters = filters or FoodFilters()
     names = {
         row["code"]: row["name"]
-        for row in connection.execute("SELECT code, name FROM catalog.food_groups")
+        for row in connection.execute(
+            "SELECT code, coalesce(name_de, name) AS name FROM catalog.food_groups"
+        )
     }
     return {
         "foods": count_foods(connection, filters),

@@ -1,0 +1,22 @@
+{
+  "B": {"name": "Bread", "name_de": "Brot"},
+  "C": {"name": "Cereals and grains", "name_de": "Getreide und Getreideprodukte"},
+  "D": {"name": "Cakes and baked goods", "name_de": "Kuchen und Backwaren"},
+  "E": {"name": "Eggs and pasta", "name_de": "Eier und Nudeln"},
+  "F": {"name": "Fruit", "name_de": "Obst"},
+  "G": {"name": "Vegetables", "name_de": "Gemüse"},
+  "H": {"name": "Legumes, nuts, seeds and sprouts", "name_de": "Hülsenfrüchte, Nüsse, Samen und Sprossen"},
+  "K": {"name": "Potatoes and mushrooms", "name_de": "Kartoffeln und Pilze"},
+  "M": {"name": "Dairy", "name_de": "Milchprodukte"},
+  "N": {"name": "Nonalcoholic drinks", "name_de": "Alkoholfreie Getränke"},
+  "P": {"name": "Alcoholic drinks", "name_de": "Alkoholische Getränke"},
+  "Q": {"name": "Fats and oils", "name_de": "Fette und Öle"},
+  "R": {"name": "Seasonings and sauces", "name_de": "Gewürze und Soßen"},
+  "S": {"name": "Sweets", "name_de": "Süßwaren"},
+  "T": {"name": "Fish and seafood", "name_de": "Fisch und Meeresfrüchte"},
+  "U": {"name": "Red meat", "name_de": "Rotes Fleisch"},
+  "V": {"name": "Poultry and game", "name_de": "Geflügel und Wild"},
+  "W": {"name": "Meat products", "name_de": "Fleischwaren"},
+  "X": {"name": "Mostly plant dishes", "name_de": "Überwiegend pflanzliche Gerichte"},
+  "Y": {"name": "Mostly animal dishes", "name_de": "Überwiegend tierische Gerichte"}
+}
