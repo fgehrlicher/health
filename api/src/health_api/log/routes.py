@@ -6,19 +6,23 @@ import psycopg
 from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import JSONResponse
 
-from health_api.clock import local_time
+from health_api.clock import local_time, timezone
 from health_api.db import connect
 from health_api.ingredients import InputError
 from health_api.log.meals import (
     MealInput,
     MealUpdate,
+    calendar_days,
     clean_note,
     day_summary,
     get_meal,
     insert_items,
     resolve_items,
 )
-from health_api.log.models import Day, Meal
+from health_api.log.models import Calendar, Day, Meal
+
+# The calendar shows 53 weeks; a longer range would only slow the query down.
+MAX_CALENDAR_DAYS = 400
 
 router = APIRouter(prefix="/api/log", tags=["log"])
 
@@ -121,3 +125,15 @@ def read_day(day: date):
     """A local day's meals and totals, keeping measured, estimated, and unknown apart."""
     with connect() as connection:
         return day_summary(connection, day)
+
+
+@router.get("/calendar", response_model=Calendar)
+def read_calendar(start: date, end: date):
+    """Days with meals from start to end, inclusive: kcal and meal counts per local day."""
+    if end < start or (end - start).days >= MAX_CALENDAR_DAYS:
+        raise HTTPException(
+            status_code=422,
+            detail=f"end must be on or after start, and at most {MAX_CALENDAR_DAYS} days apart",
+        )
+    with connect() as connection:
+        return {"timezone": timezone().key, "days": calendar_days(connection, start, end)}

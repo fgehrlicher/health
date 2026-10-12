@@ -196,3 +196,44 @@ def test_log_a_day_against_postgres(monkeypatch):
             connection.execute("DELETE FROM log.meals WHERE id = ANY(%s)", (meal_ids,))
             connection.execute("DELETE FROM catalog.foods WHERE barcode = %s", (barcode,))
             connection.execute("SELECT catalog.refresh_search()")
+
+
+def test_calendar_counts_each_local_day_against_postgres(monkeypatch):
+    database_url = os.environ.get("TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+    monkeypatch.setenv("DATABASE_URL", database_url)
+    monkeypatch.setenv("HEALTH_TIMEZONE", "Europe/Berlin")
+    meal_ids = []
+    try:
+        # 23:30 Berlin time is still the 14th; the UTC date is the 14th too, but the local
+        # 00:30 meal is the 15th, which only the local clock can tell.
+        for eaten_at in ["2026-03-14T23:30", "2026-03-15T00:30"]:
+            created = request_json(
+                "POST",
+                "/api/log/meals",
+                {"eaten_at": eaten_at, "items": [{"food": "bls4-c352032", "amount": 100}]},
+            )
+            assert created.status_code == 201, created.text
+            meal_ids.append(created.json()["id"])
+        unknown = request_json("POST", "/api/log/meals", {"eaten_at": "2026-03-15T20:00"})
+        meal_ids.append(unknown.json()["id"])
+
+        calendar = request("/api/log/calendar?start=2026-03-14&end=2026-03-15").json()
+        assert calendar["timezone"] == "Europe/Berlin"
+        days = {day["date"]: day for day in calendar["days"]}
+        assert set(days) == {"2026-03-14", "2026-03-15"}
+        assert days["2026-03-14"]["meals"] == 1 and days["2026-03-14"]["unknown_meals"] == 0
+        assert days["2026-03-15"]["meals"] == 2 and days["2026-03-15"]["unknown_meals"] == 1
+        # The 15th holds one measured meal of the same food, plus an unknown one.
+        assert Decimal(days["2026-03-14"]["energy_kcal"]["measured"]) > 0
+        assert (
+            days["2026-03-15"]["energy_kcal"]["measured"]
+            == days["2026-03-14"]["energy_kcal"]["measured"]
+        )
+
+        assert request("/api/log/calendar?start=2026-03-15&end=2026-03-14").status_code == 422
+        assert request("/api/log/calendar?start=2026-01-01&end=2027-03-01").status_code == 422
+    finally:
+        with psycopg.connect(database_url) as connection:
+            connection.execute("DELETE FROM log.meals WHERE id = ANY(%s)", (meal_ids,))

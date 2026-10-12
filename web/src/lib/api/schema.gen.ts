@@ -185,6 +185,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/log/calendar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read Calendar
+         * @description Days with meals from start to end, inclusive: kcal and meal counts per local day.
+         */
+        get: operations["read_calendar_api_log_calendar_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/recipes": {
         parameters: {
             query?: never;
@@ -391,6 +411,26 @@ export interface components {
             /** Estimated */
             estimated: boolean;
             nutrition: components["schemas"]["Nutrition"];
+        };
+        /** Calendar */
+        Calendar: {
+            /** Timezone */
+            timezone: string;
+            /** Days */
+            days: components["schemas"]["CalendarDay"][];
+        };
+        /**
+         * CalendarDay
+         * @description A local day with meals: its energy, measured and estimated apart, and its meal counts.
+         */
+        CalendarDay: {
+            /** Date */
+            date: string;
+            energy_kcal: components["schemas"]["NutrientTotal"];
+            /** Meals */
+            meals: number;
+            /** Unknown Meals */
+            unknown_meals: number;
         };
         /**
          * CatalogFacets
@@ -1764,6 +1804,38 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Day"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    read_calendar_api_log_calendar_get: {
+        parameters: {
+            query: {
+                start: string;
+                end: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Calendar"];
                 };
             };
             /** @description Validation Error */

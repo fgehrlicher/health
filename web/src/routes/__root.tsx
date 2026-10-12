@@ -16,6 +16,7 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import {
   AppleIcon,
   CalendarDaysIcon,
+  CalendarRangeIcon,
   CookingPotIcon,
   RefrigeratorIcon,
 } from "lucide-react"
@@ -86,6 +87,7 @@ function RootDocument({ children }: { children: ReactNode }) {
 /** The four places, in the order of the tab bar. */
 const SECTIONS = [
   { to: "/", label: "Today", icon: CalendarDaysIcon },
+  { to: "/calendar", label: "Calendar", icon: CalendarRangeIcon },
   { to: "/recipes", label: "Recipes", icon: CookingPotIcon },
   { to: "/inventory", label: "Inventory", icon: RefrigeratorIcon },
   { to: "/foods", label: "Foods", icon: AppleIcon },
@@ -123,7 +125,7 @@ function AppHeader() {
         aria-label="Main"
         className="fixed inset-x-0 bottom-0 z-40 border-t bg-background/90 pb-[env(safe-area-inset-bottom)] backdrop-blur sm:hidden"
       >
-        <div className="mx-auto grid max-w-md grid-cols-4">
+        <div className="mx-auto grid max-w-md grid-cols-5">
           {SECTIONS.map((section) => (
             <Link
               key={section.to}

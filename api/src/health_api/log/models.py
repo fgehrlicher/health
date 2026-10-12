@@ -92,3 +92,18 @@ class Day(BaseModel):
     meals: list[Meal]
     counts: MealCounts
     totals: NutrientTotals
+
+
+class CalendarDay(BaseModel):
+    """A local day with meals: its energy, measured and estimated apart, and its meal counts."""
+
+    date: str
+    energy_kcal: NutrientTotal
+    meals: int
+    unknown_meals: int
+
+
+class Calendar(BaseModel):
+    timezone: str
+    # Only days with meals; days without any are left out.
+    days: list[CalendarDay]

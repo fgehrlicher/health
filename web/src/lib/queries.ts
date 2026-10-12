@@ -1,7 +1,7 @@
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query"
 import { getFacets, getFood, searchFoods } from "@/server/catalog"
 import type { FacetFilters, FoodSearch } from "@/server/catalog"
-import { getDay } from "@/server/log"
+import { getCalendar, getDay } from "@/server/log"
 import {
   getCook,
   getRecipe,
@@ -14,6 +14,12 @@ export const dayQuery = (date: string) =>
   queryOptions({
     queryKey: ["day", date],
     queryFn: () => getDay({ data: { date } }),
+  })
+
+export const calendarQuery = (start: string, end: string) =>
+  queryOptions({
+    queryKey: ["calendar", start, end],
+    queryFn: () => getCalendar({ data: { start, end } }),
   })
 
 export const foodsQuery = (search: FoodSearch) =>

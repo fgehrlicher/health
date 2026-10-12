@@ -919,6 +919,60 @@
         }
       }
     },
+    "/api/log/calendar": {
+      "get": {
+        "tags": [
+          "log"
+        ],
+        "summary": "Read Calendar",
+        "description": "Days with meals from start to end, inclusive: kcal and meal counts per local day.",
+        "operationId": "read_calendar_api_log_calendar_get",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Start"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "End"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Calendar"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/recipes": {
       "get": {
         "tags": [
@@ -1698,6 +1752,55 @@
         ],
         "title": "Amount",
         "description": "An amount of a catalog source with its nutrition."
+      },
+      "Calendar": {
+        "properties": {
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "days": {
+            "items": {
+              "$ref": "#/components/schemas/CalendarDay"
+            },
+            "type": "array",
+            "title": "Days"
+          }
+        },
+        "type": "object",
+        "required": [
+          "timezone",
+          "days"
+        ],
+        "title": "Calendar"
+      },
+      "CalendarDay": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "energy_kcal": {
+            "$ref": "#/components/schemas/NutrientTotal"
+          },
+          "meals": {
+            "type": "integer",
+            "title": "Meals"
+          },
+          "unknown_meals": {
+            "type": "integer",
+            "title": "Unknown Meals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "energy_kcal",
+          "meals",
+          "unknown_meals"
+        ],
+        "title": "CalendarDay",
+        "description": "A local day with meals: its energy, measured and estimated apart, and its meal counts."
       },
       "CatalogFacets": {
         "properties": {

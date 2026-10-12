@@ -43,6 +43,17 @@ export const getDay = createServerFn({ method: "GET" })
     )
   )
 
+/** Days with meals between two dates, inclusive. */
+export const getCalendar = createServerFn({ method: "GET" })
+  .validator(z.object({ start: z.iso.date(), end: z.iso.date() }))
+  .handler(async ({ data }) =>
+    unwrap(
+      await api.GET("/api/log/calendar", {
+        params: { query: { start: data.start, end: data.end } },
+      })
+    )
+  )
+
 export const createMeal = createServerFn({ method: "POST" })
   .validator(
     z.object({
