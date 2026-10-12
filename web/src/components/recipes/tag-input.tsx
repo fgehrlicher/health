@@ -42,16 +42,20 @@ export function TagInput({
   return (
     <div className={cn("flex flex-wrap items-center gap-1.5", className)}>
       {tags.map((tag) => (
-        <Badge key={tag} variant="secondary" className="gap-1 pr-1">
+        <Badge
+          key={tag}
+          variant="secondary"
+          className="h-8 gap-1 pr-1 text-sm md:h-5 md:text-xs"
+        >
           {tag}
           <button
             type="button"
             aria-label={`Remove tag ${tag}`}
             disabled={disabled}
-            className="rounded-sm opacity-60 hover:opacity-100"
+            className="-mr-0.5 flex size-7 items-center justify-center rounded-full opacity-60 hover:opacity-100 md:size-auto md:rounded-sm"
             onClick={() => onChange(tags.filter((other) => other !== tag))}
           >
-            <XIcon className="size-3" />
+            <XIcon className="size-3.5 md:size-3" />
           </button>
         </Badge>
       ))}
@@ -61,7 +65,7 @@ export function TagInput({
         list={listId}
         maxLength={40}
         disabled={disabled}
-        className="h-7 w-40 text-sm"
+        className="h-11 w-full text-base md:h-7 md:w-40 md:text-sm"
         value={text}
         onChange={(event) => {
           const value = event.target.value

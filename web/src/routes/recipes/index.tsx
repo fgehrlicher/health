@@ -293,6 +293,7 @@ function TagChip({
   return (
     <Badge
       variant={active ? "default" : "outline"}
+      className="h-9 px-3.5 text-sm md:h-5 md:px-2 md:text-xs"
       render={<Link to="/recipes" search={tag ? { tag } : {}} />}
     >
       {tag ?? "all"} · {formatNumber(count, 0)}

@@ -521,7 +521,7 @@ export function ItemRow({
           </SelectContent>
         </Select>
       )}
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <Input
           type="number"
           inputMode="decimal"
@@ -529,7 +529,7 @@ export function ItemRow({
           step="any"
           placeholder={item.unit === item.baseUnit ? "Amount" : "Count"}
           aria-label="Amount"
-          className="w-24"
+          className="w-28 shrink-0"
           value={item.quantity}
           onChange={(event) =>
             onChange({ ...item, quantity: event.target.value })
@@ -568,7 +568,7 @@ export function ItemRow({
             </SelectContent>
           </Select>
         )}
-        <label className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
+        <label className="ml-auto flex min-h-10 items-center gap-2 text-sm text-muted-foreground md:min-h-0 md:text-xs">
           <Switch
             checked={item.estimated}
             onCheckedChange={(estimated) => onChange({ ...item, estimated })}

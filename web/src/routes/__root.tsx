@@ -13,6 +13,12 @@ import type { ReactNode } from "react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import {
+  AppleIcon,
+  CalendarDaysIcon,
+  CookingPotIcon,
+  RefrigeratorIcon,
+} from "lucide-react"
 
 import appCss from "../styles.css?url"
 
@@ -21,7 +27,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     head: () => ({
       meta: [
         { charSet: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1, viewport-fit=cover",
+        },
         { name: "theme-color", content: "#0a0a0a" },
         { title: "Health" },
       ],
@@ -50,7 +59,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <TooltipProvider>
             <AppHeader />
-            <main className="mx-auto w-full max-w-6xl px-4 pt-4 pb-16">
+            <main className="mx-auto w-full max-w-6xl px-4 pt-4 pb-28 sm:pb-16">
               {children}
             </main>
             <Toaster position="top-center" />
@@ -74,38 +83,63 @@ function RootDocument({ children }: { children: ReactNode }) {
   )
 }
 
+/** The four places, in the order of the tab bar. */
+const SECTIONS = [
+  { to: "/", label: "Today", icon: CalendarDaysIcon },
+  { to: "/recipes", label: "Recipes", icon: CookingPotIcon },
+  { to: "/inventory", label: "Inventory", icon: RefrigeratorIcon },
+  { to: "/foods", label: "Foods", icon: AppleIcon },
+] as const
+
 function AppHeader() {
-  const link =
-    "rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground data-[status=active]:bg-muted data-[status=active]:text-foreground sm:px-3"
+  const desktopLink =
+    "rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground data-[status=active]:bg-muted data-[status=active]:text-foreground"
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-4">
-        {/* On a phone the nav fills the row; "Today" is the home link there. */}
-        <Link
-          to="/"
-          className="mr-2 hidden font-heading font-semibold sm:inline"
-        >
-          Health
-        </Link>
-        <nav className="flex gap-1">
-          <Link to="/" className={link} activeOptions={{ exact: true }}>
-            Today
+    <>
+      <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
+        <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-4">
+          <Link to="/" className="mr-2 font-heading font-semibold">
+            Health
           </Link>
-          <Link to="/recipes" className={link}>
-            Recipes
-          </Link>
-          <Link to="/inventory" className={link}>
-            Inventory
-          </Link>
-          <Link to="/foods" className={link}>
-            Foods
-          </Link>
-        </nav>
-        <div className="ml-auto">
-          <ThemeToggle />
+          {/* Phones use the tab bar below; this row is for wider screens. */}
+          <nav aria-label="Main" className="hidden gap-1 sm:flex">
+            {SECTIONS.map((section) => (
+              <Link
+                key={section.to}
+                to={section.to}
+                className={desktopLink}
+                activeOptions={section.to === "/" ? { exact: true } : undefined}
+              >
+                {section.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="ml-auto">
+            <ThemeToggle />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+      <nav
+        aria-label="Main"
+        className="fixed inset-x-0 bottom-0 z-40 border-t bg-background/90 pb-[env(safe-area-inset-bottom)] backdrop-blur sm:hidden"
+      >
+        <div className="mx-auto grid max-w-md grid-cols-4">
+          {SECTIONS.map((section) => (
+            <Link
+              key={section.to}
+              to={section.to}
+              activeOptions={section.to === "/" ? { exact: true } : undefined}
+              className="group flex flex-col items-center gap-0.5 py-2 text-xs font-medium text-muted-foreground transition-colors data-[status=active]:text-foreground"
+            >
+              <span className="flex h-8 w-14 items-center justify-center rounded-full transition-colors group-data-[status=active]:bg-secondary group-data-[status=active]:text-secondary-foreground">
+                <section.icon className="size-5" />
+              </span>
+              {section.label}
+            </Link>
+          ))}
+        </div>
+      </nav>
+    </>
   )
 }
 

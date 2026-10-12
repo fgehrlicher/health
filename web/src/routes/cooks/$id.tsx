@@ -134,7 +134,7 @@ function CookPage() {
               )}
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={() => setSaving(true)}>
               <GitBranchIcon />
               {cook.recipe ? "Save as new version" : "Save as recipe"}
