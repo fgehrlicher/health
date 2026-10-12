@@ -76,11 +76,15 @@ function RootDocument({ children }: { children: ReactNode }) {
 
 function AppHeader() {
   const link =
-    "rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground data-[status=active]:bg-muted data-[status=active]:text-foreground"
+    "rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground data-[status=active]:bg-muted data-[status=active]:text-foreground sm:px-3"
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-4">
-        <Link to="/" className="mr-2 font-heading font-semibold">
+        {/* On a phone the nav fills the row; "Today" is the home link there. */}
+        <Link
+          to="/"
+          className="mr-2 hidden font-heading font-semibold sm:inline"
+        >
           Health
         </Link>
         <nav className="flex gap-1">

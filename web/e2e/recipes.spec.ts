@@ -245,4 +245,11 @@ test("the inventory lists cooks with portions still to eat", async ({
     page.getByRole("link", { name: /E2E Batch Curry/ })
   ).toBeVisible()
   await expect(page.getByText("4/4 left")).toBeVisible()
+  // No sideways scrolling on a phone: the page is no wider than the screen.
+  const overflow = await page.evaluate(
+    () =>
+      document.documentElement.scrollWidth -
+      document.documentElement.clientWidth
+  )
+  expect(overflow).toBeLessThanOrEqual(0)
 })
