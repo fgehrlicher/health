@@ -6,17 +6,17 @@ import type { ReactNode } from "react"
 import { EnergyDonut } from "@/components/nutrition/energy-donut"
 import { MacroLegend } from "@/components/nutrition/macro-bar"
 import { KcalBars, SplitBars } from "@/components/stats/charts"
+import { DailyLimitForm } from "@/components/stats/limit-form"
 import { IncompleteSwitch } from "@/components/stats/incomplete-switch"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   CALENDAR_WEEKS,
-  LEVELS,
   calendarRange,
   calendarWeeks,
-  levelColor,
-  levelFor,
-  levelRanges,
+  statusColor,
+  statusFor,
+  statusWords,
 } from "@/lib/calendar"
 import type { CalendarCell } from "@/lib/calendar"
 import { dayLabel, formatNumber, today } from "@/lib/format"
@@ -57,11 +57,15 @@ function StatsPage() {
   const { start, end } = calendarRange(weeks)
   const { data } = useSuspenseQuery(calendarQuery(start, end))
   const days = data.days
+  const limit = data.daily_kcal_limit
   const byDate = useMemo(
     () => new Map(days.map((day) => [day.date, day])),
     [days]
   )
   const counted = countedDays(days)
+  const withinCount = counted.filter(
+    (day) => amountOf(day.energy_kcal) <= limit
+  ).length
   const incompleteCount = days.filter((day) => day.incomplete).length
   const [selected, setSelected] = useState(today)
   const scroller = useRef<HTMLDivElement>(null)
@@ -81,6 +85,8 @@ function StatsPage() {
     const day = byDate.get(date)
     return day ? amountOf(day.energy_kcal) : null
   }
+  const selectedKcal = selectedDay ? amountOf(selectedDay.energy_kcal) : null
+  const selectedStatus = statusFor(selectedKcal, limit)
 
   return (
     <div className="flex flex-col gap-6">
@@ -111,6 +117,12 @@ function StatsPage() {
 
       <Card>
         <CardContent className="flex flex-col gap-4">
+          <DailyLimitForm key={limit} limit={limit} />
+          <p className="text-sm">
+            {counted.length === 0
+              ? "No counted days yet."
+              : `${withinCount} of ${counted.length} counted days within your limit.`}
+          </p>
           <div className="flex gap-2">
             <div
               aria-hidden
@@ -146,6 +158,7 @@ function StatsPage() {
                             key={cell.date}
                             date={cell.date}
                             energy={energyOf(cell.date)}
+                            limit={limit}
                             incomplete={
                               byDate.get(cell.date)?.incomplete ?? false
                             }
@@ -167,14 +180,25 @@ function StatsPage() {
       <Card>
         <CardContent className="flex flex-col gap-3">
           <h2 className="font-heading font-semibold">{dayLabel(selected)}</h2>
-          {selectedDay ? (
+          {selectedDay && selectedKcal !== null ? (
             <>
               <div>
                 <span className="font-heading text-4xl font-semibold tabular-nums">
-                  {formatNumber(amountOf(selectedDay.energy_kcal), 0)}
+                  {formatNumber(selectedKcal, 0)}
                 </span>
                 <span className="ml-1 text-muted-foreground">kcal</span>
               </div>
+              {selectedStatus === "within" && (
+                <p className="text-sm text-muted-foreground">
+                  Within your limit of {formatNumber(limit, 0)} kcal.
+                </p>
+              )}
+              {selectedStatus === "above" && (
+                <p className="text-sm text-muted-foreground">
+                  {formatNumber(selectedKcal - limit, 0)} kcal above your limit
+                  of {formatNumber(limit, 0)}.
+                </p>
+              )}
               <p className="text-sm text-muted-foreground">
                 {selectedDay.meals} {selectedDay.meals === 1 ? "meal" : "meals"}
                 {selectedDay.unknown_meals > 0 &&
@@ -201,26 +225,6 @@ function StatsPage() {
       </Card>
 
       <ChartCard
-        title="Calories per day, by week"
-        note={`Average of counted days, the last ${CHART_WEEKS} weeks.`}
-      >
-        <KcalBars
-          data={weekly.map((week) => ({
-            label: weekLabel(week.start),
-            kcal: week.kcal,
-          }))}
-          labelEvery={4}
-        />
-      </ChartCard>
-
-      <ChartCard
-        title="Calories per day, by weekday"
-        note="Average of counted days over the whole period."
-      >
-        <KcalBars data={weekdayAverages(days)} />
-      </ChartCard>
-
-      <ChartCard
         title="Energy split, by week"
         note={`Where the energy came from, the last ${CHART_WEEKS} weeks.`}
       >
@@ -231,6 +235,27 @@ function StatsPage() {
           }))}
           labelEvery={4}
         />
+      </ChartCard>
+
+      <ChartCard
+        title="Calories per day, by week"
+        note={`Average of counted days, the last ${CHART_WEEKS} weeks. The dashed line is your limit.`}
+      >
+        <KcalBars
+          data={weekly.map((week) => ({
+            label: weekLabel(week.start),
+            kcal: week.kcal,
+          }))}
+          limit={limit}
+          labelEvery={4}
+        />
+      </ChartCard>
+
+      <ChartCard
+        title="Calories per day, by weekday"
+        note="Average of counted days over the whole period."
+      >
+        <KcalBars data={weekdayAverages(days)} limit={limit} />
       </ChartCard>
 
       <ChartCard
@@ -265,6 +290,7 @@ function weekLabel(start: string): string {
 function DayCell({
   date,
   energy,
+  limit,
   incomplete,
   active,
   onSelect,
@@ -272,13 +298,20 @@ function DayCell({
   date: string
   /** The day's kcal, or null when nothing was logged. */
   energy: number | null
+  limit: number
   incomplete: boolean
   active: boolean
   onSelect: () => void
 }) {
-  const amount =
-    energy === null ? "no meals" : `${formatNumber(energy, 0)} kcal`
-  const label = `${dayLabel(date)}: ${amount}${incomplete ? ", incomplete" : ""}`
+  const status = statusFor(energy, limit)
+  const details = [
+    energy === null ? "no meals" : `${formatNumber(energy, 0)} kcal`,
+    statusWords(status),
+    incomplete ? "incomplete" : null,
+  ]
+    .filter(Boolean)
+    .join(", ")
+  const label = `${dayLabel(date)}: ${details}`
   return (
     <button
       type="button"
@@ -286,7 +319,7 @@ function DayCell({
       aria-pressed={active}
       title={label}
       onClick={onSelect}
-      style={{ background: levelColor(levelFor(energy)) }}
+      style={{ background: statusColor(status) }}
       className={cn(
         "size-4 rounded-[4px] outline-none focus-visible:ring-2 focus-visible:ring-ring",
         incomplete && "border border-dashed border-foreground/60",
@@ -297,38 +330,37 @@ function DayCell({
 }
 
 function Legend() {
-  const levels = Array.from({ length: LEVELS }, (_, index) => index + 1)
   return (
-    <div className="flex flex-col gap-2 text-xs text-muted-foreground">
-      <div className="flex flex-wrap items-center gap-1.5">
-        <span>Less</span>
-        {levels.map((level) => (
-          <span
-            key={level}
-            aria-hidden
-            className="size-3.5 rounded-[3px]"
-            style={{ background: levelColor(level) }}
-          />
-        ))}
-        <span>More</span>
-        <span className="ml-auto flex items-center gap-1.5">
-          <span
-            aria-hidden
-            className="size-3.5 rounded-[3px]"
-            style={{ background: levelColor(0) }}
-          />
-          No meals
-        </span>
-      </div>
-      <div className="flex flex-wrap items-center gap-1.5">
-        <span
-          aria-hidden
-          className="size-3.5 rounded-[3px] border border-dashed border-foreground/60"
-        />
-        Incomplete, left out of the stats
-      </div>
-      <p>kcal per day: {levelRanges().join(", ")}</p>
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
+      <LegendItem color={statusColor("within")} label="Within limit" />
+      <LegendItem color={statusColor("above")} label="Above limit" />
+      <LegendItem color={statusColor("none")} label="No meals" />
+      <LegendItem dashed label="Incomplete, left out of the stats" />
     </div>
+  )
+}
+
+function LegendItem({
+  color,
+  dashed = false,
+  label,
+}: {
+  color?: string
+  dashed?: boolean
+  label: string
+}) {
+  return (
+    <span className="flex items-center gap-1.5">
+      <span
+        aria-hidden
+        className={cn(
+          "size-3.5 rounded-[3px]",
+          dashed && "border border-dashed border-foreground/60"
+        )}
+        style={color ? { background: color } : undefined}
+      />
+      {label}
+    </span>
   )
 }
 

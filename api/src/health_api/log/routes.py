@@ -14,13 +14,23 @@ from health_api.log.meals import (
     MealUpdate,
     calendar_days,
     clean_note,
+    daily_kcal_limit,
     day_summary,
     get_meal,
     insert_items,
     resolve_items,
+    set_daily_kcal_limit,
     set_incomplete,
 )
-from health_api.log.models import Calendar, Day, DayStatus, IncompleteInput, Meal
+from health_api.log.models import (
+    Calendar,
+    Day,
+    DayStatus,
+    Goals,
+    GoalsInput,
+    IncompleteInput,
+    Meal,
+)
 
 # The calendar shows 53 weeks; a longer range would only slow the query down.
 MAX_CALENDAR_DAYS = 400
@@ -145,4 +155,16 @@ def read_calendar(start: date, end: date):
             detail=f"end must be on or after start, and at most {MAX_CALENDAR_DAYS} days apart",
         )
     with connect() as connection:
-        return {"timezone": timezone().key, "days": calendar_days(connection, start, end)}
+        return {
+            "timezone": timezone().key,
+            "daily_kcal_limit": daily_kcal_limit(connection),
+            "days": calendar_days(connection, start, end),
+        }
+
+
+@router.put("/goals", response_model=Goals)
+def set_goals(body: GoalsInput):
+    """Set the daily kcal limit that the calendar colors days by."""
+    with connect() as connection:
+        set_daily_kcal_limit(connection, body.daily_kcal_limit)
+    return {"daily_kcal_limit": body.daily_kcal_limit}

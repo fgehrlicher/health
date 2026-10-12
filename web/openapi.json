@@ -1027,6 +1027,48 @@
         }
       }
     },
+    "/api/log/goals": {
+      "put": {
+        "tags": [
+          "log"
+        ],
+        "summary": "Set Goals",
+        "description": "Set the daily kcal limit that the calendar colors days by.",
+        "operationId": "set_goals_api_log_goals_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoalsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Goals"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/recipes": {
       "get": {
         "tags": [
@@ -1813,6 +1855,10 @@
             "type": "string",
             "title": "Timezone"
           },
+          "daily_kcal_limit": {
+            "type": "integer",
+            "title": "Daily Kcal Limit"
+          },
           "days": {
             "items": {
               "$ref": "#/components/schemas/CalendarDay"
@@ -1824,6 +1870,7 @@
         "type": "object",
         "required": [
           "timezone",
+          "daily_kcal_limit",
           "days"
         ],
         "title": "Calendar"
@@ -3222,6 +3269,35 @@
           "from_version"
         ],
         "title": "Fork"
+      },
+      "Goals": {
+        "properties": {
+          "daily_kcal_limit": {
+            "type": "integer",
+            "title": "Daily Kcal Limit"
+          }
+        },
+        "type": "object",
+        "required": [
+          "daily_kcal_limit"
+        ],
+        "title": "Goals"
+      },
+      "GoalsInput": {
+        "properties": {
+          "daily_kcal_limit": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Daily Kcal Limit"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "daily_kcal_limit"
+        ],
+        "title": "GoalsInput"
       },
       "HTTPValidationError": {
         "properties": {

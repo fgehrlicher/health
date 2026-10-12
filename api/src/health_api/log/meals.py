@@ -255,6 +255,17 @@ def set_incomplete(connection: Connection, day: date, incomplete: bool) -> None:
         connection.execute("DELETE FROM log.incomplete_days WHERE day = %s", (day,))
 
 
+def daily_kcal_limit(connection: Connection) -> int:
+    row = connection.execute("SELECT daily_kcal_limit FROM log.goals WHERE id = 1").fetchone()
+    return row["daily_kcal_limit"]
+
+
+def set_daily_kcal_limit(connection: Connection, limit: int) -> None:
+    connection.execute(
+        "UPDATE log.goals SET daily_kcal_limit = %s, updated_at = now() WHERE id = 1", (limit,)
+    )
+
+
 # The nutrients the calendar sends per day: energy, and what the energy split needs.
 CALENDAR_NUTRIENTS = (
     "energy_kcal",

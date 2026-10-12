@@ -2,7 +2,7 @@
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, create_model
+from pydantic import BaseModel, ConfigDict, Field, create_model
 
 from health_api.catalog.repository import NUTRIENTS
 from health_api.log.meals import MealKind
@@ -114,8 +114,20 @@ class CalendarDay(BaseModel):
 
 class Calendar(BaseModel):
     timezone: str
+    # The limit the calendar colors days by: within it or below it, or above it.
+    daily_kcal_limit: int
     # Days with meals or marked incomplete; other days are left out.
     days: list[CalendarDay]
+
+
+class Goals(BaseModel):
+    daily_kcal_limit: int
+
+
+class GoalsInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    daily_kcal_limit: int = Field(gt=0, le=10000)
 
 
 class DayStatus(BaseModel):

@@ -55,6 +55,17 @@ export const setDayIncomplete = createServerFn({ method: "POST" })
     )
   )
 
+/** Sets the daily kcal limit that colors the days on the stats calendar. */
+export const setDailyKcalLimit = createServerFn({ method: "POST" })
+  .validator(z.object({ limit: z.number().int().positive().max(10000) }))
+  .handler(async ({ data }) =>
+    unwrap(
+      await api.PUT("/api/log/goals", {
+        body: { daily_kcal_limit: data.limit },
+      })
+    )
+  )
+
 /** Days with meals or marked incomplete between two dates, inclusive. */
 export const getCalendar = createServerFn({ method: "GET" })
   .validator(z.object({ start: z.iso.date(), end: z.iso.date() }))

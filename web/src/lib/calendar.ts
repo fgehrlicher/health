@@ -3,18 +3,6 @@ import { addDays, today } from "@/lib/format"
 /** Weeks on the calendar; the last one holds today. */
 export const CALENDAR_WEEKS = 53
 
-/**
- * Where each level starts, in kcal: below the first step is level 1, below the
- * second is level 2, and so on. From the last step up is the darkest level.
- */
-export const LEVEL_STEPS = [1000, 1500, 2000, 2500] as const
-
-/** Levels 1 to 5 by kcal; level 0 is a day without meals. */
-export const LEVELS = LEVEL_STEPS.length + 1
-
-/** How much of the primary color each level uses, over the empty color. */
-const LEVEL_SHARE = [0, 25, 40, 60, 80, 100]
-
 export type CalendarCell = { date: string; future: boolean }
 
 /**
@@ -43,25 +31,31 @@ export function calendarRange(weeks: Array<Array<CalendarCell>>) {
   }
 }
 
-/** 0 for a day without meals; 1 to 5 by kcal. A day with only unknown meals is 1. */
-export function levelFor(kcal: number | null): number {
-  if (kcal === null) return 0
-  const index = LEVEL_STEPS.findIndex((step) => kcal < step)
-  return index === -1 ? LEVELS : index + 1
+/**
+ * A day against the daily limit: within it or below it, above it, or without
+ * known energy (no meals, or only unknown ones).
+ */
+export type DayStatus = "within" | "above" | "none"
+
+export function statusFor(kcal: number | null, limit: number): DayStatus {
+  if (kcal === null || kcal <= 0) return "none"
+  return kcal <= limit ? "within" : "above"
 }
 
-export function levelColor(level: number): string {
-  if (level === 0) return "var(--muted)"
-  return `color-mix(in oklab, var(--primary) ${LEVEL_SHARE[level]}%, var(--muted))`
+/** Green within the limit, red above it, the empty color without known energy. */
+export function statusColor(status: DayStatus): string {
+  if (status === "within") {
+    return "color-mix(in oklab, var(--primary) 80%, var(--muted))"
+  }
+  if (status === "above") {
+    return "color-mix(in oklab, var(--destructive) 80%, var(--muted))"
+  }
+  return "var(--muted)"
 }
 
-/** The kcal range of each level, for the legend, e.g. "1,500–1,999". */
-export function levelRanges(): Array<string> {
-  const kcal = (value: number) => value.toLocaleString("en-GB")
-  const ranges = LEVEL_STEPS.map((step, index) =>
-    index === 0
-      ? `under ${kcal(step)}`
-      : `${kcal(LEVEL_STEPS[index - 1])}–${kcal(step - 1)}`
-  )
-  return [...ranges, `${kcal(LEVEL_STEPS[LEVEL_STEPS.length - 1])} or more`]
+/** The words a screen reader hears for a status, or nothing without known energy. */
+export function statusWords(status: DayStatus): string | null {
+  if (status === "within") return "within limit"
+  if (status === "above") return "above limit"
+  return null
 }

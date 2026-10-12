@@ -253,6 +253,24 @@ def test_incomplete_days_are_flagged_and_kept_on_the_calendar_against_postgres(m
             )
 
 
+def test_daily_kcal_limit_is_stored_and_sent_with_the_calendar_against_postgres(monkeypatch):
+    database_url = os.environ.get("TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+    monkeypatch.setenv("DATABASE_URL", database_url)
+    calendar_path = "/api/log/calendar?start=2026-03-14&end=2026-03-14"
+    try:
+        assert request(calendar_path).json()["daily_kcal_limit"] == 2000  # the migration's default
+        changed = request_json("PUT", "/api/log/goals", {"daily_kcal_limit": 1500})
+        assert changed.status_code == 200 and changed.json() == {"daily_kcal_limit": 1500}
+        assert request(calendar_path).json()["daily_kcal_limit"] == 1500
+        for invalid in [0, 20000, "lots"]:
+            rejected = request_json("PUT", "/api/log/goals", {"daily_kcal_limit": invalid})
+            assert rejected.status_code == 422, invalid
+    finally:
+        request_json("PUT", "/api/log/goals", {"daily_kcal_limit": 2000})
+
+
 def test_calendar_counts_each_local_day_against_postgres(monkeypatch):
     database_url = os.environ.get("TEST_DATABASE_URL")
     if not database_url:

@@ -44,7 +44,9 @@ test("the stats color each day by its calories and open the day", async ({
   await open(page, "/stats")
   await expect(page.getByRole("heading", { name: "Stats" })).toBeVisible()
   // Today is selected at first, and its cell shows the kcal in its label.
-  const todayCell = page.getByRole("button", { name: /^Today: .*kcal$/ })
+  const todayCell = page.getByRole("button", {
+    name: /^Today: .*kcal, within limit$/,
+  })
   await expect(todayCell).toBeVisible()
   await expect(todayCell).toHaveAttribute("aria-pressed", "true")
   await expect(page.getByText("1 meal", { exact: true })).toBeVisible()
@@ -60,6 +62,29 @@ test("the stats color each day by its calories and open the day", async ({
   await page.getByRole("button", { name: "Open this day" }).click()
   await expect(page).toHaveURL(new RegExp(`date=${todayInBerlin()}`))
   await expect(page.getByRole("heading", { name: "Today" })).toBeVisible()
+})
+
+test("a day above the daily limit is marked, and the limit can be changed", async ({
+  page,
+  request,
+}) => {
+  await resetToday(request)
+  await logRice(request, 400)
+  try {
+    await open(page, "/stats")
+    await page.getByLabel("Daily limit, kcal").fill("300")
+    await page.getByRole("button", { name: "Save" }).click()
+    await expect(
+      page.getByRole("button", { name: /^Today: .*kcal, above limit$/ })
+    ).toBeVisible()
+    await expect(
+      page.getByText("Daily limit saved", { exact: true })
+    ).toBeVisible()
+  } finally {
+    await request.put(`${API}/api/log/goals`, {
+      data: { daily_kcal_limit: 2000 },
+    })
+  }
 })
 
 test("an incomplete day stays on the calendar but leaves the stats", async ({

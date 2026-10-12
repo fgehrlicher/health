@@ -1,28 +1,42 @@
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+} from "recharts"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import type { ChartConfig } from "@/components/ui/chart"
+import { statusColor, statusFor } from "@/lib/calendar"
 import { formatNumber } from "@/lib/format"
 import { MACROS } from "@/lib/macros"
 import type { EnergyPart } from "@/lib/macros"
 
 const kcalConfig = {
-  kcal: { label: "kcal per day", color: "var(--primary)" },
+  kcal: { label: "kcal per day" },
 } satisfies ChartConfig
 
 const splitConfig = Object.fromEntries(
   MACROS.map((macro) => [macro.key, { label: macro.label, color: macro.color }])
 ) satisfies ChartConfig
 
-/** One bar per label; a null value leaves its bar out. */
+/**
+ * One bar per label, colored by the daily limit like the calendar. A dashed
+ * line marks the limit; a null value leaves its bar out.
+ */
 export function KcalBars({
   data,
+  limit,
   labelEvery = 1,
 }: {
   data: Array<{ label: string; kcal: number | null }>
+  limit: number
   /** Show every nth label, so long series stay readable on a phone. */
   labelEvery?: number
 }) {
@@ -51,7 +65,20 @@ export function KcalBars({
             />
           }
         />
-        <Bar dataKey="kcal" fill="var(--color-kcal)" radius={4} />
+        <ReferenceLine
+          y={limit}
+          stroke="var(--foreground)"
+          strokeOpacity={0.5}
+          strokeDasharray="4 4"
+        />
+        <Bar dataKey="kcal" radius={4}>
+          {data.map((row) => (
+            <Cell
+              key={row.label}
+              fill={statusColor(statusFor(row.kcal, limit))}
+            />
+          ))}
+        </Bar>
       </BarChart>
     </ChartContainer>
   )

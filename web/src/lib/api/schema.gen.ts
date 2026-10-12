@@ -225,6 +225,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/log/goals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Set Goals
+         * @description Set the daily kcal limit that the calendar colors days by.
+         */
+        put: operations["set_goals_api_log_goals_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/recipes": {
         parameters: {
             query?: never;
@@ -436,6 +456,8 @@ export interface components {
         Calendar: {
             /** Timezone */
             timezone: string;
+            /** Daily Kcal Limit */
+            daily_kcal_limit: number;
             /** Days */
             days: components["schemas"]["CalendarDay"][];
         };
@@ -828,6 +850,16 @@ export interface components {
             name: string;
             /** From Version */
             from_version: number;
+        };
+        /** Goals */
+        Goals: {
+            /** Daily Kcal Limit */
+            daily_kcal_limit: number;
+        };
+        /** GoalsInput */
+        GoalsInput: {
+            /** Daily Kcal Limit */
+            daily_kcal_limit: number;
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -1913,6 +1945,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Calendar"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    set_goals_api_log_goals_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GoalsInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Goals"];
                 };
             };
             /** @description Validation Error */
