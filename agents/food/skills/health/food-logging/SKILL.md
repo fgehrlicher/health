@@ -55,7 +55,11 @@ that food. `cook` takes portions of a cooked dish from the cooking log.
 4. **Search before registering.** Before `product register`, search for the
    barcode and the name. If a match exists, use it. If none exists, run
    `product check`, then register it at once and report any warnings. He wants
-   new products registered without a confirmation step.
+   new products registered without a confirmation step. If a product was
+   registered without its barcode and the barcode is now readable, add it with
+   `health product barcode <slug> <code>`, using the slug from the search. If the
+   barcode belongs to another food, the command says which one: compare the two
+   products and tell him, instead of registering again.
 5. **Home cooking.** When he cooked something from the recipes, log a cook
    (`cook log`) or add portions of it with `{"cook": id, "amount": n}`. Do not
    add its ingredients to a meal one by one. A recipe item marked estimated makes every cook and meal that uses it estimated, so get the exact amount before logging. The health command cannot create

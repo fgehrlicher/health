@@ -173,10 +173,15 @@ def patch_source_text(slug: str, source_id: int, update: SourceTextUpdate):
 @router.patch(
     "/api/foods/{slug}",
     response_model=FoodDetail,
-    responses={404: {"description": "No such food"}, 422: {"description": "Invalid"}},
+    responses={
+        404: {"description": "No such food"},
+        409: {"description": "Barcode already on another food; `slug` names it"},
+        422: {"description": "Invalid"},
+    },
 )
 def patch_food(slug: str, update: FoodUpdate):
-    """Set a food's group or brand, e.g. to categorize a registered product.
+    """Set a food's group, brand, generic food, or barcode, e.g. to categorize a
+    registered product, or to add its barcode once it can be read.
 
     Only the given fields change; `null` clears one.
     """
@@ -185,6 +190,10 @@ def patch_food(slug: str, update: FoodUpdate):
             return update_food(connection, slug, update)
     except RegistrationError as error:
         return JSONResponse(status_code=422, content={"detail": error.issues})
+    except BarcodeConflict as conflict:
+        return JSONResponse(
+            status_code=409, content={"detail": str(conflict), "slug": conflict.slug}
+        )
     except FoodNotFound as error:
         raise HTTPException(status_code=404, detail=str(error)) from error
 

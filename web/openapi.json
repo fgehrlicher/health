@@ -612,7 +612,7 @@
           "catalog"
         ],
         "summary": "Patch Food",
-        "description": "Set a food's group or brand, e.g. to categorize a registered product.\n\nOnly the given fields change; `null` clears one.",
+        "description": "Set a food's group, brand, generic food, or barcode, e.g. to categorize a\nregistered product, or to add its barcode once it can be read.\n\nOnly the given fields change; `null` clears one.",
         "operationId": "patch_food_api_foods__slug__patch",
         "parameters": [
           {
@@ -648,6 +648,9 @@
           },
           "404": {
             "description": "No such food"
+          },
+          "409": {
+            "description": "Barcode already on another food; `slug` names it"
           },
           "422": {
             "description": "Invalid"
@@ -3240,6 +3243,18 @@
               }
             ],
             "title": "Variant Of"
+          },
+          "barcode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 14
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Barcode"
           }
         },
         "additionalProperties": false,

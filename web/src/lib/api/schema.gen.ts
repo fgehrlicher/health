@@ -110,7 +110,8 @@ export interface paths {
         head?: never;
         /**
          * Patch Food
-         * @description Set a food's group or brand, e.g. to categorize a registered product.
+         * @description Set a food's group, brand, generic food, or barcode, e.g. to categorize a
+         *     registered product, or to add its barcode once it can be read.
          *
          *     Only the given fields change; `null` clears one.
          */
@@ -841,6 +842,8 @@ export interface components {
             brand?: string | null;
             /** Variant Of */
             variant_of?: string | null;
+            /** Barcode */
+            barcode?: string | null;
         };
         /** Fork */
         Fork: {
@@ -1716,6 +1719,13 @@ export interface operations {
             };
             /** @description No such food */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Barcode already on another food; `slug` names it */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };

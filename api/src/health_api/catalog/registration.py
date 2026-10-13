@@ -74,7 +74,11 @@ def check_food(food: FoodInput) -> tuple[list[dict], list[dict]]:
     if food.barcode is not None and (problem := barcode_problem(food.barcode)):
         error("barcode", problem)
     if food.barcode is None:
-        warning("barcode", "no barcode; the food cannot be found by scanning later")
+        warning(
+            "barcode",
+            "no barcode; the food cannot be found by scanning until one is added "
+            "with `health product barcode <slug> <code>`",
+        )
 
     n = food.nutrition
     per_100 = Decimal(100) / n.reference_quantity
@@ -265,13 +269,19 @@ def generic_food(connection: Connection, slug: str) -> int:
 
 
 def update_food(connection: Connection, slug: str, update: FoodUpdate) -> dict:
-    """Set a food's group, brand, or generic food; `null` clears, absent fields stay."""
+    """Set a food's group, brand, generic food, or barcode; `null` clears, absent fields stay."""
     given = update.model_fields_set
     if not given:
         raise RegistrationError([{"field": "body", "message": "nothing to update"}])
     brand = update.brand.strip() if update.brand is not None else None
     if "brand" in given and update.brand is not None and not brand:
         raise RegistrationError([{"field": "brand", "message": "must not be blank"}])
+    if (
+        "barcode" in given
+        and update.barcode is not None
+        and (problem := barcode_problem(update.barcode))
+    ):
+        raise RegistrationError([{"field": "barcode", "message": problem}])
     with connection.transaction():
         if update.food_group is not None:
             check_food_group(connection, update.food_group)
@@ -283,11 +293,26 @@ def update_food(connection: Connection, slug: str, update: FoodUpdate) -> dict:
             if kind and kind["kind"] != "branded":
                 message = "only branded products can be a variant of a generic food"
                 raise RegistrationError([{"field": "variant_of", "message": message}])
+        if "barcode" in given and update.barcode is not None:
+            kind = connection.execute(
+                "SELECT kind FROM catalog.foods WHERE slug = %s", (slug,)
+            ).fetchone()
+            if kind and kind["kind"] != "branded":
+                message = "only branded products have a barcode"
+                raise RegistrationError([{"field": "barcode", "message": message}])
+            # The same barcode on two foods would make the scan ambiguous.
+            taken = connection.execute(
+                "SELECT slug FROM catalog.foods WHERE barcode = %s AND slug <> %s",
+                (update.barcode, slug),
+            ).fetchone()
+            if taken:
+                raise BarcodeConflict(taken["slug"])
         updated = connection.execute(
             """UPDATE catalog.foods SET
                    food_group = CASE WHEN %(set_group)s THEN %(group)s ELSE food_group END,
                    brand = CASE WHEN %(set_brand)s THEN %(brand)s ELSE brand END,
-                   variant_of = CASE WHEN %(set_variant)s THEN %(variant)s ELSE variant_of END
+                   variant_of = CASE WHEN %(set_variant)s THEN %(variant)s ELSE variant_of END,
+                   barcode = CASE WHEN %(set_barcode)s THEN %(barcode)s ELSE barcode END
                WHERE slug = %(slug)s RETURNING id""",
             {
                 "set_variant": "variant_of" in given,
@@ -297,12 +322,14 @@ def update_food(connection: Connection, slug: str, update: FoodUpdate) -> dict:
                 "group": update.food_group,
                 "set_brand": "brand" in given,
                 "brand": brand,
+                "set_barcode": "barcode" in given,
+                "barcode": update.barcode,
             },
         ).fetchone()
         if updated is None:
             raise FoodNotFound(f"no food {slug}")
-        if "brand" in given:
-            # Brands are search terms.
+        if "brand" in given or "barcode" in given:
+            # Brands and barcodes are search terms.
             connection.execute("SELECT catalog.refresh_search()")
         return get_food(connection, slug)
 

@@ -192,6 +192,51 @@ def test_invalid_submission_is_rejected_with_issues():
     assert request("/api/foods/barcode/123").status_code == 422
 
 
+def test_a_barcode_can_be_added_to_a_product_registered_without_one(monkeypatch):
+    database_url = os.environ.get("TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+    monkeypatch.setenv("DATABASE_URL", database_url)
+    barcode = "4000000000013"  # valid check digit, not a real product
+    try:
+        # The barcode could not be read at first: register without it.
+        unread = QUARK | {"name": "Late barcode test food", "brand": None, "barcode": None}
+        first = request_json("POST", "/api/foods", unread)
+        assert first.status_code == 201, first.text
+        slug = first.json()["food"]["slug"]
+        assert request(f"/api/foods/barcode/{barcode}").status_code == 404
+
+        # Read later: add it, and scanning finds the product.
+        added = request_json("PATCH", f"/api/foods/{slug}", {"barcode": barcode})
+        assert added.status_code == 200, added.text
+        assert added.json()["barcode"] == barcode
+        assert request(f"/api/foods/barcode/{barcode}").json()["slug"] == slug
+        assert request(f"/api/foods?q={barcode}").json()["items"][0]["slug"] == slug
+
+        # Another product cannot take the same barcode, and a misread one is refused.
+        other = QUARK | {"name": "Late barcode test other", "brand": None, "barcode": None}
+        other_slug = request_json("POST", "/api/foods", other).json()["food"]["slug"]
+        taken = request_json("PATCH", f"/api/foods/{other_slug}", {"barcode": barcode})
+        assert taken.status_code == 409 and taken.json()["slug"] == slug
+        misread = request_json("PATCH", f"/api/foods/{other_slug}", {"barcode": "4000000000012"})
+        assert misread.status_code == 422
+
+        # Only branded products have a barcode.
+        generic = request_json("PATCH", "/api/foods/bls4-c352032", {"barcode": barcode})
+        assert generic.status_code == 422
+
+        # Clearing takes the barcode off again.
+        cleared = request_json("PATCH", f"/api/foods/{slug}", {"barcode": None})
+        assert cleared.status_code == 200 and cleared.json()["barcode"] is None
+        assert request(f"/api/foods/barcode/{barcode}").status_code == 404
+    finally:
+        with psycopg.connect(database_url) as connection:
+            connection.execute(
+                "DELETE FROM catalog.foods WHERE name LIKE %s", ("Late barcode test%",)
+            )
+            connection.execute("SELECT catalog.refresh_search()")
+
+
 def request_json(method: str, path: str, payload: dict):
     import asyncio
 

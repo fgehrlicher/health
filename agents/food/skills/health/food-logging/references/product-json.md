@@ -6,7 +6,8 @@ Write the file with the fields below. The check rejects any other top-level key.
 
 - `name`: the product name as printed (required).
 - `brand`: the brand as printed.
-- `barcode`: the EAN as a string, digits only (copy it from the package).
+- `barcode`: the EAN as a string, digits only (copy it from the package). If it
+  cannot be read, leave it out; add it later with `health product barcode <slug> <code>`.
 - `food_group`: one letter from the catalog's groups. Do not guess it. Copy the letter from a similar catalog food, found with `health foods search`. Group `P` is not protein; it reads "Alcoholic drinks" in the catalog, so a protein bar set to `P` is wrong.
 - `portions`: a list of `{"name", "kind": "package", "quantity", "unit"}`, for example the bar's wrapper weight as `Riegel`, 45 g.
 - `nutrition`: a single object per 100 g or 100 ml, with `reference_quantity`, `reference_unit`, and the values (`energy_kj`, `energy_kcal`, `fat_g`, `saturated_fat_g`, `carbs_g`, `sugars_g`, `polyols_g`, `fiber_g`, `protein_g`, `salt_g`). Convert a per-serving label to per 100 g before you enter it.

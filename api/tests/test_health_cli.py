@@ -93,6 +93,15 @@ def test_search_sends_query_and_limit(stub, capsys):
     assert json.loads(capsys.readouterr().out) == {"items": [], "total": 0}
 
 
+def test_product_barcode_adds_the_code_to_the_food(stub, capsys):
+    server = stub((200, {"slug": "quark", "barcode": "4000000000013"}))
+    assert run(server.url, "product", "barcode", "quark", "4000000000013") == 0
+    method, url, body = server.seen[0]
+    assert method == "PATCH" and url.path == "/api/foods/quark"
+    assert body == {"barcode": "4000000000013"}
+    assert json.loads(capsys.readouterr().out)["barcode"] == "4000000000013"
+
+
 def test_search_without_a_source_preference(stub):
     server = stub((200, {"items": [], "total": 0}))
     assert run(server.url, "foods", "search", "quark", "--prefer-source", "") == 0

@@ -115,6 +115,12 @@ def run(args, base: str) -> int:
             status, payload = request(base, "GET", f"/api/foods/barcode/{urllib.parse.quote(args.code)}")
         return emit(status, payload)
 
+    if args.area == "product" and args.action == "barcode":
+        status, payload = request(
+            base, "PATCH", f"/api/foods/{urllib.parse.quote(args.slug)}", {"barcode": args.code}
+        )
+        return emit(status, payload)
+
     if args.area == "product":
         body = read_json(args.file)
         if args.action == "check" or not args.commit:
@@ -178,6 +184,11 @@ def parser() -> argparse.ArgumentParser:
         sub = product.add_parser(name)
         sub.add_argument("--file", required=True, help="product JSON, or - for stdin")
         sub.add_argument("--commit", action="store_true", help="store it (register only)")
+    barcode = product.add_parser(
+        "barcode", help="add the barcode of a registered product, once it can be read"
+    )
+    barcode.add_argument("slug")
+    barcode.add_argument("code")
 
     meal = areas.add_parser("meal", help="log or read meals").add_subparsers(dest="action", required=True)
     log = meal.add_parser("log", help="log a meal from a JSON file")

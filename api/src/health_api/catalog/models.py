@@ -240,6 +240,8 @@ class FoodUpdate(BaseModel):
     brand: Annotated[str | None, Field(min_length=1, max_length=100)] = None
     # Slug of the generic food a branded product is a kind of.
     variant_of: Annotated[str | None, Field(min_length=1, max_length=200)] = None
+    # The EAN of a branded product, added once it can be read; null clears it.
+    barcode: Annotated[str | None, Field(max_length=14)] = None
 
 
 class SourceTextUpdate(BaseModel):
