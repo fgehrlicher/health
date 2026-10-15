@@ -116,18 +116,22 @@ class Calendar(BaseModel):
     timezone: str
     # The limit the calendar colors days by: within it or below it, or above it.
     daily_kcal_limit: int
+    # Above the limit by up to this much is yellow; beyond it is red.
+    kcal_tolerance: int
     # Days with meals or marked incomplete; other days are left out.
     days: list[CalendarDay]
 
 
 class Goals(BaseModel):
     daily_kcal_limit: int
+    kcal_tolerance: int
 
 
 class GoalsInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     daily_kcal_limit: int = Field(gt=0, le=10000)
+    kcal_tolerance: int = Field(ge=0, le=5000)
 
 
 class DayStatus(BaseModel):

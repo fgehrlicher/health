@@ -70,6 +70,8 @@
   --input: #dbd2bf;
   --ring: #6fae84;
   --radius: 0.9rem;
+  /* Days up to the tolerance above the limit (stats calendar and charts). */
+  --caution: #e6b422;
 
   /* Macro colors, in stacking order. Validated as a set for adjacent use on
      the card surface (dataviz validator); always shown with text labels. */
@@ -111,6 +113,7 @@
   --accent: #26352a;
   --accent-foreground: #dcefe1;
   --destructive: oklch(0.704 0.191 22.216);
+  --caution: #e9c24a;
   --border: rgb(255 255 255 / 9%);
   --input: rgb(255 255 255 / 14%);
   --ring: #4d9d68;

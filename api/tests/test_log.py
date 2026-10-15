@@ -259,16 +259,107 @@ def test_daily_kcal_limit_is_stored_and_sent_with_the_calendar_against_postgres(
         pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
     monkeypatch.setenv("DATABASE_URL", database_url)
     calendar_path = "/api/log/calendar?start=2026-03-14&end=2026-03-14"
+    default = {"daily_kcal_limit": 2000, "kcal_tolerance": 300}  # the migrations' defaults
     try:
-        assert request(calendar_path).json()["daily_kcal_limit"] == 2000  # the migration's default
-        changed = request_json("PUT", "/api/log/goals", {"daily_kcal_limit": 1500})
-        assert changed.status_code == 200 and changed.json() == {"daily_kcal_limit": 1500}
-        assert request(calendar_path).json()["daily_kcal_limit"] == 1500
-        for invalid in [0, 20000, "lots"]:
-            rejected = request_json("PUT", "/api/log/goals", {"daily_kcal_limit": invalid})
+        calendar = request(calendar_path).json()
+        assert {key: calendar[key] for key in default} == default
+        changed = request_json(
+            "PUT", "/api/log/goals", {"daily_kcal_limit": 1500, "kcal_tolerance": 200}
+        )
+        assert changed.status_code == 200
+        assert changed.json() == {"daily_kcal_limit": 1500, "kcal_tolerance": 200}
+        calendar = request(calendar_path).json()
+        assert (calendar["daily_kcal_limit"], calendar["kcal_tolerance"]) == (1500, 200)
+        for invalid in [{"daily_kcal_limit": 0, "kcal_tolerance": 0}, {"daily_kcal_limit": 1500}]:
+            rejected = request_json("PUT", "/api/log/goals", invalid)
             assert rejected.status_code == 422, invalid
     finally:
-        request_json("PUT", "/api/log/goals", {"daily_kcal_limit": 2000})
+        request_json("PUT", "/api/log/goals", default)
+
+
+def test_stated_items_count_in_the_day_against_postgres(monkeypatch):
+    database_url = os.environ.get("TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+    monkeypatch.setenv("DATABASE_URL", database_url)
+    monkeypatch.setenv("HEALTH_TIMEZONE", "Europe/Berlin")
+    day = "2026-03-22"
+    meal_ids = []
+    protein_bar = {"name": "  Protein bar  ", "energy_kcal": 300, "protein_g": 30}
+    try:
+        created = request_json(
+            "POST",
+            "/api/log/meals",
+            {"eaten_at": f"{day}T16:00", "kind": "snack", "items": [{"stated": protein_bar}]},
+        )
+        assert created.status_code == 201, created.text
+        meal = created.json()
+        meal_ids.append(meal["id"])
+        item = meal["items"][0]
+        assert item["food"] is None and item["cook_id"] is None
+        assert item["food_name"] == "Protein bar"  # the name is trimmed
+        assert item["source_name"] == "Stated by you" and item["estimated"] is False
+        assert item["nutrition"]["energy_kcal"] == "300"  # whole kcal, as for catalog foods
+        assert item["nutrition"]["protein_g"] == "30.00"
+        assert item["nutrition"]["fat_g"] is None  # not given, so unknown
+        assert meal["status"] == "measured"
+
+        # Stated items count in the day's totals, next to catalog foods.
+        food = request_json(
+            "POST",
+            "/api/log/meals",
+            {
+                "eaten_at": f"{day}T12:00",
+                "items": [{"food": "bls4-c352032", "amount": 100}, {"stated": protein_bar}],
+            },
+        )
+        assert food.status_code == 201, food.text
+        meal_ids.append(food.json()["id"])
+        summary = request(f"/api/log/days/{day}").json()
+        assert Decimal(summary["totals"]["energy_kcal"]["measured"]) > 600
+        assert Decimal(summary["totals"]["protein_g"]["measured"]) > 60
+
+        # A guessed figure makes its meal estimated, and the value is marked so.
+        guessed = request_json(
+            "POST",
+            "/api/log/meals",
+            {"eaten_at": f"{day}T20:00", "items": [{"stated": protein_bar, "estimated": True}]},
+        )
+        meal_ids.append(guessed.json()["id"])
+        assert guessed.json()["status"] == "estimated"
+        summary = request(f"/api/log/days/{day}").json()
+        assert Decimal(summary["totals"]["energy_kcal"]["estimated"]) == 300
+
+        # Invalid stated items are refused, with the reason.
+        both = request_json(
+            "POST",
+            "/api/log/meals",
+            {"items": [{"food": "bls4-c352032", "amount": 1, "stated": protein_bar}]},
+        )
+        assert both.status_code == 422
+        with_amount = request_json(
+            "POST",
+            "/api/log/meals",
+            {"items": [{"stated": protein_bar | {"name": "x"}, "amount": 1}]},
+        )
+        assert with_amount.status_code == 422
+        blank = request_json(
+            "POST", "/api/log/meals", {"items": [{"stated": protein_bar | {"name": "   "}}]}
+        )
+        assert blank.status_code == 422
+        negative = request_json(
+            "POST", "/api/log/meals", {"items": [{"stated": protein_bar | {"energy_kcal": -5}}]}
+        )
+        assert negative.status_code == 422
+
+        # Editing the note keeps the stated item; replacing items removes it.
+        noted = request_json("PATCH", f"/api/log/meals/{meal['id']}", {"note": "after the gym"})
+        assert [entry["food_name"] for entry in noted.json()["items"]] == ["Protein bar"]
+        replaced = request_json("PATCH", f"/api/log/meals/{meal['id']}", {"items": []})
+        assert replaced.json()["items"] == [] and replaced.json()["status"] == "unknown"
+    finally:
+        with psycopg.connect(database_url) as connection:
+            connection.execute("DELETE FROM log.meals WHERE id = ANY(%s)", (meal_ids,))
 
 
 def test_calendar_counts_each_local_day_against_postgres(monkeypatch):

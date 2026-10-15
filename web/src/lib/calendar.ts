@@ -32,20 +32,28 @@ export function calendarRange(weeks: Array<Array<CalendarCell>>) {
 }
 
 /**
- * A day against the daily limit: within it or below it, above it, or without
- * known energy (no meals, or only unknown ones).
+ * A day against the goals: within the limit (green), up to the tolerance above
+ * it (yellow), beyond that (red), or without known energy (gray).
  */
-export type DayStatus = "within" | "above" | "none"
+export type DayStatus = "within" | "caution" | "above" | "none"
 
-export function statusFor(kcal: number | null, limit: number): DayStatus {
+export function statusFor(
+  kcal: number | null,
+  limit: number,
+  tolerance: number
+): DayStatus {
   if (kcal === null || kcal <= 0) return "none"
-  return kcal <= limit ? "within" : "above"
+  if (kcal <= limit) return "within"
+  return kcal <= limit + tolerance ? "caution" : "above"
 }
 
-/** Green within the limit, red above it, the empty color without known energy. */
+/** The color of a status; the empty color for a day without known energy. */
 export function statusColor(status: DayStatus): string {
   if (status === "within") {
     return "color-mix(in oklab, var(--primary) 80%, var(--muted))"
+  }
+  if (status === "caution") {
+    return "color-mix(in oklab, var(--caution) 85%, var(--muted))"
   }
   if (status === "above") {
     return "color-mix(in oklab, var(--destructive) 80%, var(--muted))"
@@ -56,6 +64,7 @@ export function statusColor(status: DayStatus): string {
 /** The words a screen reader hears for a status, or nothing without known energy. */
 export function statusWords(status: DayStatus): string | null {
   if (status === "within") return "within limit"
-  if (status === "above") return "above limit"
+  if (status === "caution") return "above limit, within tolerance"
+  if (status === "above") return "above limit, beyond tolerance"
   return null
 }

@@ -13,10 +13,24 @@ export const foodAmountSchema = z.object({
   estimated: z.boolean().optional(),
 })
 
-/** A food, or portions of a cook (`cook` with `amount`). */
+/** Nutrition the person states for something without a catalog product. */
+const statedSchema = z.object({
+  name: z.string().min(1).max(200),
+  energy_kcal: z.number().min(0),
+  protein_g: z.number().min(0).optional(),
+  fat_g: z.number().min(0).optional(),
+  carbs_g: z.number().min(0).optional(),
+  fiber_g: z.number().min(0).optional(),
+})
+
+/**
+ * One thing eaten: a food, portions of a cook (`cook` with `amount`), or a stated
+ * item (`stated`). Exactly one of them; the API checks that.
+ */
 const itemSchema = z.object({
   food: z.string().min(1).max(200).optional(),
   cook: z.number().int().optional(),
+  stated: statedSchema.optional(),
   source_id: z.number().int().optional(),
   amount: z.number().positive().optional(),
   portion: z.string().min(1).max(60).optional(),
@@ -55,13 +69,18 @@ export const setDayIncomplete = createServerFn({ method: "POST" })
     )
   )
 
-/** Sets the daily kcal limit that colors the days on the stats calendar. */
-export const setDailyKcalLimit = createServerFn({ method: "POST" })
-  .validator(z.object({ limit: z.number().int().positive().max(10000) }))
+/** Sets the daily kcal limit and the tolerance above it, which color the stats calendar. */
+export const setGoals = createServerFn({ method: "POST" })
+  .validator(
+    z.object({
+      limit: z.number().int().positive().max(10000),
+      tolerance: z.number().int().min(0).max(5000),
+    })
+  )
   .handler(async ({ data }) =>
     unwrap(
       await api.PUT("/api/log/goals", {
-        body: { daily_kcal_limit: data.limit },
+        body: { daily_kcal_limit: data.limit, kcal_tolerance: data.tolerance },
       })
     )
   )

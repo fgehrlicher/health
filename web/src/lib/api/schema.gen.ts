@@ -235,10 +235,10 @@ export interface paths {
         };
         get?: never;
         /**
-         * Set Goals
-         * @description Set the daily kcal limit that the calendar colors days by.
+         * Update Goals
+         * @description Set the daily kcal limit, and the tolerance above it, that color the calendar.
          */
-        put: operations["set_goals_api_log_goals_put"];
+        put: operations["update_goals_api_log_goals_put"];
         post?: never;
         delete?: never;
         options?: never;
@@ -459,6 +459,8 @@ export interface components {
             timezone: string;
             /** Daily Kcal Limit */
             daily_kcal_limit: number;
+            /** Kcal Tolerance */
+            kcal_tolerance: number;
             /** Days */
             days: components["schemas"]["CalendarDay"][];
         };
@@ -858,11 +860,15 @@ export interface components {
         Goals: {
             /** Daily Kcal Limit */
             daily_kcal_limit: number;
+            /** Kcal Tolerance */
+            kcal_tolerance: number;
         };
         /** GoalsInput */
         GoalsInput: {
             /** Daily Kcal Limit */
             daily_kcal_limit: number;
+            /** Kcal Tolerance */
+            kcal_tolerance: number;
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -883,7 +889,7 @@ export interface components {
         };
         /**
          * ItemInput
-         * @description One thing eaten: a catalog food (amount or portion), or portions of a cook.
+         * @description One thing eaten: a catalog food (amount or portion), portions of a cook, or a stated item.
          */
         ItemInput: {
             /**
@@ -893,6 +899,7 @@ export interface components {
             food?: string | null;
             /** Cook */
             cook?: number | null;
+            stated?: components["schemas"]["StatedInput"] | null;
             /** Source Id */
             source_id?: number | null;
             /** Amount */
@@ -1350,6 +1357,26 @@ export interface components {
             food_name?: string | null;
             /** Ingredients Text */
             ingredients_text?: string | null;
+        };
+        /**
+         * StatedInput
+         * @description Nutrition the person states for something without a catalog product.
+         *
+         *     Only the values given are kept. A value left out is unknown, never a guess.
+         */
+        StatedInput: {
+            /** Name */
+            name: string;
+            /** Energy Kcal */
+            energy_kcal: number | string;
+            /** Protein G */
+            protein_g?: number | string | null;
+            /** Fat G */
+            fat_g?: number | string | null;
+            /** Carbs G */
+            carbs_g?: number | string | null;
+            /** Fiber G */
+            fiber_g?: number | string | null;
         };
         /** TagCount */
         TagCount: {
@@ -1968,7 +1995,7 @@ export interface operations {
             };
         };
     };
-    set_goals_api_log_goals_put: {
+    update_goals_api_log_goals_put: {
         parameters: {
             query?: never;
             header?: never;

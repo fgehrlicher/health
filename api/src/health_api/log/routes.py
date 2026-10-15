@@ -14,12 +14,12 @@ from health_api.log.meals import (
     MealUpdate,
     calendar_days,
     clean_note,
-    daily_kcal_limit,
     day_summary,
     get_meal,
+    goals,
     insert_items,
     resolve_items,
-    set_daily_kcal_limit,
+    set_goals,
     set_incomplete,
 )
 from health_api.log.models import (
@@ -157,14 +157,14 @@ def read_calendar(start: date, end: date):
     with connect() as connection:
         return {
             "timezone": timezone().key,
-            "daily_kcal_limit": daily_kcal_limit(connection),
+            **goals(connection),
             "days": calendar_days(connection, start, end),
         }
 
 
 @router.put("/goals", response_model=Goals)
-def set_goals(body: GoalsInput):
-    """Set the daily kcal limit that the calendar colors days by."""
+def update_goals(body: GoalsInput):
+    """Set the daily kcal limit, and the tolerance above it, that color the calendar."""
     with connect() as connection:
-        set_daily_kcal_limit(connection, body.daily_kcal_limit)
-    return {"daily_kcal_limit": body.daily_kcal_limit}
+        set_goals(connection, body.daily_kcal_limit, body.kcal_tolerance)
+    return {"daily_kcal_limit": body.daily_kcal_limit, "kcal_tolerance": body.kcal_tolerance}

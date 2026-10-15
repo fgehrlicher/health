@@ -119,10 +119,17 @@ export function MealCard({ meal, onEdit }: { meal: Meal; onEdit: () => void }) {
                     />
                     {item.food_name}
                   </Link>
+                ) : item.food === null ? (
+                  <span className="flex min-w-0 flex-col">
+                    <span className="truncate">{item.food_name}</span>
+                    <span className="truncate text-xs text-muted-foreground">
+                      stated by you{item.estimated ? ", estimated" : ""}
+                    </span>
+                  </span>
                 ) : (
                   <Link
                     to="/foods/$slug"
-                    params={{ slug: item.food ?? "" }}
+                    params={{ slug: item.food }}
                     className="flex min-w-0 flex-col hover:underline"
                   >
                     <span className="truncate">{itemNames(item).primary}</span>
@@ -133,15 +140,17 @@ export function MealCard({ meal, onEdit }: { meal: Meal; onEdit: () => void }) {
                     )}
                   </Link>
                 )}
-                <span className="shrink-0 text-muted-foreground tabular-nums">
-                  {item.estimated ? "~" : ""}
-                  {formatNumber(item.amount)}{" "}
-                  {item.cook_id !== null
-                    ? Number(item.amount) === 1
-                      ? "portion"
-                      : "portions"
-                    : item.unit}
-                </span>
+                {item.food !== null || item.cook_id !== null ? (
+                  <span className="shrink-0 text-muted-foreground tabular-nums">
+                    {item.estimated ? "~" : ""}
+                    {formatNumber(item.amount)}{" "}
+                    {item.cook_id !== null
+                      ? Number(item.amount) === 1
+                        ? "portion"
+                        : "portions"
+                      : item.unit}
+                  </span>
+                ) : null}
                 <span className="ml-auto shrink-0 text-muted-foreground tabular-nums">
                   {formatNumber(item.nutrition.energy_kcal, 0)} kcal
                 </span>

@@ -1035,9 +1035,9 @@
         "tags": [
           "log"
         ],
-        "summary": "Set Goals",
-        "description": "Set the daily kcal limit that the calendar colors days by.",
-        "operationId": "set_goals_api_log_goals_put",
+        "summary": "Update Goals",
+        "description": "Set the daily kcal limit, and the tolerance above it, that color the calendar.",
+        "operationId": "update_goals_api_log_goals_put",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1862,6 +1862,10 @@
             "type": "integer",
             "title": "Daily Kcal Limit"
           },
+          "kcal_tolerance": {
+            "type": "integer",
+            "title": "Kcal Tolerance"
+          },
           "days": {
             "items": {
               "$ref": "#/components/schemas/CalendarDay"
@@ -1874,6 +1878,7 @@
         "required": [
           "timezone",
           "daily_kcal_limit",
+          "kcal_tolerance",
           "days"
         ],
         "title": "Calendar"
@@ -3290,11 +3295,16 @@
           "daily_kcal_limit": {
             "type": "integer",
             "title": "Daily Kcal Limit"
+          },
+          "kcal_tolerance": {
+            "type": "integer",
+            "title": "Kcal Tolerance"
           }
         },
         "type": "object",
         "required": [
-          "daily_kcal_limit"
+          "daily_kcal_limit",
+          "kcal_tolerance"
         ],
         "title": "Goals"
       },
@@ -3305,12 +3315,19 @@
             "maximum": 10000.0,
             "exclusiveMinimum": 0.0,
             "title": "Daily Kcal Limit"
+          },
+          "kcal_tolerance": {
+            "type": "integer",
+            "maximum": 5000.0,
+            "minimum": 0.0,
+            "title": "Kcal Tolerance"
           }
         },
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "daily_kcal_limit"
+          "daily_kcal_limit",
+          "kcal_tolerance"
         ],
         "title": "GoalsInput"
       },
@@ -3386,6 +3403,16 @@
             ],
             "title": "Cook"
           },
+          "stated": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StatedInput"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "source_id": {
             "anyOf": [
               {
@@ -3451,7 +3478,7 @@
         "additionalProperties": false,
         "type": "object",
         "title": "ItemInput",
-        "description": "One thing eaten: a catalog food (amount or portion), or portions of a cook."
+        "description": "One thing eaten: a catalog food (amount or portion), portions of a cook, or a stated item."
       },
       "LabelGap": {
         "properties": {
@@ -5328,6 +5355,100 @@
         "type": "object",
         "title": "SourceTextUpdate",
         "description": "Text read later from the same label, e.g. a second photo of a round cup."
+      },
+      "StatedInput": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "Name"
+          },
+          "energy_kcal": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,7}|(?=[\\d.]{1,9}0*$)\\d{0,7}\\.\\d{0,1}0*$)"
+              }
+            ],
+            "title": "Energy Kcal"
+          },
+          "protein_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,6}|(?=[\\d.]{1,9}0*$)\\d{0,6}\\.\\d{0,2}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protein G"
+          },
+          "fat_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,6}|(?=[\\d.]{1,9}0*$)\\d{0,6}\\.\\d{0,2}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fat G"
+          },
+          "carbs_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,6}|(?=[\\d.]{1,9}0*$)\\d{0,6}\\.\\d{0,2}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carbs G"
+          },
+          "fiber_g": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,6}|(?=[\\d.]{1,9}0*$)\\d{0,6}\\.\\d{0,2}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fiber G"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "energy_kcal"
+        ],
+        "title": "StatedInput",
+        "description": "Nutrition the person states for something without a catalog product.\n\nOnly the values given are kept. A value left out is unknown, never a guess."
       },
       "TagCount": {
         "properties": {

@@ -92,6 +92,40 @@ test("log, edit, and delete a meal", async ({ page }) => {
   await expect(page.getByText("Nothing logged yet")).toBeVisible()
 })
 
+test("a stated item shows on its meal and survives an edit", async ({
+  page,
+  request,
+}) => {
+  const created = await request.post(`${API}/api/log/meals`, {
+    data: {
+      kind: "snack",
+      items: [
+        {
+          stated: { name: "E2E Protein bar", energy_kcal: 300, protein_g: 30 },
+        },
+      ],
+    },
+  })
+  expect(created.status()).toBe(201)
+
+  await open(page, "/")
+  await expect(page.getByText("E2E Protein bar")).toBeVisible()
+  await expect(page.getByText("stated by you")).toBeVisible()
+
+  // Editing the meal's note must keep the stated item.
+  await page.getByRole("button", { name: "Meal actions" }).first().click()
+  await page.getByRole("menuitem", { name: "Edit" }).click()
+  const sheet = page.getByRole("dialog")
+  await expect(sheet.getByText("E2E Protein bar")).toBeVisible()
+  await sheet.getByLabel("Note").fill("after training")
+  await sheet.getByRole("button", { name: "Save changes" }).click()
+
+  await expect(page.getByText("Meal updated")).toBeVisible()
+  await expect(page.getByRole("dialog")).toBeHidden()
+  await expect(page.getByText("E2E Protein bar")).toBeVisible()
+  await expect(page.getByText("after training")).toBeVisible()
+})
+
 test("a meal without foods is logged as unknown", async ({ page }) => {
   await open(page, "/")
   await page.getByRole("button", { name: "Log meal" }).first().click()
@@ -100,7 +134,8 @@ test("a meal without foods is logged as unknown", async ({ page }) => {
   await sheet.getByRole("button", { name: "Log meal" }).click()
 
   await expect(page.getByText("Meal logged")).toBeVisible()
-  await expect(page.getByText("1 unknown meal")).toBeVisible()
+  // The meal card carries the status; the day shows only the macros.
+  await expect(page.getByText("unknown", { exact: true })).toBeVisible()
   await expect(page.getByText(/No foods yet/)).toBeVisible()
 })
 

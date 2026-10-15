@@ -1,10 +1,13 @@
 """Meals: what was eaten, when, and how much. Nutrition always comes from the catalog.
 
 Callers send "this much of this": catalog foods with amounts, or portions of a
-cook from the cooking log. They cannot send nutrition values; every number is
-the referenced source's value times the amount (for a cook: its ingredients'
-total per portion), calculated when read. A meal without items is logged with
-unknown nutrition.
+cook from the cooking log. Every number is the referenced source's value times
+the amount (for a cook: its ingredients' total per portion), calculated when read.
+A meal without items is logged with unknown nutrition.
+
+One exception: a stated item has no product. The person gives its name and the
+values they read or know, e.g. a label read before the package was thrown away.
+Those values are stored as given, marked as stated, and never inferred.
 """
 
 from datetime import date, datetime
@@ -12,8 +15,9 @@ from decimal import Decimal
 from typing import Annotated, Literal
 
 from psycopg import Connection
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from health_api.catalog.repository import NUTRIENTS
 from health_api.clock import day_bounds, timezone
 from health_api.ingredients import (
     FoodAmount,
@@ -30,8 +34,31 @@ MAX_ITEMS = 100
 MAX_PORTIONS = Decimal(20)
 
 
+class StatedInput(BaseModel):
+    """Nutrition the person states for something without a catalog product.
+
+    Only the values given are kept. A value left out is unknown, never a guess.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: Annotated[str, Field(max_length=200)]
+    energy_kcal: Annotated[Decimal, Field(ge=0, max_digits=8, decimal_places=1)]
+    protein_g: Annotated[Decimal | None, Field(ge=0, max_digits=8, decimal_places=2)] = None
+    fat_g: Annotated[Decimal | None, Field(ge=0, max_digits=8, decimal_places=2)] = None
+    carbs_g: Annotated[Decimal | None, Field(ge=0, max_digits=8, decimal_places=2)] = None
+    fiber_g: Annotated[Decimal | None, Field(ge=0, max_digits=8, decimal_places=2)] = None
+
+    @field_validator("name")
+    @classmethod
+    def name_is_text(cls, value: str) -> str:
+        if not (stripped := value.strip()):
+            raise ValueError("must not be blank")
+        return stripped
+
+
 class ItemInput(BaseModel):
-    """One thing eaten: a catalog food (amount or portion), or portions of a cook."""
+    """One thing eaten: a catalog food (amount or portion), portions of a cook, or a stated item."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -40,6 +67,8 @@ class ItemInput(BaseModel):
     )
     # A cooked dish from the cooking log; `amount` is then in its portions.
     cook: int | None = None
+    # Nutrition stated by the person, for something without a catalog product.
+    stated: StatedInput | None = None
     # Default: the food's BLS 4.0 source, otherwise its newest source.
     source_id: int | None = None
     # In the source's unit (g or ml), or portions of a cook. Give this or a portion.
@@ -52,16 +81,24 @@ class ItemInput(BaseModel):
     estimated: bool = False
 
     @model_validator(mode="after")
-    def food_or_cook(self):
-        if (self.food is None) == (self.cook is None):
-            raise ValueError("give either food or cook")
+    def one_kind(self):
+        given = [self.food is not None, self.cook is not None, self.stated is not None]
+        if sum(given) != 1:
+            raise ValueError("give exactly one of food, cook, or stated")
+        if self.stated is not None:
+            if any(
+                value is not None
+                for value in (self.amount, self.portion, self.count, self.source_id)
+            ):
+                raise ValueError("a stated item takes only its values and estimated")
+            return self
         if self.cook is not None:
             if self.amount is None:
                 raise ValueError("give the portions of the cook as amount")
             if self.source_id is not None or self.portion is not None or self.count is not None:
                 raise ValueError("a cook takes only amount and estimated")
             return self
-        FoodAmount.model_validate(self.model_dump(exclude={"cook"}))
+        FoodAmount.model_validate(self.model_dump(exclude={"cook", "stated"}))
         return self
 
 
@@ -93,6 +130,9 @@ def resolve_items(connection: Connection, items: list[ItemInput]) -> list[dict]:
     rows, issues = [], []
     for index, item in enumerate(items):
         field = f"items.{index}"
+        if item.stated is not None:
+            rows.append({"stated": item.stated.model_dump(), "estimated": item.estimated})
+            continue
         if item.cook is not None:
             found = connection.execute(
                 "SELECT 1 FROM recipe.cooks WHERE id = %s", (item.cook,)
@@ -107,7 +147,9 @@ def resolve_items(connection: Connection, items: list[ItemInput]) -> list[dict]:
                 )
             continue
         row, issue = resolve_amount(
-            connection, FoodAmount.model_validate(item.model_dump(exclude={"cook"})), field
+            connection,
+            FoodAmount.model_validate(item.model_dump(exclude={"cook", "stated"})),
+            field,
         )
         if issue:
             issues.append(issue)
@@ -120,6 +162,26 @@ def resolve_items(connection: Connection, items: list[ItemInput]) -> list[dict]:
 
 def insert_items(connection: Connection, meal_id: int, rows: list[dict]) -> None:
     for row in rows:
+        if "stated" in row:
+            stated = row["stated"]
+            connection.execute(
+                """INSERT INTO log.meal_items (meal_id, amount, estimated, stated_name,
+                       stated_energy_kcal, stated_protein_g, stated_fat_g, stated_carbs_g,
+                       stated_fiber_g)
+                   VALUES (%(meal_id)s, 1, %(estimated)s, %(name)s, %(energy_kcal)s,
+                       %(protein_g)s, %(fat_g)s, %(carbs_g)s, %(fiber_g)s)""",
+                {
+                    "meal_id": meal_id,
+                    "estimated": row["estimated"],
+                    "name": stated["name"],
+                    "energy_kcal": stated["energy_kcal"],
+                    "protein_g": stated["protein_g"],
+                    "fat_g": stated["fat_g"],
+                    "carbs_g": stated["carbs_g"],
+                    "fiber_g": stated["fiber_g"],
+                },
+            )
+            continue
         connection.execute(
             """INSERT INTO log.meal_items (meal_id, source_id, cook_id, amount, estimated)
                VALUES (%(meal_id)s, %(source_id)s, %(cook_id)s, %(amount)s, %(estimated)s)""",
@@ -156,6 +218,38 @@ def cook_items(connection: Connection, meal_ids: list[int]) -> dict[int, list[di
     return result
 
 
+def stated_items(connection: Connection, meal_ids: list[int]) -> dict[int, list[dict]]:
+    """Stated items, shaped like source amounts: one unit, with only the values given."""
+    rows = connection.execute(
+        """SELECT id, meal_id, estimated, stated_name, stated_energy_kcal, stated_protein_g,
+                  stated_fat_g, stated_carbs_g, stated_fiber_g
+           FROM log.meal_items
+           WHERE meal_id = ANY(%s) AND stated_name IS NOT NULL ORDER BY id""",
+        (meal_ids,),
+    ).fetchall()
+    result: dict[int, list[dict]] = {}
+    for row in rows:
+        values = {column: None for column in NUTRIENTS} | {
+            "energy_kcal": row["stated_energy_kcal"],
+            "protein_g": row["stated_protein_g"],
+            "fat_g": row["stated_fat_g"],
+            "carbs_g": row["stated_carbs_g"],
+            "fiber_g": row["stated_fiber_g"],
+        }
+        result.setdefault(row["meal_id"], []).append(
+            {
+                "id": row["id"],
+                "stated": True,
+                "name": row["stated_name"],
+                "estimated": row["estimated"],
+                "amount": Decimal(1),
+                "reference_quantity": Decimal(1),
+                **values,
+            }
+        )
+    return result
+
+
 def load_meals(connection: Connection, where: str, params: dict) -> list[dict]:
     return [meal for meal, _items in load_meals_with_items(connection, where, params)]
 
@@ -174,6 +268,8 @@ def load_meals_with_items(
     items = load_amounts(connection, "log.meal_items", meal_ids)
     for meal_id, portions in cook_items(connection, meal_ids).items():
         items[meal_id] = sorted(items.get(meal_id, []) + portions, key=lambda item: item["id"])
+    for meal_id, stated in stated_items(connection, meal_ids).items():
+        items[meal_id] = sorted(items.get(meal_id, []) + stated, key=lambda item: item["id"])
     zone = timezone()
     return [
         (
@@ -192,7 +288,28 @@ def load_meals_with_items(
     ]
 
 
+def public_stated(item: dict) -> dict:
+    """A stated item as the API shows it: no product, only the values the person gave."""
+    return {
+        "id": item["id"],
+        "food": None,
+        "food_name": item["name"],
+        "food_name_de": None,
+        "source_id": None,
+        "source_name": "Stated by you",
+        "cook_id": None,
+        "recipe": None,
+        "cooked_at": None,
+        "amount": "1",
+        "unit": "item",
+        "estimated": item["estimated"],
+        "nutrition": rounded_values(item_values(item)),
+    }
+
+
 def public_item(item: dict) -> dict:
+    if item.get("stated"):
+        return public_stated(item)
     if "cook" not in item:
         return public_amount(item) | {"cook_id": None, "recipe": None, "cooked_at": None}
     cook = item["cook"]
@@ -255,14 +372,19 @@ def set_incomplete(connection: Connection, day: date, incomplete: bool) -> None:
         connection.execute("DELETE FROM log.incomplete_days WHERE day = %s", (day,))
 
 
-def daily_kcal_limit(connection: Connection) -> int:
-    row = connection.execute("SELECT daily_kcal_limit FROM log.goals WHERE id = 1").fetchone()
-    return row["daily_kcal_limit"]
+def goals(connection: Connection) -> dict:
+    """The daily kcal limit, and the kcal accepted above it before a day turns red."""
+    row = connection.execute(
+        "SELECT daily_kcal_limit, kcal_tolerance FROM log.goals WHERE id = 1"
+    ).fetchone()
+    return {"daily_kcal_limit": row["daily_kcal_limit"], "kcal_tolerance": row["kcal_tolerance"]}
 
 
-def set_daily_kcal_limit(connection: Connection, limit: int) -> None:
+def set_goals(connection: Connection, limit: int, tolerance: int) -> None:
     connection.execute(
-        "UPDATE log.goals SET daily_kcal_limit = %s, updated_at = now() WHERE id = 1", (limit,)
+        """UPDATE log.goals SET daily_kcal_limit = %s, kcal_tolerance = %s, updated_at = now()
+           WHERE id = 1""",
+        (limit, tolerance),
     )
 
 

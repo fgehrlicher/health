@@ -1,5 +1,6 @@
 import type { CalendarDay } from "@/lib/api/types"
 import type { CalendarCell } from "@/lib/calendar"
+import { addDays } from "@/lib/format"
 import { energySplit } from "@/lib/macros"
 import type { EnergyPart } from "@/lib/macros"
 
@@ -88,5 +89,38 @@ export function weeklyStats(
       kcal: average(inWeek.map((day) => amountOf(day.energy_kcal))),
       split: energySplitOf(inWeek),
     }
+  })
+}
+
+/** Each day's energy split, from counted days only; null for a day that does not count. */
+export function dailySplits(
+  dates: Array<string>,
+  days: Array<CalendarDay>
+): Array<{ date: string; split: Array<EnergyPart> | null }> {
+  const counted = countedDays(days)
+  return dates.map((date) => ({
+    date,
+    split: energySplitOf(counted.filter((day) => day.date === date)),
+  }))
+}
+
+/**
+ * Each day's kcal, and the average of that day and the six before it. Only
+ * counted days take part, so an incomplete day never drags the trend down.
+ */
+export function dailyKcal(
+  dates: Array<string>,
+  days: Array<CalendarDay>
+): Array<{ date: string; kcal: number | null; average: number | null }> {
+  const byDate = new Map(
+    countedDays(days).map((day) => [day.date, amountOf(day.energy_kcal)])
+  )
+  return dates.map((date) => {
+    const window: Array<number> = []
+    for (let offset = 0; offset < 7; offset += 1) {
+      const kcal = byDate.get(addDays(date, -offset))
+      if (kcal !== undefined) window.push(kcal)
+    }
+    return { date, kcal: byDate.get(date) ?? null, average: average(window) }
   })
 }

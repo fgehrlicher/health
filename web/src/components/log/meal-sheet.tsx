@@ -54,6 +54,8 @@ export type ItemDraft = {
   cookId?: number
   /** For a cook: when it was cooked, shown under the name. */
   detail?: string
+  /** A stated item: the values the person gave, sent back unchanged on save. */
+  stated?: NonNullable<ItemInput["stated"]>
   baseUnit: string
   unit: string
   quantity: string
@@ -117,23 +119,49 @@ export function draftFromAmount(item: {
   }
 }
 
+/** A stated item as a form row: its values stay as they were, only the amount is fixed. */
+function statedDraft(item: Meal["items"][number]): ItemDraft {
+  const optional = (text: string | null) =>
+    text === null ? undefined : Number(text)
+  nextKey += 1
+  return {
+    key: `item-${nextKey}`,
+    food: "",
+    foodName: item.food_name,
+    baseUnit: "item",
+    unit: "item",
+    quantity: "1",
+    estimated: item.estimated,
+    stated: {
+      name: item.food_name,
+      energy_kcal: Number(item.nutrition.energy_kcal),
+      protein_g: optional(item.nutrition.protein_g),
+      fat_g: optional(item.nutrition.fat_g),
+      carbs_g: optional(item.nutrition.carbs_g),
+      fiber_g: optional(item.nutrition.fiber_g),
+    },
+  }
+}
+
 function draftsFromMeal(meal: Meal): Array<ItemDraft> {
   return meal.items.map((item) =>
-    item.cook_id !== null && item.cooked_at !== null
-      ? {
-          ...cookDraft({
-            id: item.cook_id,
-            name: item.food_name,
-            cooked_at: item.cooked_at,
-          }),
-          quantity: item.amount,
-          estimated: item.estimated,
-        }
-      : draftFromAmount({
-          ...item,
-          food: item.food ?? "",
-          source_id: item.source_id ?? 0,
-        })
+    item.food === null && item.cook_id === null
+      ? statedDraft(item)
+      : item.cook_id !== null && item.cooked_at !== null
+        ? {
+            ...cookDraft({
+              id: item.cook_id,
+              name: item.food_name,
+              cooked_at: item.cooked_at,
+            }),
+            quantity: item.amount,
+            estimated: item.estimated,
+          }
+        : draftFromAmount({
+            ...item,
+            food: item.food ?? "",
+            source_id: item.source_id ?? 0,
+          })
   )
 }
 
@@ -142,6 +170,9 @@ export function toInput(drafts: Array<ItemDraft>): Array<ItemInput> {
   return drafts
     .filter((draft) => Number(draft.quantity) > 0)
     .map((draft) => {
+      if (draft.stated) {
+        return { stated: draft.stated, estimated: draft.estimated }
+      }
       if (draft.cookId !== undefined) {
         return {
           cook: draft.cookId,
@@ -433,7 +464,7 @@ export function ItemRow({
   // Portions ("Becher", "Portion") come with the food's details.
   const food = useQuery({
     ...foodQuery(item.food),
-    enabled: item.cookId === undefined,
+    enabled: item.cookId === undefined && item.stated === undefined,
   })
   const portions = (food.data?.portions ?? []).filter(
     (portion) => portion.unit === item.baseUnit
@@ -462,6 +493,30 @@ export function ItemRow({
         })),
       ]
     : []
+  if (item.stated) {
+    return (
+      <div className="flex items-center gap-2 rounded-lg border p-3">
+        <span className="flex min-w-0 flex-1 flex-col text-sm font-medium">
+          {item.foodName}
+          <span className="text-xs font-normal text-muted-foreground">
+            stated by you{item.estimated ? ", estimated" : ""}
+          </span>
+        </span>
+        <span className="text-sm text-muted-foreground tabular-nums">
+          {formatNumber(item.stated.energy_kcal, 0)} kcal
+        </span>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-xs"
+          aria-label="Remove"
+          onClick={onRemove}
+        >
+          <XIcon />
+        </Button>
+      </div>
+    )
+  }
   const units = [item.baseUnit, ...portions.map((portion) => portion.name)]
 
   return (

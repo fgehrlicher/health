@@ -76,17 +76,27 @@ test("a day above the daily limit is marked, and the limit can be changed", asyn
   await logRice(request, 400)
   try {
     await open(page, "/stats")
+    // 468 kcal against a limit of 100 is 368 above it, beyond the 300 tolerance: red.
+    await page.getByLabel("Daily limit, kcal").fill("100")
+    await page.getByRole("button", { name: "Save" }).click()
+    await expect(
+      page.getByRole("button", {
+        name: /^Today: .*kcal, above limit, beyond tolerance$/,
+      })
+    ).toBeVisible()
+    await expect(page.getByText("Goals saved", { exact: true })).toBeVisible()
+
+    // 168 above a limit of 300 is within the tolerance: yellow, not red.
     await page.getByLabel("Daily limit, kcal").fill("300")
     await page.getByRole("button", { name: "Save" }).click()
     await expect(
-      page.getByRole("button", { name: /^Today: .*kcal, above limit$/ })
-    ).toBeVisible()
-    await expect(
-      page.getByText("Daily limit saved", { exact: true })
+      page.getByRole("button", {
+        name: /^Today: .*kcal, above limit, within tolerance$/,
+      })
     ).toBeVisible()
   } finally {
     await request.put(`${API}/api/log/goals`, {
-      data: { daily_kcal_limit: 2000 },
+      data: { daily_kcal_limit: 2000, kcal_tolerance: 300 },
     })
   }
 })
@@ -104,11 +114,8 @@ test("an incomplete day stays on the calendar but leaves the stats", async ({
     await toggle.click()
     await expect(toggle).toBeChecked()
 
-    // The stats show the day as incomplete, and keep it on the calendar.
+    // The stats keep the day on the calendar, marked incomplete.
     await open(page, "/stats")
-    await expect(
-      page.getByText("Incomplete days", { exact: true })
-    ).toBeVisible()
     await expect(
       page.getByRole("button", { name: /^Today: .*incomplete$/ })
     ).toBeVisible()
