@@ -14,6 +14,10 @@ Nutrition still comes only from `health foods get`.
 - Banana, medium: about 110-120 g
 - Egg, whole: about 50-60 g
 - Single-serve yoghurt pot (Skyr, quark) at 450 g: use the package weight, not an estimate
+- Laugenbrezel (salted pretzel), medium: about 80 g
+- Buttercroissant, medium: about 60 g
+- Mini-Brötchen (bread roll, small): about 35 g each
+- Kleines Dinkelbrötchen: about 50 g each
 
 ## Method
 
@@ -21,6 +25,7 @@ Nutrition still comes only from `health foods get`.
    (hand, plate, packaging).
 2. Pick the typical weight for that size, then multiply by the count.
 3. Say in the reply that the weight is a guess and give the range if it is wide.
+4. When he corrects an estimate with his own number, log his number and drop the default. The default is only a starting point.
 
 ## No scale, restaurant plate
 
