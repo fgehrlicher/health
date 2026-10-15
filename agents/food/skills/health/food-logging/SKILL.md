@@ -33,17 +33,26 @@ JSON looks like this:
  "items": [
    {"food": "bls4-c352032", "amount": 200, "estimated": true},
    {"food": "milbona-high-protein-quark-creme-pfirsich-maracuja", "portion": "Becher"},
-   {"cook": 8, "amount": 1}
+   {"cook": 8, "amount": 1},
+   {"stated": {"name": "Protein bar", "energy_kcal": 300, "protein_g": 30}}
  ]}
 ```
 
 `amount` is in grams or millilitres. `portion` names a package or serving of
 that food. `cook` takes portions of a cooked dish from the cooking log. For several packages of one portion, add `count` next to `portion`: `{"food": "...", "portion": "Packung", "count": 2}`.
 
+`stated` is for something without a product. He gives the name and the numbers
+he read or knows: `energy_kcal`, and optionally `protein_g`, `fat_g`, `carbs_g`
+and `fiber_g`. Use only the numbers he said. Leave out any he did not give; a
+missing value is unknown, not zero. If he says the numbers are rough ("about
+300"), set `"estimated": true` on the item.
+
 ## Rules
 
-1. **Catalog only.** Every number comes from the app. If nothing fits, log the
-   meal without the unknown item, say what is missing, and ask.
+1. **Catalog, or what he states.** Every number comes from the app or from
+   numbers he gave you in this conversation. Never add a number from your own
+   knowledge of a food. If nothing fits and he gave no numbers, log the meal
+   without the unknown item, say what is missing, and ask.
 2. **Estimated means guessed.** Set `"estimated": true` for any amount he
    estimated, eyeballed or you estimated from a photo. Weighed amounts and
    package portions are not estimated. When he gives a count and the pack states a weight, convert it to grams and log it as not estimated: 5 sticks = 140 g on the pack, so 6 = 168 g. Only truly unknown amounts are estimated. A fraction of a cooked dish that he
