@@ -2533,6 +2533,14 @@
             "type": "boolean",
             "title": "Incomplete"
           },
+          "daily_kcal_limit": {
+            "type": "integer",
+            "title": "Daily Kcal Limit"
+          },
+          "kcal_tolerance": {
+            "type": "integer",
+            "title": "Kcal Tolerance"
+          },
           "meals": {
             "items": {
               "$ref": "#/components/schemas/Meal"
@@ -2552,6 +2560,8 @@
           "date",
           "timezone",
           "incomplete",
+          "daily_kcal_limit",
+          "kcal_tolerance",
           "meals",
           "counts",
           "totals"

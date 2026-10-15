@@ -270,6 +270,8 @@ def test_daily_kcal_limit_is_stored_and_sent_with_the_calendar_against_postgres(
         assert changed.json() == {"daily_kcal_limit": 1500, "kcal_tolerance": 200}
         calendar = request(calendar_path).json()
         assert (calendar["daily_kcal_limit"], calendar["kcal_tolerance"]) == (1500, 200)
+        day = request("/api/log/days/2026-03-14").json()
+        assert (day["daily_kcal_limit"], day["kcal_tolerance"]) == (1500, 200)
         for invalid in [{"daily_kcal_limit": 0, "kcal_tolerance": 0}, {"daily_kcal_limit": 1500}]:
             rejected = request_json("PUT", "/api/log/goals", invalid)
             assert rejected.status_code == 422, invalid

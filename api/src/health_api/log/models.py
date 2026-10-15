@@ -91,6 +91,9 @@ class Day(BaseModel):
     timezone: str
     # Marked incomplete: left out of the stats, but its meals are still shown.
     incomplete: bool
+    # The goals the day's kcal are judged against, so the day view can show progress.
+    daily_kcal_limit: int
+    kcal_tolerance: int
     meals: list[Meal]
     counts: MealCounts
     totals: NutrientTotals

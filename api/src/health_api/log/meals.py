@@ -347,6 +347,7 @@ def day_summary(connection: Connection, day: date) -> dict:
         "date": day.isoformat(),
         "timezone": timezone().key,
         "incomplete": is_incomplete(connection, day),
+        **goals(connection),
         "meals": meals,
         "counts": {
             name: sum(meal["status"] == name for meal in meals)

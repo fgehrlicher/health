@@ -92,6 +92,23 @@ test("log, edit, and delete a meal", async ({ page }) => {
   await expect(page.getByText("Nothing logged yet")).toBeVisible()
 })
 
+test("the calorie bar shows what was eaten against the limit", async ({
+  page,
+  request,
+}) => {
+  // 400 g of boiled white rice is 468 kcal in the catalog.
+  const created = await request.post(`${API}/api/log/meals`, {
+    data: { kind: "lunch", items: [{ food: "bls4-c352032", amount: 400 }] },
+  })
+  expect(created.status()).toBe(201)
+
+  await open(page, "/")
+  const bar = page.getByRole("progressbar", { name: "Calories eaten today" })
+  await expect(bar).toHaveAttribute("aria-valuenow", "468")
+  await expect(page.getByText("of 2,000 limit")).toBeVisible()
+  await expect(page.getByText("1,532 kcal left.")).toBeVisible()
+})
+
 test("a stated item shows on its meal and survives an edit", async ({
   page,
   request,

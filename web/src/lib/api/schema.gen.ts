@@ -649,6 +649,10 @@ export interface components {
             timezone: string;
             /** Incomplete */
             incomplete: boolean;
+            /** Daily Kcal Limit */
+            daily_kcal_limit: number;
+            /** Kcal Tolerance */
+            kcal_tolerance: number;
             /** Meals */
             meals: components["schemas"]["Meal"][];
             counts: components["schemas"]["MealCounts"];
