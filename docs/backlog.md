@@ -18,17 +18,12 @@ stated items without a product) are done and not listed here.
    is ODbL, so attribution is required, and the same plausibility checks apply as to
    label values.
 
-3. **Voice memos.** The gap is speech-to-text, because Telegram sends OGG audio. The
-   user accepts a cloud model (Claude or Codex); his machine is too weak for a local
-   one. Store the transcript as the meal note, not the audio. First verify that Hermes
-   passes voice messages to a tool at all.
-
-4. **Dates in Telegram ("What is today?", "What was yesterday?").** Fix by structure,
+3. **Dates in Telegram ("What is today?", "What was yesterday?").** Fix by structure,
    not by prompt wording: inject the current Berlin date and time into every Telegram
    turn, and let the CLI resolve "today" and "yesterday" on the server. Depends on
    whether Hermes supports per-turn context.
 
-5. **Health evaluation.** A module inside the existing API, not a second service (one
+4. **Health evaluation.** A module inside the existing API, not a second service (one
    database). A profile table (sex, age, height, activity, goal). Protein targets per
    kg of body weight: the DGE reference is about 0.8 g/kg for the general population,
    and the ISSN position stand is roughly 1.4 to 2.0 g/kg per day for people who train
@@ -36,11 +31,11 @@ stated items without a product) are done and not listed here.
    source, year and quote. The agent may say "sodium was above the reference on 9 of
    14 days", but never diagnose. Deficiencies need blood work, not a food log.
 
-6. **Agent memory.** Health facts (goals, profile, preferences about logging) belong in
+5. **Agent memory.** Health facts (goals, profile, preferences about logging) belong in
    the database, not in agent memory. Agent memory keeps conversation style and open
    threads. Choose a Hermes memory add-on only after deciding what must be remembered.
 
-7. **The general agent changing the health app.** The riskiest item, so last.
+6. **The general agent changing the health app.** The riskiest item, so last.
    Guardrails: work on a branch and open a pull request, never push to `main`;
    `make check` and `make check-e2e` must pass; deploy only after the user approves in
    Telegram; back up before every deploy (`scripts/backup-db.sh` exists); migrations
@@ -48,7 +43,7 @@ stated items without a product) are done and not listed here.
    no general sudo. Start read-only: it reads the code and proposes a diff, and the
    user applies it.
 
-8. **Architecture.** Keep one API and one database, the `health` CLI as the agent's
+7. **Architecture.** Keep one API and one database, the `health` CLI as the agent's
    only door, and the web app. Split features into domain modules inside the API.
    Move rules that can be validations out of the skill text and into the API. Hermes
    once overwrote the stated-item rules on the box, so rules that live only in prose
@@ -67,6 +62,9 @@ stated items without a product) are done and not listed here.
 
 ## Decided, not planned
 
+- **Voice memos:** dropped on 2026-10-16. Neither the Claude nor the Codex
+  subscription can transcribe audio for our own tools, and the speech setup
+  (local model or API key) was judged too complicated for what it would add.
 - **Weight tracking:** left out. Apple Health already covers weight.
 - **Stated items:** values come from the user only. A rough figure is flagged as
   estimated. The agent never adds numbers from its own knowledge of a food.
