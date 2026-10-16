@@ -37,10 +37,13 @@ From the MacBook:
 scripts/deploy-health-box.sh
 ```
 
-The script copies the repository with rsync (excluding `.env`, backups, photos
-and build output), runs `docker compose -f compose.prod.yaml up --detach --build --wait`
-on the server, and installs the backup timer. A deploy does not touch the
-database volume, `.env` or the dumps.
+The script first brings Hermes's own edits to the food agent's skills into the
+repository (`scripts/sync-food-skills.sh`) and stops if there are any. Then it
+copies the repository with rsync (excluding `.env`, backups, photos and build
+output), runs `docker compose -f compose.prod.yaml up --detach --build --wait`
+on the server, installs the `health` CLI and the food agent's files (listed in
+[`agents/food/README.md`](../agents/food/README.md)), and installs the backup
+timer. A deploy does not touch the database volume, `.env` or the dumps.
 
 Schema changes go in `db/migrations/` (see [Database](database.md)) and reach
 the server through `migrate` on the next deploy.

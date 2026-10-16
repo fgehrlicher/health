@@ -8,6 +8,19 @@ Files here are copied to the server by `scripts/deploy-health-box.sh`:
 - `SOUL.md` → `~/.hermes/profiles/food/SOUL.md`
 - `skills/health/food-logging/SKILL.md` → the same path under the profile's `skills/`
 - `tools/health` (the CLI, in the repository root) → `~/.local/bin/health`
+- `hooks/terminal_guard.py` → `~/.hermes/agent-hooks/food-terminal-guard.py`: lets
+  the terminal run only plain `health` commands. `hooks/config-snippet.yaml`
+  registers it and is appended once to the profile's `config.yaml`.
+- `vision-config-snippet.yaml`: appended once to the profile's `config.yaml`, so
+  photos are described by Opus.
+- `plugins/photo-scan/` → `~/.hermes/profiles/food/plugins/photo-scan/`: decodes
+  barcodes and QR codes in each incoming photo through the API and adds them to
+  the message ([Scan tool](../../docs/scan-tool.md)). Replaced on every deploy,
+  then disabled and enabled so the running gateway loads the new code.
+
+Hermes edits `SOUL.md` and the skill on the box. Before copying, the deploy runs
+`scripts/sync-food-skills.sh`, which brings such edits into the repository and
+stops, so they can be reviewed and committed instead of being overwritten.
 
 Set-up on the server, once: the profile was created with
 `hermes profile create food --clone` (logins and model copied from `default`),

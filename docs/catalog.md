@@ -69,9 +69,11 @@ in step.
   `422` for an invalid barcode.
 - `POST /api/foods`: register a branded food (see below); `?dry_run=true`
   validates without writing.
-- `PATCH /api/foods/{slug}`: set a food's `food_group`, `brand`, or
+- `PATCH /api/foods/{slug}`: set a food's `food_group`, `brand`, `barcode`, or
   `variant_of` (`null` clears), e.g. to put a registered product into a
-  category or link it to its generic food.
+  category, link it to its generic food, or add a barcode that could not be
+  read at registration. Only branded products take a barcode; `409` if another
+  food has it, with that food's `slug`.
 - `PATCH /api/foods/{slug}/sources/{source_id}`: add a registered source's
   legal name (`food_name`) or `ingredients_text` read from a later photo.
 - `GET /docs`: interactive API documentation, including the request schema.
@@ -88,7 +90,8 @@ to preserve source precision. Each food carries `food_group` and
 Agents add products from label photos or product databases. The expected flow:
 
 1. Look up the barcode: `GET /api/foods/barcode/4335619151215`. If found, use
-   that food.
+   that food. From a photo, `POST /api/scan` reads the barcode and does this
+   lookup in one step ([Scan tool](scan-tool.md)).
 2. Otherwise search by name to avoid a duplicate without a barcode.
 3. `POST /api/foods?dry_run=true` with the values as printed, per 100 g or
    100 ml as sold. Fix errors by re-reading the photo or asking the person;

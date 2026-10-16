@@ -22,6 +22,7 @@ barcodes, register products, keep recipes, and log cooks and meals.
 | – catalog | Search, food details, barcode lookup, registration, table UI | [Catalog](catalog.md) |
 | – consumption log | Endpoints under `/api/log`; tables in the `log` schema | [Consumption log](log.md) |
 | – recipes and cooking log | Endpoints under `/api/recipes` and `/api/cooks`; tables in the `recipe` schema | [Recipes](recipes.md) |
+| – photo scan | `POST /api/scan`: barcodes and QR codes in a photo, decoded with zxing-cpp and checked against the catalog | [Scan tool](scan-tool.md) |
 | Web frontend | `make web`: TanStack Start, shadcn/ui, TypeScript on `localhost:3000`, in [`web/`](../web/): Today with logging, recipes and cooking log, foods, food details | [Web frontend](web.md) |
 | Search quality check | `make search-eval`: 71 real queries with expected BLS codes | [Catalog: Search](catalog.md#search) |
 
@@ -86,9 +87,10 @@ only way to change the schema, deletes them.
 
 Through the HTTP API ([reference](catalog.md#api)):
 
-1. Find a food by barcode (`GET /api/foods/barcode/{code}`) or ranked search
-   (`GET /api/foods?q=`), which handles German and English names, typos, word
-   order, and compounds.
+1. Find a food by barcode (`GET /api/foods/barcode/{code}`), by scanning a photo
+   for barcodes and QR codes (`POST /api/scan`, [details](scan-tool.md)), or by
+   ranked search (`GET /api/foods?q=`), which handles German and English names,
+   typos, word order, and compounds.
 2. Read a food with all sources, further nutrients, portions, and ingredients
    (`GET /api/foods/{slug}`).
 3. Register a branded product from a label (`POST /api/foods`, with
@@ -96,7 +98,8 @@ Through the HTTP API ([reference](catalog.md#api)):
    store-internal barcodes, and label values that contradict each other, such
    as kcal that do not match the macros; it warns about missing mandatory rows.
 4. Add a label's legal name or ingredient list later, e.g. from a second photo
-   of a round cup (`PATCH /api/foods/{slug}/sources/{id}`). Products whose label
+   of a round cup (`PATCH /api/foods/{slug}/sources/{id}`), or a barcode that
+   could not be read at first (`PATCH /api/foods/{slug}`). Products whose label
    still lacks something carry `label_gaps` saying what to photograph, and
    `GET /api/foods?incomplete=true` lists them.
 5. Log a meal (`POST /api/log/meals`): an optional kind and items of catalog
@@ -109,7 +112,9 @@ Through the HTTP API ([reference](catalog.md#api)):
    recipe, tag recipes (e.g. `ice cream`) to browse them, and log "one portion
    of Monday's curry" as a meal item.
 
-The agent itself reads the photos. The rules it should follow are in
+The agent reads the photos itself, except for barcodes and QR codes: the food
+agent's photo-scan plugin decodes those through `POST /api/scan` before the
+agent sees the message. The rules it should follow are in
 [Registering branded foods](catalog.md#registering-branded-foods).
 
 ## Not built
