@@ -45,8 +45,10 @@ becomes true, the CLI can be wrapped as an MCP server without changing the app.
 | `health foods search <query>` | catalog foods, German and English names |
 | `health foods get <slug>` | nutrition, portions, label gaps |
 | `health foods barcode <code>` | a scanned product |
+| `health scan --image <photo>` | barcodes and QR codes in a photo, with catalog status |
 | `health product check --file p.json` | validate a label (dry run) |
 | `health product register --file p.json --commit` | save a validated product |
+| `health product barcode <slug> <code>` | add a registered product's barcode |
 | `health meal log --file m.json [--commit]` | log foods, portions and cooks |
 | `health day <YYYY-MM-DD>` | what was eaten, with totals |
 | `health recipes list [--tag T]`, `health recipes get <slug>` | recipes |
@@ -144,6 +146,10 @@ a test shows it works.
   `health` commands. A pre-tool hook (`agents/food/hooks/terminal_guard.py`)
   blocks everything else: curl, Python, URLs, pipes, redirects and chains.
   It fails closed.
+- **Photos are scanned before the agent runs.** The food profile's photo-scan
+  plugin (`agents/food/plugins/photo-scan/`) sends each photo to `POST /api/scan`
+  and adds the codes found to the message. It only reads; a QR code's link is
+  shown, cut to one short line, and never opened. See `docs/scan-tool.md`.
 - **Toolsets are narrowed per profile.** The food profile has no web, browser,
   code execution, desktop, cron or delegation tools.
 - **No deletes or edits from chat.** The CLI has no such command, and the

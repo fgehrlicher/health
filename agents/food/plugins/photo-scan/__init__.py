@@ -1,28 +1,33 @@
 """Photo scan: reads barcodes and QR codes in incoming photos before the agent sees the message.
 
-The codes the decoder read are added to the message text as a "[photo scan]"
-block. The agent then works from what was read, and checks any product number
-against the catalog, instead of reading digits from the picture itself.
+Each photo is sent to the health API's `POST /api/scan`, which decodes the codes
+and checks them against the catalog. What it found is added to the message text
+as a "[photo scan]" block, so the agent works from codes that were read by a
+decoder rather than digits it read from the picture itself.
 
+Standard library only: the decoder runs in the API, not in the Hermes runtime.
 Every scan is logged to logs/photo-scan.jsonl in the profile. A failure never
 blocks a message: the message goes on unchanged.
 """
 
 import json
 import os
-import subprocess
-import sys
-import urllib.error
 import urllib.request
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 HERE = Path(__file__).resolve().parent
-DECODE = HERE / "decode.py"
-DECODER_LIB = os.environ.get("PHOTO_SCAN_LIB", str(Path.home() / "scan-spike" / "lib"))
 API = os.environ.get("HEALTH_API_URL", "http://127.0.0.1:8000")
-IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
+IMAGE_TYPES = {
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".webp": "image/webp",
+}
+LINEAR_FORMATS = {"EAN-13", "EAN-8", "UPC-A"}
+# A QR code's text reaches the agent as data; long or multi-line text is cut down.
+MAX_TEXT = 200
 # The plugin lives in <profile>/plugins/photo-scan, so its log goes to <profile>/logs.
 # (The gateway process's HERMES_HOME is the default home, not the food profile.)
 LOG = HERE.parent.parent / "logs" / "photo-scan.jsonl"
@@ -36,51 +41,50 @@ def _log(record: dict) -> None:
         handle.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
 
-def _decode(path: str) -> list[dict]:
-    env = {**os.environ, "PYTHONPATH": DECODER_LIB}
-    done = subprocess.run(
-        [sys.executable, str(DECODE), path],
-        capture_output=True,
-        text=True,
-        timeout=20,
-        env=env,
-        check=False,
+def _scan(path: Path) -> list[dict]:
+    """The codes the API finds in one photo, each with its catalog status."""
+    call = urllib.request.Request(
+        f"{API}/api/scan",
+        data=path.read_bytes(),
+        method="POST",
+        headers={"Content-Type": IMAGE_TYPES[path.suffix.lower()], "Accept": "application/json"},
     )
-    if done.returncode != 0:
-        raise RuntimeError(done.stderr[-300:])
-    return json.loads(done.stdout)["codes"]
+    with urllib.request.urlopen(call, timeout=20) as response:
+        return json.load(response)["codes"]
 
 
-def _catalog(code: str) -> str:
-    """What the app knows about a product number."""
-    try:
-        with urllib.request.urlopen(f"{API}/api/foods/barcode/{code}", timeout=3) as response:
-            return f'known product "{json.load(response)["name"]}"'
-    except urllib.error.HTTPError as error:
-        messages = {404: "not in the catalog yet", 422: "an in-store code, not a product"}
-        return messages.get(error.code, f"lookup failed ({error.code})")
-    except OSError:
-        return "catalog lookup unavailable"
+def _shown(text: str) -> str:
+    """A code's text on one line, cut to MAX_TEXT characters."""
+    line = " ".join(text.split())
+    return line if len(line) <= MAX_TEXT else line[:MAX_TEXT] + "…"
 
 
 def _line(code: dict) -> str:
-    """One code as one line of the scan block, with what the app knows about it."""
-    if code["format"] == "QR Code" and code["gtin"] is None:
-        return f"- QR code, no product number: {code['text']}"
-    value = code["gtin"] or code["text"]
-    if code["checksum_ok"] is False:
-        return f"- {value}: check digit wrong, probably misread; ask for a closer photo"
-    kind = "product number from QR code" if code["gtin"] else code["format"]
-    return f"- {kind} {value}: {_catalog(value)}"
+    """One code as one line of the scan block, with what the catalog knows about it."""
+    kind = "QR code" if code["format"] == "QR Code" else code["format"]
+    number = code["product_number"]
+    if code["status"] == "no_product_number" or number is None:
+        return f"- {kind}, no product number: {_shown(code['text'])}"
+    label = kind if code["format"] in LINEAR_FORMATS else f"product number from {kind}"
+    if code["status"] == "known":
+        food = code["food"]
+        found = f'known product "{food["name"]}" (slug {food["slug"]})'
+    elif code["status"] == "not_in_catalog":
+        found = "not in the catalog yet"
+    elif code["status"] == "in_store_code":
+        found = "an in-store code (e.g. weighed goods), not a product"
+    else:  # misread
+        found = "check digit wrong, probably misread; ask for a closer photo"
+    return f"- {label} {number}: {found}"
 
 
 def _on_pre_gateway_dispatch(event=None, **_kwargs):
     try:
-        media = getattr(event, "media_urls", None) or []
-        paths = [path for path in media if Path(path).suffix.lower() in IMAGE_SUFFIXES]
-        if not paths:
+        media = [Path(path) for path in getattr(event, "media_urls", None) or []]
+        photos = [path for path in media if path.suffix.lower() in IMAGE_TYPES]
+        if not photos:
             return None
-        scans = [{"file": Path(path).name, "codes": _decode(path)} for path in paths]
+        scans = [{"file": photo.name, "codes": _scan(photo)} for photo in photos]
         _log({"message_type": str(getattr(event, "message_type", "")), "scans": scans})
         lines = [_line(code) for scan in scans for code in scan["codes"]]
         if not lines:

@@ -1766,6 +1766,60 @@
           }
         }
       }
+    },
+    "/api/scan": {
+      "post": {
+        "tags": [
+          "scan"
+        ],
+        "summary": "Scan",
+        "description": "Barcodes and QR codes in one photo, with what the catalog knows about each.\n\nSend the image bytes as the body, with Content-Type image/jpeg, image/png or\nimage/webp. A photo without a readable code returns an empty list.",
+        "operationId": "scan_api_scan_post",
+        "requestBody": {
+          "content": {
+            "image/jpeg": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "image/png": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "image/webp": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResult"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Image larger than 10 MB"
+          },
+          "415": {
+            "description": "Not a JPEG, PNG or WebP image"
+          },
+          "422": {
+            "description": "The body is not a readable image"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -5040,6 +5094,92 @@
         "additionalProperties": false,
         "type": "object",
         "title": "RecipeUpdate"
+      },
+      "ScanResult": {
+        "properties": {
+          "codes": {
+            "items": {
+              "$ref": "#/components/schemas/ScannedCode"
+            },
+            "type": "array",
+            "title": "Codes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codes"
+        ],
+        "title": "ScanResult"
+      },
+      "ScannedCode": {
+        "properties": {
+          "format": {
+            "type": "string",
+            "title": "Format"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "product_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "known",
+              "not_in_catalog",
+              "in_store_code",
+              "misread",
+              "no_product_number"
+            ],
+            "title": "Status"
+          },
+          "food": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ScannedFood"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "format",
+          "text",
+          "product_number",
+          "status"
+        ],
+        "title": "ScannedCode"
+      },
+      "ScannedFood": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "name"
+        ],
+        "title": "ScannedFood"
       },
       "SourceDetail": {
         "properties": {

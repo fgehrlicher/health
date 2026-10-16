@@ -3,6 +3,7 @@
 import re
 import unicodedata
 from decimal import Decimal
+from typing import Literal
 
 from psycopg import Connection
 
@@ -26,23 +27,36 @@ class BarcodeConflict(Exception):
         self.slug = slug
 
 
-def barcode_problem(barcode: str) -> str | None:
-    """Why a barcode cannot identify a product, or None for a valid GTIN."""
+BarcodeIssue = Literal["format", "check_digit", "store_internal"]
+
+BARCODE_MESSAGES: dict[BarcodeIssue, str] = {
+    "format": "must be 8, 12, or 13 digits (EAN-8, UPC-A, EAN-13)",
+    "check_digit": "check digit does not match; the barcode was probably misread",
+    "store_internal": "store-internal code (e.g. weighed goods), not a product identity",
+}
+
+
+def barcode_issue(barcode: str) -> BarcodeIssue | None:
+    """What keeps a barcode from identifying a product, or None for a valid GTIN."""
     if not barcode.isascii() or not barcode.isdigit() or len(barcode) not in (8, 12, 13):
-        return "must be 8, 12, or 13 digits (EAN-8, UPC-A, EAN-13)"
+        return "format"
     digits = [int(digit) for digit in barcode]
     # GS1 check digit: weights 3, 1, 3, ... from the right, excluding the check digit.
     total = sum(digit * (3 if index % 2 == 0 else 1) for index, digit in enumerate(digits[-2::-1]))
     if (10 - total % 10) % 10 != digits[-1]:
-        return "check digit does not match; the barcode was probably misread"
+        return "check_digit"
     restricted = (
         (len(barcode) == 13 and barcode[0] == "2")
         or (len(barcode) == 12 and barcode[0] == "2")
         or (len(barcode) == 8 and barcode[0] in "02")
     )
-    if restricted:
-        return "store-internal code (e.g. weighed goods), not a product identity"
-    return None
+    return "store_internal" if restricted else None
+
+
+def barcode_problem(barcode: str) -> str | None:
+    """Why a barcode cannot identify a product, or None for a valid GTIN."""
+    issue = barcode_issue(barcode)
+    return BARCODE_MESSAGES[issue] if issue else None
 
 
 def energy_from_macros(nutrition: NutritionInput) -> Decimal:

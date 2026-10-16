@@ -34,15 +34,18 @@ class Stub:
     def __init__(self, responses):
         self.responses = list(responses)
         self.seen = []
+        self.content_types = []
         stub = self
 
         class Handler(BaseHTTPRequestHandler):
             def _answer(self):
                 length = int(self.headers.get("Content-Length") or 0)
                 body = self.rfile.read(length) if length else None
-                stub.seen.append(
-                    (self.command, urlparse(self.path), json.loads(body) if body else None)
-                )
+                kind = self.headers.get("Content-Type")
+                if body and kind == "application/json":
+                    body = json.loads(body)
+                stub.seen.append((self.command, urlparse(self.path), body))
+                stub.content_types.append(kind)
                 status, payload = stub.responses.pop(0)
                 data = json.dumps(payload).encode("utf-8")
                 self.send_response(status)
@@ -100,6 +103,30 @@ def test_product_barcode_adds_the_code_to_the_food(stub, capsys):
     assert method == "PATCH" and url.path == "/api/foods/quark"
     assert body == {"barcode": "4000000000013"}
     assert json.loads(capsys.readouterr().out)["barcode"] == "4000000000013"
+
+
+def test_scan_posts_the_photo_bytes_with_their_type(stub, tmp_path, capsys):
+    photo = tmp_path / "label.JPG"
+    photo.write_bytes(b"\xff\xd8 not really a jpeg")
+    answer = {"codes": [{"format": "EAN-13", "status": "not_in_catalog"}]}
+    server = stub((200, answer))
+    assert run(server.url, "scan", "--image", str(photo)) == 0
+    method, url, body = server.seen[0]
+    assert method == "POST" and url.path == "/api/scan"
+    assert body == b"\xff\xd8 not really a jpeg"
+    assert server.content_types == ["image/jpeg"]
+    assert json.loads(capsys.readouterr().out) == answer
+
+
+def test_scan_refuses_other_files_before_calling_the_api(stub, tmp_path, capsys):
+    server = stub()
+    notes = tmp_path / "notes.txt"
+    notes.write_text("hi", encoding="utf-8")
+    assert run(server.url, "scan", "--image", str(notes)) == 2
+    assert run(server.url, "scan", "--image", str(tmp_path / "missing.png")) == 2
+    assert server.seen == []
+    out = capsys.readouterr().out
+    assert ".jpg, .jpeg, .png or .webp" in out and "cannot read the file" in out
 
 
 def test_search_without_a_source_preference(stub):

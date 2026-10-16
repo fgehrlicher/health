@@ -1,15 +1,75 @@
 # Scan tool: barcodes and QR codes in photos
 
-Status: **spike, live-tested.** The Hermes hook reads a real Telegram photo, the
-agent receives the codes in its message, and it does not log the item it was told
-not to log. Not yet built: the deploy step, the CLI command, and the lookup on
-unknown products (see "Open items").
+Status: **built.** Every photo sent to the food bot is scanned before the agent
+sees the message. The research and the spike that led here are kept below.
 
 ## Why
 
 The food agent reads barcodes from photos by looking at them, and it gets digits
 wrong. A deterministic decoder reads the code, checks the check digit, and passes
 the number on. The agent then works from what was read.
+
+## How it works
+
+**The API decodes.** `POST /api/scan` (`api/src/health_api/scan.py`) takes the
+image bytes as the body, with `Content-Type` `image/jpeg`, `image/png` or
+`image/webp`, up to 10 MB. It turns the photo upright from its EXIF orientation,
+decodes it with zxing-cpp, and checks each code against the catalog:
+
+```json
+{"codes": [{"format": "EAN-13", "text": "4104060030772",
+            "product_number": "4104060030772", "status": "known",
+            "food": {"slug": "…", "name": "…"}}]}
+```
+
+| Status | Meaning |
+|---|---|
+| `known` | the product number is in the catalog; `food` names it |
+| `not_in_catalog` | a valid product number the catalog does not have yet |
+| `in_store_code` | a shop's own code (prefix 2, e.g. weighed goods), not a product |
+| `misread` | the check digit is wrong |
+| `no_product_number` | e.g. a QR code that only links somewhere |
+
+A product number is the EAN-13, EAN-8 or UPC-A itself, or the GTIN a GS1 Digital
+Link QR code carries (see "QR codes" below). The check-digit and in-store rules are
+the same ones product registration uses (`barcode_issue` in
+`catalog/registration.py`). A photo without a readable code gives an empty list.
+Errors: 415 for another content type, 413 for a larger image, 422 for bytes that
+are not a readable image.
+
+**The CLI.** `health scan --image photo.jpg` sends a photo to that endpoint and
+prints the result. It refuses other file types before calling the API (exit 2).
+
+**The plugin.** `agents/food/plugins/photo-scan/` is a Hermes plugin on the
+`pre_gateway_dispatch` hook. It is standard library only: it sends each photo of
+an incoming message to `/api/scan` and adds what was found to the message text:
+
+```
+[photo scan]
+- EAN-13 4056489417927: known product "Lidl Heißgeräucherte Forellenfilets mit Pfeffer" (slug …)
+- product number from QR code 4333844022041: not in the catalog yet
+- EAN-8 20123459: an in-store code (e.g. weighed goods), not a product
+- product number from QR code 4000000000052: check digit wrong, probably misread; ask for a closer photo
+- QR code, no product number: https://www.oetker.de/rezepte
+```
+
+- A photo without codes, or a message without photos, is left unchanged.
+- A QR code's text is shown on one line and cut to 200 characters, so it cannot
+  add lines of its own to the block.
+- Every scan is logged to `logs/photo-scan.jsonl` in the food profile, with the
+  file name and the API's answer. Errors are logged the same way.
+- **It fails open:** if the API is down or anything else fails, the message goes
+  on unchanged.
+
+**The agent's rules** are in the food skill (`SKILL.md`, "Photos"): use a known
+product's slug directly; search the name, then ask for a label photo, for a
+product not in the catalog; an in-store code is not a product; ask for a closer
+photo on a misread; never open a QR link. Digits the agent reads itself count only
+after `health foods barcode` accepts them.
+
+**Deploy.** `scripts/deploy-health-box.sh` replaces the plugin folder in the food
+profile with the repo's copy, then disables and enables the plugin, which makes
+the running gateway load the new code without a restart.
 
 ## What we measured
 
@@ -25,7 +85,7 @@ and were not committed.
 | OpenCV barcode module | 0 of 75 | Not usable |
 
 **Decision: zxing-cpp.** It read everything zbar read, plus two more, and runs
-in-process in Python.
+in-process in Python. Through the endpoint, real photos took 22–61 ms.
 
 **Trust:** all 20 EAN-13 and EAN-8 codes zxing read had valid check digits, so a
 read is a strong sign of correctness.
@@ -57,108 +117,46 @@ before relying on the padding rule for anything beyond the cases above.
 ## How Hermes can see a photo
 
 - Photos reach the model as pixels, or as a text description from the vision step.
-  The description ends with the photo's cache path, so the agent can see where a
-  photo is (seen in the live test). Outside that text, no path is given.
+  The description ends with the photo's cache path
+  (`[If you need a closer look, use vision_analyze with image_url: <path>]`), so
+  the agent can pass that path to `health scan --image`.
 - **Shell hooks cannot help.** Their events (`pre_llm_call` and the others) do not
   carry media paths.
 - **A Python plugin on `pre_gateway_dispatch` can.** The event carries `media_urls`,
   which the Telegram adapter fills with local cache paths. The hook can return
   `{"action": "rewrite", "text": …}` to replace the message text the agent receives.
+- The gateway process runs with the default Hermes home, not the food profile's,
+  so the plugin finds its log folder from its own location.
 
-So the plugin decodes each incoming photo and appends the result to the message as
-a `[photo scan]` block. This happens before the agent runs, so the agent does not
-have to decide to scan.
+## The spike's live check: passed
 
-## The spike (what is on the box)
-
-- **Plugin:** `agents/food/plugins/photo-scan/` in the repo (`plugin.yaml`,
-  `__init__.py`, `decode.py`). It is copied to
-  `~/.hermes/profiles/food/plugins/photo-scan/` on the box.
-- **Decoder environment:** `~/scan-spike/lib` on the box holds zxing-cpp and Pillow,
-  installed into a scratch folder with the Hermes runtime's own Python. The Hermes
-  packages themselves were not changed. The plugin runs `decode.py` as a subprocess
-  with that folder on `PYTHONPATH`.
-- **Enabled:** `hermes -p food plugins enable photo-scan`. The gateway reloaded it
-  without a restart, since `pre_gateway_dispatch` is a gateway transform hook.
-- **Logs:** every scan is written to
-  `~/.hermes/profiles/food/logs/photo-scan.jsonl`, with the file name, the codes
-  found, and the decoder's raw output. Failures are logged the same way. The first
-  live scan was written to the default home's `logs/` instead, because the gateway
-  process does not run with the food profile's home. The path is now derived from
-  the plugin's own location; that change took effect after a plugin reload.
-- **Failure policy:** if anything fails, the message goes on unchanged.
-
-### What the hook adds
-
-For a photo with codes, the message gets a block like this:
-
-```
-[photo scan]
-- EAN-13 4056489417927: known product "Lidl Heißgeräucherte Forellenfilets mit Pfeffer"
-- product number from QR code 4333844022041: not in the catalog yet
-```
-
-- A known product name comes from the catalog lookup.
-- A code with a wrong check digit is reported as probably misread, and the agent
-  is told to ask for a closer photo.
-- A photo with no codes leaves the message unchanged.
-
-### Offline test (run on the box, real cached photos)
-
-| Case | Result |
-|---|---|
-| Two EAN-13 codes in one photo | both listed, one known, one not in catalog |
-| One known EAN-13 | known product named |
-| One EAN-8 | known product named (Duplo) |
-| Lidl QR with GS1 product number, plus an EAN-13 | both listed, product number extracted |
-| Photo without a readable code | no change to the message |
-| Text-only message | no change to the message |
-
-## Live check: passed
-
-A Telegram photo of a Milbona yogurt cup, with the text "Das ist ein Test, bitte
-nicht eintragen" ("this is a test, don't log it"), was sent to the food bot.
+The spike decoded in the plugin itself, with zxing-cpp in a scratch folder on the
+box. A Telegram photo of a Milbona yogurt cup, with the text "Das ist ein Test,
+bitte nicht eintragen" ("this is a test, don't log it"), was sent to the food bot.
 
 - The hook read the EAN-13 `4335619151208` (check digit valid) and added
   `- EAN-13 4335619151208: not in the catalog yet` to the message.
 - The stored user message, as the model received it, had three parts: the vision
   description of the photo, the user's text, and the `[photo scan]` block.
 - The vision description also read the printed digits, `4 335619 151208`, which
-  agree with the decoder. The decoder's result is the one the agent uses.
+  agree with the decoder.
 - The agent replied "Verstanden, ich trage das nicht ein" ("understood, I won't
   log that") and made no tool call.
+- A second photo (a Bio-Skyr cup, EAN-13 `4104060030772`) confirmed that the scan
+  log is written to the food profile.
 
-Two things the live test showed:
+## Decisions
 
-- **Hermes writes the photo's cache path into the message.** The vision text ends
-  with `[If you need a closer look, use vision_analyze with image_url: <path>]`. So
-  a scan command the agent can call would get a path, without a Hermes change.
-- **The message was logged, but the scan log was in the wrong home**, as described
-  under "What is on the box". Fixed in the plugin, and confirmed on a second photo
-  (a Bio-Skyr cup, EAN-13 `4104060030772`), which was logged in the food profile.
+1. **The decoder runs in the API**, not in the Hermes runtime. zxing-cpp
+   (Apache-2.0) and Pillow (MIT-CMU) are pinned in `uv.lock` and installed in the
+   API image. The plugin and the CLI need only the standard library.
+2. **The catalog lookup is part of the scan.** The endpoint answers with each
+   code's status, so the plugin, the CLI and the agent all get the same answer in
+   one step, and the agent has one step fewer to get wrong.
+3. **QR links are shown, never opened.**
 
 ## Open items
 
-- **Deploy path:** the plugin is copied to the box by hand. The deploy script must
-  install it into the food profile, and the decoder environment must be set up
-  there too, before the next deploy.
-- **Dependency:** the decoder environment is a plain folder, not a managed
-  environment. Decide whether it stays that way or moves to a pinned install.
-- **Licence:** check zxing-cpp's licence before shipping it.
-- **Lookup placement:** the plugin does the catalog lookup itself. The alternative
-  is to leave the lookup to the agent, which already has `health foods barcode`.
-  The plugin version is faster and removes one step the agent could get wrong.
 - **Unknown products:** a code not in the catalog should lead to a lookup on Open
-  Food Facts (backlog item 2), and then to a label photo if that finds nothing.
-- **Vision fallback:** a photo with no readable code may still show a product name,
-  which the agent can use for a search. Digits the model reads must pass the check
-  digit and the catalog lookup before anything is logged.
-- **QR policy:** show the URL, never open it.
+  Food Facts (backlog item 1), and then to a label photo if that finds nothing.
 - **Hard cases:** curved or glared codes still fail. A closer photo is the fix.
-
-## Decisions needed
-
-1. Accept the decoder dependency (zxing-cpp) in the API image, if the CLI endpoint
-   (`health scan`) is built, as sketched in the research.
-2. Keep the lookup in the plugin, or leave it to the agent?
-3. Once the live check passes, extend the deploy script to install the plugin.

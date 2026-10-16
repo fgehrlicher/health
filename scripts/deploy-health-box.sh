@@ -30,6 +30,14 @@ ssh "$HOST" 'set -e
     fi
     ~/.local/bin/hermes -p food tools disable web browser code_execution image_gen tts \
       delegation cronjob computer_use connections >/dev/null 2>&1 || true
+    # The photo-scan plugin is repo code, replaced as a whole. Disabling and enabling
+    # it makes the running gateway load the new code; no restart is needed.
+    mkdir -p ~/.hermes/profiles/food/plugins
+    rm -rf ~/.hermes/profiles/food/plugins/photo-scan
+    cp -R agents/food/plugins/photo-scan ~/.hermes/profiles/food/plugins/photo-scan
+    ~/.local/bin/hermes -p food plugins disable photo-scan >/dev/null 2>&1 || true
+    ~/.local/bin/hermes -p food plugins enable photo-scan >/dev/null 2>&1 \
+      || echo "warning: could not enable the photo-scan plugin; photos go to the agent unscanned" >&2
     # What the repo put on the box, so the next deploy can tell if Hermes has changed it.
     (cd ~/.hermes/profiles/food && find SOUL.md skills/health/food-logging -type f | LC_ALL=C sort | xargs sha256sum > .deployed-manifest)
   fi

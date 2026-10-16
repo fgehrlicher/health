@@ -420,6 +420,29 @@ export interface paths {
         patch: operations["patch_cook_api_cooks__cook_id__patch"];
         trace?: never;
     };
+    "/api/scan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Scan
+         * @description Barcodes and QR codes in one photo, with what the catalog knows about each.
+         *
+         *     Send the image bytes as the body, with Content-Type image/jpeg, image/png or
+         *     image/webp. A photo without a readable code returns an empty list.
+         */
+        post: operations["scan_api_scan_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1285,6 +1308,33 @@ export interface components {
             note?: string | null;
             /** Tags */
             tags?: string[] | null;
+        };
+        /** ScanResult */
+        ScanResult: {
+            /** Codes */
+            codes: components["schemas"]["ScannedCode"][];
+        };
+        /** ScannedCode */
+        ScannedCode: {
+            /** Format */
+            format: string;
+            /** Text */
+            text: string;
+            /** Product Number */
+            product_number: string | null;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "known" | "not_in_catalog" | "in_store_code" | "misread" | "no_product_number";
+            food?: components["schemas"]["ScannedFood"] | null;
+        };
+        /** ScannedFood */
+        ScannedFood: {
+            /** Slug */
+            slug: string;
+            /** Name */
+            name: string;
         };
         /** SourceDetail */
         SourceDetail: {
@@ -2437,6 +2487,53 @@ export interface operations {
                 };
             };
             /** @description Invalid input; nothing written */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    scan_api_scan_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "image/jpeg": string;
+                "image/png": string;
+                "image/webp": string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScanResult"];
+                };
+            };
+            /** @description Image larger than 10 MB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not a JPEG, PNG or WebP image */
+            415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The body is not a readable image */
             422: {
                 headers: {
                     [name: string]: unknown;

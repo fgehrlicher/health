@@ -7,6 +7,7 @@ the API. Writes are dry runs unless --commit is given.
 
     health foods search quark
     health day 2026-10-10
+    health scan --image photo.jpg               # barcodes and QR codes in a photo
     health meal log --file meal.json            # dry run: shows what would be stored
     health meal log --file meal.json --commit   # stores it
 
@@ -26,6 +27,8 @@ from zoneinfo import ZoneInfo
 
 DEFAULT_URL = "http://127.0.0.1:8000"
 TIMEZONE = ZoneInfo(os.environ.get("HEALTH_TIMEZONE", "Europe/Berlin"))
+IMAGE_TYPES = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png",
+               ".webp": "image/webp"}
 
 OK, FAILED, REJECTED, NOT_FOUND, UNREACHABLE = 0, 1, 2, 3, 4
 
@@ -34,8 +37,12 @@ class Unreachable(Exception):
     pass
 
 
-def request(base: str, method: str, path: str, body=None, query=None) -> tuple[int, object]:
-    """One API call; returns (status, parsed JSON). Raises Unreachable if no answer."""
+def request(base: str, method: str, path: str, body=None, query=None,
+            content: bytes | None = None, content_type: str | None = None) -> tuple[int, object]:
+    """One API call; returns (status, parsed JSON). Raises Unreachable if no answer.
+
+    `body` is sent as JSON; `content` with `content_type` is sent as is (e.g. an image).
+    """
     url = base.rstrip("/") + path
     params = {key: value for key, value in (query or {}).items() if value is not None}
     if params:
@@ -45,6 +52,9 @@ def request(base: str, method: str, path: str, body=None, query=None) -> tuple[i
     if body is not None:
         data = json.dumps(body).encode("utf-8")
         headers["Content-Type"] = "application/json"
+    elif content is not None:
+        data = content
+        headers["Content-Type"] = content_type or "application/octet-stream"
     call = urllib.request.Request(url, data=data, method=method, headers=headers)
     try:
         with urllib.request.urlopen(call, timeout=20) as response:
@@ -91,6 +101,13 @@ def emit(status: int, payload, dry_run: bool = False) -> int:
     return OK
 
 
+def reject(field: str, message: str) -> int:
+    """Report an input problem found before calling the API, as the API would."""
+    print(json.dumps({"error": "rejected", "issues": [{"field": field, "message": message}]},
+                     ensure_ascii=False, indent=2))
+    return REJECTED
+
+
 def read_json(path: str):
     """A JSON document from a file, or from stdin for '-'."""
     if path == "-":
@@ -113,6 +130,18 @@ def run(args, base: str) -> int:
             status, payload = request(base, "GET", f"/api/foods/{urllib.parse.quote(args.slug)}")
         else:  # barcode
             status, payload = request(base, "GET", f"/api/foods/barcode/{urllib.parse.quote(args.code)}")
+        return emit(status, payload)
+
+    if args.area == "scan":
+        kind = IMAGE_TYPES.get(os.path.splitext(args.image)[1].lower())
+        if kind is None:
+            return reject("image", "must be a .jpg, .jpeg, .png or .webp file")
+        try:
+            with open(args.image, "rb") as photo:
+                content = photo.read()
+        except OSError as error:
+            return reject("image", f"cannot read the file: {error.strerror or error}")
+        status, payload = request(base, "POST", "/api/scan", content=content, content_type=kind)
         return emit(status, payload)
 
     if args.area == "product" and args.action == "barcode":
@@ -178,6 +207,11 @@ def parser() -> argparse.ArgumentParser:
         help="foods from this source come first; empty for no preference (default: BLS 4.0)")
     foods.add_parser("get", help="one food with nutrition and label gaps").add_argument("slug")
     foods.add_parser("barcode", help="a food by barcode").add_argument("code")
+
+    scan = areas.add_parser(
+        "scan", help="read the barcodes and QR codes in a photo, with what the catalog knows"
+    )
+    scan.add_argument("--image", required=True, help="the photo: .jpg, .jpeg, .png or .webp")
 
     product = areas.add_parser("product", help="validate or register a branded product").add_subparsers(dest="action", required=True)
     for name in ("check", "register"):

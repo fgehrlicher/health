@@ -7,7 +7,14 @@ name = "health-api"
 version = "0.1.0"
 description = "Health API: food catalog and consumption log"
 requires-python = ">=3.12"
-dependencies = ["fastapi>=0.115,<1", "psycopg[binary]>=3.2,<4", "uvicorn>=0.30,<1"]
+dependencies = [
+    "fastapi>=0.115,<1",
+    "pillow>=12,<13",
+    "psycopg[binary]>=3.2,<4",
+    "uvicorn>=0.30,<1",
+    # Decodes barcodes and QR codes in photos (POST /api/scan).
+    "zxing-cpp>=3.1,<4",
+]
 
 [project.scripts]
 health-api = "health_api.cli:main"
