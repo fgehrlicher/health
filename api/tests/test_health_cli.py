@@ -4,6 +4,7 @@ The CLI is tested against a stub server, so it runs without a database. The
 API's own behaviour is covered by the API tests.
 """
 
+import datetime
 import importlib.machinery
 import importlib.util
 import json
@@ -168,10 +169,23 @@ def test_missing_food_exits_3(stub, capsys):
 
 
 def test_day_defaults_to_today_in_berlin(stub, monkeypatch):
-    monkeypatch.setattr(cli, "today", lambda: "2026-01-15")
+    monkeypatch.setattr(cli, "local_date", lambda: datetime.date(2026, 1, 15))
     server = stub((200, {"date": "2026-01-15", "meals": []}))
     assert run(server.url, "day") == 0
     assert server.seen[0][1].path == "/api/log/days/2026-01-15"
+
+
+def test_today_and_yesterday_are_resolved_by_the_cli(stub, monkeypatch):
+    monkeypatch.setattr(cli, "local_date", lambda: datetime.date(2026, 3, 1))
+    server = stub(*[(200, {"meals": []})] * 3, (200, []))
+    assert run(server.url, "day", "today") == 0
+    assert run(server.url, "day", "yesterday") == 0
+    assert run(server.url, "day", "2026-02-02") == 0
+    assert run(server.url, "cook", "list", "--since", "yesterday", "--until", "today") == 0
+    paths = [url.path for _, url, _ in server.seen[:3]]
+    assert paths == [f"/api/log/days/{day}" for day in ("2026-03-01", "2026-02-28", "2026-02-02")]
+    query = parse_qs(server.seen[3][1].query)
+    assert query["since"] == ["2026-02-28"] and query["until"] == ["2026-03-01"]
 
 
 def test_unreachable_api_exits_4(capsys):

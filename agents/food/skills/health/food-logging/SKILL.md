@@ -1,7 +1,7 @@
 ---
 name: food-logging
 description: Log meals, cooks and products in Fabian's health app, look up foods and recipes, read plate and label photos and their scanned barcodes, and report daily totals against his calorie limit. Use for anything about what he ate, cooked or bought.
-version: 1.1.0
+version: 1.2.0
 ---
 
 # Food logging
@@ -22,9 +22,9 @@ code 3 means not found, and 4 means the app is down: tell him, and do not guess.
 - `health product barcode <slug> <code>`: add the barcode of a registered product.
 - `health meal log --file m.json`: a dry run of a meal. Add `--commit` to store it.
 - `health meal get <id>`: one logged meal.
-- `health day [YYYY-MM-DD]`: what was eaten on a day, with totals, his daily calorie limit and tolerance, and whether the day is marked incomplete. Default: today.
+- `health day [YYYY-MM-DD | today | yesterday]`: what was eaten on a day, with totals, his daily calorie limit and tolerance, and whether the day is marked incomplete. Default: today, in Berlin time.
 - `health recipes list [--tag T] [--query Q]`, `health recipes get <slug>`.
-- `health cook list [--recipe S] [--tag T] [--query Q] [--since D] [--until D] [--limit N]`: the cooking log, newest first.
+- `health cook list [--recipe S] [--tag T] [--query Q] [--since D] [--until D] [--limit N]`: the cooking log, newest first. A day `D` is YYYY-MM-DD, `today` or `yesterday`.
 - `health cook log --file c.json`: record a cook. Add `--commit` to store it.
 
 Write JSON to a file in the temp directory and pass it with `--file`. Meal
@@ -75,11 +75,15 @@ missing value is unknown, not zero. If he says the numbers are rough ("about
    (`cook log`) or add portions of it with `{"cook": id, "amount": n}`. Do not
    add its ingredients to a meal one by one. A recipe item marked estimated makes every cook and meal that uses it estimated, so get the exact amount before logging. The health command cannot create
    recipes. If no recipe fits, say so and ask him to add it in the web app.
-6. **Times and day come from `date`.** Run `date` before every log and use that
-   date and time in Europe/Berlin. Never take the day from earlier messages: the day
-   changes between conversations. If he gives a time but no day, use today's date
-   from `date`. If he gives no time, use the current time and say so. Relative times such as "vor einer halben Stunde" are computed from the `date` output, not guessed. If it is
-   unclear, ask.
+6. **Times and day come from his message's timestamp.** Each of his messages
+   starts with the time he sent it, in Berlin time, for example
+   `[Fri 2026-10-16 23:42:44 CEST]`. That is your only clock: there is no `date`
+   command here, and the date the conversation started is old. If he gives no
+   time, use the time of his message and say so. If he gives a time but no day,
+   use the day of his message. Relative times such as "vor einer halben Stunde"
+   or "gestern Abend" are counted from his message's timestamp, not guessed. For
+   a day's log, use `health day`, `health day yesterday` or a date: the command
+   works out today and yesterday itself. If it is unclear, ask.
 7. **Gaps are worth a photo.** If a product's `label_gaps` is not empty, say
    which parts are missing (for example the ingredient list) and ask for a
    photo of that part.

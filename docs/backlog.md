@@ -2,7 +2,8 @@
 
 Planned work that is not built yet, in the order we agreed. Done and not listed
 here: stats cleanup with the 300 kcal tolerance, stated items without a product,
-and the scan tool for barcodes and QR codes (`docs/scan-tool.md`).
+the scan tool for barcodes and QR codes (`docs/scan-tool.md`), and dates in
+Telegram (each message carries its Berlin time; `health day yesterday`).
 
 ## Next
 
@@ -12,14 +13,7 @@ and the scan tool for barcodes and QR codes (`docs/scan-tool.md`).
    the user's confirmation. Open Food Facts data is ODbL, so attribution is
    required, and the same plausibility checks apply as to label values.
 
-2. **Dates in Telegram ("What is today?", "What was yesterday?").** Fix by structure,
-   not by prompt wording: inject the current Berlin date and time into every Telegram
-   turn, and let the CLI resolve "today" and "yesterday" on the server. Depends on
-   whether Hermes supports per-turn context. Found on 2026-10-16: skill rule 6 says
-   to run `date`, but the terminal guard allows only `health`, so the agent has no
-   clock. It has never tried `date` (0 calls in the food profile's log).
-
-3. **Health evaluation.** A module inside the existing API, not a second service (one
+2. **Health evaluation.** A module inside the existing API, not a second service (one
    database). A profile table (sex, age, height, activity, goal). Protein targets per
    kg of body weight: the DGE reference is about 0.8 g/kg for the general population,
    and the ISSN position stand is roughly 1.4 to 2.0 g/kg per day for people who train
@@ -27,11 +21,11 @@ and the scan tool for barcodes and QR codes (`docs/scan-tool.md`).
    source, year and quote. The agent may say "sodium was above the reference on 9 of
    14 days", but never diagnose. Deficiencies need blood work, not a food log.
 
-4. **Agent memory.** Health facts (goals, profile, preferences about logging) belong in
+3. **Agent memory.** Health facts (goals, profile, preferences about logging) belong in
    the database, not in agent memory. Agent memory keeps conversation style and open
    threads. Choose a Hermes memory add-on only after deciding what must be remembered.
 
-5. **The general agent changing the health app.** The riskiest item, so last.
+4. **The general agent changing the health app.** The riskiest item, so last.
    Guardrails: work on a branch and open a pull request, never push to `main`;
    `make check` and `make check-e2e` must pass; deploy only after the user approves in
    Telegram; back up before every deploy (`scripts/backup-db.sh` exists); migrations
@@ -39,7 +33,7 @@ and the scan tool for barcodes and QR codes (`docs/scan-tool.md`).
    no general sudo. Start read-only: it reads the code and proposes a diff, and the
    user applies it.
 
-6. **Architecture.** Keep one API and one database, the `health` CLI as the agent's
+5. **Architecture.** Keep one API and one database, the `health` CLI as the agent's
    only door, and the web app. Split features into domain modules inside the API.
    Move rules that can be validations out of the skill text and into the API. Hermes
    once overwrote the stated-item rules on the box, so rules that live only in prose

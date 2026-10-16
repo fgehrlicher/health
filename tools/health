@@ -7,6 +7,7 @@ the API. Writes are dry runs unless --commit is given.
 
     health foods search quark
     health day 2026-10-10
+    health day yesterday                        # today and yesterday are Berlin time
     health scan --image photo.jpg               # barcodes and QR codes in a photo
     health meal log --file meal.json            # dry run: shows what would be stored
     health meal log --file meal.json --commit   # stores it
@@ -116,8 +117,18 @@ def read_json(path: str):
         return json.load(document)
 
 
-def today() -> str:
-    return datetime.datetime.now(TIMEZONE).date().isoformat()
+def local_date() -> datetime.date:
+    return datetime.datetime.now(TIMEZONE).date()
+
+
+def resolve_date(value):
+    """A day as YYYY-MM-DD. 'today' and 'yesterday' are resolved here, in Berlin time,
+    so an agent never has to work out the date itself."""
+    if value in (None, "today"):
+        return local_date().isoformat()
+    if value == "yesterday":
+        return (local_date() - datetime.timedelta(days=1)).isoformat()
+    return value
 
 
 def run(args, base: str) -> int:
@@ -168,7 +179,7 @@ def run(args, base: str) -> int:
         return emit(status, payload, dry_run=not args.commit)
 
     if args.area == "day":
-        status, payload = request(base, "GET", f"/api/log/days/{args.date or today()}")
+        status, payload = request(base, "GET", f"/api/log/days/{resolve_date(args.date)}")
         return emit(status, payload)
 
     if args.area == "recipes":
@@ -182,7 +193,8 @@ def run(args, base: str) -> int:
         if args.action == "list":
             status, payload = request(base, "GET", "/api/cooks", query={
                 "recipe": args.recipe, "q": args.query, "tag": args.tag,
-                "since": args.since, "until": args.until, "limit": args.limit})
+                "since": args.since and resolve_date(args.since),
+                "until": args.until and resolve_date(args.until), "limit": args.limit})
             return emit(status, payload)
         body = read_json(args.file)
         status, payload = request(base, "POST", "/api/cooks", body,
@@ -231,7 +243,7 @@ def parser() -> argparse.ArgumentParser:
     meal.add_parser("get", help="one meal by ID").add_argument("id", type=int)
 
     day = areas.add_parser("day", help="what was eaten on a day (default: today, Berlin time)")
-    day.add_argument("date", nargs="?", help="YYYY-MM-DD")
+    day.add_argument("date", nargs="?", help="YYYY-MM-DD, today or yesterday")
 
     recipes = areas.add_parser("recipes", help="recipes and versions").add_subparsers(dest="action", required=True)
     rlist = recipes.add_parser("list", help="recipes, optionally by tag or name")
@@ -244,8 +256,8 @@ def parser() -> argparse.ArgumentParser:
     clist.add_argument("--recipe")
     clist.add_argument("--tag")
     clist.add_argument("--query", dest="query")
-    clist.add_argument("--since", help="YYYY-MM-DD")
-    clist.add_argument("--until", help="YYYY-MM-DD")
+    clist.add_argument("--since", help="YYYY-MM-DD, today or yesterday")
+    clist.add_argument("--until", help="YYYY-MM-DD, today or yesterday")
     clist.add_argument("--limit", type=int, default=20)
     clog = cook.add_parser("log", help="record a cook from a JSON file")
     clog.add_argument("--file", required=True, help="cook JSON, or - for stdin")

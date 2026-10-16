@@ -50,7 +50,7 @@ becomes true, the CLI can be wrapped as an MCP server without changing the app.
 | `health product register --file p.json --commit` | save a validated product |
 | `health product barcode <slug> <code>` | add a registered product's barcode |
 | `health meal log --file m.json [--commit]` | log foods, portions and cooks |
-| `health day <YYYY-MM-DD>` | what was eaten, with totals |
+| `health day [YYYY-MM-DD \| today \| yesterday]` | what was eaten, with totals and the calorie limit |
 | `health recipes list [--tag T]`, `health recipes get <slug>` | recipes |
 | `health cook log --file c.json [--commit]` | record a cook |
 
@@ -150,6 +150,13 @@ a test shows it works.
   plugin (`agents/food/plugins/photo-scan/`) sends each photo to `POST /api/scan`
   and adds the codes found to the message. It only reads; a QR code's link is
   shown, cut to one short line, and never opened. See `docs/scan-tool.md`.
+- **The clock is the message timestamp.** The guard also blocks `date`, and
+  Hermes's system prompt only carries the date a conversation started, which in
+  a Telegram chat can be days old. So the food profile has Hermes's
+  `gateway.message_timestamps` on, with `timezone: Europe/Berlin`: each user
+  message reaches the model as `[Fri 2026-10-16 23:42:44 CEST] …`, and the
+  stored message stays clean. `health day yesterday` resolves the day in the CLI,
+  so the agent does no date arithmetic for the common questions.
 - **Toolsets are narrowed per profile.** The food profile has no web, browser,
   code execution, desktop, cron or delegation tools.
 - **No deletes or edits from chat.** The CLI has no such command, and the

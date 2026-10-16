@@ -30,6 +30,11 @@ ssh "$HOST" 'set -e
     fi
     ~/.local/bin/hermes -p food tools disable web browser code_execution image_gen tts \
       delegation cronjob computer_use connections >/dev/null 2>&1 || true
+    # The agent has no clock (its terminal runs only `health`), so each of his messages
+    # reaches it with the time he sent it, in Berlin time. config set keeps the comments.
+    { ~/.local/bin/hermes -p food config set timezone Europe/Berlin \
+        && ~/.local/bin/hermes -p food config set gateway.message_timestamps.enabled true; } >/dev/null 2>&1 \
+      || echo "warning: could not turn on message timestamps; the food agent has no clock" >&2
     # The photo-scan plugin is repo code, replaced as a whole. Disabling and enabling
     # it makes the running gateway load the new code; no restart is needed.
     mkdir -p ~/.hermes/profiles/food/plugins

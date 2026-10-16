@@ -13,6 +13,10 @@ Files here are copied to the server by `scripts/deploy-health-box.sh`:
   registers it and is appended once to the profile's `config.yaml`.
 - `vision-config-snippet.yaml`: appended once to the profile's `config.yaml`, so
   photos are described by Opus.
+- `timezone: Europe/Berlin` and `gateway.message_timestamps.enabled: true`, set in
+  the profile's `config.yaml` with `hermes config set` on every deploy: each of his
+  messages reaches the agent with the time he sent it. The agent has no other
+  clock, since its terminal runs only `health`.
 - `plugins/photo-scan/` → `~/.hermes/profiles/food/plugins/photo-scan/`: decodes
   barcodes and QR codes in each incoming photo through the API and adds them to
   the message ([Scan tool](../../docs/scan-tool.md)). Replaced on every deploy,
