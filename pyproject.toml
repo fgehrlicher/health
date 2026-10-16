@@ -17,3 +17,7 @@ dev = ["httpx>=0.27,<1", "pytest>=8,<10", "ruff>=0.13,<1"]
 
 [tool.ruff]
 line-length = 100
+
+# Hermes plugins are named with hyphens, like its bundled plugins (disk-cleanup, ...).
+[tool.ruff.lint.per-file-ignores]
+"agents/food/plugins/*/__init__.py" = ["N999"]

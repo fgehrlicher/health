@@ -1,0 +1,6 @@
+name: photo-scan
+version: 0.1.0
+description: "Reads barcodes and QR codes in incoming photos and adds what it read to the message, before the food agent sees it."
+author: "Fabian (spike)"
+provides_hooks:
+  - pre_gateway_dispatch
