@@ -1,7 +1,14 @@
 # Scan tool: barcodes and QR codes in photos
 
-Status: **built.** Every photo sent to the food bot is scanned before the agent
-sees the message. The research and the spike that led here are kept below.
+Status: **built and live-tested.** Every photo sent to the food bot is scanned
+before the agent sees the message. The research and the spike that led here are
+kept below.
+
+**Live check after the build (2026-10-16, 23:42):** a Telegram photo of the
+Bio-Skyr cup went through the deployed plugin and the API. The scan log has the
+new format, and the agent's message ended with
+`- EAN-13 4104060030772: not in the catalog yet`. The agent named the barcode,
+logged nothing, made no tool call, and asked whether and how much he had eaten.
 
 ## Why
 
