@@ -134,7 +134,8 @@ Two things the live test showed:
   with `[If you need a closer look, use vision_analyze with image_url: <path>]`. So
   a scan command the agent can call would get a path, without a Hermes change.
 - **The message was logged, but the scan log was in the wrong home**, as described
-  under "What is on the box". Fixed in the plugin; to be confirmed on the next photo.
+  under "What is on the box". Fixed in the plugin, and confirmed on a second photo
+  (a Bio-Skyr cup, EAN-13 `4104060030772`), which was logged in the food profile.
 
 ## Open items
 
