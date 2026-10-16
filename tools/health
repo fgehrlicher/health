@@ -38,7 +38,7 @@ class Unreachable(Exception):
 
 
 def request(base: str, method: str, path: str, body=None, query=None,
-            content: bytes | None = None, content_type: str | None = None) -> tuple[int, object]:
+            content=None, content_type=None) -> tuple[int, object]:
     """One API call; returns (status, parsed JSON). Raises Unreachable if no answer.
 
     `body` is sent as JSON; `content` with `content_type` is sent as is (e.g. an image).
