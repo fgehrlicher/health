@@ -23,11 +23,9 @@ DECODE = HERE / "decode.py"
 DECODER_LIB = os.environ.get("PHOTO_SCAN_LIB", str(Path.home() / "scan-spike" / "lib"))
 API = os.environ.get("HEALTH_API_URL", "http://127.0.0.1:8000")
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
-LOG = (
-    Path(os.environ.get("HERMES_HOME") or Path.home() / ".hermes" / "profiles" / "food")
-    / "logs"
-    / "photo-scan.jsonl"
-)
+# The plugin lives in <profile>/plugins/photo-scan, so its log goes to <profile>/logs.
+# (The gateway process's HERMES_HOME is the default home, not the food profile.)
+LOG = HERE.parent.parent / "logs" / "photo-scan.jsonl"
 
 
 def _log(record: dict) -> None:

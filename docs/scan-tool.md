@@ -1,8 +1,9 @@
 # Scan tool: barcodes and QR codes in photos
 
-Status: **spike, partly tested.** The Hermes hook works offline on real photos and
-is enabled on the food profile. The live check is still open: it needs a Telegram
-photo with a code, sent to the food bot (see "Live check" below).
+Status: **spike, live-tested.** The Hermes hook reads a real Telegram photo, the
+agent receives the codes in its message, and it does not log the item it was told
+not to log. Not yet built: the deploy step, the CLI command, and the lookup on
+unknown products (see "Open items").
 
 ## Why
 
@@ -55,8 +56,9 @@ before relying on the padding rule for anything beyond the cases above.
 
 ## How Hermes can see a photo
 
-- The agent never receives a file path. Photos reach the model as pixels, or as a
-  text description from the vision step.
+- Photos reach the model as pixels, or as a text description from the vision step.
+  The description ends with the photo's cache path, so the agent can see where a
+  photo is (seen in the live test). Outside that text, no path is given.
 - **Shell hooks cannot help.** Their events (`pre_llm_call` and the others) do not
   carry media paths.
 - **A Python plugin on `pre_gateway_dispatch` can.** The event carries `media_urls`,
@@ -80,7 +82,10 @@ have to decide to scan.
   without a restart, since `pre_gateway_dispatch` is a gateway transform hook.
 - **Logs:** every scan is written to
   `~/.hermes/profiles/food/logs/photo-scan.jsonl`, with the file name, the codes
-  found, and the decoder's raw output. Failures are logged the same way.
+  found, and the decoder's raw output. Failures are logged the same way. The first
+  live scan was written to the default home's `logs/` instead, because the gateway
+  process does not run with the food profile's home. The path is now derived from
+  the plugin's own location; that change took effect after a plugin reload.
 - **Failure policy:** if anything fails, the message goes on unchanged.
 
 ### What the hook adds
@@ -109,19 +114,27 @@ For a photo with codes, the message gets a block like this:
 | Photo without a readable code | no change to the message |
 | Text-only message | no change to the message |
 
-## Live check (still open)
+## Live check: passed
 
-Send one Telegram photo with a barcode to the food bot. Use a known product photo
-or a new one. Then:
+A Telegram photo of a Milbona yogurt cup, with the text "Das ist ein Test, bitte
+nicht eintragen" ("this is a test, don't log it"), was sent to the food bot.
 
-1. Check `~/.hermes/profiles/food/logs/photo-scan.jsonl` on the box for a new line
-   with the file name and the codes.
-2. Check the agent's reply: it should use the `[photo scan]` result, not guess the
-   digits.
+- The hook read the EAN-13 `4335619151208` (check digit valid) and added
+  `- EAN-13 4335619151208: not in the catalog yet` to the message.
+- The stored user message, as the model received it, had three parts: the vision
+  description of the photo, the user's text, and the `[photo scan]` block.
+- The vision description also read the printed digits, `4 335619 151208`, which
+  agree with the decoder. The decoder's result is the one the agent uses.
+- The agent replied "Verstanden, ich trage das nicht ein" ("understood, I won't
+  log that") and made no tool call.
 
-If the log has no new line, the Telegram photo is not reaching the hook. In that
-case, check the gateway log and the `media_urls` contents before changing the
-plugin.
+Two things the live test showed:
+
+- **Hermes writes the photo's cache path into the message.** The vision text ends
+  with `[If you need a closer look, use vision_analyze with image_url: <path>]`. So
+  a scan command the agent can call would get a path, without a Hermes change.
+- **The message was logged, but the scan log was in the wrong home**, as described
+  under "What is on the box". Fixed in the plugin; to be confirmed on the next photo.
 
 ## Open items
 
