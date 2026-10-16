@@ -1,7 +1,7 @@
 ---
 name: food-logging
-description: Log meals, cooks and products in Fabian's health app, look up foods and recipes, read plate and label photos, and report daily totals. Use for anything about what he ate, cooked or bought.
-version: 1.0.0
+description: Log meals, cooks and products in Fabian's health app, look up foods and recipes, read plate and label photos and their scanned barcodes, and report daily totals against his calorie limit. Use for anything about what he ate, cooked or bought.
+version: 1.1.0
 ---
 
 # Food logging
@@ -19,11 +19,12 @@ code 3 means not found, and 4 means the app is down: tell him, and do not guess.
 - `health scan --image <path>`: the barcodes and QR codes in a photo, each with what the catalog knows. The photo's path is at the end of the image note (`image_url: …`).
 - `health product check --file p.json`: validate a branded product from a label (a dry run).
 - `health product register --file p.json --commit`: store a checked product.
+- `health product barcode <slug> <code>`: add the barcode of a registered product.
 - `health meal log --file m.json`: a dry run of a meal. Add `--commit` to store it.
 - `health meal get <id>`: one logged meal.
-- `health day [YYYY-MM-DD]`: what was eaten on a day, with totals. Default: today.
+- `health day [YYYY-MM-DD]`: what was eaten on a day, with totals, his daily calorie limit and tolerance, and whether the day is marked incomplete. Default: today.
 - `health recipes list [--tag T] [--query Q]`, `health recipes get <slug>`.
-- `health cook list [--recipe S] [--since D] [--until D]`: the cooking log.
+- `health cook list [--recipe S] [--tag T] [--query Q] [--since D] [--until D] [--limit N]`: the cooking log, newest first.
 - `health cook log --file c.json`: record a cook. Add `--commit` to store it.
 
 Write JSON to a file in the temp directory and pass it with `--file`. Meal
@@ -90,10 +91,10 @@ missing value is unknown, not zero. If he says the numbers are rough ("about
 10. **No deleting or changing.** You cannot delete or edit logged meals, cooks
     or products. If he asks, tell him to use the web app: on Today, open the meal's
     menu and choose Edit or Delete. Do not try another way. For test entries he names, list each one by name, date and time so he can find it in the web app; do not ask which ones he means.
-12. **German food names.** Name foods in replies by their German name (`name_de`,
+11. **German food names.** Name foods in replies by their German name (`name_de`,
     or `food_name_de` on meal items), with the English name (`name`, `food_name`)
     in brackets only when it helps. Products have one name, which is used as is.
-11. **Report results, not steps.** Never describe what you are doing, which
+12. **Report results, not steps.** Never describe what you are doing, which
     tool you used, or any ID you looked up. Answer with the outcome.
 13. **Reply in his language.** German when he writes German. One or two lines of outcome and totals.
 14. **BLS first.** Search lists BLS 4.0 foods first. Use a BLS food whenever one fits.
@@ -127,8 +128,24 @@ missing value is unknown, not zero. If he says the numbers are rough ("about
 
 ## Goals and summaries
 
-- He may set goals (for example daily protein). Keep them in your memory, and
-  ask before you change them.
+- **The calorie limit lives in the app.** `health day` returns
+  `daily_kcal_limit` and `kcal_tolerance`. Use those, never a calorie target from
+  your memory. He changes them in the web app under Stats ("Daily limit",
+  "Tolerance above"); you cannot change them.
+- **Judge a day the way the app does.** The day's kcal are `energy_kcal`
+  measured plus estimated. At or under the limit, he is within it. Over it by no
+  more than the tolerance, he is slightly over (yellow in the app). Beyond that,
+  he is over (red). Give the difference to the limit in kcal.
+- **Incomplete days.** If `incomplete` is true, he marked the day as not fully
+  logged, and the stats leave it out. Give the totals as logged, say the day is
+  marked incomplete, and do not judge it against the limit. He marks a day with
+  the "Incomplete day" switch on Today in the web app.
+- **Gaps make a total a lower bound.** If `counts.unknown` (meals without
+  values) or a nutrient's `items_without_value` is above 0, say that the real
+  total is higher than shown.
+- Other goals, such as daily protein, live only in your memory. Ask before you
+  change them. When a range depends on body weight, name the weight it uses.
 - "How did I do today?" means `health day` plus the goals, compared in one or
-  two lines. Show measured and estimated totals separately. When a range depends on body weight, name the weight it uses. Give the difference
-  to the calorie target in kcal and say whether he is over or under. Quote the totals `health day` returns. Never add meal values by hand: hand sums drift from the app's totals.
+  two lines. Show measured and estimated totals separately, and judge their sum.
+  Quote the totals `health day` returns. Never add meal values by hand: hand sums
+  drift from the app's totals.
