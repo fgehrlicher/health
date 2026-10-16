@@ -165,5 +165,6 @@ bitte nicht eintragen" ("this is a test, don't log it"), was sent to the food bo
 ## Open items
 
 - **Unknown products:** a code not in the catalog should lead to a lookup on Open
-  Food Facts (backlog item 1), and then to a label photo if that finds nothing.
+  Food Facts ([B2 in the backlog](../BACKLOG.md#b2--branded-food-lookup-on-demand)),
+  and then to a label photo if that finds nothing.
 - **Hard cases:** curved or glared codes still fail. A closer photo is the fix.

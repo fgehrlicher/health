@@ -3,6 +3,9 @@
 A personal health observability system focused first on low-friction food,
 nutrition, recipe, and meal-prep tracking.
 
+**What comes next: [BACKLOG.md](BACKLOG.md).** The one place for planned work, in
+priority order, with what is in progress and what was done recently.
+
 - [Current state](docs/current-state.md): what exists today
 - [Food catalog database](docs/database.md)
 - [BLS 4.0 importer](docs/bls4-import.md)

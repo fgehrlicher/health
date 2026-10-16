@@ -1,6 +1,7 @@
 # Current state
 
-What the system does today. It describes what exists, not what comes next.
+What the system does today. It describes what exists, not what comes next: that
+is in the [backlog](../BACKLOG.md).
 
 ## Summary
 
