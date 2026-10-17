@@ -7,7 +7,7 @@ this file changes first. What exists today is in
 How it works:
 
 - **IDs stay.** An item keeps its ID for good, so "B3" means the same thing next
-  month. New items get the next free ID: **B13**.
+  month. New items get the next free ID: **B14**.
 - **Order is priority.** Items under Next are in the order they will be built.
   Move an item to change the plan.
 - **Finished items go to Done**, with the date and the doc that describes them.
@@ -68,10 +68,8 @@ stated-item rules on the box, so rules that live only in prose are fragile.
 
 ## Small follow-ups
 
-- **B7 · Document the stats work.** [Web](docs/web.md) and
-  [Consumption log](docs/log.md) predate it: they do not describe the Stats page,
-  incomplete days, the daily limit and tolerance, stated items, or the calorie
-  bar on Today, and Today's description is out of date.
+- **B13 · Document the Inventory page.** [Web](docs/web.md) lists every page
+  but `/inventory`.
 - **B12 · Hermes photo cache (waiting on upstream).** A multiplexed gateway never
   prunes a served profile's media cache, so the food bot's photos stay on the box
   (77 photos, 12 MB on 2026-10-16). Reported as
@@ -86,17 +84,18 @@ Newest first, from the October 2026 feedback round on.
 
 | Date | What | Details |
 | --- | --- | --- |
-| 2026-10-17 | B9 · Log something without a product from the web meal sheet ("Without product"), and correct a stated item's values when editing a meal | documented with B7 |
+| 2026-10-17 | B7 · Stats work documented: Today and Stats pages, stated items, goals, incomplete days and their endpoints | [Web](docs/web.md), [Consumption log](docs/log.md) |
+| 2026-10-17 | B9 · Log something without a product from the web meal sheet ("Without product"), and correct a stated item's values when editing a meal | [Web](docs/web.md), [Consumption log](docs/log.md#items) |
 | 2026-10-17 | B8 · `health product label` stores an ingredient list or legal name read from a later photo; the skill maps each label gap to its command | [Agents](docs/agents.md), [SKILL.md](agents/food/skills/health/food-logging/SKILL.md) |
 | 2026-10-17 | B11 · The e2e tests get their own database (`health_e2e`), and the USDA tests put back what they change, so the API tests pass on a reused test database | [Web](docs/web.md) |
 | 2026-10-17 | B10 · `pnpm test` runs unit tests only, with tests for the day verdict and the stats; part of `make check-web` | [Web](docs/web.md) |
 | 2026-10-17 | Food agent memory cleaned: raw-API notes and the `date` rule removed, the calorie target pointed at the app | on the box only (`memories/` in the food profile) |
 | 2026-10-16 | Food skill takes the calorie limit, tolerance and incomplete days from `health day` | [SKILL.md](agents/food/skills/health/food-logging/SKILL.md) |
 | 2026-10-16 | Scan tool: barcodes and QR codes in photos, decoded before the agent sees them | [Scan tool](docs/scan-tool.md) |
-| 2026-10-15 | Calorie bar on Today against the daily limit | not documented yet (B7) |
-| 2026-10-15 | Stated items without a product, the 300 kcal tolerance, daily charts, Today trimmed to four macros | not documented yet (B7) |
+| 2026-10-15 | Calorie bar on Today against the daily limit | [Web](docs/web.md) |
+| 2026-10-15 | Stated items without a product, the 300 kcal tolerance, daily charts, Today trimmed to four macros | [Consumption log](docs/log.md), [Web](docs/web.md) |
 | 2026-10-13 | Add a registered product's barcode later (`health product barcode`) | [Catalog](docs/catalog.md#api) |
-| 2026-10-12 | Stats page: a calendar of calories per day, incomplete days in gray, charts | not documented yet (B7) |
+| 2026-10-12 | Stats page: a calendar of calories per day, incomplete days in gray, charts | [Web](docs/web.md) |
 | 2026-10-12 | The web app works on a phone first | [Web](docs/web.md) |
 
 ## Decided, not planned

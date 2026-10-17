@@ -24,7 +24,7 @@ barcodes, register products, keep recipes, and log cooks and meals.
 | – consumption log | Endpoints under `/api/log`; tables in the `log` schema | [Consumption log](log.md) |
 | – recipes and cooking log | Endpoints under `/api/recipes` and `/api/cooks`; tables in the `recipe` schema | [Recipes](recipes.md) |
 | – photo scan | `POST /api/scan`: barcodes and QR codes in a photo, decoded with zxing-cpp and checked against the catalog | [Scan tool](scan-tool.md) |
-| Web frontend | `make web`: TanStack Start, shadcn/ui, TypeScript on `localhost:3000`, in [`web/`](../web/): Today with logging, recipes and cooking log, foods, food details | [Web frontend](web.md) |
+| Web frontend | `make web`: TanStack Start, shadcn/ui, TypeScript on `localhost:3000`, in [`web/`](../web/): Today with logging and the calorie bar, Stats with the calendar and charts, recipes and cooking log, inventory, foods, food details | [Web frontend](web.md) |
 | Search quality check | `make search-eval`: 71 real queries with expected BLS codes | [Catalog: Search](catalog.md#search) |
 
 Everything is Python managed by one uv workspace (`api`, `importers/*`).
@@ -104,9 +104,12 @@ Through the HTTP API ([reference](catalog.md#api)):
    still lacks something carry `label_gaps` saying what to photograph, and
    `GET /api/foods?incomplete=true` lists them.
 5. Log a meal (`POST /api/log/meals`): an optional kind and items of catalog
-   food plus amount or label portion, each optionally marked estimated. A meal
-   without items is unknown. Fill in or correct it later, and read a day's
-   totals with measured, estimated, and unknown kept apart ([details](log.md)).
+   food plus amount or label portion, each optionally marked estimated, or a
+   stated item for something without a product, with only the values the
+   person gives. A meal without items is unknown. Fill in or correct it later,
+   and read a day's totals with measured, estimated, and unknown kept apart,
+   against the daily kcal limit and its tolerance. A day with missing meals can
+   be marked incomplete, which leaves it out of the stats ([details](log.md)).
 6. Keep recipes and a cooking log ([details](recipes.md)): create a recipe or
    a new version with a note on what changed, log a cook with what actually
    went in and its portions, save a good cook as the next version, fork a

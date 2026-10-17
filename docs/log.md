@@ -10,15 +10,17 @@ A **meal** is one sitting: a time, an optional kind (`breakfast`, `lunch`,
 `dinner`, or `snack`), an optional **note**, and **items**. The note holds raw
 thoughts about the meal ("too salty, hungry again by 4 pm"), up to 2,000
 characters, stored as written and never interpreted. An item is a catalog food and the amount
-eaten, e.g. 400 g of the peach quark. A single snack is a meal with one item.
+eaten, e.g. 400 g of the peach quark, portions of a cooked dish, or a stated
+item (see [Items](#items)). A single snack is a meal with one item.
 
-Callers never send nutrition values, and the log stores none. Every value is
-calculated when read: the referenced source's value times the amount, or for a
+For catalog foods and cooked dishes, callers send no nutrition values and the
+log stores none. Every such value is calculated when read: the referenced source's value times the amount, or for a
 cooked dish its ingredients' total per portion. A
 corrected catalog value therefore also corrects past days. A new recipe of a
 product must be registered as a new source, not by changing the old one, so
 meals keep pointing at what was actually eaten. Sources referenced by a meal
-cannot be deleted.
+cannot be deleted. The one exception is a stated item: something without a
+catalog product, whose values the person gives and the log stores as given.
 
 A meal's status follows from its items:
 
@@ -29,8 +31,8 @@ A meal's status follows from its items:
 | `unknown` | none | "ate at the Italian place", no details yet |
 
 Estimates still name catalog foods; BLS includes many prepared dishes such as
-pizza, lasagne, and curries. If no catalog food fits, the meal stays unknown
-rather than getting an invented number.
+pizza, lasagne, and curries. If no catalog food fits, the person can state the
+values they know, or the meal stays unknown; it never gets an invented number.
 
 ## Items
 
@@ -51,6 +53,14 @@ current label version), the same source the catalog shows. A portion must be in
 the source's unit; otherwise give an `amount` or pick a matching `source_id`.
 One item may be at most 5,000 g or ml, and a meal at most 100 items.
 
+A **stated item** is something without a catalog product, e.g. a canteen dish
+or a bar whose wrapper is gone: `{"stated": {"name": "Protein bar",
+"energy_kcal": 300, "protein_g": 30}}`. It takes a name, its kcal, and any of
+`protein_g`, `fat_g`, `carbs_g` and `fiber_g`, plus `estimated` when the values
+are rough. Only the values given are stored; one left out is unknown, never
+zero, and counts in `items_without_value`. It comes back as one `item` with the
+`source_name` "Stated by you".
+
 ## Time and days
 
 `eaten_at` defaults to now. A time without an offset is local time in
@@ -66,7 +76,15 @@ future are rejected. A day runs from local midnight to local midnight, including
   blank clears them), or `items` (replaces all items, e.g. to fill in an
   unknown meal).
 - `DELETE /api/log/meals/{id}`: delete a meal and its items.
-- `GET /api/log/days/{YYYY-MM-DD}`: a day's meals and totals.
+- `GET /api/log/days/{YYYY-MM-DD}`: a day's meals and totals, whether it is
+  marked incomplete, and the goals it is judged by (`daily_kcal_limit`,
+  `kcal_tolerance`).
+- `PUT /api/log/days/{YYYY-MM-DD}/incomplete` with `{"incomplete": true}`: mark
+  a day as incomplete, or complete again with `false`.
+- `GET /api/log/calendar?start=…&end=…`: kcal, the energy-split nutrients and
+  meal counts per day, for every day with meals or marked incomplete, at most
+  400 days, with the goals.
+- `PUT /api/log/goals` with `{"daily_kcal_limit": 2200, "kcal_tolerance": 300}`.
 
 Invalid requests return `422` with `field`/`message` issues and write nothing.
 Changes and deletions are not versioned; `make db-backup` is the safety net.
@@ -94,8 +112,20 @@ A day also has `counts` of measured, estimated, and unknown meals. Together they
 read as "1,840 kcal measured, 450 kcal estimated, 1 meal unknown" instead of one
 number that hides how much is known.
 
+## Goals and incomplete days
+
+The goals are one row: a daily kcal limit (default 2,000) and a tolerance above
+it (default 300). A day's kcal are its measured plus estimated energy. At or
+under the limit it is within it; over it by no more than the tolerance it is
+slightly over (yellow in the web app); beyond that it is over (red). The API
+returns the numbers, and the web app and the food agent judge with this rule.
+
+A day marked **incomplete** is missing meals. Its meals and totals stay as
+they are, but it is not judged against the limit, and the stats leave it out.
+
 ## Not included
 
 Totals cover the 14 label fields, not vitamins and minerals. There are no
-recipes, meal-prep batches, or "same as yesterday" copies, and no agent tooling
-beyond this HTTP API.
+"same as yesterday" copies. Recipes and meal prep are in the
+[cooking log](recipes.md); agents use this API through the `health` CLI
+([Agents](agents.md)).

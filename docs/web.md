@@ -6,15 +6,37 @@ its own.
 
 ## Pages
 
-- **Today** (`/`, `/?date=2026-09-28`): the day's totals and meals. Calories
-  and macros show measured values, with estimated ones listed separately, and
-  unknown meals as a badge. Arrows move between days. **Log meal** opens a
-  form: meal kind, time, a note for raw thoughts, and foods found by catalog
-  search, each with an amount
-  or a label portion (e.g. "Becher") and a "guessed" switch, or portions of a
-  cooked dish picked from the cooking log. The form shows the
-  calculated calories and protein before saving, using the API's dry run. A
-  meal without foods is logged as unknown. Every meal can be edited or deleted.
+- **Today** (`/`, `/?date=2026-09-28`): the day's calories as a bar against
+  the daily limit, then its protein, fat, carbs and fiber, and its meals.
+  Estimated amounts count like measured ones in these totals; a meal card marks
+  its estimated items with "~" and shows an unknown meal as a badge. The bar
+  fills on a scale up to the limit plus the tolerance, with a mark at the limit,
+  in the calendar's colors (green within the limit, yellow up to the tolerance
+  above it, red beyond), and says how many kcal are left or how far over. The
+  **Incomplete day** switch marks a day on which meals are missing: it stays
+  visible but is left out of the stats, and its bar is gray and not judged.
+  Arrows move between days. **Log meal** opens a form: meal kind, time, a note
+  for raw thoughts, and the foods. A catalog food found by search takes an
+  amount or a label portion (e.g. "Becher") and a "guessed" switch; **Cooked
+  dish** takes portions from the cooking log; **Without product** takes a name,
+  its kcal, and any of protein, fat, carbs and fiber the person knows (an empty
+  value stays unknown). The form shows the calculated calories and protein
+  before saving, using the API's dry run. A meal without foods is logged as
+  unknown. Every meal can be edited or deleted, including a stated item's
+  values.
+- **Stats** (`/stats`): the last 53 weeks. The daily kcal limit and the
+  tolerance above it are set at the top, and a line counts the days within the
+  limit, up to the tolerance above it, and beyond. A calendar like GitHub's has
+  one cell per day, Monday to Sunday, scrolled to the latest weeks: green
+  within the limit, yellow up to the tolerance above, red beyond, gray without
+  meals, and a dashed border on an incomplete day, which stays gray whatever was
+  eaten. Tapping a day opens its card: kcal against the limit, its meals
+  (unknown ones not counted), the incomplete switch, and **Open this day**.
+  Below are charts: the energy split by week (26 weeks) and by day (30 days),
+  calories per day for 90 days with the 7-day average and the limit, calories
+  per day averaged by week and by weekday, and the energy split of the whole
+  period. Incomplete days and days without known energy are left out of every
+  number.
 - **Recipes** (`/recipes`, `/recipes?tag=ice%20cream`): recipe cards with
   their tags and the latest version's calories, protein, and energy split per
   portion, a name filter, and the cooking log with portions left. Tags with
