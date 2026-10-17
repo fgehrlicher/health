@@ -72,10 +72,6 @@ stated-item rules on the box, so rules that live only in prose are fragile.
   [Consumption log](docs/log.md) predate it: they do not describe the Stats page,
   incomplete days, the daily limit and tolerance, stated items, or the calorie
   bar on Today, and Today's description is out of date.
-- **B8 · Label text from chat.** The food skill asks for a photo when a product
-  has `label_gaps`, but the CLI cannot store what the agent then reads: it has no
-  command for `PATCH /api/foods/{slug}/sources/{id}` (ingredient list, legal
-  name).
 - **B9 · Stated items from the web meal sheet.** Today the agent can log them,
   and the web app shows and keeps them, but it cannot create them.
 - **B12 · Hermes photo cache (waiting on upstream).** A multiplexed gateway never
@@ -92,6 +88,7 @@ Newest first, from the October 2026 feedback round on.
 
 | Date | What | Details |
 | --- | --- | --- |
+| 2026-10-17 | B8 · `health product label` stores an ingredient list or legal name read from a later photo; the skill maps each label gap to its command | [Agents](docs/agents.md), [SKILL.md](agents/food/skills/health/food-logging/SKILL.md) |
 | 2026-10-17 | B11 · The e2e tests get their own database (`health_e2e`), and the USDA tests put back what they change, so the API tests pass on a reused test database | [Web](docs/web.md) |
 | 2026-10-17 | B10 · `pnpm test` runs unit tests only, with tests for the day verdict and the stats; part of `make check-web` | [Web](docs/web.md) |
 | 2026-10-17 | Food agent memory cleaned: raw-API notes and the `date` rule removed, the calorie target pointed at the app | on the box only (`memories/` in the food profile) |

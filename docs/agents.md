@@ -49,6 +49,7 @@ becomes true, the CLI can be wrapped as an MCP server without changing the app.
 | `health product check --file p.json` | validate a label (dry run) |
 | `health product register --file p.json --commit` | save a validated product |
 | `health product barcode <slug> <code>` | add a registered product's barcode |
+| `health product label <slug> --file l.json` | add a product's ingredient list or legal name later |
 | `health meal log --file m.json [--commit]` | log foods, portions and cooks |
 | `health day [YYYY-MM-DD \| today \| yesterday]` | what was eaten, with totals and the calorie limit |
 | `health recipes list [--tag T]`, `health recipes get <slug>` | recipes |

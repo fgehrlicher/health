@@ -106,6 +106,51 @@ def test_product_barcode_adds_the_code_to_the_food(stub, capsys):
     assert json.loads(capsys.readouterr().out)["barcode"] == "4000000000013"
 
 
+def test_product_label_adds_text_to_the_newest_label_source(stub, tmp_path, capsys):
+    label = tmp_path / "label.json"
+    label.write_text(json.dumps({"ingredients_text": "Milch, Salz; Lab"}), encoding="utf-8")
+    sources = [
+        {"id": 3, "source_name": "Product label"},
+        {"id": 9, "source_name": "Product label"},
+        {"id": 1, "source_name": "BLS 4.0"},
+    ]
+    server = stub(
+        (200, {"slug": "skyr", "kind": "branded", "sources": sources}),
+        (200, {"slug": "skyr", "label_gaps": []}),
+    )
+    assert run(server.url, "product", "label", "skyr", "--file", str(label)) == 0
+    (get, food, _), (patch, source, body) = server.seen
+    assert (get, food.path) == ("GET", "/api/foods/skyr")
+    assert (patch, source.path) == ("PATCH", "/api/foods/skyr/sources/9")
+    assert body == {"ingredients_text": "Milch, Salz; Lab"}
+    assert json.loads(capsys.readouterr().out)["label_gaps"] == []
+
+
+def test_product_label_takes_a_given_source_without_looking_it_up(stub, tmp_path):
+    label = tmp_path / "label.json"
+    label.write_text(json.dumps({"food_name": "Frischkäsezubereitung"}), encoding="utf-8")
+    server = stub((200, {"slug": "skyr"}))
+    assert run(server.url, "product", "label", "skyr", "--file", str(label), "--source", "3") == 0
+    [(method, url, _)] = server.seen
+    assert (method, url.path) == ("PATCH", "/api/foods/skyr/sources/3")
+
+
+def test_product_label_refuses_generic_and_missing_foods(stub, tmp_path, capsys):
+    label = tmp_path / "label.json"
+    label.write_text(json.dumps({"food_name": "Apfel"}), encoding="utf-8")
+    server = stub(
+        (
+            200,
+            {"slug": "apple", "kind": "generic", "sources": [{"id": 1, "source_name": "BLS 4.0"}]},
+        ),
+        (404, {"detail": "No food apple"}),
+    )
+    assert run(server.url, "product", "label", "apple", "--file", str(label)) == 2
+    assert "only registered products" in capsys.readouterr().out
+    assert run(server.url, "product", "label", "apple", "--file", str(label)) == 3
+    assert [method for method, _, _ in server.seen] == ["GET", "GET"]
+
+
 def test_scan_posts_the_photo_bytes_with_their_type(stub, tmp_path, capsys):
     photo = tmp_path / "label.JPG"
     photo.write_bytes(b"\xff\xd8 not really a jpeg")

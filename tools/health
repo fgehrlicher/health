@@ -3,7 +3,8 @@
 
 Standard library only, so it runs with the system python3 and needs no install.
 It holds no rules of its own: validation, nutrition and status all come from
-the API. Writes are dry runs unless --commit is given.
+the API. New meals, cooks and products are dry runs unless --commit is given;
+`product barcode` and `product label` add one detail to a registered product.
 
     health foods search quark
     health day 2026-10-10
@@ -11,6 +12,7 @@ the API. Writes are dry runs unless --commit is given.
     health scan --image photo.jpg               # barcodes and QR codes in a photo
     health meal log --file meal.json            # dry run: shows what would be stored
     health meal log --file meal.json --commit   # stores it
+    health product label skyr --file label.json # ingredient list or legal name, later
 
 Output is JSON. Exit codes: 0 ok, 1 unexpected error, 2 the API rejected the
 input (its issues are printed), 3 not found, 4 the API is unreachable.
@@ -155,6 +157,24 @@ def run(args, base: str) -> int:
         status, payload = request(base, "POST", "/api/scan", content=content, content_type=kind)
         return emit(status, payload)
 
+    if args.area == "product" and args.action == "label":
+        body = read_json(args.file)
+        slug = urllib.parse.quote(args.slug)
+        source = args.source
+        if source is None:
+            # The newest label source is the current label version.
+            status, food = request(base, "GET", f"/api/foods/{slug}")
+            if status != 200:
+                return emit(status, food)
+            if food.get("kind") != "branded":
+                return reject("slug", "only registered products have label text to add")
+            labels = [s["id"] for s in food.get("sources", []) if s.get("source_name") != "BLS 4.0"]
+            if not labels:
+                return reject("slug", "this product has no label source")
+            source = max(labels)
+        status, payload = request(base, "PATCH", f"/api/foods/{slug}/sources/{source}", body)
+        return emit(status, payload)
+
     if args.area == "product" and args.action == "barcode":
         status, payload = request(
             base, "PATCH", f"/api/foods/{urllib.parse.quote(args.slug)}", {"barcode": args.code}
@@ -235,6 +255,15 @@ def parser() -> argparse.ArgumentParser:
     )
     barcode.add_argument("slug")
     barcode.add_argument("code")
+    label = product.add_parser(
+        "label", help="add a registered product's ingredient list or legal name from a later photo"
+    )
+    label.add_argument("slug")
+    label.add_argument(
+        "--file", required=True,
+        help='JSON with "ingredients_text" and/or "food_name" (the legal name), or - for stdin')
+    label.add_argument(
+        "--source", type=int, help="the label version's source id (default: the newest)")
 
     meal = areas.add_parser("meal", help="log or read meals").add_subparsers(dest="action", required=True)
     log = meal.add_parser("log", help="log a meal from a JSON file")

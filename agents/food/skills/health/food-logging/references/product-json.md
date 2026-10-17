@@ -16,7 +16,7 @@ Do not send `kind`, `sources`, `label_gaps`, or `slug`. The check rejects them w
 
 ## Ingredients and legal name
 
-The check warns when `ingredients_text` is missing; it is mandatory on most EU labels. Only send the full list once it is complete (see the Photos section in SKILL.md). A missing list leaves a label gap, not a rejection.
+The check warns when `ingredients_text` is missing; it is mandatory on most EU labels. Only send the full list once it is complete (see the Photos section in SKILL.md). A missing list leaves a label gap, not a rejection. When a later photo shows it, add it with `health product label <slug> --file l.json` and `{"ingredients_text": "…"}`; the legal name goes the same way as `{"food_name": "…"}` (rule 7 in SKILL.md).
 
 ## Checking a product
 
