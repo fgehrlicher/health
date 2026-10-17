@@ -158,8 +158,14 @@ a test shows it works.
   message reaches the model as `[Fri 2026-10-16 23:42:44 CEST] …`, and the
   stored message stays clean. `health day yesterday` resolves the day in the CLI,
   so the agent does no date arithmetic for the common questions.
-- **Toolsets are narrowed per profile.** The food profile has no web, browser,
-  code execution, desktop, cron or delegation tools.
+- **Toolsets are narrowed per profile and per platform.** On both `cli` and
+  `telegram`, the food profile has no web, browser, code execution, desktop,
+  cron or delegation tools; the deploy sets this and warns if it did not take.
+  Hermes keeps toolsets per platform, and until 2026-10-17 the deploy narrowed
+  only `cli`. The bot runs on `telegram`, where `browser_exec` (which runs any
+  Python) stayed available: the agent used it for 147 calls against 1 terminal
+  call, and between 2026-10-09 and 2026-10-15 called the API directly with it,
+  deleting meals and editing products and recipes past the guard.
 - **No deletes or edits from chat.** The CLI has no such command, and the
   persona and skill say so. Changes go through the web app.
 - **Known gap:** the default profile still has an unguarded terminal, so it can

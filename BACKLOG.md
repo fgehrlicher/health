@@ -7,7 +7,7 @@ this file changes first. What exists today is in
 How it works:
 
 - **IDs stay.** An item keeps its ID for good, so "B3" means the same thing next
-  month. New items get the next free ID: **B14**.
+  month. New items get the next free ID: **B15**.
 - **Order is priority.** Items under Next are in the order they will be built.
   Move an item to change the plan.
 - **Finished items go to Done**, with the date and the doc that describes them.
@@ -19,8 +19,10 @@ How it works:
   messages reaches the food agent with the time he sent it (Hermes's
   `gateway.message_timestamps`, Europe/Berlin), and `health day today|yesterday`
   resolves the day in the CLI ([Agents](docs/agents.md#safety-of-agent-access)).
-  Waiting for a live check from Telegram: "Wie spät ist es?" and "Was habe ich
-  gestern gegessen?" Then it moves to Done.
+  First live check (2026-10-17, 00:04): the answer was right, but the agent got
+  the time by running `date` through `browser_exec`, a tool the bot should not
+  have had (B14). Waiting for a second check now that it is gone, so the time
+  can only come from the message timestamp.
 
 ## Next
 
@@ -84,6 +86,7 @@ Newest first, from the October 2026 feedback round on.
 
 | Date | What | Details |
 | --- | --- | --- |
+| 2026-10-17 | B14 · The food bot's Telegram toolset narrowed like `cli`: `browser_exec`, web, code execution, cron and delegation gone, so the terminal guard holds | [Agents](docs/agents.md#safety-of-agent-access) |
 | 2026-10-17 | B7 · Stats work documented: Today and Stats pages, stated items, goals, incomplete days and their endpoints | [Web](docs/web.md), [Consumption log](docs/log.md) |
 | 2026-10-17 | B9 · Log something without a product from the web meal sheet ("Without product"), and correct a stated item's values when editing a meal | [Web](docs/web.md), [Consumption log](docs/log.md#items) |
 | 2026-10-17 | B8 · `health product label` stores an ingredient list or legal name read from a later photo; the skill maps each label gap to its command | [Agents](docs/agents.md), [SKILL.md](agents/food/skills/health/food-logging/SKILL.md) |

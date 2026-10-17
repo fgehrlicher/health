@@ -28,8 +28,17 @@ ssh "$HOST" 'set -e
     if ! grep -q "managed by deploy: food-vision" ~/.hermes/profiles/food/config.yaml; then
       cat agents/food/vision-config-snippet.yaml >> ~/.hermes/profiles/food/config.yaml
     fi
-    ~/.local/bin/hermes -p food tools disable web browser code_execution image_gen tts \
-      delegation cronjob computer_use connections >/dev/null 2>&1 || true
+    # The bot runs on the telegram platform; `tools disable` alone only narrows cli.
+    # Without this, browser_exec runs any Python and gets past the terminal guard.
+    for platform in cli telegram; do
+      ~/.local/bin/hermes -p food tools disable --platform $platform web browser code_execution \
+        image_gen tts delegation cronjob computer_use connections >/dev/null 2>&1 || true
+    done
+    toolsets=$(~/.local/bin/hermes -p food config get platform_toolsets.telegram 2>/dev/null)
+    case "$toolsets" in
+      *browser*|*code_execution*|*web*|*computer_use*|*delegation*|*cronjob*)
+        echo "warning: the food bot still has tools outside the terminal guard: $toolsets" >&2;;
+    esac
     # The agent has no clock (its terminal runs only `health`), so each of his messages
     # reaches it with the time he sent it, in Berlin time. config set keeps the comments.
     { ~/.local/bin/hermes -p food config set timezone Europe/Berlin \
