@@ -7,7 +7,7 @@ this file changes first. What exists today is in
 How it works:
 
 - **IDs stay.** An item keeps its ID for good, so "B3" means the same thing next
-  month. New items get the next free ID: **B15**.
+  month. New items get the next free ID: **B16**.
 - **Order is priority.** Items under Next are in the order they will be built.
   Move an item to change the plan.
 - **Finished items go to Done**, with the date and the doc that describes them.
@@ -70,6 +70,13 @@ stated-item rules on the box, so rules that live only in prose are fragile.
 
 ## Small follow-ups
 
+- **B15 · Guard the guard.** The food bot's `file` tool can still write almost
+  anywhere the user can, including the terminal guard
+  (`~/.hermes/agent-hooks/food-terminal-guard.py`) and the CLI
+  (`~/.local/bin/health`), so a prompt injected through a photo could switch the
+  guard off. Hermes's `security.protected_instruction_extra_patterns` (file
+  names that always need the user's approval to write) looks like the fix; check
+  that `config set` takes a list and that the approval reaches Telegram.
 - **B13 · Document the Inventory page.** [Web](docs/web.md) lists every page
   but `/inventory`.
 - **B12 · Hermes photo cache (waiting on upstream).** A multiplexed gateway never
