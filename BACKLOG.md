@@ -72,8 +72,6 @@ stated-item rules on the box, so rules that live only in prose are fragile.
   [Consumption log](docs/log.md) predate it: they do not describe the Stats page,
   incomplete days, the daily limit and tolerance, stated items, or the calorie
   bar on Today, and Today's description is out of date.
-- **B9 · Stated items from the web meal sheet.** Today the agent can log them,
-  and the web app shows and keeps them, but it cannot create them.
 - **B12 · Hermes photo cache (waiting on upstream).** A multiplexed gateway never
   prunes a served profile's media cache, so the food bot's photos stay on the box
   (77 photos, 12 MB on 2026-10-16). Reported as
@@ -88,6 +86,7 @@ Newest first, from the October 2026 feedback round on.
 
 | Date | What | Details |
 | --- | --- | --- |
+| 2026-10-17 | B9 · Log something without a product from the web meal sheet ("Without product"), and correct a stated item's values when editing a meal | documented with B7 |
 | 2026-10-17 | B8 · `health product label` stores an ingredient list or legal name read from a later photo; the skill maps each label gap to its command | [Agents](docs/agents.md), [SKILL.md](agents/food/skills/health/food-logging/SKILL.md) |
 | 2026-10-17 | B11 · The e2e tests get their own database (`health_e2e`), and the USDA tests put back what they change, so the API tests pass on a reused test database | [Web](docs/web.md) |
 | 2026-10-17 | B10 · `pnpm test` runs unit tests only, with tests for the day verdict and the stats; part of `make check-web` | [Web](docs/web.md) |

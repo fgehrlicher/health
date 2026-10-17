@@ -129,11 +129,13 @@ test("a stated item shows on its meal and survives an edit", async ({
   await expect(page.getByText("E2E Protein bar")).toBeVisible()
   await expect(page.getByText("stated by you")).toBeVisible()
 
-  // Editing the meal's note must keep the stated item.
+  // Editing the meal keeps the stated item, and its values can be corrected.
   await page.getByRole("button", { name: "Meal actions" }).first().click()
   await page.getByRole("menuitem", { name: "Edit" }).click()
   const sheet = page.getByRole("dialog")
-  await expect(sheet.getByText("E2E Protein bar")).toBeVisible()
+  await expect(sheet.getByLabel("Name")).toHaveValue("E2E Protein bar")
+  await expect(sheet.getByLabel("Protein, g")).toHaveValue("30.00")
+  await sheet.getByLabel("kcal", { exact: true }).fill("320")
   await sheet.getByLabel("Note").fill("after training")
   await sheet.getByRole("button", { name: "Save changes" }).click()
 
@@ -141,6 +143,40 @@ test("a stated item shows on its meal and survives an edit", async ({
   await expect(page.getByRole("dialog")).toBeHidden()
   await expect(page.getByText("E2E Protein bar")).toBeVisible()
   await expect(page.getByText("after training")).toBeVisible()
+  await expect(page.getByText("320 kcal").first()).toBeVisible()
+})
+
+test("log something without a product from the meal sheet", async ({
+  page,
+  request,
+}) => {
+  await open(page, "/")
+  await page.getByRole("button", { name: "Log meal" }).first().click()
+  const sheet = page.getByRole("dialog")
+  await sheet.getByRole("button", { name: "Without product" }).click()
+
+  // It needs a name and its kcal; the other values are optional.
+  const save = sheet.getByRole("button", { name: "Enter a name and kcal" })
+  await expect(save).toBeDisabled()
+  await sheet.getByLabel("Name").fill("E2E Kantinen-Curry")
+  await sheet.getByLabel("kcal", { exact: true }).fill("650")
+  await sheet.getByLabel("Protein, g").fill("28")
+  await expect(sheet.getByText("650", { exact: true })).toBeVisible()
+  await sheet.getByRole("button", { name: "Log meal" }).click()
+
+  await expect(page.getByText("Meal logged")).toBeVisible()
+  await expect(page.getByText("E2E Kantinen-Curry")).toBeVisible()
+  await expect(page.getByText("stated by you")).toBeVisible()
+
+  // Only the values given are stored: fat, carbs and fiber stay unknown.
+  const day = await (
+    await request.get(`${API}/api/log/days/${todayInBerlin()}`)
+  ).json()
+  const [item] = day.meals[0].items
+  expect(Number(item.nutrition.energy_kcal)).toBe(650)
+  expect(Number(item.nutrition.protein_g)).toBe(28)
+  expect(item.nutrition.fat_g).toBeNull()
+  expect(item.nutrition.fiber_g).toBeNull()
 })
 
 test("a meal without foods is logged as unknown", async ({ page }) => {

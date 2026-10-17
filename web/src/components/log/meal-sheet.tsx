@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { XIcon } from "lucide-react"
+import { PenLineIcon, XIcon } from "lucide-react"
 import { useDeferredValue, useEffect, useState } from "react"
 import { toast } from "sonner"
 import { CookPicker } from "@/components/cook-picker"
@@ -41,8 +41,30 @@ import type { ItemInput } from "@/server/log"
 import type { Issue, Meal, MealKind } from "@/lib/api/types"
 
 /**
+ * A stated item's values as typed. The name and kcal are needed; any other
+ * value left empty stays unknown, never zero.
+ */
+export type StatedFields = {
+  name: string
+  energy_kcal: string
+  protein_g: string
+  fat_g: string
+  carbs_g: string
+  fiber_g: string
+}
+
+const STATED_VALUES: Array<[Exclude<keyof StatedFields, "name">, string]> = [
+  ["energy_kcal", "kcal"],
+  ["protein_g", "Protein, g"],
+  ["fat_g", "Fat, g"],
+  ["carbs_g", "Carbs, g"],
+  ["fiber_g", "Fiber, g"],
+]
+
+/**
  * A food in the form. `unit` is the source unit or a portion name. With
- * `cookId` it is portions of a cook instead, and `food` is empty.
+ * `cookId` it is portions of a cook instead, and `food` is empty. With
+ * `stated` it is something without a product, with the values the person gave.
  */
 export type ItemDraft = {
   key: string
@@ -54,8 +76,7 @@ export type ItemDraft = {
   cookId?: number
   /** For a cook: when it was cooked, shown under the name. */
   detail?: string
-  /** A stated item: the values the person gave, sent back unchanged on save. */
-  stated?: NonNullable<ItemInput["stated"]>
+  stated?: StatedFields
   baseUnit: string
   unit: string
   quantity: string
@@ -119,27 +140,60 @@ export function draftFromAmount(item: {
   }
 }
 
-/** A stated item as a form row: its values stay as they were, only the amount is fixed. */
-function statedDraft(item: Meal["items"][number]): ItemDraft {
-  const optional = (text: string | null) =>
-    text === null ? undefined : Number(text)
-  nextKey += 1
+/** Something without a product, as a form row; empty values are unknown. */
+export function newStatedDraft(stated?: StatedFields): ItemDraft {
   return {
-    key: `item-${nextKey}`,
-    food: "",
-    foodName: item.food_name,
-    baseUnit: "item",
-    unit: "item",
+    ...newDraft({ slug: "", name: stated?.name ?? "", unit: "item" }),
     quantity: "1",
-    estimated: item.estimated,
-    stated: {
-      name: item.food_name,
-      energy_kcal: Number(item.nutrition.energy_kcal),
-      protein_g: optional(item.nutrition.protein_g),
-      fat_g: optional(item.nutrition.fat_g),
-      carbs_g: optional(item.nutrition.carbs_g),
-      fiber_g: optional(item.nutrition.fiber_g),
+    stated: stated ?? {
+      name: "",
+      energy_kcal: "",
+      protein_g: "",
+      fat_g: "",
+      carbs_g: "",
+      fiber_g: "",
     },
+  }
+}
+
+/** A logged stated item as a form row, with its values as they were stored. */
+function statedDraft(item: Meal["items"][number]): ItemDraft {
+  const text = (value: string | null) => value ?? ""
+  return {
+    ...newStatedDraft({
+      name: item.food_name,
+      energy_kcal: text(item.nutrition.energy_kcal),
+      protein_g: text(item.nutrition.protein_g),
+      fat_g: text(item.nutrition.fat_g),
+      carbs_g: text(item.nutrition.carbs_g),
+      fiber_g: text(item.nutrition.fiber_g),
+    }),
+    estimated: item.estimated,
+  }
+}
+
+/** A stated item can be sent once it has a name and its kcal. */
+function statedIsComplete(stated: StatedFields): boolean {
+  return stated.name.trim() !== "" && stated.energy_kcal.trim() !== ""
+}
+
+function isComplete(draft: ItemDraft): boolean {
+  return draft.stated
+    ? statedIsComplete(draft.stated)
+    : Number(draft.quantity) > 0
+}
+
+/** The values as the API takes them; an empty one is left out, so it stays unknown. */
+function statedInput(stated: StatedFields): NonNullable<ItemInput["stated"]> {
+  const optional = (value: string) =>
+    value.trim() === "" ? undefined : Number(value)
+  return {
+    name: stated.name.trim(),
+    energy_kcal: Number(stated.energy_kcal),
+    protein_g: optional(stated.protein_g),
+    fat_g: optional(stated.fat_g),
+    carbs_g: optional(stated.carbs_g),
+    fiber_g: optional(stated.fiber_g),
   }
 }
 
@@ -165,30 +219,28 @@ function draftsFromMeal(meal: Meal): Array<ItemDraft> {
   )
 }
 
-/** API items for drafts with a usable quantity. */
+/** API items for the drafts that are filled in: a quantity, or a stated item's name and kcal. */
 export function toInput(drafts: Array<ItemDraft>): Array<ItemInput> {
-  return drafts
-    .filter((draft) => Number(draft.quantity) > 0)
-    .map((draft) => {
-      if (draft.stated) {
-        return { stated: draft.stated, estimated: draft.estimated }
-      }
-      if (draft.cookId !== undefined) {
-        return {
-          cook: draft.cookId,
-          amount: Number(draft.quantity),
-          estimated: draft.estimated,
-        }
-      }
-      const base = {
-        food: draft.food,
-        source_id: draft.sourceId,
+  return drafts.filter(isComplete).map((draft) => {
+    if (draft.stated) {
+      return { stated: statedInput(draft.stated), estimated: draft.estimated }
+    }
+    if (draft.cookId !== undefined) {
+      return {
+        cook: draft.cookId,
+        amount: Number(draft.quantity),
         estimated: draft.estimated,
       }
-      return draft.unit === draft.baseUnit
-        ? { ...base, amount: Number(draft.quantity) }
-        : { ...base, portion: draft.unit, count: Number(draft.quantity) }
-    })
+    }
+    const base = {
+      food: draft.food,
+      source_id: draft.sourceId,
+      estimated: draft.estimated,
+    }
+    return draft.unit === draft.baseUnit
+      ? { ...base, amount: Number(draft.quantity) }
+      : { ...base, portion: draft.unit, count: Number(draft.quantity) }
+  })
 }
 
 export function MealSheet({
@@ -245,6 +297,9 @@ export function MealSheet({
 
   const input = toInput(items)
   const incomplete = items.length > input.length
+  const statedMissing = items.some(
+    (item) => item.stated !== undefined && !statedIsComplete(item.stated)
+  )
   const deferredInput = useDeferredValue(input)
   // Preview what would be stored, calculated by the API from the catalog.
   const preview = useQuery({
@@ -386,6 +441,16 @@ export function MealSheet({
                       setItems((all) => [...all, cookDraft(cook)])
                     }
                   />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="col-span-2"
+                    onClick={() =>
+                      setItems((all) => [...all, newStatedDraft()])
+                    }
+                  >
+                    <PenLineIcon /> Without product
+                  </Button>
                 </div>
               </div>
             </Field>
@@ -440,11 +505,13 @@ export function MealSheet({
             form="meal-form"
             disabled={save.isPending || incomplete}
           >
-            {incomplete
-              ? "Enter an amount for every food"
-              : meal
-                ? "Save changes"
-                : "Log meal"}
+            {statedMissing
+              ? "Enter a name and kcal"
+              : incomplete
+                ? "Enter an amount for every food"
+                : meal
+                  ? "Save changes"
+                  : "Log meal"}
           </Button>
         </SheetFooter>
       </SheetContent>
@@ -495,26 +562,12 @@ export function ItemRow({
     : []
   if (item.stated) {
     return (
-      <div className="flex items-center gap-2 rounded-lg border p-3">
-        <span className="flex min-w-0 flex-1 flex-col text-sm font-medium">
-          {item.foodName}
-          <span className="text-xs font-normal text-muted-foreground">
-            stated by you{item.estimated ? ", estimated" : ""}
-          </span>
-        </span>
-        <span className="text-sm text-muted-foreground tabular-nums">
-          {formatNumber(item.stated.energy_kcal, 0)} kcal
-        </span>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-xs"
-          aria-label="Remove"
-          onClick={onRemove}
-        >
-          <XIcon />
-        </Button>
-      </div>
+      <StatedRow
+        item={item}
+        stated={item.stated}
+        onChange={onChange}
+        onRemove={onRemove}
+      />
     )
   }
   const units = [item.baseUnit, ...portions.map((portion) => portion.name)]
@@ -631,6 +684,77 @@ export function ItemRow({
           Guessed
         </label>
       </div>
+    </div>
+  )
+}
+
+/** Something without a product: a name and the values the person knows. */
+function StatedRow({
+  item,
+  stated,
+  onChange,
+  onRemove,
+}: {
+  item: ItemDraft
+  stated: StatedFields
+  onChange: (item: ItemDraft) => void
+  onRemove: () => void
+}) {
+  const set = (field: keyof StatedFields, value: string) =>
+    onChange({
+      ...item,
+      foodName: field === "name" ? value : item.foodName,
+      stated: { ...stated, [field]: value },
+    })
+  return (
+    <div className="flex flex-col gap-2 rounded-lg border p-3">
+      <div className="flex items-center gap-2">
+        <Input
+          aria-label="Name"
+          placeholder="What, e.g. protein bar"
+          maxLength={200}
+          className="min-w-0 flex-1"
+          value={stated.name}
+          onChange={(event) => set("name", event.target.value)}
+        />
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-xs"
+          aria-label="Remove"
+          onClick={onRemove}
+        >
+          <XIcon />
+        </Button>
+      </div>
+      <div className="grid grid-cols-3 gap-2">
+        {STATED_VALUES.map(([field, label]) => (
+          <label
+            key={field}
+            className="flex min-w-0 flex-col gap-1 text-xs text-muted-foreground"
+          >
+            {label}
+            <Input
+              type="number"
+              inputMode="decimal"
+              min="0"
+              step="any"
+              value={stated[field]}
+              onChange={(event) => set(field, event.target.value)}
+            />
+          </label>
+        ))}
+        <label className="flex min-h-10 items-end gap-2 pb-1 text-sm text-muted-foreground md:text-xs">
+          <Switch
+            checked={item.estimated}
+            onCheckedChange={(estimated) => onChange({ ...item, estimated })}
+          />
+          Guessed
+        </label>
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Only the values you know: an empty one stays unknown.
+      </p>
     </div>
   )
 }
