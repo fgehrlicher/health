@@ -73,6 +73,7 @@ check-web:
 	pnpm --dir web lint
 	pnpm --dir web check
 	pnpm --dir web typecheck
+	pnpm --dir web test
 	pnpm --dir web build > /dev/null
 
 # Browser tests (desktop and phone) against their own API on the test database.

@@ -96,7 +96,8 @@ make api        # FastAPI on 127.0.0.1:8000
 make web        # the app on http://localhost:3000
 ```
 
-- `make check-web`: API types up to date, lint, formatting, type check, and a
+- `make check-web`: API types up to date, lint, formatting, type check, unit
+  tests (`pnpm test`: vitest, for the pure functions in `src/lib`), and a
   production build.
 - `make check-e2e`: browser tests with Playwright, on a desktop and a phone
   screen. They start their own API on port 8010 against the throwaway
