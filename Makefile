@@ -76,7 +76,11 @@ check-web:
 	pnpm --dir web test
 	pnpm --dir web build > /dev/null
 
-# Browser tests (desktop and phone) against their own API on the test database.
-check-e2e: test-db
+# Browser tests (desktop and phone) against their own API on their own database,
+# so the data they leave behind never reaches the API tests' database.
+E2E_DB ?= health_e2e
+E2E_DATABASE_URL = $(patsubst %/health,%/$(E2E_DB),$(DATABASE_URL))
+check-e2e:
+	$(MAKE) test-db TEST_DB=$(E2E_DB)
 	uv sync --locked --quiet
-	TEST_DATABASE_URL=$(TEST_DATABASE_URL) pnpm --dir web exec playwright test
+	TEST_DATABASE_URL=$(E2E_DATABASE_URL) pnpm --dir web exec playwright test

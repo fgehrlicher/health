@@ -1,12 +1,13 @@
 import { defineConfig, devices } from "@playwright/test"
 
-// End-to-end tests run their own API against the throwaway test database
-// (see `make check-e2e`) and their own web server, never the real data.
+// End-to-end tests run their own API against their own throwaway database,
+// health_e2e (see `make check-e2e`), and their own web server: never the real
+// data, and never the database the API tests use.
 const API_PORT = 8010
 const WEB_PORT = 3010
 const TEST_DATABASE_URL =
   process.env.TEST_DATABASE_URL ??
-  "postgres://health:health@127.0.0.1:5432/health_test"
+  "postgres://health:health@127.0.0.1:5432/health_e2e"
 
 export default defineConfig({
   testDir: "e2e",

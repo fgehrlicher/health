@@ -1,5 +1,4 @@
 import json
-import os
 
 import psycopg
 import pytest
@@ -57,10 +56,8 @@ def test_the_group_names_cover_every_catalog_group():
     assert all(name and name == name.strip() for name in groups.values())
 
 
-def test_apply_refuses_decisions_that_do_not_cover_the_database(tmp_path):
-    url = os.environ.get("TEST_DATABASE_URL")
-    if not url:
-        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+def test_apply_refuses_decisions_that_do_not_cover_the_database(tmp_path, database_url):
+    url = database_url
     decisions = tmp_path / "decisions"
     decisions.mkdir()
     (decisions / "batch-01.json").write_text(
@@ -70,10 +67,8 @@ def test_apply_refuses_decisions_that_do_not_cover_the_database(tmp_path):
         apply(url, decisions, GROUPS_PATH, commit=False)
 
 
-def test_apply_writes_group_and_german_name_once(tmp_path):
-    url = os.environ.get("TEST_DATABASE_URL")
-    if not url:
-        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+def test_apply_writes_group_and_german_name_once(tmp_path, database_url):
+    url = database_url
     archive = make_archive(
         tmp_path,
         "FoodData_Central_sr_legacy_food_csv_2018-04.zip",

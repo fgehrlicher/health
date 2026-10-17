@@ -1,4 +1,3 @@
-import os
 from decimal import Decimal
 
 import psycopg
@@ -23,14 +22,12 @@ def foods_from_archive(tmp_path, monkeypatch):
     return report.foods
 
 
-def test_import_creates_the_food_and_then_updates_it(tmp_path, monkeypatch):
-    url = os.environ.get("TEST_DATABASE_URL")
-    if not url:
-        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+def test_import_creates_the_food_and_then_updates_it(tmp_path, monkeypatch, database_url):
+    url = database_url
     foods = foods_from_archive(tmp_path, monkeypatch)
 
     first = write_foods(url, foods)
-    assert first in ((1, 0), (0, 1))
+    assert first == (1, 0)  # created; the fixture removed any earlier copy
     assert write_foods(url, foods) == (0, 1)
 
     with psycopg.connect(url) as connection:
@@ -65,10 +62,8 @@ def test_import_creates_the_food_and_then_updates_it(tmp_path, monkeypatch):
     assert portions == [("1 tsp", "household", Decimal(2), "g")]
 
 
-def test_a_catalog_unit_that_differs_stops_the_import(tmp_path, monkeypatch):
-    url = os.environ.get("TEST_DATABASE_URL")
-    if not url:
-        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+def test_a_catalog_unit_that_differs_stops_the_import(tmp_path, monkeypatch, database_url):
+    url = database_url
     foods = foods_from_archive(tmp_path, monkeypatch)
     with psycopg.connect(url) as connection:
         connection.execute("UPDATE catalog.nutrients SET unit = 'mg' WHERE key = 'lactose'")

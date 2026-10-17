@@ -100,9 +100,9 @@ make web        # the app on http://localhost:3000
   tests (`pnpm test`: vitest, for the pure functions in `src/lib`), and a
   production build.
 - `make check-e2e`: browser tests with Playwright, on a desktop and a phone
-  screen. They start their own API on port 8010 against the throwaway
-  `health_test` database and their own app on port 3010, so the real log is
-  never touched. The tests wait until the page is interactive
+  screen. They start their own API on port 8010 against their own throwaway
+  `health_e2e` database and their own app on port 3010, so neither the real log
+  nor the API tests' `health_test` database is touched. The tests wait until the page is interactive
   (`html[data-hydrated]`) before clicking.
 
 The app has no login. Like the API, it is meant for this machine or a private

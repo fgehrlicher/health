@@ -78,8 +78,6 @@ stated-item rules on the box, so rules that live only in prose are fragile.
   name).
 - **B9 · Stated items from the web meal sheet.** Today the agent can log them,
   and the web app shows and keeps them, but it cannot create them.
-- **B11 · Shared test database.** Run `make test-db` before `make check` after an
-  e2e run, or the catalog and recipe tests can see leftover e2e data.
 - **B12 · Hermes photo cache (waiting on upstream).** A multiplexed gateway never
   prunes a served profile's media cache, so the food bot's photos stay on the box
   (77 photos, 12 MB on 2026-10-16). Reported as
@@ -94,6 +92,7 @@ Newest first, from the October 2026 feedback round on.
 
 | Date | What | Details |
 | --- | --- | --- |
+| 2026-10-17 | B11 · The e2e tests get their own database (`health_e2e`), and the USDA tests put back what they change, so the API tests pass on a reused test database | [Web](docs/web.md) |
 | 2026-10-17 | B10 · `pnpm test` runs unit tests only, with tests for the day verdict and the stats; part of `make check-web` | [Web](docs/web.md) |
 | 2026-10-17 | Food agent memory cleaned: raw-API notes and the `date` rule removed, the calorie target pointed at the app | on the box only (`memories/` in the food profile) |
 | 2026-10-16 | Food skill takes the calorie limit, tolerance and incomplete days from `health day` | [SKILL.md](agents/food/skills/health/food-logging/SKILL.md) |
