@@ -63,6 +63,7 @@ export function RecipeFormSheet({
   notePlaceholder: string
   start: {
     name?: string
+    note?: string | null
     tags?: Array<string>
     portions?: string
     instructions?: string | null
@@ -83,7 +84,7 @@ export function RecipeFormSheet({
     if (!open) return
     setName(start.name ?? "")
     setTags(start.tags ?? [])
-    setNote("")
+    setNote(start.note ?? "")
     setPortions(start.portions ?? "")
     setInstructions(start.instructions ?? "")
     setItems((start.items ?? []).map(draftFromAmount))

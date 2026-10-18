@@ -7,7 +7,7 @@ this file changes first. What exists today is in
 How it works:
 
 - **IDs stay.** An item keeps its ID for good, so "B3" means the same thing next
-  month. New items get the next free ID: **B18**.
+  month. New items get the next free ID: **B19**.
 - **Order is priority.** Items under Next are in the order they will be built.
   Move an item to change the plan.
 - **Finished items go to Done**, with the date and the doc that describes them.
@@ -86,6 +86,7 @@ Newest first, from the October 2026 feedback round on.
 
 | Date | What | Details |
 | --- | --- | --- |
+| 2026-10-18 | B18 · Edit a recipe version in place (ingredients, portions, steps, note) without a new version, in the web app and from the agent; cooks keep their own ingredients | [Recipes](docs/recipes.md), [Web](docs/web.md) |
 | 2026-10-18 | B17 · Delete a registered product from its page; one in use first hands its meals, recipes and cooks to a replacement, with the same amounts | [Web](docs/web.md), [Catalog](docs/catalog.md#api) |
 | 2026-10-18 | B16 · The food agent writes recipes: `health recipes create`, `version` (dry runs unless `--commit`) and `edit`; a change is a new version with a note | [Agents](docs/agents.md), [SKILL.md](agents/food/skills/health/food-logging/SKILL.md) |
 | 2026-10-18 | B1 · Dates in Telegram: each message carries its Berlin time, the persona names it the agent's only clock, and `health day today|yesterday` resolves the day in the CLI. Live check: "Wie spät ist es?" at 11:33:41 answered "11:33 Uhr (Sonntag, 18. Oktober 2026)" with no tool call | [Agents](docs/agents.md#safety-of-agent-access) |

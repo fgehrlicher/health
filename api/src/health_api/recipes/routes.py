@@ -150,13 +150,18 @@ def post_version(slug: str, version: VersionInput, response: Response, dry_run: 
     return next(v for v in recipe["versions"] if v["number"] == number)
 
 
-@router.patch("/recipes/{slug}/versions/{number}", response_model=Version)
+@router.patch("/recipes/{slug}/versions/{number}", response_model=Version, responses=INVALID)
 def patch_version(slug: str, number: int, update: VersionUpdate):
-    """Change a version's note or steps; ingredients and portions are fixed."""
+    """Change a version in place: note, steps, ingredients (`items` replaces all) or portions.
+
+    Cooks keep their own ingredients, so what was cooked and eaten stays as it was.
+    """
     try:
         with connect() as connection, connection.transaction():
             update_version(connection, slug, number, update)
             recipe = get_recipe(connection, slug)
+    except InputError as error:
+        return issues_response(error)
     except RecipeNotFound as error:
         raise HTTPException(status_code=404, detail=str(error)) from error
     return next(v for v in recipe["versions"] if v["number"] == number)

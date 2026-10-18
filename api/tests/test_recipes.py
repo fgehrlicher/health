@@ -381,3 +381,64 @@ def test_branded_variants_of_a_generic_food(monkeypatch):
             connection.execute("DELETE FROM recipe.recipes WHERE slug = ANY(%s)", (slugs,))
             connection.execute("DELETE FROM catalog.foods WHERE barcode = %s", (barcode,))
             connection.execute("SELECT catalog.refresh_search()")
+
+
+def test_a_version_is_corrected_in_place(monkeypatch):
+    database_url = os.environ.get("TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("set TEST_DATABASE_URL for PostgreSQL integration coverage")
+    monkeypatch.setenv("DATABASE_URL", database_url)
+    slug, cook_id = None, None
+    try:
+        created = request_json(
+            "POST",
+            "/api/recipes",
+            {
+                "name": "Test in-place bowl",
+                "portions": 4,
+                "instructions": "Cook the rice.",
+                "items": [{"food": CHICKEN, "amount": 400}, {"food": RICE, "amount": 600}],
+            },
+        )
+        assert created.status_code == 201, created.text
+        slug = created.json()["slug"]
+        cook_id = request_json("POST", "/api/cooks", {"recipe": slug}).json()["id"]
+        path = f"/api/recipes/{slug}/versions/1"
+
+        fixed = request_json(
+            "PATCH",
+            path,
+            {
+                "items": [{"food": CHICKEN, "amount": 300}, {"food": COCONUT_MILK, "amount": 250}],
+                "portions": 5,
+            },
+        )
+        assert fixed.status_code == 200, fixed.text
+        version = fixed.json()
+        assert [(i["food"], Decimal(i["amount"])) for i in version["items"]] == [
+            (CHICKEN, 300),
+            (COCONUT_MILK, 250),
+        ]
+        assert Decimal(version["portions"]) == 5
+        assert version["instructions"] == "Cook the rice."
+        # Still one version: the correction replaced it, no new one was made.
+        assert len(request_json("GET", f"/api/recipes/{slug}", None).json()["versions"]) == 1
+
+        # The cook keeps what actually went in.
+        cook = request_json("GET", f"/api/cooks/{cook_id}", None).json()
+        assert [(i["food"], Decimal(i["amount"])) for i in cook["items"]] == [
+            (CHICKEN, 400),
+            (RICE, 600),
+        ]
+
+        # A bad ingredient changes nothing; portions alone keep the ingredients.
+        bad = request_json("PATCH", path, {"items": [{"food": "no-such-food", "amount": 1}]})
+        assert bad.status_code == 422
+        portions = request_json("PATCH", path, {"portions": 2}).json()
+        assert Decimal(portions["portions"]) == 2 and len(portions["items"]) == 2
+    finally:
+        with psycopg.connect(database_url) as connection:
+            if cook_id:
+                connection.execute("DELETE FROM recipe.cooks WHERE id = %s", (cook_id,))
+            if slug:
+                connection.execute("DELETE FROM recipe.recipes WHERE slug = %s", (slug,))

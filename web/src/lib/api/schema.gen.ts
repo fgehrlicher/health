@@ -368,7 +368,9 @@ export interface paths {
         head?: never;
         /**
          * Patch Version
-         * @description Change a version's note or steps; ingredients and portions are fixed.
+         * @description Change a version in place: note, steps, ingredients (`items` replaces all) or portions.
+         *
+         *     Cooks keep their own ingredients, so what was cooked and eaten stays as it was.
          */
         patch: operations["patch_version_api_recipes__slug__versions__number__patch"];
         trace?: never;
@@ -1557,13 +1559,20 @@ export interface components {
         };
         /**
          * VersionUpdate
-         * @description Only text changes; different ingredients or portions are a new version.
+         * @description A version changed in place: its note, steps, ingredients or portions.
+         *
+         *     `items` replaces every ingredient. A change worth keeping apart, such as
+         *     "less salt next time", is a new version instead.
          */
         VersionUpdate: {
             /** Note */
             note?: string | null;
             /** Instructions */
             instructions?: string | null;
+            /** Items */
+            items?: components["schemas"]["FoodAmount"][] | null;
+            /** Portions */
+            portions?: number | string | null;
         };
     };
     responses: never;
@@ -2394,14 +2403,12 @@ export interface operations {
                     "application/json": components["schemas"]["Version"];
                 };
             };
-            /** @description Validation Error */
+            /** @description Invalid input; nothing written */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
+                content?: never;
             };
         };
     };

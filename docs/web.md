@@ -46,9 +46,10 @@ its own.
   from existing tags, and the history of versions, newest first. Each
   shows its note on what changed, the ingredients that differ from its parent
   (e.g. "Rice 600 → 400 g"), nutrition per portion, ingredients and steps, and
-  the cooks made from it. Each version can be cooked, developed into a new
-  version, or forked into a new recipe; variations and the recipe it was
-  forked from are linked.
+  the cooks made from it. Each version can be edited in place (**Edit this
+  version**: ingredients, portions, steps and note, with no new version), cooked,
+  developed into a new version, or forked into a new recipe; variations and the
+  recipe it was forked from are linked.
 - **Cook** (`/cooks/{id}`): when it was cooked, how it turned out, one
   portion's nutrition, what went in, and how that differs from its version.
   **Eat a portion** logs it as a meal; **Save as new version** (or **Save as

@@ -55,7 +55,7 @@ recipes and what was cooked, `log` for what was eaten.
   after every write.
 - **`recipe.recipes`**, **`recipe.versions`**, **`recipe.version_items`**:
   recipes as lines of versions, with free tags such as `ice cream`; a version
-  is a fixed ingredient list with
+  is an ingredient list with
   portions, steps, a note, and a parent (another recipe's version for a fork).
 - **`recipe.cooks`** and **`recipe.cook_items`**: the cooking log: when
   something was cooked, from which version, what actually went in, and into how

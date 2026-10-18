@@ -221,6 +221,40 @@ test("rename a recipe and change its description without a new version", async (
   expect(after.versions).toHaveLength(1)
 })
 
+test("edit a version's ingredients and portions in place", async ({
+  page,
+  request,
+}) => {
+  const created = await request.post(`${API}/api/recipes`, {
+    data: {
+      name: "E2E Edit in place",
+      portions: 2,
+      instructions: "Mix.",
+      items: [{ food: "bls4-c352032", amount: 100 }],
+    },
+  })
+  expect(created.status()).toBe(201)
+  const recipe = await created.json()
+
+  await open(page, `/recipes/${recipe.slug}`)
+  await page.getByRole("button", { name: "Actions for v1" }).click()
+  await page.getByRole("menuitem", { name: "Edit this version" }).click()
+  const sheet = page.getByRole("dialog")
+  await expect(sheet.getByText("Edit v1")).toBeVisible()
+  await sheet.getByLabel("Amount").first().fill("150")
+  await sheet.getByLabel("Portions").fill("3")
+  await sheet.getByRole("button", { name: "Save changes" }).click()
+
+  await expect(page.getByText("Saved v1")).toBeVisible()
+  const after = await (
+    await request.get(`${API}/api/recipes/${recipe.slug}`)
+  ).json()
+  expect(after.versions).toHaveLength(1)
+  expect(Number(after.versions[0].items[0].amount)).toBe(150)
+  expect(Number(after.versions[0].portions)).toBe(3)
+  expect(after.versions[0].instructions).toBe("Mix.")
+})
+
 test("the inventory lists cooks with portions still to eat", async ({
   page,
   request,

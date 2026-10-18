@@ -1467,7 +1467,7 @@
           "recipes"
         ],
         "summary": "Patch Version",
-        "description": "Change a version's note or steps; ingredients and portions are fixed.",
+        "description": "Change a version in place: note, steps, ingredients (`items` replaces all) or portions.\n\nCooks keep their own ingredients, so what was cooked and eaten stays as it was.",
         "operationId": "patch_version_api_recipes__slug__versions__number__patch",
         "parameters": [
           {
@@ -1511,14 +1511,7 @@
             }
           },
           "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
+            "description": "Invalid input; nothing written"
           }
         }
       }
@@ -6118,12 +6111,45 @@
               }
             ],
             "title": "Instructions"
+          },
+          "items": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/FoodAmount"
+                },
+                "type": "array",
+                "maxItems": 100,
+                "minItems": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Items"
+          },
+          "portions": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,3}|(?=[\\d.]{1,7}0*$)\\d{0,3}\\.\\d{0,3}0*$)"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Portions"
           }
         },
         "additionalProperties": false,
         "type": "object",
         "title": "VersionUpdate",
-        "description": "Only text changes; different ingredients or portions are a new version."
+        "description": "A version changed in place: its note, steps, ingredients or portions.\n\n`items` replaces every ingredient. A change worth keeping apart, such as\n\"less salt next time\", is a new version instead."
       }
     }
   }

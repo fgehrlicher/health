@@ -44,7 +44,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { dayLabel, formatNumber } from "@/lib/format"
 import { recipeQuery } from "@/lib/queries"
-import { addVersion, createRecipe, updateRecipe } from "@/server/recipes"
+import {
+  addVersion,
+  createRecipe,
+  updateRecipe,
+  updateVersion,
+} from "@/server/recipes"
 import type { CookStart } from "@/components/recipes/cook-sheet"
 import type { Recipe, Version } from "@/lib/api/types"
 import { itemNames } from "@/lib/names"
@@ -59,7 +64,7 @@ export const Route = createFileRoute("/recipes/$slug")({
 })
 
 /** The open form: a new version from a parent, or a fork of a version. */
-type Editing = { kind: "version" | "fork"; version: Version } | null
+type Editing = { kind: "edit" | "version" | "fork"; version: Version } | null
 
 function RecipePage() {
   const { slug } = Route.useParams()
@@ -117,6 +122,7 @@ function RecipePage() {
               editing.kind === "fork"
                 ? `${recipe.name} (variation)`
                 : undefined,
+            note: editing.kind === "edit" ? editing.version.note : undefined,
             tags: recipe.tags,
             portions: editing.version.portions,
             instructions: editing.version.instructions,
@@ -285,6 +291,7 @@ function RecipePage() {
                 version={version}
                 latest={index === 0}
                 onCook={() => cook(version)}
+                onEdit={() => setEditing({ kind: "edit", version })}
                 onNewVersion={() => setEditing({ kind: "version", version })}
                 onFork={() => setEditing({ kind: "fork", version })}
               />
@@ -299,22 +306,38 @@ function RecipePage() {
         title={
           editing?.kind === "fork"
             ? `New recipe from v${editing.version.number}`
-            : `New version from v${editing?.version.number ?? ""}`
+            : editing?.kind === "edit"
+              ? `Edit v${editing.version.number}`
+              : `New version from v${editing?.version.number ?? ""}`
         }
         description={
           editing?.kind === "fork"
             ? "A variation that develops on its own, linked to where it came from."
-            : "Change ingredients or portions and say why; the old version stays."
+            : editing?.kind === "edit"
+              ? "Fix ingredients, portions or steps in place; no new version. Cooks keep what went into them."
+              : "Change ingredients or portions and say why; the old version stays."
         }
         submitLabel={
-          editing?.kind === "fork" ? "Create variation" : "Save version"
+          editing?.kind === "fork"
+            ? "Create variation"
+            : editing?.kind === "edit"
+              ? "Save changes"
+              : "Save version"
         }
         showName={editing?.kind === "fork"}
-        noteLabel={editing?.kind === "fork" ? "About" : "What changed and why?"}
+        noteLabel={
+          editing?.kind === "fork"
+            ? "About"
+            : editing?.kind === "edit"
+              ? "Note"
+              : "What changed and why?"
+        }
         notePlaceholder={
           editing?.kind === "fork"
             ? "e.g. mango instead of berries"
-            : "e.g. less salt, v2 was too salty"
+            : editing?.kind === "edit"
+              ? "e.g. what this version is about"
+              : "e.g. less salt, v2 was too salty"
         }
         start={start}
         onSubmit={async (values) => {
@@ -344,6 +367,27 @@ function RecipePage() {
               })
             }
             return result
+          }
+          if (editing.kind === "edit") {
+            const edited = await updateVersion({
+              data: {
+                slug: recipe.slug,
+                number: editing.version.number,
+                note: values.note,
+                portions: values.portions,
+                items: values.items,
+                instructions: values.instructions,
+              },
+            })
+            if (edited.ok) {
+              toast.success(`Saved v${edited.value.number}`)
+              await queryClient.invalidateQueries({
+                queryKey: ["recipe", slug],
+              })
+              await queryClient.invalidateQueries({ queryKey: ["recipes"] })
+              await queryClient.invalidateQueries({ queryKey: ["cook"] })
+            }
+            return edited
           }
           const result = await addVersion({
             data: {
@@ -376,6 +420,7 @@ function VersionCard({
   version,
   latest,
   onCook,
+  onEdit,
   onNewVersion,
   onFork,
 }: {
@@ -383,6 +428,7 @@ function VersionCard({
   version: Version
   latest: boolean
   onCook: () => void
+  onEdit: () => void
   onNewVersion: () => void
   onFork: () => void
 }) {
@@ -436,6 +482,9 @@ function VersionCard({
               <MoreHorizontalIcon />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={onEdit}>
+                <PencilIcon /> Edit this version
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={onCook}>
                 <CookingPotIcon /> Cook this version
               </DropdownMenuItem>

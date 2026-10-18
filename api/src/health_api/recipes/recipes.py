@@ -1,10 +1,12 @@
 """Recipes as lines of versions.
 
-A version is a fixed ingredient list with portions, free-text steps, and a
-note on what changed. Ingredients never change in place: an improvement is a
-new version whose parent is the version it came from. A parent in another
-recipe makes a fork, e.g. a mango ice cream developed from the plain one. A
-cook that turned out well can be saved as a new version.
+A version is an ingredient list with portions, free-text steps, and a note on
+what changed. An improvement worth keeping apart is a new version whose parent
+is the version it came from; a correction (a wrong amount, a missing
+ingredient) can be made to a version in place. A parent in another recipe makes
+a fork, e.g. a mango ice cream developed from the plain one. A cook that turned
+out well can be saved as a new version. Cooks keep their own ingredients, so
+editing a version never changes what was cooked or eaten.
 """
 
 from datetime import datetime
@@ -93,12 +95,18 @@ class RecipeUpdate(BaseModel):
 
 
 class VersionUpdate(BaseModel):
-    """Only text changes; different ingredients or portions are a new version."""
+    """A version changed in place: its note, steps, ingredients or portions.
+
+    `items` replaces every ingredient. A change worth keeping apart, such as
+    "less salt next time", is a new version instead.
+    """
 
     model_config = ConfigDict(extra="forbid")
 
     note: Note = None
     instructions: Instructions = None
+    items: Items = None
+    portions: Portions | None = None
 
 
 def local_iso(value: datetime | None) -> str | None:
@@ -298,7 +306,8 @@ def update_version(connection: Connection, slug: str, number: int, update: Versi
     updated = connection.execute(
         """UPDATE recipe.versions SET
                note = CASE WHEN %(set_note)s THEN %(note)s ELSE note END,
-               instructions = CASE WHEN %(set_steps)s THEN %(steps)s ELSE instructions END
+               instructions = CASE WHEN %(set_steps)s THEN %(steps)s ELSE instructions END,
+               portions = coalesce(%(portions)s, portions)
            WHERE recipe_id = %(recipe)s AND number = %(number)s RETURNING id""",
         {
             "recipe": recipe,
@@ -307,10 +316,17 @@ def update_version(connection: Connection, slug: str, number: int, update: Versi
             "note": clean_text(update.note),
             "set_steps": "instructions" in given,
             "steps": clean_text(update.instructions),
+            "portions": update.portions,
         },
     ).fetchone()
     if updated is None:
         raise RecipeNotFound(f"{slug} has no version {number}")
+    if update.items is not None:
+        rows = resolve_amounts(connection, update.items)
+        connection.execute(
+            "DELETE FROM recipe.version_items WHERE version_id = %s", (updated["id"],)
+        )
+        insert_amounts(connection, "recipe.version_items", updated["id"], rows)
 
 
 def delete_recipe(connection: Connection, slug: str) -> None:

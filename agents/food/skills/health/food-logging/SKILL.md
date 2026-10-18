@@ -1,7 +1,7 @@
 ---
 name: food-logging
 description: Log meals, cooks and products in Fabian's health app, look up foods, write and change his recipes, read plate and label photos and their scanned barcodes, and report daily totals against his calorie limit. Use for anything about what he ate, cooked, bought or wants to cook.
-version: 1.5.0
+version: 1.6.0
 ---
 
 # Food logging
@@ -27,7 +27,7 @@ code 3 means not found, and 4 means the app is down: tell him, and do not guess.
 - `health recipes list [--tag T] [--query Q]`, `health recipes get <slug>`.
 - `health recipes create --file r.json`: a dry run of a new recipe. Add `--commit` to store it.
 - `health recipes version <slug> --file v.json`: a dry run of a new version. Add `--commit` to store it.
-- `health recipes edit <slug> --file e.json [--version N]`: rename a recipe or change its note or tags; with `--version`, that version's note or steps.
+- `health recipes edit <slug> --file e.json [--version N]`: rename a recipe or change its note or tags; with `--version`, correct that version in place.
 - `health cook list [--recipe S] [--tag T] [--query Q] [--since D] [--until D] [--limit N]`: the cooking log, newest first. A day `D` is YYYY-MM-DD, `today` or `yesterday`.
 - `health cook log --file c.json`: record a cook. Add `--commit` to store it.
 
@@ -180,16 +180,21 @@ He can ask you to write down a recipe or to change one. Recipe JSON:
   the closest generic food and say which. `portions` is how many equal portions
   the pot makes.
 - **A new recipe:** `health recipes create --file r.json`, then `--commit`.
-- **A change is a new version,** never an edit: `health recipes version <slug>
-  --file v.json`, then `--commit`, with a `note` on what changed and why
-  ("weniger Salz: v3 war zu salzig"). Give only what changes: `items` (then the
-  whole new list), `portions` or `instructions`; the rest comes from the latest
-  version (or the one in `parent`). A cook that turned out well becomes the next
-  version with `{"from_cook": 12, "note": "…"}`.
-- **Name, note, tags, a version's steps:** `health recipes edit <slug> --file
-  e.json` with any of `name`, `note` and `tags` (replaces all tags); with
-  `--version N`, that version's `note` or `instructions`. Ingredients and
-  portions never change this way.
+- **A correction is an edit in place:** a wrong amount, a missing or wrong
+  ingredient, the wrong number of portions, or the steps. Use `health recipes
+  edit <slug> --version N --file e.json` with any of `items` (the whole new
+  list), `portions`, `instructions` and `note`. No new version is made, and past
+  cooks keep what went into them.
+- **A change he wants to keep apart is a new version:** something he changed on
+  purpose ("weniger Salz: v3 war zu salzig"). Use `health recipes version <slug>
+  --file v.json`, then `--commit`, with a `note` on what changed and why. Give
+  only what changes: `items` (then the whole new list), `portions` or
+  `instructions`; the rest comes from the latest version (or the one in
+  `parent`). A cook that turned out well becomes the next version with
+  `{"from_cook": 12, "note": "…"}`. If it is unclear whether he means a
+  correction or a new version, ask in one line.
+- **Name, note, tags:** `health recipes edit <slug> --file e.json` with any of
+  `name`, `note` and `tags` (replaces all tags).
 - Commit at once after a clean dry run, and report the recipe or version with
   its kcal and protein per portion (`per_portion`). Deleting a recipe is for the
   web app.

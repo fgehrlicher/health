@@ -9,17 +9,20 @@ health API (`make api`, <http://127.0.0.1:8000/docs>), with its tables in the
 | Concept | What it is | Example |
 | --- | --- | --- |
 | **Recipe** | A named line of versions | "Chicken curry" |
-| **Version** | A fixed ingredient list, portions, steps as free text, a note on what changed, and a parent | "v3: less salt, v2 was too salty" |
+| **Version** | An ingredient list, portions, steps as free text, a note on what changed, and a parent | "v3: less salt, v2 was too salty" |
 | **Cook** | One time something was cooked: when, what actually went in, how many equal portions, how it turned out | "Mon 19:00, from v3, whole can of coconut milk, 5 portions, too watery" |
 
 Ingredients are "this much of this", as in the log: a catalog source and an
 amount in its unit (g or ml), optionally marked estimated. Nutrition is never
 stored; it is the sources' values times the amounts, calculated when read.
 
-**Versions never change their ingredients or portions.** An improvement is a
-new version whose `parent` is the version it came from. Only the note and the
-steps can be edited. Cooks and old meals therefore keep pointing at exactly
-what was cooked.
+**An improvement is a new version; a correction is an edit.** A change worth
+keeping apart ("less salt, v2 was too salty") is a new version whose `parent`
+is the version it came from. A mistake (a wrong amount, a missing ingredient,
+the wrong number of portions) is fixed in the version itself, with no new
+version. Either way, cooks keep their own ingredients, and meals point at
+cooks, so what was cooked and eaten stays exactly as it was. A cook made from
+an edited version shows its differences from the version as it is now.
 
 **A cook records what really went into the pot**, which often differs from the
 version: the whole can, both chicken breasts. Its nutrition comes from that
@@ -83,7 +86,8 @@ forks neither.
 
 The web app uses these directly. The food agent writes recipes through the
 `health` CLI: `recipes create` and `recipes version` (dry runs unless
-`--commit`) and `recipes edit`, but never deletes one ([Agents](agents.md)).
+`--commit`) and `recipes edit`, which also corrects a version in place, but
+never deletes one ([Agents](agents.md)).
 
 Recipes:
 
@@ -103,7 +107,8 @@ Recipes:
   `items` and `portions` come from `from_cook`, then from the parent; missing
   `instructions` from the parent. `parent` (a version number) defaults to the
   cook's version, else the latest.
-- `PATCH /api/recipes/{slug}/versions/{n}`: `note`, `instructions`.
+- `PATCH /api/recipes/{slug}/versions/{n}`: change a version in place:
+  `note`, `instructions`, `items` (replaces all ingredients) and `portions`.
 
 Cooking log:
 

@@ -106,6 +106,28 @@ export const addVersion = createServerFn({ method: "POST" })
     )
   })
 
+/** Change a version in place: note, steps, ingredients (all of them) or portions. */
+export const updateVersion = createServerFn({ method: "POST" })
+  .validator(
+    z.object({
+      slug: z.string().min(1).max(200),
+      number: z.number().int().positive(),
+      note,
+      items: items.optional(),
+      portions: portions.optional(),
+      instructions,
+    })
+  )
+  .handler(async ({ data }): Promise<Result<Version>> => {
+    const { slug, number, ...body } = data
+    return result(
+      await api.PATCH("/api/recipes/{slug}/versions/{number}", {
+        params: { path: { slug, number } },
+        body,
+      })
+    )
+  })
+
 export const listCooks = createServerFn({ method: "GET" })
   .validator(
     z.object({

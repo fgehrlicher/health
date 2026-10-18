@@ -305,7 +305,7 @@ def parser() -> argparse.ArgumentParser:
     rversion.add_argument("--file", required=True, help="version JSON, or - for stdin")
     rversion.add_argument("--commit", action="store_true", help="store it; without this, only a dry run")
     redit = recipes.add_parser(
-        "edit", help="rename a recipe, or change its note or tags; with --version, a version's note or steps")
+        "edit", help="rename a recipe, or change its note or tags; with --version, correct that version in place")
     redit.add_argument("slug")
     redit.add_argument("--file", required=True, help="JSON with the fields to change, or - for stdin")
     redit.add_argument("--version", type=int, help="the version number whose note or steps change")
