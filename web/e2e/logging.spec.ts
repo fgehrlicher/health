@@ -127,7 +127,7 @@ test("a stated item shows on its meal and survives an edit", async ({
 
   await open(page, "/")
   await expect(page.getByText("E2E Protein bar")).toBeVisible()
-  await expect(page.getByText("stated by you")).toBeVisible()
+  await expect(page.getByText("without product", { exact: true })).toBeVisible()
 
   // Editing the meal keeps the stated item, and its values can be corrected.
   await page.getByRole("button", { name: "Meal actions" }).first().click()
@@ -166,7 +166,7 @@ test("log something without a product from the meal sheet", async ({
 
   await expect(page.getByText("Meal logged")).toBeVisible()
   await expect(page.getByText("E2E Kantinen-Curry")).toBeVisible()
-  await expect(page.getByText("stated by you")).toBeVisible()
+  await expect(page.getByText("without product", { exact: true })).toBeVisible()
 
   // Only the values given are stored: fat, carbs and fiber stay unknown.
   const day = await (

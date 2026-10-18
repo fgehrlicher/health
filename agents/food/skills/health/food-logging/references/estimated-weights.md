@@ -2,7 +2,7 @@
 
 Use these only when he gave no weight. Mark every such amount `estimated: true`.
 The numbers are rough judgement calls from typical sizes, not catalog values.
-Nutrition still comes only from `health foods get`.
+Nutrition still comes from `health foods get` whenever a catalog food fits.
 
 ## Typical weights (rough, grams)
 

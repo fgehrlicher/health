@@ -49,9 +49,10 @@ a traditional calorie-tracking app, the system works.
 **Capture first, structure second.** Text, voice, photos, and barcodes are all
 valid input. The work of structuring them belongs to the system, not to me.
 
-**Honest numbers.** Every value comes from real data: a food database, a
-product label, a weighed amount. When something is estimated or unknown, the
-system says so instead of inventing a precise-looking number.
+**Honest numbers.** Measured values come from real data: a food database, a
+product label, a weighed amount. When nothing fits, an estimate is fine, mine or
+the agent's, but it is always marked as one, and what nobody knows stays
+unknown. The system never passes off a guess as a precise number.
 
 **The agent interprets; the backend decides.** An agent understands what I
 mean ("one portion of Monday's curry"). A deterministic backend decides what

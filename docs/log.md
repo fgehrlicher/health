@@ -20,7 +20,8 @@ corrected catalog value therefore also corrects past days. A new recipe of a
 product must be registered as a new source, not by changing the old one, so
 meals keep pointing at what was actually eaten. Sources referenced by a meal
 cannot be deleted. The one exception is a stated item: something without a
-catalog product, whose values the person gives and the log stores as given.
+catalog product, whose values the person or the agent gives and the log
+stores as given.
 
 A meal's status follows from its items:
 
@@ -32,7 +33,8 @@ A meal's status follows from its items:
 
 Estimates still name catalog foods; BLS includes many prepared dishes such as
 pizza, lasagne, and curries. If no catalog food fits, the person can state the
-values they know, or the meal stays unknown; it never gets an invented number.
+values they know, or the agent estimates them; an estimate is always marked
+estimated, and a value nobody gives stays unknown.
 
 ## Items
 
@@ -57,9 +59,9 @@ A **stated item** is something without a catalog product, e.g. a canteen dish
 or a bar whose wrapper is gone: `{"stated": {"name": "Protein bar",
 "energy_kcal": 300, "protein_g": 30}}`. It takes a name, its kcal, and any of
 `protein_g`, `fat_g`, `carbs_g` and `fiber_g`, plus `estimated` when the values
-are rough. Only the values given are stored; one left out is unknown, never
+are rough, as they are when the food agent estimates them. Only the values given are stored; one left out is unknown, never
 zero, and counts in `items_without_value`. It comes back as one `item` with the
-`source_name` "Stated by you".
+`source_name` "Without product".
 
 ## Time and days
 

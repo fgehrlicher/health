@@ -5,9 +5,10 @@ cook from the cooking log. Every number is the referenced source's value times
 the amount (for a cook: its ingredients' total per portion), calculated when read.
 A meal without items is logged with unknown nutrition.
 
-One exception: a stated item has no product. The person gives its name and the
-values they read or know, e.g. a label read before the package was thrown away.
-Those values are stored as given, marked as stated, and never inferred.
+One exception: a stated item has no product. It carries a name and the values
+sent for it: what the person read or knows, e.g. a label read before the package
+was thrown away, or an agent's estimate, marked estimated. Those values are
+stored as given; a value not sent stays unknown and is never inferred.
 """
 
 from datetime import date, datetime
@@ -296,7 +297,7 @@ def public_stated(item: dict) -> dict:
         "food_name": item["name"],
         "food_name_de": None,
         "source_id": None,
-        "source_name": "Stated by you",
+        "source_name": "Without product",
         "cook_id": None,
         "recipe": None,
         "cooked_at": None,

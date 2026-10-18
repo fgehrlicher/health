@@ -1,7 +1,7 @@
 ---
 name: food-logging
 description: Log meals, cooks and products in Fabian's health app, look up foods and recipes, read plate and label photos and their scanned barcodes, and report daily totals against his calorie limit. Use for anything about what he ate, cooked or bought.
-version: 1.3.1
+version: 1.4.0
 ---
 
 # Food logging
@@ -44,18 +44,21 @@ JSON looks like this:
 `amount` is in grams or millilitres. `portion` names a package or serving of
 that food. `cook` takes portions of a cooked dish from the cooking log. For several packages of one portion, add `count` next to `portion`: `{"food": "...", "portion": "Packung", "count": 2}`.
 
-`stated` is for something without a product. He gives the name and the numbers
-he read or knows: `energy_kcal`, and optionally `protein_g`, `fat_g`, `carbs_g`
-and `fiber_g`. Use only the numbers he said. Leave out any he did not give; a
-missing value is unknown, not zero. If he says the numbers are rough ("about
-300"), set `"estimated": true` on the item.
+`stated` is for something without a product: a name, `energy_kcal`, and
+optionally `protein_g`, `fat_g`, `carbs_g` and `fiber_g`. Use the numbers he
+gives. When he gives none and no catalog food fits, estimate them yourself from
+the dish and the portion. Set `"estimated": true` whenever the values are rough:
+his "about 300" as much as your own estimate. Leave out a value you cannot judge
+at all; a missing value is unknown, not zero.
 
 ## Rules
 
-1. **Catalog, or what he states.** Every number comes from the app or from
-   numbers he gave you in this conversation. Never add a number from your own
-   knowledge of a food. If nothing fits and he gave no numbers, log the meal
-   without the unknown item, say what is missing, and ask.
+1. **Catalog first, then estimates.** Use the app's numbers whenever a catalog
+   food fits; search German and English names before deciding nothing fits. If
+   nothing fits, use the numbers he gives. If he gives none, estimate the item
+   yourself as a stated item with `estimated: true`, log it, and say in the reply
+   that its values are your estimate, so he can correct them. Never pass an
+   estimate off as measured or as label data.
 2. **Estimated means guessed.** Set `"estimated": true` for any amount he
    estimated, eyeballed or you estimated from a photo. Weighed amounts and
    package portions are not estimated. When he gives a count and the pack states a weight, convert it to grams and log it as not estimated: 5 sticks = 140 g on the pack, so 6 = 168 g. Only truly unknown amounts are estimated. If he has no scale and no photo gives a clear size, offer two or three size classes (small, medium, large) with the catalog kcal and protein for each, and log the one he picks as estimated. Do not ask him for a weight he cannot know. A fraction of a cooked dish that he
@@ -137,12 +140,13 @@ missing value is unknown, not zero. If he says the numbers are rough ("about
   ingredient list. Check whether the table is for the raw pack or the prepared
   portion (ready meals and pizzas often say "prepared"); log the weight that matches
   the table. Put only printed text into `ingredients_text`: no notes, no guesses.
-  If `product check` rejects a missing fat or carbs value and he
-  does not know it, ask for a photo; if he accepts an estimate, register with the
-  estimated values and say in the reply that they are estimates. Build the product JSON, run `product check`, and report any
+  If `product check` rejects a missing fat or carbs value, ask for a photo of
+  it; if none is coming, estimate the value, put "(Makros geschätzt)" in the
+  product name, register, and say in the reply which values are estimates. Build the product JSON, run `product check`, and report any
   issues and `label_gaps`. Register it at once when the check passes (rule 4), and report the warnings. Product JSON takes top-level name, brand, barcode, food_group, portions, nutrition and ingredients_text. The keys kind, sources and label_gaps are rejected. A photo cut off at either edge is not enough for the ingredient list: ask for a flat photo of the whole block.
-- **Unreadable:** ask for a closer photo of the part you cannot read, and do not
-  guess the numbers.
+- **Unreadable:** ask for a closer photo of the part you cannot read. Never
+  enter a guess as a printed value; if no better photo is coming, estimate as in
+  rule 1 and mark it.
 
 ## Goals and summaries
 

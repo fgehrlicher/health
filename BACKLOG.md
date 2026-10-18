@@ -108,5 +108,9 @@ Newest first, from the October 2026 feedback round on.
   subscription can transcribe audio for our own tools, and the speech setup
   (local model or API key) was judged too complicated for what it would add.
 - **Weight tracking:** left out. Apple Health already covers weight.
-- **Stated items:** values come from the user only. A rough figure is flagged as
-  estimated. The agent never adds numbers from its own knowledge of a food.
+- **Estimates by the agent:** allowed since 2026-10-18 ("the agent is kinda good
+  at making up numbers"). Catalog values still come first. When nothing fits, or
+  a label lacks a value, the agent may estimate it; every estimate is marked
+  `estimated`, named as its own in the reply, and a product with estimated macros
+  carries "(Makros geschätzt)" in its name. This replaced "values come from the
+  user only".

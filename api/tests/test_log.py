@@ -300,7 +300,7 @@ def test_stated_items_count_in_the_day_against_postgres(monkeypatch):
         item = meal["items"][0]
         assert item["food"] is None and item["cook_id"] is None
         assert item["food_name"] == "Protein bar"  # the name is trimmed
-        assert item["source_name"] == "Stated by you" and item["estimated"] is False
+        assert item["source_name"] == "Without product" and item["estimated"] is False
         assert item["nutrition"]["energy_kcal"] == "300"  # whole kcal, as for catalog foods
         assert item["nutrition"]["protein_g"] == "30.00"
         assert item["nutrition"]["fat_g"] is None  # not given, so unknown

@@ -123,7 +123,7 @@ export function MealCard({ meal, onEdit }: { meal: Meal; onEdit: () => void }) {
                   <span className="flex min-w-0 flex-col">
                     <span className="truncate">{item.food_name}</span>
                     <span className="truncate text-xs text-muted-foreground">
-                      stated by you{item.estimated ? ", estimated" : ""}
+                      without product{item.estimated ? ", estimated" : ""}
                     </span>
                   </span>
                 ) : (
