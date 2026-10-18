@@ -105,7 +105,15 @@ export interface paths {
         get: operations["food_detail_api_foods__slug__get"];
         put?: never;
         post?: never;
-        delete?: never;
+        /**
+         * Remove Food
+         * @description Delete a registered product. BLS and USDA foods cannot be deleted.
+         *
+         *     A product still used in meals, recipes or cooks needs `replace_with`: every
+         *     use moves to that food with the same amount, then the product is deleted.
+         *     `dry_run=true` reports the uses and changes nothing.
+         */
+        delete: operations["remove_food_api_foods__slug__delete"];
         options?: never;
         head?: never;
         /**
@@ -728,6 +736,16 @@ export interface components {
              */
             estimated?: boolean;
         };
+        /** FoodDeletion */
+        FoodDeletion: {
+            /** Slug */
+            slug: string;
+            /** Replaced With */
+            replaced_with: string | null;
+            uses: components["schemas"]["FoodUses"];
+            /** Blocked */
+            blocked: boolean;
+        };
         /** FoodDetail */
         FoodDetail: {
             /** Id */
@@ -873,6 +891,15 @@ export interface components {
             variant_of?: string | null;
             /** Barcode */
             barcode?: string | null;
+        };
+        /** FoodUses */
+        FoodUses: {
+            /** Meals */
+            meals: number;
+            /** Recipes */
+            recipes: number;
+            /** Cooks */
+            cooks: number;
         };
         /** Fork */
         Fork: {
@@ -1771,6 +1798,53 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
                 };
+            };
+        };
+    };
+    remove_food_api_foods__slug__delete: {
+        parameters: {
+            query?: {
+                /** @description the food that takes its place */
+                replace_with?: string | null;
+                dry_run?: boolean;
+            };
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FoodDeletion"];
+                };
+            };
+            /** @description No such food */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Still used in meals, recipes or cooks; `uses` counts them */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not a registered product, or the replacement does not fit */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

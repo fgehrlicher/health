@@ -696,6 +696,75 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "Remove Food",
+        "description": "Delete a registered product. BLS and USDA foods cannot be deleted.\n\nA product still used in meals, recipes or cooks needs `replace_with`: every\nuse moves to that food with the same amount, then the product is deleted.\n`dry_run=true` reports the uses and changes nothing.",
+        "operationId": "remove_food_api_foods__slug__delete",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "replace_with",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "the food that takes its place",
+              "title": "Replace With"
+            },
+            "description": "the food that takes its place"
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Dry Run"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodDeletion"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such food"
+          },
+          "409": {
+            "description": "Still used in meals, recipes or cooks; `uses` counts them"
+          },
+          "422": {
+            "description": "Not a registered product, or the replacement does not fit"
+          }
+        }
       }
     },
     "/api/log/meals": {
@@ -2760,6 +2829,40 @@
         "title": "FoodAmount",
         "description": "A catalog food and how much, as an amount or a portion."
       },
+      "FoodDeletion": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "replaced_with": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Replaced With"
+          },
+          "uses": {
+            "$ref": "#/components/schemas/FoodUses"
+          },
+          "blocked": {
+            "type": "boolean",
+            "title": "Blocked"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "replaced_with",
+          "uses",
+          "blocked"
+        ],
+        "title": "FoodDeletion"
+      },
       "FoodDetail": {
         "properties": {
           "id": {
@@ -3330,6 +3433,29 @@
         "type": "object",
         "title": "FoodUpdate",
         "description": "Catalog fields of a food; only the given ones change, null clears."
+      },
+      "FoodUses": {
+        "properties": {
+          "meals": {
+            "type": "integer",
+            "title": "Meals"
+          },
+          "recipes": {
+            "type": "integer",
+            "title": "Recipes"
+          },
+          "cooks": {
+            "type": "integer",
+            "title": "Cooks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "meals",
+          "recipes",
+          "cooks"
+        ],
+        "title": "FoodUses"
       },
       "Fork": {
         "properties": {

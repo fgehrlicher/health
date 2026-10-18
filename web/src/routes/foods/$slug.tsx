@@ -3,6 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router"
 import { ArrowLeftIcon, CameraIcon, PlusIcon } from "lucide-react"
 import { useState } from "react"
 import { FoodGroupPicker } from "@/components/food-group-picker"
+import { DeleteFood } from "@/components/delete-food"
 import { SourceBadge } from "@/components/source-badge"
 import { groupIcon } from "@/components/food-groups"
 import { MealSheet } from "@/components/log/meal-sheet"
@@ -176,6 +177,8 @@ function FoodPage() {
           single={food.sources.length === 1}
         />
       ))}
+
+      {food.kind === "branded" && <DeleteFood food={food} />}
 
       <MealSheet
         date={today()}

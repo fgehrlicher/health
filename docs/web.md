@@ -79,7 +79,11 @@ its own.
   legal name, barcode, or a mandatory nutrition row) shows **Label incomplete**
   with what to photograph next time. A product can be linked to the generic food
   it is a kind of (**Kind of**), and a generic food lists its linked
-  **Products of this kind** with their calories and protein.
+  **Products of this kind** with their calories and protein. **Delete product**
+  removes a product: one that nothing uses goes at once; one used in meals,
+  recipes or cooks first needs a food to take its place there, with the same
+  amounts (its **Kind of** food is suggested), checked by a dry run before the
+  button turns on. Generic foods have no delete.
 
 The theme is warm: cream surfaces and green as the main color, in light and
 dark variants that follow the system or the toggle in the header. Protein,

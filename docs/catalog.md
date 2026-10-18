@@ -76,6 +76,14 @@ in step.
   food has it, with that food's `slug`.
 - `PATCH /api/foods/{slug}/sources/{source_id}`: add a registered source's
   legal name (`food_name`) or `ingredients_text` read from a later photo.
+- `DELETE /api/foods/{slug}?replace_with={slug}`: delete a registered product
+  (BLS and USDA foods cannot be deleted, `422`). A product still used in meals,
+  recipes or cooks needs `replace_with`, else `409` with its `uses`: every use
+  moves to that food's source in the same unit (BLS first, otherwise its
+  newest), with the same amount, and then the product, its sources and
+  portions are deleted. A replacement without values in that unit is `422`.
+  `?dry_run=true` reports the `uses` and whether it is `blocked`, and changes
+  nothing.
 - `GET /docs`: interactive API documentation, including the request schema.
 
 List results show one source per food: the requested source, otherwise BLS

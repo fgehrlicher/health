@@ -1,4 +1,4 @@
-"""Catalog endpoints: search, details, barcode lookup, and branded food registration."""
+"""Catalog endpoints: search, details, barcode lookup, and registering or deleting products."""
 
 from decimal import Decimal
 from typing import Annotated
@@ -6,6 +6,7 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, Query, Response
 from fastapi.responses import JSONResponse
 
+from health_api.catalog.deletion import FoodDeletion, FoodInUse, delete_food
 from health_api.catalog.models import (
     CatalogFacets,
     FoodDetail,
@@ -205,3 +206,36 @@ def food_detail(slug: str):
     if food is None:
         raise HTTPException(status_code=404, detail="Food not found")
     return food
+
+
+@router.delete(
+    "/api/foods/{slug}",
+    response_model=FoodDeletion,
+    responses={
+        404: {"description": "No such food"},
+        409: {"description": "Still used in meals, recipes or cooks; `uses` counts them"},
+        422: {"description": "Not a registered product, or the replacement does not fit"},
+    },
+)
+def remove_food(
+    slug: str,
+    replace_with: Annotated[
+        str | None, Query(max_length=200, description="the food that takes its place")
+    ] = None,
+    dry_run: bool = False,
+):
+    """Delete a registered product. BLS and USDA foods cannot be deleted.
+
+    A product still used in meals, recipes or cooks needs `replace_with`: every
+    use moves to that food with the same amount, then the product is deleted.
+    `dry_run=true` reports the uses and changes nothing.
+    """
+    try:
+        with connect() as connection:
+            return delete_food(connection, slug, replace_with, dry_run)
+    except RegistrationError as error:
+        return JSONResponse(status_code=422, content={"detail": error.issues})
+    except FoodInUse as error:
+        return JSONResponse(status_code=409, content={"detail": str(error), "uses": error.uses})
+    except FoodNotFound as error:
+        raise HTTPException(status_code=404, detail=str(error)) from error

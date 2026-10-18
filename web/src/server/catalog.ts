@@ -1,7 +1,8 @@
 import { notFound } from "@tanstack/react-router"
 import { createServerFn } from "@tanstack/react-start"
 import { z } from "zod"
-import { api, unwrap } from "./api"
+import { api, toIssues, unwrap } from "./api"
+import type { FoodDeletion, Issue } from "@/lib/api/types"
 
 export const foodSearchSchema = z.object({
   q: z.string().max(100).optional(),
@@ -71,4 +72,34 @@ export const updateFood = createServerFn({ method: "POST" })
     return unwrap(
       await api.PATCH("/api/foods/{slug}", { params: { path: { slug } }, body })
     )
+  })
+
+export type DeletionResult =
+  { ok: true; deletion: FoodDeletion } | { ok: false; issues: Array<Issue> }
+
+/**
+ * Delete a registered product. One still used in meals, recipes or cooks needs
+ * `replace_with`: its uses move to that food first. A dry run only reports.
+ */
+export const deleteFood = createServerFn({ method: "POST" })
+  .validator(
+    z.object({
+      slug: z.string().min(1).max(200),
+      replace_with: z.string().min(1).max(200).optional(),
+      dry_run: z.boolean().optional(),
+    })
+  )
+  .handler(async ({ data }): Promise<DeletionResult> => {
+    const result = await api.DELETE("/api/foods/{slug}", {
+      params: {
+        path: { slug: data.slug },
+        query: {
+          replace_with: data.replace_with,
+          dry_run: data.dry_run ?? false,
+        },
+      },
+    })
+    return result.data
+      ? { ok: true, deletion: result.data }
+      : { ok: false, issues: toIssues(result.error) }
   })
