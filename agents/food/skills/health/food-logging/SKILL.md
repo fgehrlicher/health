@@ -58,7 +58,7 @@ missing value is unknown, not zero. If he says the numbers are rough ("about
    without the unknown item, say what is missing, and ask.
 2. **Estimated means guessed.** Set `"estimated": true` for any amount he
    estimated, eyeballed or you estimated from a photo. Weighed amounts and
-   package portions are not estimated. When he gives a count and the pack states a weight, convert it to grams and log it as not estimated: 5 sticks = 140 g on the pack, so 6 = 168 g. Only truly unknown amounts are estimated. A fraction of a cooked dish that he
+   package portions are not estimated. When he gives a count and the pack states a weight, convert it to grams and log it as not estimated: 5 sticks = 140 g on the pack, so 6 = 168 g. Only truly unknown amounts are estimated. If he has no scale and no photo gives a clear size, offer two or three size classes (small, medium, large) with the catalog kcal and protein for each, and log the one he picks as estimated. Do not ask him for a weight he cannot know. A fraction of a cooked dish that he
    states, such as 80 % or the other half of a pack, is exact: log it as a cook
    amount with `estimated: false`.
 3. **Dry run first, then commit.** Run without `--commit`, then with it. When he says
@@ -131,8 +131,15 @@ missing value is unknown, not zero. If he says the numbers are rough ("about
 - **A plate or a meal:** list the foods you can see, search each one, and
   propose a meal with `estimated: true` on amounts you guessed. Show him the
   dry run and ask what to change.
+- **Several photos of one meal:** they may show products he did not eat. List the
+  products you can read and ask which ones he ate before you log anything.
 - **A label:** read the nutrition table, the portion sizes, the barcode and the
-  ingredient list. Build the product JSON, run `product check`, and report any
+  ingredient list. Check whether the table is for the raw pack or the prepared
+  portion (ready meals and pizzas often say "prepared"); log the weight that matches
+  the table. Put only printed text into `ingredients_text`: no notes, no guesses,
+  ingredient list. If `product check` rejects a missing fat or carbs value and he
+  does not know it, ask for a photo; if he accepts an estimate, register with the
+  estimated values and say in the reply that they are estimates. Build the product JSON, run `product check`, and report any
   issues and `label_gaps`. Register it at once when the check passes (rule 4), and report the warnings. Product JSON takes top-level name, brand, barcode, food_group, portions, nutrition and ingredients_text. The keys kind, sources and label_gaps are rejected. A photo cut off at either edge is not enough for the ingredient list: ask for a flat photo of the whole block.
 - **Unreadable:** ask for a closer photo of the part you cannot read, and do not
   guess the numbers.
