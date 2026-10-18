@@ -1,7 +1,7 @@
 ---
 name: food-logging
-description: Log meals, cooks and products in Fabian's health app, look up foods and recipes, read plate and label photos and their scanned barcodes, and report daily totals against his calorie limit. Use for anything about what he ate, cooked or bought.
-version: 1.4.0
+description: Log meals, cooks and products in Fabian's health app, look up foods, write and change his recipes, read plate and label photos and their scanned barcodes, and report daily totals against his calorie limit. Use for anything about what he ate, cooked, bought or wants to cook.
+version: 1.5.0
 ---
 
 # Food logging
@@ -25,6 +25,9 @@ code 3 means not found, and 4 means the app is down: tell him, and do not guess.
 - `health meal get <id>`: one logged meal.
 - `health day [YYYY-MM-DD | today | yesterday]`: what was eaten on a day, with totals, his daily calorie limit and tolerance, and whether the day is marked incomplete. Default: today, in Berlin time.
 - `health recipes list [--tag T] [--query Q]`, `health recipes get <slug>`.
+- `health recipes create --file r.json`: a dry run of a new recipe. Add `--commit` to store it.
+- `health recipes version <slug> --file v.json`: a dry run of a new version. Add `--commit` to store it.
+- `health recipes edit <slug> --file e.json [--version N]`: rename a recipe or change its note or tags; with `--version`, that version's note or steps.
 - `health cook list [--recipe S] [--tag T] [--query Q] [--since D] [--until D] [--limit N]`: the cooking log, newest first. A day `D` is YYYY-MM-DD, `today` or `yesterday`.
 - `health cook log --file c.json`: record a cook. Add `--commit` to store it.
 
@@ -77,8 +80,9 @@ at all; a missing value is unknown, not zero.
    products and tell him, instead of registering again.
 5. **Home cooking.** When he cooked something from the recipes, log a cook
    (`cook log`) or add portions of it with `{"cook": id, "amount": n}`. Do not
-   add its ingredients to a meal one by one. A recipe item marked estimated makes every cook and meal that uses it estimated, so get the exact amount before logging. The health command cannot create
-   recipes. If no recipe fits, say so and ask him to add it in the web app.
+   add its ingredients to a meal one by one. A recipe item marked estimated makes every cook and meal that uses it estimated, so get the exact amount before logging. If no recipe fits and he
+   describes the dish, write it down as a recipe (see Recipes), or log the cook
+   without a recipe.
 6. **Times and day come from his message's timestamp.** Each of his messages
    starts with the time he sent it, in Berlin time, for example
    `[Fri 2026-10-16 23:42:44 CEST]`. That is your only clock: there is no `date`
@@ -103,7 +107,8 @@ at all; a missing value is unknown, not zero.
     Python or any URL, not even to delete, edit or create an item. A hook blocks
     anything else, and that is intended; the web app is the route for changes.
 10. **No deleting or changing.** You cannot delete or edit logged meals, cooks
-    or products. If he asks, tell him to use the web app: on Today, open the meal's
+    or products, and you never delete a recipe. Recipes you can write and
+    change (see Recipes). If he asks, tell him to use the web app: on Today, open the meal's
     menu and choose Edit or Delete. Do not try another way. For test entries he names, list each one by name, date and time so he can find it in the web app; do not ask which ones he means.
 11. **German food names.** Name foods in replies by their German name (`name_de`,
     or `food_name_de` on meal items), with the English name (`name`, `food_name`)
@@ -147,6 +152,36 @@ at all; a missing value is unknown, not zero.
 - **Unreadable:** ask for a closer photo of the part you cannot read. Never
   enter a guess as a printed value; if no better photo is coming, estimate as in
   rule 1 and mark it.
+
+## Recipes
+
+He can ask you to write down a recipe or to change one. Recipe JSON:
+
+```json
+{"name": "Dal mit roten Linsen", "tags": ["dinner"], "portions": 4,
+ "items": [{"food": "bls4-…", "amount": 300}, {"food": "…", "portion": "Dose"}],
+ "instructions": "Linsen 20 Minuten kochen, …", "note": "optional"}
+```
+
+- **Ingredients** are catalog foods with an amount or portion, as in a meal; a
+  recipe takes no stated items and no cooks. Search each one first (rule 14). If
+  one has no catalog food, register the product from its label (rule 4), or use
+  the closest generic food and say which. `portions` is how many equal portions
+  the pot makes.
+- **A new recipe:** `health recipes create --file r.json`, then `--commit`.
+- **A change is a new version,** never an edit: `health recipes version <slug>
+  --file v.json`, then `--commit`, with a `note` on what changed and why
+  ("weniger Salz: v3 war zu salzig"). Give only what changes: `items` (then the
+  whole new list), `portions` or `instructions`; the rest comes from the latest
+  version (or the one in `parent`). A cook that turned out well becomes the next
+  version with `{"from_cook": 12, "note": "…"}`.
+- **Name, note, tags, a version's steps:** `health recipes edit <slug> --file
+  e.json` with any of `name`, `note` and `tags` (replaces all tags); with
+  `--version N`, that version's `note` or `instructions`. Ingredients and
+  portions never change this way.
+- Commit at once after a clean dry run, and report the recipe or version with
+  its kcal and protein per portion (`per_portion`). Deleting a recipe is for the
+  web app.
 
 ## Goals and summaries
 

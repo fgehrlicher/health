@@ -53,6 +53,9 @@ becomes true, the CLI can be wrapped as an MCP server without changing the app.
 | `health meal log --file m.json [--commit]` | log foods, portions and cooks |
 | `health day [YYYY-MM-DD \| today \| yesterday]` | what was eaten, with totals and the calorie limit |
 | `health recipes list [--tag T]`, `health recipes get <slug>` | recipes |
+| `health recipes create --file r.json [--commit]` | a new recipe |
+| `health recipes version <slug> --file v.json [--commit]` | a new version, with a note on what changed |
+| `health recipes edit <slug> --file e.json [--version N]` | a recipe's name, note or tags, or a version's note or steps |
 | `health cook log --file c.json [--commit]` | record a cook |
 
 The first version has no delete command, and no way to change a registered
@@ -166,8 +169,11 @@ a test shows it works.
   Python) stayed available: the agent used it for 147 calls against 1 terminal
   call, and between 2026-10-09 and 2026-10-15 called the API directly with it,
   deleting meals and editing products and recipes past the guard.
-- **No deletes or edits from chat.** The CLI has no such command, and the
-  persona and skill say so. Changes go through the web app.
+- **No deletes from chat, and few edits.** The CLI has no delete command.
+  From chat the agent can write recipes (new recipes, new versions, and a
+  recipe's name, note, tags or a version's steps) and add a product's missing
+  barcode or label text. Logged meals, cooks and products' nutrition change
+  only in the web app, and the persona and skill say so.
 - **Known gap:** the default profile still has an unguarded terminal, so it can
   call the API directly. Give it the same kind of guard, or narrow it, before
   it is given health tools.

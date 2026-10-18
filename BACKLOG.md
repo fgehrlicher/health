@@ -7,7 +7,7 @@ this file changes first. What exists today is in
 How it works:
 
 - **IDs stay.** An item keeps its ID for good, so "B3" means the same thing next
-  month. New items get the next free ID: **B16**.
+  month. New items get the next free ID: **B17**.
 - **Order is priority.** Items under Next are in the order they will be built.
   Move an item to change the plan.
 - **Finished items go to Done**, with the date and the doc that describes them.
@@ -86,6 +86,7 @@ Newest first, from the October 2026 feedback round on.
 
 | Date | What | Details |
 | --- | --- | --- |
+| 2026-10-18 | B16 · The food agent writes recipes: `health recipes create`, `version` (dry runs unless `--commit`) and `edit`; a change is a new version with a note | [Agents](docs/agents.md), [SKILL.md](agents/food/skills/health/food-logging/SKILL.md) |
 | 2026-10-18 | B1 · Dates in Telegram: each message carries its Berlin time, the persona names it the agent's only clock, and `health day today|yesterday` resolves the day in the CLI. Live check: "Wie spät ist es?" at 11:33:41 answered "11:33 Uhr (Sonntag, 18. Oktober 2026)" with no tool call | [Agents](docs/agents.md#safety-of-agent-access) |
 | 2026-10-17 | B14 · The food bot's Telegram toolset narrowed like `cli`: `browser_exec`, web, code execution, cron and delegation gone, so the terminal guard holds | [Agents](docs/agents.md#safety-of-agent-access) |
 | 2026-10-17 | B7 · Stats work documented: Today and Stats pages, stated items, goals, incomplete days and their endpoints | [Web](docs/web.md), [Consumption log](docs/log.md) |

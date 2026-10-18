@@ -244,3 +244,50 @@ def test_cook_list_passes_filters(stub):
     query = parse_qs(server.seen[0][1].query)
     assert query["recipe"] == ["chia-pudding"] and query["since"] == ["2026-01-01"]
     assert "until" not in query
+
+
+def test_recipes_create_and_version_are_dry_runs_unless_committed(stub, tmp_path, capsys):
+    recipe = tmp_path / "r.json"
+    recipe.write_text(json.dumps({"name": "Curry", "portions": 4, "items": []}), encoding="utf-8")
+    version = tmp_path / "v.json"
+    version.write_text(json.dumps({"note": "less salt", "portions": 5}), encoding="utf-8")
+    server = stub(
+        (200, {"slug": "curry"}),
+        (201, {"slug": "curry"}),
+        (200, {"number": 2}),
+        (201, {"number": 2}),
+    )
+    assert run(server.url, "recipes", "create", "--file", str(recipe)) == 0
+    assert run(server.url, "recipes", "create", "--file", str(recipe), "--commit") == 0
+    assert run(server.url, "recipes", "version", "curry", "--file", str(version)) == 0
+    assert run(server.url, "recipes", "version", "curry", "--file", str(version), "--commit") == 0
+    calls = [(method, url.path, parse_qs(url.query), body) for method, url, body in server.seen]
+    assert calls == [
+        (
+            "POST",
+            "/api/recipes",
+            {"dry_run": ["true"]},
+            {"name": "Curry", "portions": 4, "items": []},
+        ),
+        ("POST", "/api/recipes", {}, {"name": "Curry", "portions": 4, "items": []}),
+        (
+            "POST",
+            "/api/recipes/curry/versions",
+            {"dry_run": ["true"]},
+            {"note": "less salt", "portions": 5},
+        ),
+        ("POST", "/api/recipes/curry/versions", {}, {"note": "less salt", "portions": 5}),
+    ]
+    assert capsys.readouterr().err.count("dry run: nothing was stored") == 2
+
+
+def test_recipes_edit_changes_the_recipe_or_one_version(stub, tmp_path):
+    change = tmp_path / "e.json"
+    change.write_text(json.dumps({"tags": ["dinner"]}), encoding="utf-8")
+    server = stub((200, {"slug": "curry"}), (200, {"number": 2}))
+    assert run(server.url, "recipes", "edit", "curry", "--file", str(change)) == 0
+    assert run(server.url, "recipes", "edit", "curry", "--version", "2", "--file", str(change)) == 0
+    assert [(method, url.path, url.query) for method, url, _ in server.seen] == [
+        ("PATCH", "/api/recipes/curry", ""),
+        ("PATCH", "/api/recipes/curry/versions/2", ""),
+    ]

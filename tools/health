@@ -3,8 +3,9 @@
 
 Standard library only, so it runs with the system python3 and needs no install.
 It holds no rules of its own: validation, nutrition and status all come from
-the API. New meals, cooks and products are dry runs unless --commit is given;
-`product barcode` and `product label` add one detail to a registered product.
+the API. New meals, cooks, products, recipes and recipe versions are dry runs
+unless --commit is given; `product barcode`, `product label` and `recipes edit`
+change one detail directly.
 
     health foods search quark
     health day 2026-10-10
@@ -13,6 +14,7 @@ the API. New meals, cooks and products are dry runs unless --commit is given;
     health meal log --file meal.json            # dry run: shows what would be stored
     health meal log --file meal.json --commit   # stores it
     health product label skyr --file label.json # ingredient list or legal name, later
+    health recipes version curry --file v.json  # dry run of a new version; --commit stores
 
 Output is JSON. Exit codes: 0 ok, 1 unexpected error, 2 the API rejected the
 input (its issues are printed), 3 not found, 4 the API is unreachable.
@@ -205,9 +207,24 @@ def run(args, base: str) -> int:
     if args.area == "recipes":
         if args.action == "list":
             status, payload = request(base, "GET", "/api/recipes", query={"tag": args.tag, "q": args.query})
-        else:
+            return emit(status, payload)
+        if args.action == "get":
             status, payload = request(base, "GET", f"/api/recipes/{urllib.parse.quote(args.slug)}")
-        return emit(status, payload)
+            return emit(status, payload)
+        body = read_json(args.file)
+        dry_run = {"dry_run": None if args.commit else "true"} if args.action != "edit" else None
+        if args.action == "create":
+            status, payload = request(base, "POST", "/api/recipes", body, dry_run)
+        elif args.action == "version":
+            path = f"/api/recipes/{urllib.parse.quote(args.slug)}/versions"
+            status, payload = request(base, "POST", path, body, dry_run)
+        else:  # edit: the recipe's name, note and tags, or with --version that version's text
+            path = f"/api/recipes/{urllib.parse.quote(args.slug)}"
+            if args.version is not None:
+                path += f"/versions/{args.version}"
+            status, payload = request(base, "PATCH", path, body)
+            return emit(status, payload)
+        return emit(status, payload, dry_run=not args.commit)
 
     if args.area == "cook":
         if args.action == "list":
@@ -279,6 +296,19 @@ def parser() -> argparse.ArgumentParser:
     rlist.add_argument("--tag")
     rlist.add_argument("--query", dest="query")
     recipes.add_parser("get", help="one recipe with versions").add_argument("slug")
+    rcreate = recipes.add_parser("create", help="a new recipe and its version 1 from a JSON file")
+    rcreate.add_argument("--file", required=True, help="recipe JSON, or - for stdin")
+    rcreate.add_argument("--commit", action="store_true", help="store it; without this, only a dry run")
+    rversion = recipes.add_parser(
+        "version", help="a new version: changed ingredients, portions or steps, with a note")
+    rversion.add_argument("slug")
+    rversion.add_argument("--file", required=True, help="version JSON, or - for stdin")
+    rversion.add_argument("--commit", action="store_true", help="store it; without this, only a dry run")
+    redit = recipes.add_parser(
+        "edit", help="rename a recipe, or change its note or tags; with --version, a version's note or steps")
+    redit.add_argument("slug")
+    redit.add_argument("--file", required=True, help="JSON with the fields to change, or - for stdin")
+    redit.add_argument("--version", type=int, help="the version number whose note or steps change")
 
     cook = areas.add_parser("cook", help="the cooking log").add_subparsers(dest="action", required=True)
     clist = cook.add_parser("list", help="cooks, newest first")
