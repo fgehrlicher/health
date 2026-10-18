@@ -15,18 +15,7 @@ How it works:
 
 ## Now
 
-- **B1 · Dates in Telegram.** Built and deployed on 2026-10-17. Each of his
-  messages reaches the food agent with the time he sent it (Hermes's
-  `gateway.message_timestamps`, Europe/Berlin), and `health day today|yesterday`
-  resolves the day in the CLI ([Agents](docs/agents.md#safety-of-agent-access)).
-  First live check (2026-10-17, 00:04): the answer was right, but the agent got
-  the time by running `date` through `browser_exec`, a tool the bot should not
-  have had (B14). Second check (2026-10-18, 11:28): the model received
-  `[Sun 2026-10-18 11:28:15 CEST] Wie spät ist es?` but still tried `date`, which
-  the guard blocked, and said it could not tell the time. The clock rule lived
-  only in the skill (loaded for logging) and a memory note about logs, while
-  Hermes's system prompt says "query tools for exact time". The rule is now in
-  SOUL.md, which is always in the prompt. Waiting for a third check.
+Nothing in progress.
 
 ## Next
 
@@ -97,6 +86,7 @@ Newest first, from the October 2026 feedback round on.
 
 | Date | What | Details |
 | --- | --- | --- |
+| 2026-10-18 | B1 · Dates in Telegram: each message carries its Berlin time, the persona names it the agent's only clock, and `health day today|yesterday` resolves the day in the CLI. Live check: "Wie spät ist es?" at 11:33:41 answered "11:33 Uhr (Sonntag, 18. Oktober 2026)" with no tool call | [Agents](docs/agents.md#safety-of-agent-access) |
 | 2026-10-17 | B14 · The food bot's Telegram toolset narrowed like `cli`: `browser_exec`, web, code execution, cron and delegation gone, so the terminal guard holds | [Agents](docs/agents.md#safety-of-agent-access) |
 | 2026-10-17 | B7 · Stats work documented: Today and Stats pages, stated items, goals, incomplete days and their endpoints | [Web](docs/web.md), [Consumption log](docs/log.md) |
 | 2026-10-17 | B9 · Log something without a product from the web meal sheet ("Without product"), and correct a stated item's values when editing a meal | [Web](docs/web.md), [Consumption log](docs/log.md#items) |
