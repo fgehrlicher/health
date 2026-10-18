@@ -38,7 +38,9 @@ scripts/deploy-health-box.sh
 ```
 
 The script first brings Hermes's own edits to the food agent's skills into the
-repository (`scripts/sync-food-skills.sh`) and stops if there are any. Then it
+repository (`scripts/sync-food-skills.sh`) and stops if there are new ones, so
+they can be reviewed and committed; edits that are already committed let it go
+ahead. Then it
 copies the repository with rsync (excluding `.env`, backups, photos and build
 output), runs `docker compose -f compose.prod.yaml up --detach --build --wait`
 on the server, installs the `health` CLI and the food agent's files (listed in

@@ -159,8 +159,11 @@ a test shows it works.
   a Telegram chat can be days old. So the food profile has Hermes's
   `gateway.message_timestamps` on, with `timezone: Europe/Berlin`: each user
   message reaches the model as `[Fri 2026-10-16 23:42:44 CEST] …`, and the
-  stored message stays clean. `health day yesterday` resolves the day in the CLI,
-  so the agent does no date arithmetic for the common questions.
+  stored message stays clean. The stamp alone was not enough: asked the time,
+  the model still reached for `date`, as Hermes's prompt tells it to "query
+  tools for exact time". `SOUL.md` now names the stamp as its only clock, which
+  settled it (live check 2026-10-18). `health day yesterday` resolves the day in
+  the CLI, so the agent does no date arithmetic for the common questions.
 - **Toolsets are narrowed per profile and per platform.** On both `cli` and
   `telegram`, the food profile has no web, browser, code execution, desktop,
   cron or delegation tools; the deploy sets this and warns if it did not take.

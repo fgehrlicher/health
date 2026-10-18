@@ -81,6 +81,10 @@ forks neither.
 
 ## Endpoints
 
+The web app uses these directly. The food agent writes recipes through the
+`health` CLI: `recipes create` and `recipes version` (dry runs unless
+`--commit`) and `recipes edit`, but never deletes one ([Agents](agents.md)).
+
 Recipes:
 
 - `GET /api/recipes?q=&tag=`: recipes, recently cooked or created first, with
