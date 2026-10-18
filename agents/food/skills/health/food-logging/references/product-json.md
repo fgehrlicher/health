@@ -21,6 +21,6 @@ The check warns when `ingredients_text` is missing; it is mandatory on most EU l
 ## Checking a product
 
 1. Run `health product check --file p.json`. The output lists `warnings` and a `food` slug on a dry run.
-2. Report the warnings to him in one line each.
+2. Report the warnings to him in one line each. A `macros give X kcal but the label says Y kcal` warning means the printed energy differs from the energy the macros imply (labels round, and fibre or polyols change the sum). Store the printed value as given, do not correct it, and say both numbers in the reply.
 3. Register with `--commit` at once when the check passes, and report the warnings.
 4. Log a meal with the returned slug, and the portion name you gave the package (for example `Riegel`).
