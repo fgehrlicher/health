@@ -21,8 +21,12 @@ How it works:
   resolves the day in the CLI ([Agents](docs/agents.md#safety-of-agent-access)).
   First live check (2026-10-17, 00:04): the answer was right, but the agent got
   the time by running `date` through `browser_exec`, a tool the bot should not
-  have had (B14). Waiting for a second check now that it is gone, so the time
-  can only come from the message timestamp.
+  have had (B14). Second check (2026-10-18, 11:28): the model received
+  `[Sun 2026-10-18 11:28:15 CEST] Wie spät ist es?` but still tried `date`, which
+  the guard blocked, and said it could not tell the time. The clock rule lived
+  only in the skill (loaded for logging) and a memory note about logs, while
+  Hermes's system prompt says "query tools for exact time". The rule is now in
+  SOUL.md, which is always in the prompt. Waiting for a third check.
 
 ## Next
 

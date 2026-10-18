@@ -1,7 +1,7 @@
 ---
 name: food-logging
 description: Log meals, cooks and products in Fabian's health app, look up foods and recipes, read plate and label photos and their scanned barcodes, and report daily totals against his calorie limit. Use for anything about what he ate, cooked or bought.
-version: 1.3.0
+version: 1.3.1
 ---
 
 # Food logging
@@ -136,8 +136,8 @@ missing value is unknown, not zero. If he says the numbers are rough ("about
 - **A label:** read the nutrition table, the portion sizes, the barcode and the
   ingredient list. Check whether the table is for the raw pack or the prepared
   portion (ready meals and pizzas often say "prepared"); log the weight that matches
-  the table. Put only printed text into `ingredients_text`: no notes, no guesses,
-  ingredient list. If `product check` rejects a missing fat or carbs value and he
+  the table. Put only printed text into `ingredients_text`: no notes, no guesses.
+  If `product check` rejects a missing fat or carbs value and he
   does not know it, ask for a photo; if he accepts an estimate, register with the
   estimated values and say in the reply that they are estimates. Build the product JSON, run `product check`, and report any
   issues and `label_gaps`. Register it at once when the check passes (rule 4), and report the warnings. Product JSON takes top-level name, brand, barcode, food_group, portions, nutrition and ingredients_text. The keys kind, sources and label_gaps are rejected. A photo cut off at either edge is not enough for the ingredient list: ask for a flat photo of the whole block.
